@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FlipEngine", "FlipEngine\FlipEngine.vcxproj", "{1FCE97D8-E3F4-4405-9274-375F6DA8B9AE}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sampler05", "Sampler05\Sampler05.vcxproj", "{F13BF2FE-A32B-4BFE-A8D1-EEA7586A3215}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1FCE97D8-E3F4-4405-9274-375F6DA8B9AE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1FCE97D8-E3F4-4405-9274-375F6DA8B9AE}.Debug|Win32.Build.0 = Debug|Win32
+		{1FCE97D8-E3F4-4405-9274-375F6DA8B9AE}.Release|Win32.ActiveCfg = Release|Win32
+		{1FCE97D8-E3F4-4405-9274-375F6DA8B9AE}.Release|Win32.Build.0 = Release|Win32
+		{F13BF2FE-A32B-4BFE-A8D1-EEA7586A3215}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F13BF2FE-A32B-4BFE-A8D1-EEA7586A3215}.Debug|Win32.Build.0 = Debug|Win32
+		{F13BF2FE-A32B-4BFE-A8D1-EEA7586A3215}.Release|Win32.ActiveCfg = Release|Win32
+		{F13BF2FE-A32B-4BFE-A8D1-EEA7586A3215}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

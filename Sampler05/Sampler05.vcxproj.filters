@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="sys">
+      <UniqueIdentifier>{f1e53a36-4046-4dd5-96a2-ab75f72c88a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="framework">
+      <UniqueIdentifier>{a3f8db2e-4a27-4bbb-9701-6f88086d02d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common">
+      <UniqueIdentifier>{a14a4cb1-5c41-41ca-8935-4a212dca56a4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Engine\sys\win32\win_main.cpp">
+      <Filter>sys</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\sys\win32\win_syscon.cpp">
+      <Filter>sys</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\sys\sys_local.cpp">
+      <Filter>sys</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\sys\win32\win_shared.cpp">
+      <Filter>sys</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\framework\EditField.cpp">
+      <Filter>framework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\framework\Common.cpp">
+      <Filter>framework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\common\Str.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\sys\win32\win_wndproc.cpp">
+      <Filter>sys</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\sys\win32\win_glimp.cpp">
+      <Filter>sys</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Engine\sys\win32\win_local.h">
+      <Filter>sys</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\sys\sys_local.h">
+      <Filter>sys</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\sys\sys_public.h">
+      <Filter>sys</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\framework\EditField.h">
+      <Filter>framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\framework\Common.h">
+      <Filter>framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\common\Str.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\common\precompiled.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\framework\KeyInput.h">
+      <Filter>framework</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
