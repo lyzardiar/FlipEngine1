@@ -53,10 +53,13 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalIncludeDirectories>../Engine/include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>../Engine/lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -77,22 +80,30 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Engine\common\List.cpp" />
     <ClCompile Include="..\Engine\common\Str.cpp" />
     <ClCompile Include="..\Engine\framework\Common.cpp" />
     <ClCompile Include="..\Engine\framework\EditField.cpp" />
+    <ClCompile Include="..\Engine\glutils.cpp" />
+    <ClCompile Include="..\Engine\renderer\Material.cpp" />
+    <ClCompile Include="..\Engine\renderer\RenderSystem.cpp" />
     <ClCompile Include="..\Engine\sys\sys_local.cpp" />
-    <ClCompile Include="..\Engine\sys\win32\win_glimp.cpp" />
+    <ClCompile Include="..\Engine\sys\win32\win_glutilsimp.cpp" />
     <ClCompile Include="..\Engine\sys\win32\win_main.cpp" />
     <ClCompile Include="..\Engine\sys\win32\win_shared.cpp" />
     <ClCompile Include="..\Engine\sys\win32\win_syscon.cpp" />
     <ClCompile Include="..\Engine\sys\win32\win_wndproc.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Engine\common\List.h" />
     <ClInclude Include="..\Engine\common\precompiled.h" />
     <ClInclude Include="..\Engine\common\Str.h" />
     <ClInclude Include="..\Engine\framework\Common.h" />
     <ClInclude Include="..\Engine\framework\EditField.h" />
     <ClInclude Include="..\Engine\framework\KeyInput.h" />
+    <ClInclude Include="..\Engine\glutils.h" />
+    <ClInclude Include="..\Engine\renderer\Material.h" />
+    <ClInclude Include="..\Engine\renderer\RenderSystem.h" />
     <ClInclude Include="..\Engine\sys\sys_local.h" />
     <ClInclude Include="..\Engine\sys\sys_public.h" />
     <ClInclude Include="..\Engine\sys\win32\win_local.h" />

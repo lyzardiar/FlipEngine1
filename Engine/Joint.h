@@ -48,8 +48,8 @@ public:
 
 	mat4 globalPosition;
 
-	void getPositionKeyFramesAtFrame(float frame, PositionKey* preKey, PositionKey* nextKey);
-	void getScaleKeyFramesAtFrame(float frame, ScaleKey* preKey, ScaleKey* nextKey);
-	void getRotationKeyFramesAtFrame(float frame, RotationKey* preKey, RotationKey* nextKey);
-	void getFrame(float frame, vec3& position, quat& rotation);
+	void GetPositionKeyFramesAtFrame(float frame, PositionKey* preKey, PositionKey* nextKey);
+	void GetScaleKeyFramesAtFrame(float frame, ScaleKey* preKey, ScaleKey* nextKey);
+	void GetRotationKeyFramesAtFrame(float frame, RotationKey* preKey, RotationKey* nextKey);
+	void GetFrame(float frame, vec3& position, quat& rotation);
 };

@@ -37,7 +37,7 @@ PipelinePosTexLig::~PipelinePosTexLig()
 
 void PipelinePosTexLig::init()
 {
-	mProgram = uglCreateProgram(gVertexShader, gFragmentShader);
+	mProgram = GL_CreateProgram(gVertexShader, gFragmentShader);
 	mWorldLocation = glGetUniformLocation(mProgram, "WVP");
 	mSampler	= glGetUniformLocation(mProgram, "texture1");
 	mDirLightColor = glGetUniformLocation(mProgram, "gDirectionalLight.Color");

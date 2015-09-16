@@ -72,7 +72,7 @@ void SkinnedMesh::updateVertex(Joint* joint, float frame)
 	{
 		vec3 position;
 		quat rotation;
-		joint->getFrame(frame, position, rotation);
+		joint->GetFrame(frame, position, rotation);
 
 		mat4 mat;
 		if (joint->parent)

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __QUAT_H__
+#define __QUAT_H__
 
 #include "vec3.h"
 #include "mat4.h"
@@ -37,3 +38,5 @@ public:
 	quat& lerp(quat q1, quat q2, float time);
 	float x, y, z, w;
 };
+
+#endif

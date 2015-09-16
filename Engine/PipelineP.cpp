@@ -25,7 +25,7 @@ PipelineP::~PipelineP()
 
 void PipelineP::init()
 {
-	mProgram = uglCreateProgram(gVertexShader, gFragmentShader);
+	mProgram = GL_CreateProgram(gVertexShader, gFragmentShader);
 	
 	mWorldLocation = glGetUniformLocation(mProgram, "WVP");
 	mVertexColor   = glGetUniformLocation(mProgram, "COLOR");

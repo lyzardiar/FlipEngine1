@@ -30,7 +30,7 @@ PipelinePT::~PipelinePT()
 
 void PipelinePT::init()
 {
-	mProgram = uglCreateProgram(gVertexShader, gFragmentShader);
+	mProgram = GL_CreateProgram(gVertexShader, gFragmentShader);
 	
 	mWorldLocation = glGetUniformLocation(mProgram, "WVP");
 	mSampler	= glGetUniformLocation(mProgram, "texture1");

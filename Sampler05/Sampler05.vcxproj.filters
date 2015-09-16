@@ -22,6 +22,9 @@
     <Filter Include="common">
       <UniqueIdentifier>{a14a4cb1-5c41-41ca-8935-4a212dca56a4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="renderer">
+      <UniqueIdentifier>{a8e214b5-7e18-4798-b893-ea0e93edfbff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Engine\sys\win32\win_main.cpp">
@@ -39,17 +42,29 @@
     <ClCompile Include="..\Engine\framework\EditField.cpp">
       <Filter>framework</Filter>
     </ClCompile>
-    <ClCompile Include="..\Engine\framework\Common.cpp">
-      <Filter>framework</Filter>
-    </ClCompile>
     <ClCompile Include="..\Engine\common\Str.cpp">
       <Filter>common</Filter>
     </ClCompile>
     <ClCompile Include="..\Engine\sys\win32\win_wndproc.cpp">
       <Filter>sys</Filter>
     </ClCompile>
-    <ClCompile Include="..\Engine\sys\win32\win_glimp.cpp">
+    <ClCompile Include="..\Engine\renderer\RenderSystem.cpp">
+      <Filter>renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\renderer\Material.cpp">
+      <Filter>renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\common\List.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\framework\Common.cpp">
+      <Filter>framework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\sys\win32\win_glutilsimp.cpp">
       <Filter>sys</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\glutils.cpp">
+      <Filter>renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -76,6 +91,18 @@
     </ClInclude>
     <ClInclude Include="..\Engine\framework\KeyInput.h">
       <Filter>framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\renderer\RenderSystem.h">
+      <Filter>renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\renderer\Material.h">
+      <Filter>renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\common\List.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\glutils.h">
+      <Filter>renderer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

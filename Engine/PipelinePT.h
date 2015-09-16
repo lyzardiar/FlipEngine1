@@ -1,6 +1,6 @@
 #pragma once
 #include "Pipeline.h"
-#include "glUtils.h"
+#include "glutils.h"
 class PipelinePT:public Pipeline
 {
 public:

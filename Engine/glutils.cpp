@@ -1,48 +1,6 @@
-#include "glUtils.h"
-#pragma comment(lib, "glew32.lib")
+#include "glutils.h"
 
-GLuint uglGenTextureRGBA(int w, int h, void* data)
-{
-	GLuint texId;
-	glGenTextures(1, &texId);
-	glBindTexture(GL_TEXTURE_2D, texId);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_BGRA, w, h, 0, GL_BGRA , GL_UNSIGNED_BYTE, data);
-
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	return texId;
-}
-
-GLuint uglGenTextureRGB(int w, int h, void* data)
-{
-	GLuint texId;
-	glGenTextures(1, &texId);
-	glBindTexture(GL_TEXTURE_2D, texId);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	return texId;
-}
-
-void uglLog(const char *fmt, ...)
-{
-}
-
-void uglCheckError(const char* op) {
-    for (GLint error = glGetError(); error; error
-            = glGetError()) {
-		uglLog( "after %s() glError (0x%x)\n", op, error);
-    }
-}
-
-GLuint uglLoadShader(GLenum shaderType, const char* source)
+static GLuint uglLoadShader(GLenum shaderType, const char* source)
 {
 	GLuint shader = glCreateShader(shaderType);
 	if (shader)
@@ -58,7 +16,7 @@ GLuint uglLoadShader(GLenum shaderType, const char* source)
                 char* buf = (char*) malloc(infoLen);
                 if (buf) {
                     glGetShaderInfoLog(shader, infoLen, NULL, buf);
-					uglLog("Could not compile shader %d:\n%s\n",
+					GL_LOG("Could not compile shader %d:\n%s\n",
                             shaderType, buf);
                     free(buf);
                 }
@@ -69,6 +27,38 @@ GLuint uglLoadShader(GLenum shaderType, const char* source)
     }
     return shader;
 }
+
+GLuint GL_GenTextureRGBA(int w, int h, void* data)
+{
+	GLuint texId;
+	glGenTextures(1, &texId);
+	glBindTexture(GL_TEXTURE_2D, texId);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_BGRA, w, h, 0, GL_BGRA , GL_UNSIGNED_BYTE, data);
+
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	return texId;
+}
+
+GLuint GL_GenTextureRGB(int w, int h, void* data)
+{
+	GLuint texId;
+	glGenTextures(1, &texId);
+	glBindTexture(GL_TEXTURE_2D, texId);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	return texId;
+}
+
+
 
 GLuint uglCreateProgram(const char* pVertexSource, const char* pFragmentSource) {
 	GLuint vertexShader = uglLoadShader(GL_VERTEX_SHADER, pVertexSource);
@@ -84,9 +74,9 @@ GLuint uglCreateProgram(const char* pVertexSource, const char* pFragmentSource) 
 	GLuint program = glCreateProgram();
 	if (program) {
 		glAttachShader(program, vertexShader);
-		uglCheckError("glAttachShader");
+		GL_CheckError("glAttachShader");
 		glAttachShader(program, pixelShader);
-		uglCheckError("glAttachShader");
+		GL_CheckError("glAttachShader");
 		glLinkProgram(program);
 		GLint linkStatus = GL_FALSE;
 		glGetProgramiv(program, GL_LINK_STATUS, &linkStatus);
@@ -97,7 +87,7 @@ GLuint uglCreateProgram(const char* pVertexSource, const char* pFragmentSource) 
 				char* buf = (char*)malloc(bufLength);
 				if (buf) {
 					glGetProgramInfoLog(program, bufLength, NULL, buf);
-					uglLog("Could not link program:\n%s\n", buf);
+					GL_LOG("Could not link program:\n%s\n", buf);
 					free(buf);
 				}
 			}
@@ -108,3 +98,15 @@ GLuint uglCreateProgram(const char* pVertexSource, const char* pFragmentSource) 
 	return program;
 }
 
+GLuint GL_CreateProgramFromFile(char* vert, char* frag)
+{
+	GLuint v, f;
+
+    if(! (v = compileGLSLShaderFromFile(GL_VERTEX_SHADER, vert)))
+        v = compileGLSLShaderFromFile(GL_VERTEX_SHADER, &vert[3]); //skip the first three chars to deal with path differences
+
+    if(! (f = compileGLSLShaderFromFile(GL_FRAGMENT_SHADER, frag)))
+        f = compileGLSLShaderFromFile(GL_FRAGMENT_SHADER, &frag[3]); //skip the first three chars to deal with path differences
+
+	return LinkGLSLProgram(v, f);
+}

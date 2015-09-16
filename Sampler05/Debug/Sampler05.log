@@ -1,5 +1,31 @@
-﻿生成启动时间为 2015-9-12 18:04:58。
+﻿生成启动时间为 2015-9-16 20:35:44。
+     1>项目“E:\MySourceCode\FlipEngine1\Sampler05\Sampler05.vcxproj”在节点 2 上(Build 个目标)。
+     1>ClCompile:
+         D:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I../Engine/include /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _MBCS /Gm /EHsc /RTC1 /MT /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\Engine\sys\win32\win_glutilsimp.cpp
+         win_glutilsimp.cpp
+     1>e:\mysourcecode\flipengine1\engine\glshaderutils.h(63): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(218) : 参见“fopen”的声明
+     1>e:\mysourcecode\flipengine1\engine\glshaderutils.h(193): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 d:\program files (x86)\microsoft visual studio 11.0\vc\include\stdio.h(218) : 参见“fopen”的声明
+     1>e:\mysourcecode\flipengine1\engine\sys\win32\win_glutilsimp.cpp(137): warning C4101: “y”: 未引用的局部变量
+     1>e:\mysourcecode\flipengine1\engine\sys\win32\win_glutilsimp.cpp(137): warning C4101: “x”: 未引用的局部变量
+       Link:
+         D:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\MySourceCode\FlipEngine1\Debug\Sampler05.exe" /INCREMENTAL /NOLOGO /LIBPATH:../Engine/lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:\MySourceCode\FlipEngine1\Debug\Sampler05.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\MySourceCode\FlipEngine1\Debug\Sampler05.lib" /MACHINE:X86 Debug\List.obj
+         Debug\Str.obj
+         Debug\Common.obj
+         Debug\EditField.obj
+         Debug\glutils.obj
+         Debug\Material.obj
+         Debug\RenderSystem.obj
+         Debug\sys_local.obj
+         Debug\win_glutilsimp.obj
+         Debug\win_main.obj
+         Debug\win_shared.obj
+         Debug\win_syscon.obj
+         Debug\win_wndproc.obj
+         Sampler05.vcxproj -> E:\MySourceCode\FlipEngine1\Debug\Sampler05.exe
+     1>已完成生成项目“E:\MySourceCode\FlipEngine1\Sampler05\Sampler05.vcxproj”(Build 个目标)的操作。
 
 生成成功。
 
-已用时间 00:00:00.08
+已用时间 00:00:02.43

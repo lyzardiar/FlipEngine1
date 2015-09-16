@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __VEC2_H__
+#define __VEC2_H__
+
 class vec2
 {
 public:
@@ -40,3 +42,4 @@ public:
 
 };
 
+#endif /* !__VEC2_H__! */

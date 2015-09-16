@@ -42,3 +42,10 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+*.obj
+*.tlog
+*.pdb
+*.log
+
+Debug
+

@@ -1,6 +1,6 @@
 #include "Joint.h"
 
-void Joint::getPositionKeyFramesAtFrame(float frame, PositionKey* preKey, PositionKey* nextKey)
+void Joint::GetPositionKeyFramesAtFrame(float frame, PositionKey* preKey, PositionKey* nextKey)
 {
 	unsigned int i = 0;
 	for (; i < positionKeys.size(); ++i)
@@ -12,7 +12,7 @@ void Joint::getPositionKeyFramesAtFrame(float frame, PositionKey* preKey, Positi
 	*nextKey = positionKeys[i];
 }
 
-void Joint::getScaleKeyFramesAtFrame(float frame, ScaleKey* preKey, ScaleKey* nextKey)
+void Joint::GetScaleKeyFramesAtFrame(float frame, ScaleKey* preKey, ScaleKey* nextKey)
 {
 	unsigned int i = 0;
 	for (; i < scaleKeys.size() && frame <= scaleKeys[i].frame;)
@@ -24,7 +24,7 @@ void Joint::getScaleKeyFramesAtFrame(float frame, ScaleKey* preKey, ScaleKey* ne
 	nextKey = &scaleKeys[i];
 }
 
-void Joint::getRotationKeyFramesAtFrame(float frame, RotationKey* preKey, RotationKey* nextKey)
+void Joint::GetRotationKeyFramesAtFrame(float frame, RotationKey* preKey, RotationKey* nextKey)
 {
 	unsigned int i = 0;
 	for (; i < rotationKeys.size(); ++i)
@@ -36,12 +36,12 @@ void Joint::getRotationKeyFramesAtFrame(float frame, RotationKey* preKey, Rotati
 	*nextKey = rotationKeys[i];
 }
 
-void Joint::getFrame(float frame, Vec3& position, Quat& rotation)
+void Joint::GetFrame(float frame, Vec3& position, Quat& rotation)
 {
 	if (positionKeys.size() > 0)
 	{
 		PositionKey prePosition, nextPosition;
-		getPositionKeyFramesAtFrame(frame, &prePosition, &nextPosition);
+		GetPositionKeyFramesAtFrame(frame, &prePosition, &nextPosition);
 		if (prePosition.frame != nextPosition.frame)
 		{
 			float t = (float)(frame - prePosition.frame) / (nextPosition.frame - prePosition.frame);
@@ -56,7 +56,7 @@ void Joint::getFrame(float frame, Vec3& position, Quat& rotation)
 	if (rotationKeys.size() > 0)
 	{
 		RotationKey preRotation, nextRotation;
-		getRotationKeyFramesAtFrame(frame, &preRotation, &nextRotation);
+		GetRotationKeyFramesAtFrame(frame, &preRotation, &nextRotation);
 		if (preRotation.frame != nextRotation.frame)
 		{
 			float t = (frame - preRotation.frame) / (nextRotation.frame - preRotation.frame);
