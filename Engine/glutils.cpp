@@ -110,3 +110,15 @@ GLuint GL_CreateProgramFromFile(char* vert, char* frag)
 
 	return LinkGLSLProgram(v, f);
 }
+
+void RB_SetGL2D( void ) 
+{
+	// set 2D virtual screen size
+	// glViewport( 0, 0, 800, 600);
+
+	glMatrixMode( GL_PROJECTION );
+    glLoadIdentity();
+	glOrtho( 0, 800, 0, 600, 0, 1 );		// always assume 640x480 virtual coordinates
+	glMatrixMode( GL_MODELVIEW );
+    glLoadIdentity();
+}

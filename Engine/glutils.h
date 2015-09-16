@@ -35,6 +35,11 @@ GLuint GL_GenTextureRGB(int w, int h, void* data);
 GLuint GL_CreateProgram(const char* pVertexSource, const char* pFragmentSource);
 GLuint GL_CreateProgramFromFile(char* vert, char* frag);
 
+
+
+void RB_SetGL2D( void );
+
+
 /**
 /* @interface
  */

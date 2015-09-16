@@ -29,19 +29,7 @@ void Common_Init()
 
 void Common_Frame()
 {
-	//Sys_Printf("common_frame");
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glLoadIdentity();		
-
-	  glColor3f (1.0, 0.0, 0.0);
-       glPointSize(5);
-	 glBegin(GL_POINTS);
-       for (int i = 0; i < 7; i++)
-          glVertex2f (0.f, 0.f);
-	 
-	 glEnd();
-
-	GL_SwapBuffers();
+	common.renderSystem->FrameUpdate();
 }
 
 void Common_Printf(const char* fmt, ...)
