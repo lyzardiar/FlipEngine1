@@ -3,8 +3,10 @@
 #include "win_local.h"
 #include <windows.h>
 
+#ifdef _WIN32
 #pragma comment(lib, "opengl32.lib")
 #pragma comment(lib, "glew32.lib")
+#endif
 /*
 ====================
 GLW_InitDriver
@@ -149,12 +151,15 @@ static bool GL_CreateWindow(glimpParms_t *parms) {
 	stylebits = WINDOW_STYLE|WS_SYSMENU;
 	AdjustWindowRect (&r, stylebits, FALSE);
 
+	x = win32.win_xpos;
+	y = win32.win_ypos;
+
 	win32.hWnd = CreateWindowEx (
 		 exstyle, 
 		 CLASS_NAME,
 		 GAME_NAME,
 		 stylebits,
-		 0, 0, w, h,
+		 x, y, w, h,
 		 NULL,
 		 NULL,
 		 win32.hInstance,
@@ -268,3 +273,4 @@ bool GL_CreateDevice(glimpParms_t *parm){
 
 	return true;
 }
+

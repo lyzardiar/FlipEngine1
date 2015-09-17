@@ -1,4 +1,5 @@
 #include "PipelinePT.h"
+#include "Mesh.h"
 
 	static const char gVertexShader[] =
 		"attribute vec2 vTexCoord;\n"
@@ -19,8 +20,10 @@
 		//"   gl_FragColor = vec4(0.0, 1.0, 0.0, 1.0);\n"
 		"}\n";
 	
-PipelinePT::PipelinePT()
+PipelinePT::PipelinePT(renderBuffer_t* rb) : mProgram(0)
 {
+	_render = rb;	
+	init();
 }
 
 
@@ -43,4 +46,32 @@ void PipelinePT::init()
 void PipelinePT::drawScene()
 {
 
+
+}
+
+void PipelinePT::drawMesh(array<Mesh*>* meshs)
+{
+	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
+
+	glUseProgram(mProgram);
+	mat4* mat = &_render->matWVP;
+    glUniformMatrix4fv(mWorldLocation, 1, GL_FALSE, &mat->m[0]);
+
+	//glBindTexture(GL_TEXTURE_2D, gTexId);
+
+	if(meshs != NULL)
+	{
+		for (int i=0; i < meshs->size(); ++i)
+		{
+			Mesh* mesh = (*meshs)[i];
+
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, mesh->getPositions());
+			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, mesh->getTexCoords());
+			glDrawElements(GL_TRIANGLES, 904*3, GL_UNSIGNED_SHORT, mesh->_indices.pointer());
+		}
+	}
+	//glUniform3f(gPipelineP.mVertexColor, 1.0, 1.0, 1.0);
+
+	GL_CheckError("pipelinepT");
 }

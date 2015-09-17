@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __MAT4_H__
+#define __MAT4_H__
 #include <memory.h>
 #include <math.h>
 #include "vec3.h"
@@ -103,3 +104,5 @@ inline mat4 mat4::buildLookAt(vec3 position, vec3 target, vec3 up)
 
 	return *this;
 }
+
+#endif

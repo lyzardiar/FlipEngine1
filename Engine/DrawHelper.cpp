@@ -1,7 +1,5 @@
 #include "DrawHelper.h"
-#include "ImageLoaderJPG.h"
 #include "MeshLoaderB3D.h"
-#include "ImageLoaderPNG.h"
 
 #include "Image.h"
 

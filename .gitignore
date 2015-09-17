@@ -48,4 +48,5 @@ Temporary Items
 *.log
 
 Debug
+FlipEngine\Debug\*
 

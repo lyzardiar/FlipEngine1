@@ -443,7 +443,7 @@ LONG WINAPI MainWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam ) {
 		}
 		case WM_MOUSEWHEEL: {
 			int delta = GET_WHEEL_DELTA_WPARAM( wParam ) / WHEEL_DELTA;
-			int key = delta < 0 ? K_MWHEELDOWN : K_MWHEELUP;
+//			int key = delta < 0 ? K_MWHEELDOWN : K_MWHEELUP;
 			delta = abs( delta );
 			while( delta-- > 0 ) {
 				//Sys_QueEvent( win32.sysMsgTime, SE_KEY, key, true, 0, NULL );

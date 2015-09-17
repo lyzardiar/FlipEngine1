@@ -78,7 +78,7 @@ int Sys_GetSystemRam( void ) {
 	MEMORYSTATUSEX statex;
 	statex.dwLength = sizeof ( statex );
 	GlobalMemoryStatusEx (&statex);
-	int physRam = statex.ullTotalPhys / ( 1024 * 1024 );
+	int physRam = (int)statex.ullTotalPhys / ( 1024 * 1024 );
 	// HACK: For some reason, ullTotalPhys is sometimes off by a meg or two, so we round up to the nearest 16 megs
 	physRam = ( physRam + 8 ) & ~15;
 	return physRam;
@@ -98,7 +98,7 @@ int Sys_GetDriveFreeSpace( const char *path ) {
 	int ret = 26;
 	//FIXME: see why this is failing on some machines
 	if ( ::GetDiskFreeSpaceEx( path, (PULARGE_INTEGER)&lpFreeBytesAvailable, (PULARGE_INTEGER)&lpTotalNumberOfBytes, (PULARGE_INTEGER)&lpTotalNumberOfFreeBytes ) ) {
-		ret = ( double )( lpFreeBytesAvailable ) / ( 1024.0 * 1024.0 );
+		ret = ( int )( lpFreeBytesAvailable ) / ( 1024.0 * 1024.0 );
 	}
 	return ret;
 }

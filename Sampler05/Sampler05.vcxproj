@@ -49,11 +49,11 @@
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>../Engine/include</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalIncludeDirectories>../Engine/include;../Engine/zlib</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -80,33 +80,162 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Engine\common\List.cpp" />
     <ClCompile Include="..\Engine\common\Str.cpp" />
+    <ClCompile Include="..\Engine\DrawHelper.cpp" />
     <ClCompile Include="..\Engine\framework\Common.cpp" />
     <ClCompile Include="..\Engine\framework\EditField.cpp" />
     <ClCompile Include="..\Engine\glutils.cpp" />
+    <ClCompile Include="..\Engine\Image.cpp" />
+    <ClCompile Include="..\Engine\ImageLoaderBMP.cpp" />
+    <ClCompile Include="..\Engine\ImageLoaderDDS.cpp" />
+    <ClCompile Include="..\Engine\ImageLoaderJPG.cpp" />
+    <ClCompile Include="..\Engine\ImageLoaderPNG.cpp" />
+    <ClCompile Include="..\Engine\Joint.cpp" />
+    <ClCompile Include="..\Engine\jpeglib\jaricom.c" />
+    <ClCompile Include="..\Engine\jpeglib\jcapimin.c" />
+    <ClCompile Include="..\Engine\jpeglib\jcapistd.c" />
+    <ClCompile Include="..\Engine\jpeglib\jcarith.c" />
+    <ClCompile Include="..\Engine\jpeglib\jccoefct.c" />
+    <ClCompile Include="..\Engine\jpeglib\jccolor.c" />
+    <ClCompile Include="..\Engine\jpeglib\jcdctmgr.c" />
+    <ClCompile Include="..\Engine\jpeglib\jchuff.c" />
+    <ClCompile Include="..\Engine\jpeglib\jcinit.c" />
+    <ClCompile Include="..\Engine\jpeglib\jcmainct.c" />
+    <ClCompile Include="..\Engine\jpeglib\jcmarker.c" />
+    <ClCompile Include="..\Engine\jpeglib\jcmaster.c" />
+    <ClCompile Include="..\Engine\jpeglib\jcomapi.c" />
+    <ClCompile Include="..\Engine\jpeglib\jcparam.c" />
+    <ClCompile Include="..\Engine\jpeglib\jcprepct.c" />
+    <ClCompile Include="..\Engine\jpeglib\jcsample.c" />
+    <ClCompile Include="..\Engine\jpeglib\jctrans.c" />
+    <ClCompile Include="..\Engine\jpeglib\jdapimin.c" />
+    <ClCompile Include="..\Engine\jpeglib\jdapistd.c" />
+    <ClCompile Include="..\Engine\jpeglib\jdarith.c" />
+    <ClCompile Include="..\Engine\jpeglib\jdatadst.c" />
+    <ClCompile Include="..\Engine\jpeglib\jdatasrc.c" />
+    <ClCompile Include="..\Engine\jpeglib\jdcoefct.c" />
+    <ClCompile Include="..\Engine\jpeglib\jdcolor.c" />
+    <ClCompile Include="..\Engine\jpeglib\jddctmgr.c" />
+    <ClCompile Include="..\Engine\jpeglib\jdhuff.c" />
+    <ClCompile Include="..\Engine\jpeglib\jdinput.c" />
+    <ClCompile Include="..\Engine\jpeglib\jdmainct.c" />
+    <ClCompile Include="..\Engine\jpeglib\jdmarker.c" />
+    <ClCompile Include="..\Engine\jpeglib\jdmaster.c" />
+    <ClCompile Include="..\Engine\jpeglib\jdmerge.c" />
+    <ClCompile Include="..\Engine\jpeglib\jdpostct.c" />
+    <ClCompile Include="..\Engine\jpeglib\jdsample.c" />
+    <ClCompile Include="..\Engine\jpeglib\jdtrans.c" />
+    <ClCompile Include="..\Engine\jpeglib\jerror.c" />
+    <ClCompile Include="..\Engine\jpeglib\jfdctflt.c" />
+    <ClCompile Include="..\Engine\jpeglib\jfdctfst.c" />
+    <ClCompile Include="..\Engine\jpeglib\jfdctint.c" />
+    <ClCompile Include="..\Engine\jpeglib\jidctflt.c" />
+    <ClCompile Include="..\Engine\jpeglib\jidctfst.c" />
+    <ClCompile Include="..\Engine\jpeglib\jidctint.c" />
+    <ClCompile Include="..\Engine\jpeglib\jmemansi.c" />
+    <ClCompile Include="..\Engine\jpeglib\jmemmgr.c" />
+    <ClCompile Include="..\Engine\jpeglib\jquant1.c" />
+    <ClCompile Include="..\Engine\jpeglib\jquant2.c" />
+    <ClCompile Include="..\Engine\jpeglib\jutils.c" />
+    <ClCompile Include="..\Engine\libpng\png.c" />
+    <ClCompile Include="..\Engine\libpng\pngerror.c" />
+    <ClCompile Include="..\Engine\libpng\pngget.c" />
+    <ClCompile Include="..\Engine\libpng\pngmem.c" />
+    <ClCompile Include="..\Engine\libpng\pngpread.c" />
+    <ClCompile Include="..\Engine\libpng\pngread.c" />
+    <ClCompile Include="..\Engine\libpng\pngrio.c" />
+    <ClCompile Include="..\Engine\libpng\pngrtran.c" />
+    <ClCompile Include="..\Engine\libpng\pngrutil.c" />
+    <ClCompile Include="..\Engine\libpng\pngset.c" />
+    <ClCompile Include="..\Engine\libpng\pngtrans.c" />
+    <ClCompile Include="..\Engine\libpng\pngwio.c" />
+    <ClCompile Include="..\Engine\libpng\pngwrite.c" />
+    <ClCompile Include="..\Engine\libpng\pngwtran.c" />
+    <ClCompile Include="..\Engine\libpng\pngwutil.c" />
+    <ClCompile Include="..\Engine\mat4.cpp" />
+    <ClCompile Include="..\Engine\Mesh.cpp" />
+    <ClCompile Include="..\Engine\MeshLoaderB3D.cpp" />
+    <ClCompile Include="..\Engine\PipelineP.cpp" />
+    <ClCompile Include="..\Engine\PipelinePosTexLig.cpp" />
+    <ClCompile Include="..\Engine\PipelinePT.cpp" />
+    <ClCompile Include="..\Engine\quat.cpp" />
     <ClCompile Include="..\Engine\renderer\Material.cpp" />
+    <ClCompile Include="..\Engine\renderer\RenderQueue.cpp" />
     <ClCompile Include="..\Engine\renderer\RenderSystem.cpp" />
-    <ClCompile Include="..\Engine\sys\sys_local.cpp" />
+    <ClCompile Include="..\Engine\ResourceSystem.cpp" />
     <ClCompile Include="..\Engine\sys\win32\win_glutilsimp.cpp" />
     <ClCompile Include="..\Engine\sys\win32\win_main.cpp" />
     <ClCompile Include="..\Engine\sys\win32\win_shared.cpp" />
     <ClCompile Include="..\Engine\sys\win32\win_syscon.cpp" />
     <ClCompile Include="..\Engine\sys\win32\win_wndproc.cpp" />
+    <ClCompile Include="..\Engine\Texture.cpp" />
+    <ClCompile Include="..\Engine\vec2.cpp" />
+    <ClCompile Include="..\Engine\zlib\adler32.c" />
+    <ClCompile Include="..\Engine\zlib\compress.c" />
+    <ClCompile Include="..\Engine\zlib\crc32.c" />
+    <ClCompile Include="..\Engine\zlib\deflate.c" />
+    <ClCompile Include="..\Engine\zlib\infback.c" />
+    <ClCompile Include="..\Engine\zlib\inffast.c" />
+    <ClCompile Include="..\Engine\zlib\inflate.c" />
+    <ClCompile Include="..\Engine\zlib\inftrees.c" />
+    <ClCompile Include="..\Engine\zlib\trees.c" />
+    <ClCompile Include="..\Engine\zlib\uncompr.c" />
+    <ClCompile Include="..\Engine\zlib\zutil.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Engine\array.h" />
+    <ClInclude Include="..\Engine\color4.h" />
     <ClInclude Include="..\Engine\common\List.h" />
     <ClInclude Include="..\Engine\common\precompiled.h" />
     <ClInclude Include="..\Engine\common\Str.h" />
+    <ClInclude Include="..\Engine\DrawHelper.h" />
     <ClInclude Include="..\Engine\framework\Common.h" />
     <ClInclude Include="..\Engine\framework\EditField.h" />
     <ClInclude Include="..\Engine\framework\KeyInput.h" />
     <ClInclude Include="..\Engine\glutils.h" />
+    <ClInclude Include="..\Engine\Image.h" />
+    <ClInclude Include="..\Engine\ImageLoader.h" />
+    <ClInclude Include="..\Engine\Joint.h" />
+    <ClInclude Include="..\Engine\jpeglib\cderror.h" />
+    <ClInclude Include="..\Engine\jpeglib\jconfig.h" />
+    <ClInclude Include="..\Engine\jpeglib\jdct.h" />
+    <ClInclude Include="..\Engine\jpeglib\jerror.h" />
+    <ClInclude Include="..\Engine\jpeglib\jinclude.h" />
+    <ClInclude Include="..\Engine\jpeglib\jmemsys.h" />
+    <ClInclude Include="..\Engine\jpeglib\jmorecfg.h" />
+    <ClInclude Include="..\Engine\jpeglib\jpegint.h" />
+    <ClInclude Include="..\Engine\jpeglib\jpeglib.h" />
+    <ClInclude Include="..\Engine\jpeglib\jversion.h" />
+    <ClInclude Include="..\Engine\libpng\png.h" />
+    <ClInclude Include="..\Engine\libpng\pngconf.h" />
+    <ClInclude Include="..\Engine\mat4.h" />
+    <ClInclude Include="..\Engine\mat4helper.h" />
+    <ClInclude Include="..\Engine\Mesh.h" />
+    <ClInclude Include="..\Engine\MeshLoaderB3D.h" />
+    <ClInclude Include="..\Engine\PipelineP.h" />
+    <ClInclude Include="..\Engine\PipelinePosTexLig.h" />
+    <ClInclude Include="..\Engine\PipelinePT.h" />
+    <ClInclude Include="..\Engine\quat.h" />
+    <ClInclude Include="..\Engine\RenderBuffer.h" />
     <ClInclude Include="..\Engine\renderer\Material.h" />
+    <ClInclude Include="..\Engine\renderer\RenderQueue.h" />
     <ClInclude Include="..\Engine\renderer\RenderSystem.h" />
-    <ClInclude Include="..\Engine\sys\sys_local.h" />
+    <ClInclude Include="..\Engine\ResourceSystem.h" />
     <ClInclude Include="..\Engine\sys\sys_public.h" />
     <ClInclude Include="..\Engine\sys\win32\win_local.h" />
+    <ClInclude Include="..\Engine\Texture.h" />
+    <ClInclude Include="..\Engine\vec2.h" />
+    <ClInclude Include="..\Engine\vec3.h" />
+    <ClInclude Include="..\Engine\zlib\crc32.h" />
+    <ClInclude Include="..\Engine\zlib\deflate.h" />
+    <ClInclude Include="..\Engine\zlib\inffast.h" />
+    <ClInclude Include="..\Engine\zlib\inffixed.h" />
+    <ClInclude Include="..\Engine\zlib\inflate.h" />
+    <ClInclude Include="..\Engine\zlib\inftrees.h" />
+    <ClInclude Include="..\Engine\zlib\trees.h" />
+    <ClInclude Include="..\Engine\zlib\zconf.h" />
+    <ClInclude Include="..\Engine\zlib\zlib.h" />
+    <ClInclude Include="..\Engine\zlib\zutil.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

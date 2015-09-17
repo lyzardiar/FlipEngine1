@@ -1,6 +1,14 @@
 #ifndef __RENDERSYSTEM_H__
 #define	__RENDERSYSTEM_H__ 
 #include "../glutils.h"
+#include "../mat4.h"
+#include "../array.h"
+#include "../RenderBuffer.h"
+
+class Material;
+class Pipeline;
+class Mesh;
+class ResourceSystem;
 
 class RenderSystem
 {
@@ -22,5 +30,15 @@ public:
 	void Init();
 
 	void FrameUpdate();
+
+private:
+
+	renderBuffer_t _renderBuffer;
+
+	array<Pipeline*> _pipelines;
+
+	array<Mesh*> _meshs;
+
+	ResourceSystem* _resourceSys;
 };
 #endif

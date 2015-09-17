@@ -1,4 +1,3 @@
-
 #include "../sys_public.h"
 #include "../../common/Str.h"
 
@@ -8,6 +7,13 @@
 #include "win_local.h"
 
 Win32Vars_t	win32;
+
+int Win32Vars_t::win_xpos = 100;
+int Win32Vars_t::win_ypos = 100;
+bool Win32Vars_t::win_outputDebugString = true;
+bool Win32Vars_t::win_outputEditString = true;
+
+
 static sysMemoryStats_t exeLaunchMemoryStats;
 
 /* ============== Sys_Quit ============== */
@@ -29,12 +35,12 @@ void Sys_Printf( const char *fmt, ... ) {
 	va_end(argptr);
 	msg[sizeof(msg)-1] = '\0';
 
-	//if ( win32.win_outputDebugString.GetBool() ) {
+	if ( win32.win_outputDebugString ) {
 		OutputDebugString( msg );
-	//}
-	//if ( win32.win_outputEditString.GetBool() ) {
+	}
+	if ( win32.win_outputEditString ) {
 		Conbuf_AppendText( msg );
-	//}
+	}
 }
 
 #define MAXPRINTMSG 4096

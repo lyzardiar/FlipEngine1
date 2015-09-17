@@ -2,7 +2,9 @@
 http://www.blitzbasic.com/sdkspecs/sdkspecs/b3dfile_specs.txt
 */
 
-#pragma once
+#ifndef __MESHLOADB3D_H__
+#define __MESHLOADB3D_H__
+
 #include <string>
 #include "quat.h"
 #include "vec3.h"
@@ -92,3 +94,4 @@ public:
 	float			_totalFrame;
 };
 
+#endif

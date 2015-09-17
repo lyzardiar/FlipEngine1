@@ -36,7 +36,7 @@ void Joint::GetRotationKeyFramesAtFrame(float frame, RotationKey* preKey, Rotati
 	*nextKey = rotationKeys[i];
 }
 
-void Joint::GetFrame(float frame, Vec3& position, Quat& rotation)
+void Joint::GetFrame(float frame, vec3& position, quat& rotation)
 {
 	if (positionKeys.size() > 0)
 	{

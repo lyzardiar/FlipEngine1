@@ -6,18 +6,6 @@
 #include <stdlib.h>
 #include "glshaderutils.h"
 
-#ifdef _DEBUG
-#define GL_LOG(fmt, ...);
-#define  GL_CheckError(op) {\
-    for (GLint error = glGetError(); error; error\
-            = glGetError()) {\
-		GL_LOG( "after %s() glError (0x%x)\n", op, error);\
-    }\
-}
-#else
-#define GL_LOG(...)
-#define GL_CheckError(...)
-#endif // WIN32
 
 typedef struct {
 	int			width;
@@ -35,7 +23,7 @@ GLuint GL_GenTextureRGB(int w, int h, void* data);
 GLuint GL_CreateProgram(const char* pVertexSource, const char* pFragmentSource);
 GLuint GL_CreateProgramFromFile(char* vert, char* frag);
 
-
+void GL_CheckError(const char* op);
 
 void RB_SetGL2D( void );
 
@@ -46,5 +34,10 @@ void RB_SetGL2D( void );
 bool GL_CreateDevice(glimpParms_t *parm);
 
 void GL_SwapBuffers( void );
+
+void GL_LOG(const char* fmt, ...);
+
+
+
 
 #endif

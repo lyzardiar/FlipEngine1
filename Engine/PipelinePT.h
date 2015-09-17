@@ -4,11 +4,12 @@
 class PipelinePT:public Pipeline
 {
 public:
-	PipelinePT();
+	PipelinePT(renderBuffer_t* rb);
 	~PipelinePT();
 
 	void init();
 	void drawScene();
+	void drawMesh(array<Mesh*>* meshs);
 
 	GLuint mProgram;
 	GLuint mWorldLocation;

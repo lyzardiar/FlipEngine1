@@ -1,5 +1,6 @@
 #include "glutils.h"
 
+
 static GLuint uglLoadShader(GLenum shaderType, const char* source)
 {
 	GLuint shader = glCreateShader(shaderType);
@@ -60,7 +61,7 @@ GLuint GL_GenTextureRGB(int w, int h, void* data)
 
 
 
-GLuint uglCreateProgram(const char* pVertexSource, const char* pFragmentSource) {
+GLuint GL_CreateProgram(const char* pVertexSource, const char* pFragmentSource) {
 	GLuint vertexShader = uglLoadShader(GL_VERTEX_SHADER, pVertexSource);
 	if (!vertexShader) {
 		return 0;
@@ -102,7 +103,7 @@ GLuint GL_CreateProgramFromFile(char* vert, char* frag)
 {
 	GLuint v, f;
 
-    if(! (v = compileGLSLShaderFromFile(GL_VERTEX_SHADER, vert)))
+       if(! (v = compileGLSLShaderFromFile(GL_VERTEX_SHADER, vert)))
         v = compileGLSLShaderFromFile(GL_VERTEX_SHADER, &vert[3]); //skip the first three chars to deal with path differences
 
     if(! (f = compileGLSLShaderFromFile(GL_FRAGMENT_SHADER, frag)))
@@ -121,4 +122,13 @@ void RB_SetGL2D( void )
 	glOrtho( 0, 800, 0, 600, 0, 1 );		// always assume 640x480 virtual coordinates
 	glMatrixMode( GL_MODELVIEW );
     glLoadIdentity();
+}
+
+
+void GL_CheckError(const char* op)
+{
+    for (GLint error = glGetError(); error; error
+            = glGetError()) {
+		GL_LOG( "after %s() glError (0x%x)\n", op, error);
+    }
 }

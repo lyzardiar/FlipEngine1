@@ -101,7 +101,6 @@ typedef struct {
 static WinConData s_wcd;
 
 static LONG WINAPI ConWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
-	char *cmdString;
 	static bool s_timePolarity;
 
 	switch (uMsg) {
@@ -293,7 +292,6 @@ void Sys_CreateConsole( void ) {
 	int nHeight;
 	int swidth, sheight;
 	int DEDSTYLE = WS_POPUPWINDOW | WS_CAPTION | WS_MINIMIZEBOX;
-	int i;
 
 	memset( &wc, 0, sizeof( wc ) );
 
@@ -542,21 +540,3 @@ void Conbuf_AppendText( const char *pMsg )
 	SendMessage( s_wcd.hwndBuffer, EM_REPLACESEL, 0, (LPARAM) buffer );
 }
 
-/*
-** Win_SetErrorText
-*/
-void Win_SetErrorText( const char *buf ) {
-	//idStr::Copynz( s_wcd.errorString, buf, sizeof( s_wcd.errorString ) );
-	//if ( !s_wcd.hwndErrorBox ) {
-	//	s_wcd.hwndErrorBox = CreateWindow( "static", NULL, WS_CHILD | WS_VISIBLE | SS_SUNKEN,
-	//												6, 5, 526, 30,
-	//												s_wcd.hWnd, 
-	//												( HMENU ) ERRORBOX_ID,	// child window ID
-	//												win32.hInstance, NULL );
-	//	SendMessage( s_wcd.hwndErrorBox, WM_SETFONT, ( WPARAM ) s_wcd.hfBufferFont, 0 );
-	//	SetWindowText( s_wcd.hwndErrorBox, s_wcd.errorString );
-
-	//	DestroyWindow( s_wcd.hwndInputLine );
-	//	s_wcd.hwndInputLine = NULL;
-	//}
-}

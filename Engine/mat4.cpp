@@ -1,4 +1,5 @@
 #include "mat4.h"
+
 void mat4::makeIdentity()
 {
 	memset(m, 0, sizeof(float)* 16);   // memory.h

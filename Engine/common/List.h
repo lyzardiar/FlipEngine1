@@ -4,6 +4,7 @@
 template< class type >
 class LinkList
 {
+public:
 	LinkList();
 	~LinkList();
 

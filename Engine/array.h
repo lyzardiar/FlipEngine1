@@ -1,11 +1,5 @@
-// Copyright (C) 2002-2003 Nikolaus Gebhardt
-// This file is part of the "Irrlicht Engine".
-// For conditions of distribution and use, see copyright notice in Irrlicht.h
-
-#ifndef __IRR_ARRAY_H_INCLUDED__
-#define __IRR_ARRAY_H_INCLUDED__
-
-
+#ifndef __ARRAY_H__
+#define __ARRAY_H__
 
 //!	Self reallocating template array (like stl vector) with additional features.
 /** Some features are: Heap sorting, binary search methods, easier debugging.
@@ -231,7 +225,7 @@ public:
 		if (is_sorted || used<2)
 			return;
 
-		heapsort(data, used);
+		//heapsort(data, used);
 		is_sorted = true;
 	}
 

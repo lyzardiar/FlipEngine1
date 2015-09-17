@@ -8,8 +8,17 @@ using namespace std;
 
 #define DEBUG_B3D
 
+#include "framework/Common.h"
+void B3D_LOG(const char* fmt, ...)
+{
+	va_list argptr;
+	va_start( argptr, fmt );
+	Common_Printf( fmt, argptr );
+	va_end( argptr );
+}
 
-MeshLoaderB3D::MeshLoaderB3D() :_meshCount(0), _rootJoint(nullptr), _totalFrame(0)
+
+MeshLoaderB3D::MeshLoaderB3D() :_meshCount(0), _rootJoint(nullptr), _totalFrame(0), _readJoint(NULL)
 {
 }
 
@@ -88,7 +97,7 @@ bool MeshLoaderB3D::readVRTS(FILE* fp)
 
 	if (tex_coord_sets >= max_tex_coords || tex_coord_set_size >= 4) // Something is wrong
 	{
-		printf("tex_coord_sets or tex_coord_set_size too big");
+		B3D_LOG("tex_coord_sets or tex_coord_set_size too big");
 		return false;
 	}
 
@@ -263,7 +272,7 @@ void MeshLoaderB3D::readBRUS(FILE* fp)
 	}
 	while( checkSize(fp) ){
 		string name=readString(fp);
-		// printTree(name.c_str());
+		printTree(name.c_str());
 		vec3 color= readVec3(fp);
 		float alpha=readFloat(fp);
 		float shiny=readFloat(fp);
@@ -317,10 +326,10 @@ void MeshLoaderB3D::printTree(const char *psz, ...)
 	va_end(ap);
 
 	for (int i = 0; i < m_Stack.size();i++)
-		printf("-");
+		B3D_LOG("-");
 
-	printf(sBuf);
-	printf("\n");
+	B3D_LOG(sBuf);
+	B3D_LOG("\n");
 }
 
 vec3 MeshLoaderB3D::readVec3(FILE* fp)

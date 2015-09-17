@@ -87,6 +87,8 @@ typedef struct {
 
 	static int win_xpos;
 	static int win_ypos;
+	static bool win_outputDebugString;
+	static bool win_outputEditString;
 	//static idCVar	sys_arch;
 	//static idCVar	sys_cpustring;
 	//static idCVar	in_mouse;
