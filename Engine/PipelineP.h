@@ -9,9 +9,9 @@ public:
 	PipelineP(renderBuffer_t* rb);
 	~PipelineP();
 
-	void init();
-	void drawScene();
-	void drawMesh(array<Mesh*>* meshs);
+	void Init();
+	void DrawScene();
+	void DrawMesh(array<Mesh*>* meshs);
 
 	GLuint mProgram;
 	GLuint mWorldLocation;

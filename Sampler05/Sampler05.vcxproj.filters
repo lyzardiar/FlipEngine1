@@ -48,9 +48,6 @@
     <ClCompile Include="..\Engine\sys\win32\win_shared.cpp">
       <Filter>sys</Filter>
     </ClCompile>
-    <ClCompile Include="..\Engine\framework\EditField.cpp">
-      <Filter>framework</Filter>
-    </ClCompile>
     <ClCompile Include="..\Engine\common\Str.cpp">
       <Filter>common</Filter>
     </ClCompile>
@@ -58,9 +55,6 @@
       <Filter>sys</Filter>
     </ClCompile>
     <ClCompile Include="..\Engine\renderer\RenderSystem.cpp">
-      <Filter>renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Engine\renderer\Material.cpp">
       <Filter>renderer</Filter>
     </ClCompile>
     <ClCompile Include="..\Engine\framework\Common.cpp">
@@ -75,25 +69,13 @@
     <ClCompile Include="..\Engine\mat4.cpp">
       <Filter>common</Filter>
     </ClCompile>
-    <ClCompile Include="..\Engine\renderer\RenderQueue.cpp">
-      <Filter>renderer</Filter>
-    </ClCompile>
     <ClCompile Include="..\Engine\PipelineP.cpp">
       <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Engine\Mesh.cpp">
-      <Filter>头文件</Filter>
     </ClCompile>
     <ClCompile Include="..\Engine\DrawHelper.cpp">
       <Filter>common</Filter>
     </ClCompile>
     <ClCompile Include="..\Engine\PipelinePT.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Engine\PipelinePosTexLig.cpp">
-      <Filter>common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Engine\Texture.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="..\Engine\ResourceSystem.cpp">
@@ -342,6 +324,12 @@
     <ClCompile Include="..\Engine\Joint.cpp">
       <Filter>common</Filter>
     </ClCompile>
+    <ClCompile Include="..\Engine\Mesh.cpp">
+      <Filter>resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\Texture.cpp">
+      <Filter>resource</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Engine\sys\win32\win_local.h">
@@ -349,9 +337,6 @@
     </ClInclude>
     <ClInclude Include="..\Engine\sys\sys_public.h">
       <Filter>sys</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Engine\framework\EditField.h">
-      <Filter>framework</Filter>
     </ClInclude>
     <ClInclude Include="..\Engine\framework\Common.h">
       <Filter>framework</Filter>
@@ -368,9 +353,6 @@
     <ClInclude Include="..\Engine\renderer\RenderSystem.h">
       <Filter>renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\Engine\renderer\Material.h">
-      <Filter>renderer</Filter>
-    </ClInclude>
     <ClInclude Include="..\Engine\common\List.h">
       <Filter>common</Filter>
     </ClInclude>
@@ -383,16 +365,7 @@
     <ClInclude Include="..\Engine\mat4helper.h">
       <Filter>common</Filter>
     </ClInclude>
-    <ClInclude Include="..\Engine\renderer\RenderQueue.h">
-      <Filter>renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Engine\array.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="..\Engine\PipelineP.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Engine\Mesh.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\Engine\RenderBuffer.h">
@@ -405,12 +378,6 @@
       <Filter>common</Filter>
     </ClInclude>
     <ClInclude Include="..\Engine\PipelinePT.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Engine\PipelinePosTexLig.h">
-      <Filter>common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Engine\Texture.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\Engine\ResourceSystem.h">
@@ -501,6 +468,15 @@
       <Filter>common</Filter>
     </ClInclude>
     <ClInclude Include="..\Engine\Joint.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\Mesh.h">
+      <Filter>resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\Texture.h">
+      <Filter>resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\array.h">
       <Filter>common</Filter>
     </ClInclude>
   </ItemGroup>

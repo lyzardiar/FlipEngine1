@@ -8,14 +8,22 @@ using namespace std;
 
 #define DEBUG_B3D
 
+#if 0 
+
 #include "framework/Common.h"
 void B3D_LOG(const char* fmt, ...)
 {
-	va_list argptr;
-	va_start( argptr, fmt );
-	Common_Printf( fmt, argptr );
-	va_end( argptr );
+va_list argptr;
+va_start( argptr, fmt );
+Common_Printf( fmt, argptr );
+va_end( argptr );
 }
+
+#else
+
+void B3D_LOG(const char* fmt, ...) {}
+#endif // 
+
 
 
 MeshLoaderB3D::MeshLoaderB3D() :_meshCount(0), _rootJoint(nullptr), _totalFrame(0), _readJoint(NULL)
@@ -215,6 +223,7 @@ void MeshLoaderB3D::readTEXS(FILE* fp)
 		tex.Xscale = readFloat(fp);
 		tex.Yscale = readFloat(fp);
 		tex.Angle = readFloat(fp);
+		_textures.push_back(tex);
 	}
 }
 

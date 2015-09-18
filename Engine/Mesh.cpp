@@ -1,21 +1,31 @@
 #include "Mesh.h"
 
-const void* Mesh::getPositions() const
+Mesh::Mesh():_texture(NULL), _positions(NULL)
+{
+
+}
+
+Mesh::~Mesh()
+{
+
+}
+
+const void* Mesh::GetPositions() const
 {
 	return _positions.const_pointer();
 }
 
-const void* Mesh::getTexCoords() const
+const void* Mesh::GetTexCoords() const
 {
 	return _texCoords.const_pointer();
 }
 
-const void* Mesh::getIndices() const
+const void* Mesh::GetIndices() const
 {
 	return _indices.const_pointer();
 }
 
-void Mesh::calculateEdge()
+void Mesh::CalculateEdge()
 {
 	for (unsigned int i = 0; i < _indices.size()/3; ++i)
 	{
@@ -33,4 +43,14 @@ void Mesh::calculateEdge()
 			}
 		}
 	}
+}
+
+Texture* Mesh::GetTexture()
+{
+	return _texture;
+}
+
+void Mesh::SetTexture(Texture* tex)
+{
+	_texture = tex;
 }

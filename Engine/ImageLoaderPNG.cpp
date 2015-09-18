@@ -154,7 +154,7 @@ bool loadImagePNG( const char *file, Image& i)
     i._levelCount = 1;
     i._faces = 0;
     i._depth = 0;
-	i.flipSurface();
+	i.FlipSurface();
     
     return true;
 

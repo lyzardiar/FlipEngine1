@@ -13,11 +13,11 @@ public:
 
 	virtual ~Pipeline() {};
 
-	virtual void init() = 0;
+	virtual void Init() = 0;
 
-	virtual void drawScene() = 0;
+	virtual void DrawScene() = 0;
 	
-	virtual void drawMesh(array<Mesh*>* meshs) {};
+	virtual void DrawMesh(array<Mesh*>* meshs) {};
 
 protected:
 	renderBuffer_t* _render;

@@ -33,7 +33,7 @@ static void draw3DCoordinate()
 PipelineP::PipelineP(renderBuffer_t* rb) : mProgram(0), mVertexColor(0)
 {
 	_render = rb;	
-	init();
+	Init();
 }
 
 
@@ -41,7 +41,7 @@ PipelineP::~PipelineP()
 {
 }
 
-void PipelineP::init()
+void PipelineP::Init()
 {
 	mProgram = GL_CreateProgram(gVertexShader, gFragmentShader);
 	
@@ -50,20 +50,25 @@ void PipelineP::init()
 	glBindAttribLocation(mProgram, 0, "vPosition");
 }
 
-void PipelineP::drawScene()
+void PipelineP::DrawScene()
 {
 
 }
 
-void PipelineP::drawMesh(array<Mesh*>* meshs)
+void PipelineP::DrawMesh(array<Mesh*>* meshs)
 {
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 
 	glUseProgram(mProgram);
 	glUniform3f(mVertexColor, 0.0, 1.0, 0.0);
-	mat4* mat = &_render->matWVP;
-    glUniformMatrix4fv(mWorldLocation, 1, GL_FALSE, &mat->m[0]);
+	
+	
+	mat4 t;
+	t.buildTranslate(vec3(-10, 0, 0));
+
+	t = (_render->matWVP * t);
+    glUniformMatrix4fv(mWorldLocation, 1, GL_FALSE, &t.m[0]);
 
 	draw3DCoordinate();
 

@@ -4,7 +4,9 @@
 #include "color4.h"
 #include "Joint.h"
 #include "vec2.h"
+#include "glutils.h"
 
+class Texture;
 
 class Edge {
 public:
@@ -25,29 +27,36 @@ public:
 class Mesh
 {
 public:
-	const void* getPositions() const;
-	const void* getTexCoords() const;
-	const void* getIndices() const;
-	const void* getNormals() const;
-	const void* getColors() const;
+	Mesh();
+	~Mesh();
 
-	int getPositionCount() const;
-    int getNormalCount() const;
-    int getTexCoordCount() const;
-    int getTangentCount() const;
-    int getColorCount() const;
+	const void* GetPositions() const;
+	const void* GetTexCoords() const;
+	const void* GetIndices() const;
+	const void* GetNormals() const;
+	const void* GetColors() const;
+	Texture* GetTexture();
+	void SetTexture(Texture* tex);
 
-    int getIndexCount() const;
+	int GetPositionCount() const;
+    int GetNormalCount() const;
+    int GetTexCoordCount() const;
+    int GetTangentCount() const;
+    int GetColorCount() const;
 
-	bool hasNormals();
-	bool hasTexCoords();
+    int GetIndexCount() const;
 
-	void calculateEdge();
+	bool HasNormals();
+	bool HasTexCoords();
+
+	void CalculateEdge();
 
 	array<vec3>				_positions;
 	array<vec3>				_normals;
 	array<vec2>				_texCoords;
-	array<unsigned short>	_indices;
+	array<unsigned short>		_indices;
 
-	array<Edge>             _edgeList;
+	array<Edge>				_edgeList;
+
+	Texture*					_texture;
 };

@@ -44,25 +44,21 @@ void RenderSystemLocal::Init()
 	_pipelines.push_back(pipe);
 
 	Pipeline* pipe1 = new PipelinePT(&_renderBuffer);
-	//_pipelines.push_back(pipe1);
+	_pipelines.push_back(pipe1);
 
 	_resourceSys = new ResourceSystem;
-	Mesh* mesh = _resourceSys->addMesh("ninja.b3d");
-	//_meshs.push_back(mesh);
-	
-
-//	auto texid = _resourceSys->addTexture("../media/nskinbl.jpg");
+	Mesh* mesh = _resourceSys->AddMesh("ninja.b3d");
+	_meshs.push_back(mesh);
 	
 }
 
 void RenderSystemLocal::FrameUpdate()
 {
-	//Sys_Printf("common_frame");
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 	for (int i = 0; i < _pipelines.size(); i++)
 	{
-		_pipelines[i]->drawMesh(&_meshs);
+		_pipelines[i]->DrawMesh(&_meshs);
 	}
 	
 	Test_2DDraw();

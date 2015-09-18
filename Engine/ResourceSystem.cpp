@@ -7,6 +7,7 @@
 #include <string>
 #include "Mesh.h"
 #include "MeshLoaderB3D.h"
+#include "../framework/Common.h"
 
 using std::string;
 
@@ -23,11 +24,12 @@ static LoaderPlugin loaderPlugin[] = {
 	{ "bmp", loadImageBMP}
 };
 static int PluginCount = sizeof(loaderPlugin) / sizeof(LoaderPlugin);
+static Texture* defaultTexture;
 
 //ResourceManager* ResourceManager::sm_pSharedInstance = nullptr;
 ResourceSystem::ResourceSystem()
 {
-
+	defaultTexture = AddTexture("../Media/nskinbl.jpg");
 }
 
 ResourceSystem::~ResourceSystem()
@@ -44,7 +46,7 @@ ResourceSystem::~ResourceSystem()
 //	return sm_pSharedInstance;
 //}
 
-Texture* ResourceSystem::addTexture(const char* file)
+Texture* ResourceSystem::AddTexture(const char* file)
 {
 	Texture* texture = NULL;
 
@@ -64,20 +66,25 @@ Texture* ResourceSystem::addTexture(const char* file)
 	{
 		if (basename.find(loaderPlugin[i].name) != std::string::npos)
 		{
-			loaderPlugin[i].pFunc(fullPath.c_str(), image);
-			break;
+			if( !loaderPlugin[i].pFunc(fullPath.c_str(), image) )
+			{
+				Common_Printf( "load image %s failed\n", fullPath.c_str() );
+				return defaultTexture;
+			}
+			else
+				break;
 		}
 	}
 
 	texture = new Texture();
-	texture->init(&image);
+	texture->Init(&image);
 
 	_textures.insert(std::make_pair(fullPath, texture));
 
 	return texture;
 };
 
-Mesh* ResourceSystem::addMesh(const char* file)
+Mesh* ResourceSystem::AddMesh(const char* file)
 {
 	MeshLoaderB3D meshLoader;
 	meshLoader.loadMesh(file);
@@ -85,5 +92,11 @@ Mesh* ResourceSystem::addMesh(const char* file)
 	Mesh* mesh = new Mesh;
 	mesh = meshLoader._meshVec[0];
 
+	int size = meshLoader._textures.size();
+	for (int i = 0; i<size; ++i)
+	{
+		Texture* tex = AddTexture( meshLoader._textures[i].TextureName.c_str() );
+		mesh->SetTexture( tex );
+	}
 	return mesh;
 }

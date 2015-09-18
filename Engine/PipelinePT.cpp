@@ -1,5 +1,6 @@
 #include "PipelinePT.h"
 #include "Mesh.h"
+#include "Texture.h"
 
 	static const char gVertexShader[] =
 		"attribute vec2 vTexCoord;\n"
@@ -23,7 +24,7 @@
 PipelinePT::PipelinePT(renderBuffer_t* rb) : mProgram(0)
 {
 	_render = rb;	
-	init();
+	Init();
 }
 
 
@@ -31,7 +32,7 @@ PipelinePT::~PipelinePT()
 {
 }
 
-void PipelinePT::init()
+void PipelinePT::Init()
 {
 	mProgram = GL_CreateProgram(gVertexShader, gFragmentShader);
 	
@@ -43,13 +44,13 @@ void PipelinePT::init()
 	glBindAttribLocation(mProgram, 1, "vTexCoord");
 }
 
-void PipelinePT::drawScene()
+void PipelinePT::DrawScene()
 {
 
 
 }
 
-void PipelinePT::drawMesh(array<Mesh*>* meshs)
+void PipelinePT::DrawMesh(array<Mesh*>* meshs)
 {
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
@@ -66,12 +67,17 @@ void PipelinePT::drawMesh(array<Mesh*>* meshs)
 		{
 			Mesh* mesh = (*meshs)[i];
 
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, mesh->getPositions());
-			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, mesh->getTexCoords());
+			if ( mesh->GetTexture() )
+				glBindTexture(GL_TEXTURE_2D, mesh->GetTexture()->GetName() );
+
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, mesh->GetPositions());
+			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, mesh->GetTexCoords());
 			glDrawElements(GL_TRIANGLES, 904*3, GL_UNSIGNED_SHORT, mesh->_indices.pointer());
 		}
 	}
 	//glUniform3f(gPipelineP.mVertexColor, 1.0, 1.0, 1.0);
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
 
 	GL_CheckError("pipelinepT");
 }

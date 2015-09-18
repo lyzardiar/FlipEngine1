@@ -13,9 +13,9 @@ public:
 	ResourceSystem();
 	~ResourceSystem();
 
-	Texture* addTexture(const char* file);
+	Texture* AddTexture(const char* file);
 
-	Mesh* addMesh(const char* file);
+	Mesh* AddMesh(const char* file);
 
 private:
 

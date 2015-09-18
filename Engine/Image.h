@@ -12,34 +12,34 @@ public:
     virtual ~Image();
 
     // return the width of the image
-    int getWidth() const { return _width; }
+    int GetWidth() const { return _width; }
 
     //return the height of the image
-    int getHeight() const { return _height; }
+    int GetHeight() const { return _height; }
 
     //return the dpeth of the image (0 for images with no depth)
-    int getDepth() const { return _depth; }
+    int GetDepth() const { return _depth; }
 
     //return the number of mipmap levels available for the image
-    int getMipLevels() const { return _levelCount; }
+    int GetMipLevels() const { return _levelCount; }
 
     //return the number of cubemap faces available for the image (0 for non-cubemap images)
-    int getFaces() const { return _faces; }
+    int GetFaces() const { return _faces; }
 
     //return the format of the image data (GL_RGB, GL_BGR, etc)
-    GLenum getFormat() const { return _format; }
+    GLenum GetFormat() const { return _format; }
 
     //return the suggested internal format for the data
-    GLenum getInternalFormat() const { return _internalFormat; }
+    GLenum GetInternalFormat() const { return _internalFormat; }
 
     //return the type of the image data
-    GLenum getType() const { return _type; }
+    GLenum GetType() const { return _type; }
 
     //return the Size in bytes of a level of the image 
-    int getImageSize(int level = 0) const;
+    int GetImageSize(int level = 0) const;
 
     //return whether the data is a crompressed format
-    bool isCompressed() const {
+    bool IsCompressed() const {
         switch(_format) {
             case GL_COMPRESSED_RGB_S3TC_DXT1_EXT:
             case GL_COMPRESSED_RGBA_S3TC_DXT1_EXT:
@@ -55,22 +55,22 @@ public:
     }
 
     //return whether the image represents a cubemap
-    bool isCubeMap() const { return _faces > 0; }
+    bool IsCubeMap() const { return _faces > 0; }
 
     //return whether the image represents a volume
-    bool isVolume() const { return _depth > 0; }
+    bool IsVolume() const { return _depth > 0; }
 
     //get a pointer to level data
-    const void* getLevel( int level, GLenum face = GL_TEXTURE_CUBE_MAP_POSITIVE_X) const;
-    void* getLevel( int level, GLenum face = GL_TEXTURE_CUBE_MAP_POSITIVE_X);
+    const void* GetLevel( int level, GLenum face = GL_TEXTURE_CUBE_MAP_POSITIVE_X) const;
+    void* GetLevel( int level, GLenum face = GL_TEXTURE_CUBE_MAP_POSITIVE_X);
 
     //convert a suitable image from a cubemap cross to a cubemap (returns false for unsuitable images)
-    bool convertCrossToCubemap();
+    bool ConvertCrossToCubemap();
 
     //load an image from memory, for the purposes of saving
-    bool setImage( int width, int height, GLenum format, GLenum type, const void* data);
+    bool SetImage( int width, int height, GLenum format, GLenum type, const void* data);
 
-	void flipSurface();
+	void FlipSurface();
 public:
     int _width;
     int _height;
@@ -85,7 +85,7 @@ public:
     //pointers to the levels
     std::vector<GLubyte*> _data;
 
-    void freeData();
+    void FreeData();
 
 
     //

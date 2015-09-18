@@ -92,6 +92,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 
 	const HCURSOR hcurSave = ::SetCursor( LoadCursor( 0, IDC_WAIT ) );
 
+
 	//Sys_SetPhysicalWorkMemory( 192 << 20, 1024 << 20 );
 	Sys_GetCurrentMemoryStatus( exeLaunchMemoryStats );
 
@@ -102,6 +103,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	Sys_ShowConsole( 1, true );
 
 	Common_Init();
+
 
 //	::SetFocus( win32.hWnd );
 

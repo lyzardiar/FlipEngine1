@@ -9,15 +9,15 @@ public:
 	Texture() {}
 	virtual ~Texture() {}
 	
-	bool init(Image* i);
+	bool Init(Image* i);
 
-	bool init(int w, int h, void* data);
+	bool Init(int w, int h, void* data);
 
-	void begin();
+	void Begin();
 
-	void end();
+	void End();
 
-	GLuint getName();
+	GLuint GetName();
 
 
     int _pixelsWide;

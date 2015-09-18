@@ -2,23 +2,23 @@
 #include "Image.h"
 
 
-bool Texture::init(Image* i)
+bool Texture::Init(Image* i)
 {
     if (i== nullptr)
         return false;
 
-    if (i->getMipLevels() > 1)
+    if (i->GetMipLevels() > 1)
     {
 		// to do mip level
         return true;
     }
-    else if (i->isCompressed())
+    else if (i->IsCompressed())
     {
         return true;
     }
 	else
 	{
-		unsigned char* outTempData = nullptr;
+//		unsigned char* outTempData = nullptr;
 
 		glGenTextures(1, &_name);
 		glBindTexture(GL_TEXTURE_2D, _name);
@@ -31,12 +31,12 @@ bool Texture::init(Image* i)
 		_pixelsWide = i->_width;
 		_pixelsHigh = i->_height;
 
-        glTexImage2D(GL_TEXTURE_2D, 0, i->_internalFormat, (GLsizei)_pixelsWide, (GLsizei)_pixelsHigh, 0, i->_format, i->_type, i->getLevel(0));
+        glTexImage2D(GL_TEXTURE_2D, 0, i->_internalFormat, (GLsizei)_pixelsWide, (GLsizei)_pixelsHigh, 0, i->_format, i->_type, i->GetLevel(0));
 		return true;
     }
 }
 
-bool Texture::init(int w, int h, void* data)
+bool Texture::Init(int w, int h, void* data)
 {
 	glGenTextures(1, &_name);
 	glBindTexture(GL_TEXTURE_2D, _name);
@@ -53,18 +53,18 @@ bool Texture::init(int w, int h, void* data)
 	return true;
 }
 
-void Texture::begin()
+void Texture::Begin()
 {
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, _name);
 }
 
-void Texture::end()
+void Texture::End()
 {
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-GLuint Texture::getName()
+GLuint Texture::GetName()
 {
 	return _name;
 }

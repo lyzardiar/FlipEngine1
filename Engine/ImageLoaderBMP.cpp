@@ -15,7 +15,7 @@ bool loadImageBMP(const char *file, Image& i)
     //open filename in read binary mode
     fp = fopen(file, "rb");
     if (fp == NULL)
-        return NULL;
+        return false;
 
     //read the bitmap file header
     fread(&bitmapFileHeader, sizeof(BITMAPFILEHEADER),1,fp);

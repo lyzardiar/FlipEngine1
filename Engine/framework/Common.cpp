@@ -1,6 +1,7 @@
 #include "Common.h"
 #include "../sys/sys_public.h"
 #include "../renderer/RenderSystem.h"
+#include "../common/Str.h"
 
 const char* GAME_NAME = "null";
 
@@ -32,12 +33,16 @@ void Common_Frame()
 	common.renderSystem->FrameUpdate();
 }
 
+#define MAX_STRING_SIZE 4096
 void Common_Printf(const char* fmt, ...)
 {
+	char msg[MAX_STRING_SIZE];
 	va_list argptr;
 	va_start( argptr, fmt );
-	Sys_Printf( fmt, argptr );
+	idStr::vsnPrintf(msg, MAX_STRING_SIZE-1, fmt, argptr);
 	va_end( argptr );
+
+	Sys_Printf( msg );
 }
 
 void Common_Error(const char* fmt, ...)

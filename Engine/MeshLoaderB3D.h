@@ -83,7 +83,7 @@ public:
 	void printTree(const char *psz, ...);
 	long m_lCurNodePos;
 	int m_nLayer;
-	vector<SB3dTexture> m_Texture;
+	vector<SB3dTexture> _textures;
 	vector<unsigned int> m_Stack;
 
 	vector<Mesh*> _meshVec;

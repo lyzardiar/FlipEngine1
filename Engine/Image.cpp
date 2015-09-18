@@ -17,13 +17,13 @@ Image::Image() : _width(0), _height(0), _depth(0), _levelCount(0), _faces(0), _f
 //
 ////////////////////////////////////////////////////////////
 Image::~Image() {
-    freeData();
+    FreeData();
 }
 
 //
 //
 ////////////////////////////////////////////////////////////
-void Image::freeData() {
+void Image::FreeData() {
     for (vector<GLubyte*>::iterator it = _data.begin(); it != _data.end(); it++) {
         delete []*it;
     }
@@ -33,8 +33,8 @@ void Image::freeData() {
 //
 //
 ////////////////////////////////////////////////////////////
-int Image::getImageSize( int level) const {
-    bool compressed = isCompressed();
+int Image::GetImageSize( int level) const {
+    bool compressed = IsCompressed();
     int w = _width >> level;
     int h = _height >> level;
     int d = _depth >> level;
@@ -52,7 +52,7 @@ int Image::getImageSize( int level) const {
 //
 //
 ////////////////////////////////////////////////////////////
-const void* Image::getLevel( int level, GLenum face) const {
+const void* Image::GetLevel( int level, GLenum face) const {
     assert( level < _levelCount);
     assert( _faces == 0 || ( face >= GL_TEXTURE_CUBE_MAP_POSITIVE_X && face <= GL_TEXTURE_CUBE_MAP_NEGATIVE_Z));
 
@@ -65,7 +65,7 @@ const void* Image::getLevel( int level, GLenum face) const {
 //
 //
 ////////////////////////////////////////////////////////////
-void* Image::getLevel( int level, GLenum face) {
+void* Image::GetLevel( int level, GLenum face) {
     assert( level < _levelCount);
     assert( _faces == 0 || ( face >= GL_TEXTURE_CUBE_MAP_POSITIVE_X && face <= GL_TEXTURE_CUBE_MAP_NEGATIVE_Z));
 
@@ -83,9 +83,9 @@ void* Image::getLevel( int level, GLenum face) {
 //
 //
 ////////////////////////////////////////////////////////////
-bool Image::convertCrossToCubemap() {
+bool Image::ConvertCrossToCubemap() {
     //can't already be a cubemap
-    if (isCubeMap())
+    if (IsCubeMap())
         return false;
 
     //mipmaps are not supported
@@ -93,7 +93,7 @@ bool Image::convertCrossToCubemap() {
         return false;
 
     //compressed textures are not supported
-    if (isCompressed())
+    if (IsCompressed())
         return false;
 
     //this function only supports vertical cross format for now (3 wide by 4 high)
@@ -183,7 +183,7 @@ bool Image::convertCrossToCubemap() {
 //
 //
 ////////////////////////////////////////////////////////////
-bool Image::setImage( int width, int height, GLenum format, GLenum type, const void* data){
+bool Image::SetImage( int width, int height, GLenum format, GLenum type, const void* data){
     //check parameters before destroying the old image
     int elementSize;
     GLenum internalFormat;
@@ -307,7 +307,7 @@ bool Image::setImage( int width, int height, GLenum format, GLenum type, const v
 
 
     //clear old data
-    freeData();
+    FreeData();
 
     GLubyte *newImage = new GLubyte[width*height*elementSize];
     memcpy( newImage, data, width*height*elementSize);
@@ -327,13 +327,13 @@ bool Image::setImage( int width, int height, GLenum format, GLenum type, const v
     return true;
 }
 
-void Image::flipSurface()
+void Image::FlipSurface()
 {
 	unsigned int lineSize;
 
 	int depth = (_depth) ? _depth : 1;
 
-	if (!isCompressed()) {
+	if (!IsCompressed()) {
 		lineSize = _elementSize * _width;
 		unsigned int sliceSize = lineSize * _height;
 
