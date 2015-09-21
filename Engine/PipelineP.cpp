@@ -1,21 +1,6 @@
 #include "PipelineP.h"
 #include "Mesh.h"
 
-static const char gVertexShader[] =
-"attribute vec4 vPosition;\n"
-"uniform mat4 WVP;\n"
-"void main() {\n"
-"  gl_Position = WVP*vPosition;\n"
-"}\n";
-
-static const char gFragmentShader[] =
-	"precision mediump float;\n"
-	"uniform vec3 COLOR;\n"
-	"void main() {\n"
-	"   gl_FragColor = vec4(COLOR, 1.0);\n"
-	"}\n";
-	
-
 static void draw3DCoordinate()
 {
 	float vertices[] = {0.f, 0.f, 0.f, 
@@ -30,10 +15,10 @@ static void draw3DCoordinate()
 }
 
 
-PipelineP::PipelineP(renderBuffer_t* rb) : mProgram(0), mVertexColor(0)
+PipelineP::PipelineP(renderBuffer_t* rb)
 {
 	_render = rb;	
-	Init();
+	_shader = rb->shaders[0];
 }
 
 
@@ -41,14 +26,6 @@ PipelineP::~PipelineP()
 {
 }
 
-void PipelineP::Init()
-{
-	mProgram = GL_CreateProgram(gVertexShader, gFragmentShader);
-	
-	mWorldLocation = glGetUniformLocation(mProgram, "WVP");
-	mVertexColor   = glGetUniformLocation(mProgram, "COLOR");
-	glBindAttribLocation(mProgram, 0, "vPosition");
-}
 
 void PipelineP::DrawScene()
 {
@@ -60,15 +37,14 @@ void PipelineP::DrawMesh(array<Mesh*>* meshs)
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 
-	glUseProgram(mProgram);
-	glUniform3f(mVertexColor, 0.0, 1.0, 0.0);
-	
+	glUseProgram(_shader->GetProgarm());
+	glUniform3f(_shader->GetUniform(eUniform_Color), 0.0, 1.0, 0.0);
 	
 	mat4 t;
 	t.buildTranslate(vec3(-10, 0, 0));
 
 	t = (_render->matWVP * t);
-    glUniformMatrix4fv(mWorldLocation, 1, GL_FALSE, &t.m[0]);
+    glUniformMatrix4fv(_shader->GetUniform(eUniform_MVP), 1, GL_FALSE, &t.m[0]);
 
 	draw3DCoordinate();
 
@@ -81,7 +57,6 @@ void PipelineP::DrawMesh(array<Mesh*>* meshs)
 			glDrawElements(GL_TRIANGLES, 904*3, GL_UNSIGNED_SHORT, mesh->_indices.pointer());
 		}
 	}
-	//glUniform3f(gPipelineP.mVertexColor, 1.0, 1.0, 1.0);
 
 	GL_CheckError("pipelinep");
 }

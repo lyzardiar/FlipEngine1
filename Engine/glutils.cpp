@@ -99,7 +99,7 @@ GLuint GL_CreateProgram(const char* pVertexSource, const char* pFragmentSource) 
 	return program;
 }
 
-GLuint GL_CreateProgramFromFile(char* vert, char* frag)
+GLuint GL_CreateProgramFromFile(const char* vert, const char* frag)
 {
 	GLuint v, f;
 

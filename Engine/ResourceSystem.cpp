@@ -8,6 +8,8 @@
 #include "Mesh.h"
 #include "MeshLoaderB3D.h"
 #include "../framework/Common.h"
+#include "Shader.h"
+#include "glutils.h"
 
 using std::string;
 
@@ -100,3 +102,11 @@ Mesh* ResourceSystem::AddMesh(const char* file)
 	}
 	return mesh;
 }
+
+Shader* ResourceSystem::AddShader(const char* vfile, const char* ffile)
+{
+	Shader* shader = new Shader;
+	shader->LoadFromBuffer(vfile, ffile);
+	return shader;
+}
+

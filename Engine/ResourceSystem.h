@@ -6,6 +6,7 @@
 
 class Texture;
 class Mesh;
+class Shader;
 
 class ResourceSystem
 {
@@ -17,6 +18,7 @@ public:
 
 	Mesh* AddMesh(const char* file);
 
+	Shader* AddShader(const char* vfile, const char* ffile);
 private:
 
 	std::map<std::string, Texture*> _textures;

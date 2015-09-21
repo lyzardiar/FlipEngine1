@@ -11,8 +11,6 @@ public:
 	void DrawScene();
 	void DrawMesh(array<Mesh*>* meshs);
 
-	GLuint mProgram;
-	GLuint mWorldLocation;
-	GLuint mSampler;
+	Shader* _shader;
 };
 

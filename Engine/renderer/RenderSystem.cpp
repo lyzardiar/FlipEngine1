@@ -8,6 +8,9 @@
 #include "../ResourceSystem.h"
 #include <stdarg.h>
 
+#include "../ShaderSource.h"
+#include "../Shader.h"
+
 
 void GL_LOG(const char* fmt, ...)
 {
@@ -36,9 +39,28 @@ RenderSystemLocal::RenderSystemLocal(glimpParms_t *glimpParms_t)
 
 void RenderSystemLocal::Init()
 {
+	// _renderbuffer init
 	_renderBuffer.matPerspective.buildPerspectiveProjection(3.1415926535898 / 3, 1440.0 / 900, 0.1, 800);
 	_renderBuffer.matView.m[14] = -30;
 	_renderBuffer.matWVP = _renderBuffer.matPerspective * _renderBuffer.matView * _renderBuffer.matWorld;
+
+	// resourceSystem
+	_resourceSys = new ResourceSystem;
+	
+	// shader init
+	Shader* shader1 = _resourceSys->AddShader(position_vert, position_frag);
+	shader1->BindAttribLocation(eAttrib_Position);
+	shader1->GetUniformLocation(eUniform_MVP);
+	shader1->GetUniformLocation(eUniform_Color);
+
+	Shader* shader2 = _resourceSys->AddShader(positiontex_vert, positiontex_frag);
+	shader2->BindAttribLocation(eAttrib_Position);
+	shader2->BindAttribLocation(eAttrib_TexCoord);
+	shader2->GetUniformLocation(eUniform_MVP);
+	shader2->GetUniformLocation(eUniform_Samper0);
+
+	_renderBuffer.shaders[0] = shader1;
+	_renderBuffer.shaders[1] = shader2;
 
 	Pipeline* pipe = new PipelineP(&_renderBuffer);
 	_pipelines.push_back(pipe);
@@ -46,10 +68,10 @@ void RenderSystemLocal::Init()
 	Pipeline* pipe1 = new PipelinePT(&_renderBuffer);
 	_pipelines.push_back(pipe1);
 
-	_resourceSys = new ResourceSystem;
 	Mesh* mesh = _resourceSys->AddMesh("ninja.b3d");
 	_meshs.push_back(mesh);
-	
+
+	GL_CheckError("oo");
 }
 
 void RenderSystemLocal::FrameUpdate()

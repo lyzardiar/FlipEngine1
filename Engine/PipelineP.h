@@ -9,13 +9,11 @@ public:
 	PipelineP(renderBuffer_t* rb);
 	~PipelineP();
 
-	void Init();
+	void Init() {}
 	void DrawScene();
 	void DrawMesh(array<Mesh*>* meshs);
 
-	GLuint mProgram;
-	GLuint mWorldLocation;
-	GLuint mVertexColor;
+	Shader* _shader;
 };
 
 

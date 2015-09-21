@@ -330,6 +330,9 @@
     <ClCompile Include="..\Engine\Texture.cpp">
       <Filter>resource</Filter>
     </ClCompile>
+    <ClCompile Include="..\Engine\Shader.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Engine\sys\win32\win_local.h">
@@ -478,6 +481,12 @@
     </ClInclude>
     <ClInclude Include="..\Engine\array.h">
       <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\Shader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\ShaderSource.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

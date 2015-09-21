@@ -159,6 +159,7 @@
     <ClCompile Include="..\Engine\quat.cpp" />
     <ClCompile Include="..\Engine\renderer\RenderSystem.cpp" />
     <ClCompile Include="..\Engine\ResourceSystem.cpp" />
+    <ClCompile Include="..\Engine\Shader.cpp" />
     <ClCompile Include="..\Engine\sys\win32\win_glutilsimp.cpp" />
     <ClCompile Include="..\Engine\sys\win32\win_main.cpp" />
     <ClCompile Include="..\Engine\sys\win32\win_shared.cpp" />
@@ -213,6 +214,8 @@
     <ClInclude Include="..\Engine\RenderBuffer.h" />
     <ClInclude Include="..\Engine\renderer\RenderSystem.h" />
     <ClInclude Include="..\Engine\ResourceSystem.h" />
+    <ClInclude Include="..\Engine\Shader.h" />
+    <ClInclude Include="..\Engine\ShaderSource.h" />
     <ClInclude Include="..\Engine\sys\sys_public.h" />
     <ClInclude Include="..\Engine\sys\win32\win_local.h" />
     <ClInclude Include="..\Engine\Texture.h" />

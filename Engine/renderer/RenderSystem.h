@@ -39,6 +39,7 @@ private:
 
 	array<Mesh*> _meshs;
 
+
 	ResourceSystem* _resourceSys;
 };
 #endif

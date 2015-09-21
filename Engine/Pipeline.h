@@ -2,6 +2,7 @@
 #define __PIPELINE_H__
 #include "array.h"
 #include "RenderBuffer.h"
+#include "Shader.h"
 
 class Mesh;
 
