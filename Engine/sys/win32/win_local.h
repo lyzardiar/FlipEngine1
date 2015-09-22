@@ -22,6 +22,8 @@ void	Win_SetErrorText( const char *text );
 
 //cpuid_t	Sys_GetCPUId( void );
 
+
+void Sys_PumpEvents( void );
 int		MapKey (int key);
 
 
@@ -108,26 +110,21 @@ typedef struct {
 
 	HINSTANCE		hInstDI;			// direct input
 
-	/*LPDIRECTINPUT8			g_pdi;
-	LPDIRECTINPUTDEVICE8	g_pMouse;
-	LPDIRECTINPUTDEVICE8	g_pKeyboard;*/
-
 	HANDLE			renderCommandsEvent;
 	HANDLE			renderCompletedEvent;
 	HANDLE			renderActiveEvent;
 	HANDLE			renderThreadHandle;
 	unsigned long	renderThreadId;
-	void			(*glimpRenderThread)( void );
-	void			*smpData;
+	void				(*glimpRenderThread)( void );
+	void				*smpData;
 	int				wglErrors;
 	// SMP acceleration vars
-
+	
+	HFONT			defaultFont;
+	HBITMAP          hBitmap;
 } Win32Vars_t;
 
 extern Win32Vars_t	win32;
-
-
-
 
 void Sys_ShowConsole( int visLevel, bool quitOnClose );
 

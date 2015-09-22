@@ -7,9 +7,9 @@
 #include <string>
 #include "Mesh.h"
 #include "MeshLoaderB3D.h"
-#include "../framework/Common.h"
 #include "Shader.h"
 #include "glutils.h"
+#include "../sys/sys_public.h"
 
 using std::string;
 
@@ -27,6 +27,8 @@ static LoaderPlugin loaderPlugin[] = {
 };
 static int PluginCount = sizeof(loaderPlugin) / sizeof(LoaderPlugin);
 static Texture* defaultTexture;
+
+static sysTextContent_t textContent;
 
 //ResourceManager* ResourceManager::sm_pSharedInstance = nullptr;
 ResourceSystem::ResourceSystem()
@@ -70,7 +72,7 @@ Texture* ResourceSystem::AddTexture(const char* file)
 		{
 			if( !loaderPlugin[i].pFunc(fullPath.c_str(), image) )
 			{
-				Common_Printf( "load image %s failed\n", fullPath.c_str() );
+				Sys_Printf( "load image %s failed\n", fullPath.c_str() );
 				return defaultTexture;
 			}
 			else
@@ -108,5 +110,18 @@ Shader* ResourceSystem::AddShader(const char* vfile, const char* ffile)
 	Shader* shader = new Shader;
 	shader->LoadFromBuffer(vfile, ffile);
 	return shader;
+}
+
+Texture* ResourceSystem::AddText( const char* text )
+{
+	if( Sys_DrawText(text, &textContent) )
+	{
+		// get the texture pixels, width, height
+		Texture* texture = new Texture;
+		texture->Init(textContent.w, textContent.h, textContent.pData);	
+		return texture;
+	}
+	else
+		return defaultTexture;
 }
 

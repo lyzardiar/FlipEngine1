@@ -12,7 +12,7 @@ public:
 
 	Texture* genFontTexture(const char* text);
 private:
-	HWND	_hWnd;
+	HWND		_hWnd;
 	HDC		_hdc;
 	HFONT	_defaultFont;
 	HBITMAP _hBitmap;

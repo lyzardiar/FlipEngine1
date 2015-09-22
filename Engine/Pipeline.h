@@ -9,16 +9,19 @@ class Mesh;
 class Pipeline
 {
 public:
-	Pipeline() {}
-	Pipeline(renderBuffer_t* rb) {_render = rb;}
+	Pipeline(renderBuffer_t* rb);
 
-	virtual ~Pipeline() {};
+	virtual ~Pipeline();
 
 	virtual void Init() = 0;
 
 	virtual void DrawScene() = 0;
 	
-	virtual void DrawMesh(array<Mesh*>* meshs) {};
+	virtual void DrawMesh(array<Mesh*>* meshs) = 0;
+
+	void DrawMeshP(Mesh* mesh);
+
+	void DrawMeshPT(Mesh* mesh);
 
 protected:
 	renderBuffer_t* _render;

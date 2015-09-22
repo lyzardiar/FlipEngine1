@@ -15,9 +15,8 @@ static void draw3DCoordinate()
 }
 
 
-PipelineP::PipelineP(renderBuffer_t* rb)
+PipelineP::PipelineP(renderBuffer_t* rb) : Pipeline(rb)
 {
-	_render = rb;	
 	_shader = rb->shaders[0];
 }
 
@@ -53,8 +52,7 @@ void PipelineP::DrawMesh(array<Mesh*>* meshs)
 		for (int i=0; i < meshs->size(); ++i)
 		{
 			Mesh* mesh = (*meshs)[i];
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, mesh->_positions.pointer());
-			glDrawElements(GL_TRIANGLES, 904*3, GL_UNSIGNED_SHORT, mesh->_indices.pointer());
+			DrawMeshP(mesh);
 		}
 	}
 

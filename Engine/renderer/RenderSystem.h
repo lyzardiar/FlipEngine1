@@ -5,10 +5,12 @@
 #include "../array.h"
 #include "../RenderBuffer.h"
 
+#include "../ResourceSystem.h"
+
 class Material;
 class Pipeline;
 class Mesh;
-class ResourceSystem;
+
 
 class RenderSystem
 {
@@ -40,6 +42,8 @@ private:
 	array<Mesh*> _meshs;
 
 
-	ResourceSystem* _resourceSys;
 };
+
+extern ResourceSystem* _resourceSys;
+
 #endif

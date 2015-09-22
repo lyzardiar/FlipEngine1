@@ -10,13 +10,16 @@
 
 #include "../ShaderSource.h"
 #include "../Shader.h"
+#include "../sys/sys_public.h"
 
+#include "../Sprite.h"
 
+ResourceSystem* _resourceSys = NULL;
 void GL_LOG(const char* fmt, ...)
 {
 	va_list argptr;
 	va_start( argptr, fmt );
-	Common_Printf( fmt, argptr );
+	Sys_Printf( fmt, argptr );
 	va_end( argptr );
 }
 
@@ -39,9 +42,13 @@ RenderSystemLocal::RenderSystemLocal(glimpParms_t *glimpParms_t)
 
 void RenderSystemLocal::Init()
 {
+	// 文本需要
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	// _renderbuffer init
-	_renderBuffer.matPerspective.buildPerspectiveProjection(3.1415926535898 / 3, 1440.0 / 900, 0.1, 800);
-	_renderBuffer.matView.m[14] = -30;
+	_renderBuffer.matPerspective.buildPerspectiveProjection(3.1415926535898 / 3, 800 / 600, 0.1, 800);
+	_renderBuffer.matView.m[14] = - 400 / tanf(3.1415936f/6.f);
 	_renderBuffer.matWVP = _renderBuffer.matPerspective * _renderBuffer.matView * _renderBuffer.matWorld;
 
 	// resourceSystem
@@ -63,14 +70,17 @@ void RenderSystemLocal::Init()
 	_renderBuffer.shaders[1] = shader2;
 
 	Pipeline* pipe = new PipelineP(&_renderBuffer);
-	_pipelines.push_back(pipe);
+	//_pipelines.push_back(pipe);
 
 	Pipeline* pipe1 = new PipelinePT(&_renderBuffer);
 	_pipelines.push_back(pipe1);
 
 	Mesh* mesh = _resourceSys->AddMesh("ninja.b3d");
-	_meshs.push_back(mesh);
+	//_meshs.push_back(mesh);
 
+	Sprite* sprite = new Sprite;
+	sprite->setLabel("ninja.b3d");
+	_meshs.push_back(sprite);
 	GL_CheckError("oo");
 }
 

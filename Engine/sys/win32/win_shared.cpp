@@ -1,34 +1,3 @@
-/*
-===========================================================================
-
-Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
-
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
-
-Doom 3 Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-Doom 3 Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with Doom 3 Source Code.  If not, see <http://www.gnu.org/licenses/>.
-
-In addition, the Doom 3 Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the Doom 3 Source Code.  If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
-===========================================================================
-*/
-
-//#include "../../idlib/precompiled.h"
-#pragma hdrstop
-
 #include "win_local.h"
 #include <lmerr.h>
 #include <lmcons.h>
@@ -39,6 +8,7 @@ If you have questions concerning this license or the applicable additional terms
 #include <io.h>
 #include <conio.h>
 
+#include <windows.h>
 #ifndef	ID_DEDICATED
 #include <comdef.h>
 #include <comutil.h>
@@ -47,6 +17,10 @@ If you have questions concerning this license or the applicable additional terms
 #pragma comment (lib, "wbemuuid.lib")
 #endif
 
+#pragma comment( lib, "Winmm.lib")
+
+#include "../../common/str.h"
+#include "../framework/Common.h"
 #include "../sys_public.h"
 /*
 ================
@@ -55,14 +29,14 @@ Sys_Milliseconds
 */
 int Sys_Milliseconds( void ) {
 	int sys_curtime;
-	//static int sys_timeBase;
-	//static bool	initialized = false;
+	static int sys_timeBase;
+	static bool	initialized = false;
 
-	//if ( !initialized ) {
-	//	sys_timeBase = timeGetTime();
-	//	initialized = true;
-	//}
-	//sys_curtime = timeGetTime() - sys_timeBase;
+	if ( !initialized ) {
+		sys_timeBase = ::timeGetTime();
+		initialized = true;
+	}
+	sys_curtime = timeGetTime() - sys_timeBase;
 
 	return sys_curtime;
 }
@@ -513,7 +487,7 @@ Sym_GetFuncInfo
 
 DWORD lastAllocationBase = -1;
 HANDLE processHandle;
-idStr lastModule;
+strings lastModule;
 
 /*
 ==================
@@ -565,7 +539,7 @@ void Sym_Shutdown( void ) {
 Sym_GetFuncInfo
 ==================
 */
-void Sym_GetFuncInfo( long addr, idStr &module, idStr &funcName ) {
+void Sym_GetFuncInfo( long addr, strings &module, strings &funcName ) {
 	MEMORY_BASIC_INFORMATION mbi;
 
 	VirtualQuery( (void*)addr, &mbi, sizeof(mbi) );
@@ -634,7 +608,7 @@ void Sym_Shutdown( void ) {
 Sym_GetFuncInfo
 ==================
 */
-void Sym_GetFuncInfo( long addr, idStr &module, idStr &funcName ) {
+void Sym_GetFuncInfo( long addr, strings &module, strings &funcName ) {
 	module = "";
 	sprintf( funcName, "0x%08x", addr );
 }
@@ -776,4 +750,296 @@ Sys_ShutdownSymbols
 */
 void Sys_ShutdownSymbols( void ) {
 	Sym_Shutdown();
+}
+
+
+BOOL  SaveBmp(HBITMAP hBitmap, const char* FileName)         
+{         
+    HDC     hDC;         
+    //当前分辨率下每象素所占字节数         
+    int     iBits;         
+    //位图中每象素所占字节数         
+    WORD     wBitCount;         
+    //定义调色板大小，     位图中像素字节大小     ，位图文件大小     ，     写入文件字节数             
+    DWORD     dwPaletteSize=0,   dwBmBitsSize=0,   dwDIBSize=0,   dwWritten=0;             
+    //位图属性结构             
+    BITMAP     Bitmap;                 
+    //位图文件头结构         
+    BITMAPFILEHEADER     bmfHdr;                 
+    //位图信息头结构             
+    BITMAPINFOHEADER     bi;                 
+    //指向位图信息头结构                 
+    LPBITMAPINFOHEADER     lpbi;                 
+    //定义文件，分配内存句柄，调色板句柄             
+    HANDLE     fh,   hDib,   hPal,hOldPal=NULL;             
+  
+    //计算位图文件每个像素所占字节数             
+    hDC  = CreateDC("DISPLAY",   NULL,   NULL,   NULL);         
+    iBits  = GetDeviceCaps(hDC,   BITSPIXEL)     *     GetDeviceCaps(hDC,   PLANES);             
+    DeleteDC(hDC);             
+    if(iBits <=  1)                                                   
+        wBitCount = 1;             
+    else  if(iBits <=  4)                               
+        wBitCount  = 4;             
+    else if(iBits <=  8)                               
+        wBitCount  = 8;             
+    else                                                                                                                               
+        wBitCount  = 24;             
+  
+    GetObject(hBitmap,   sizeof(Bitmap),   (LPSTR)&Bitmap);         
+    bi.biSize= sizeof(BITMAPINFOHEADER);         
+    bi.biWidth = Bitmap.bmWidth;         
+    bi.biHeight =  Bitmap.bmHeight;         
+    bi.biPlanes =  1;         
+    bi.biBitCount = wBitCount;         
+    bi.biCompression= BI_RGB;         
+    bi.biSizeImage=0;         
+    bi.biXPelsPerMeter = 0;         
+    bi.biYPelsPerMeter = 0;         
+    bi.biClrImportant = 0;         
+    bi.biClrUsed =  0;         
+  
+    dwBmBitsSize  = ((Bitmap.bmWidth *wBitCount+31) / 32)*4* Bitmap.bmHeight;         
+  
+    //为位图内容分配内存             
+    hDib  = GlobalAlloc(GHND,dwBmBitsSize+dwPaletteSize+sizeof(BITMAPINFOHEADER));             
+    lpbi  = (LPBITMAPINFOHEADER)GlobalLock(hDib);             
+    *lpbi  = bi;             
+  
+    //     处理调色板                 
+    hPal  = GetStockObject(DEFAULT_PALETTE);             
+    if (hPal)             
+    {             
+        hDC  = ::GetDC(NULL);             
+        hOldPal = ::SelectPalette(hDC,(HPALETTE)hPal, FALSE);             
+        RealizePalette(hDC);             
+    }         
+  
+    //     获取该调色板下新的像素值             
+    GetDIBits(hDC,hBitmap, 0,(UINT)Bitmap.bmHeight,  
+        (LPSTR)lpbi+ sizeof(BITMAPINFOHEADER)+dwPaletteSize,   
+        (BITMAPINFO *)lpbi, DIB_RGB_COLORS);             
+  
+    //恢复调色板                 
+    if (hOldPal)             
+    {             
+        ::SelectPalette(hDC,   (HPALETTE)hOldPal,   TRUE);             
+        RealizePalette(hDC);             
+        ::ReleaseDC(NULL,   hDC);             
+    }             
+  
+    //创建位图文件                 
+    fh  = CreateFile(FileName,   GENERIC_WRITE,0,   NULL,   CREATE_ALWAYS,           
+        FILE_ATTRIBUTE_NORMAL | FILE_FLAG_SEQUENTIAL_SCAN,   NULL);             
+  
+    if (fh     ==  INVALID_HANDLE_VALUE)         return     FALSE;             
+  
+    //     设置位图文件头             
+    bmfHdr.bfType  = 0x4D42;     //     "BM"             
+    dwDIBSize  = sizeof(BITMAPFILEHEADER)+sizeof(BITMAPINFOHEADER)+dwPaletteSize+dwBmBitsSize;                 
+    bmfHdr.bfSize  = dwDIBSize;             
+    bmfHdr.bfReserved1  = 0;             
+    bmfHdr.bfReserved2  = 0;             
+    bmfHdr.bfOffBits  = (DWORD)sizeof(BITMAPFILEHEADER)+(DWORD)sizeof(BITMAPINFOHEADER)+dwPaletteSize;             
+    //     写入位图文件头             
+    WriteFile(fh,   (LPSTR)&bmfHdr,   sizeof(BITMAPFILEHEADER),   &dwWritten,   NULL);             
+    //     写入位图文件其余内容             
+    WriteFile(fh,   (LPSTR)lpbi,   dwDIBSize,   &dwWritten,   NULL);             
+    //清除                 
+    GlobalUnlock(hDib);             
+    GlobalFree(hDib);             
+    CloseHandle(fh);             
+  
+    return     TRUE;         
+}  
+
+bool Sys_DrawText(const char* text, sysTextContent_t* img)
+{
+	HDC _hdc = CreateCompatibleDC(win32.hDC);
+	RECT rc;
+	rc.top = 0;
+	rc.left = 0;
+
+	// calculate the text texture size
+	int len = strlen(text);
+    SelectObject(_hdc, win32.defaultFont);
+	DrawText(_hdc, text, len, &rc, DT_LEFT|DT_NOCLIP|DT_CALCRECT);
+    DeleteObject(win32.defaultFont);
+
+	// create a bitmap
+    if (win32.hBitmap)
+        DeleteObject(win32.hBitmap);
+	win32.hBitmap = CreateBitmap(rc.right, rc.bottom, 1, 32, NULL);
+
+	// draw the text on the _hdc
+    SelectObject(_hdc, win32.defaultFont);
+	HGDIOBJ hOldBmp  = SelectObject(_hdc, win32.hBitmap);
+	DrawText(_hdc, text, -1, &rc, DT_LEFT|DT_NOCLIP);
+    DeleteObject(win32.defaultFont);
+	SelectObject(_hdc, hOldBmp);
+
+	// get pixel
+    //unsigned char* pData = new unsigned char[rc.right * rc.bottom * 4];
+
+	if (rc.right * rc.bottom > 1024 * 1024)
+	{
+		Sys_Error("size is too large ");
+		return false;
+	}
+
+    struct
+    {
+		BITMAPINFOHEADER bmiHeader;
+		int mask[4];
+    } bi = {0};
+    bi.bmiHeader.biSize = sizeof(bi.bmiHeader);
+
+	// Get the BITMAPINFO structure from the bitmap
+	if(0 == GetDIBits(_hdc, win32.hBitmap, 0, 0, NULL, (LPBITMAPINFO)&bi, DIB_RGB_COLORS))
+	{
+		Sys_Error("GetDIBits(_hdc, hBitmap, 0, 0, NULL, (LPBITMAPINFO)&bi, DIB_RGB_COLORS)");
+		return false;
+	}
+
+	bi.bmiHeader.biHeight = abs(bi.bmiHeader.biHeight);
+	//GetDIBits(_hdc, win32.hBitmap, 0, bi.bmiHeader.biHeight, &img->pData[0], (LPBITMAPINFO)&bi, DIB_RGB_COLORS);
+	GetDIBits(_hdc, win32.hBitmap, 0, bi.bmiHeader.biHeight, &img->pData[0], (LPBITMAPINFO)&bi, DIB_RGB_COLORS);
+
+	// change pixel's alpha value to 255, when it's RGB != 0
+	COLORREF * pPixel = NULL;
+	for (int y = 0; y < rc.bottom; ++y)
+	{
+		pPixel = (COLORREF *)img->pData + y * rc.right;
+		for (int x = 0; x < rc.right; ++x)
+		{
+			COLORREF& clr = *pPixel;
+
+			clr |= (0xffffff | (GetRValue(clr) << 24));
+			clr = ~clr;
+			++pPixel;
+		}
+	}
+
+	//texture->init(rc.right, rc.bottom, pData);
+
+	img->w = rc.right;
+	img->h = rc.bottom;
+
+	//SaveBmp(win32.hBitmap, "d:/1.bmp");
+	return true;
+}
+
+/* ============== Sys_Quit ============== */
+void Sys_Quit( void ) {
+	//timeEndPeriod( 1 );
+	//Sys_ShutdownInput();
+	Sys_DestroyConsole();
+	ExitProcess( 0 );
+}
+
+
+#define MAXPRINTMSG 4096
+void Sys_Printf( const char *fmt, ... ) 
+{
+	char		msg[MAXPRINTMSG];
+
+	va_list argptr;
+	va_start(argptr, fmt);
+	strings::vsnPrintf( msg, MAXPRINTMSG-1, fmt, argptr );
+	va_end(argptr);
+	msg[sizeof(msg)-1] = '\0';
+
+	if ( win32.win_outputDebugString ) {
+		OutputDebugString( msg );
+	}
+	if ( win32.win_outputEditString ) {
+		Conbuf_AppendText( msg );
+	}
+}
+
+void Sys_Error( const char *fmt, ... ) 
+{
+	char		msg[MAXPRINTMSG];
+
+	va_list argptr;
+	va_start(argptr, fmt);
+	strings::vsnPrintf( msg, MAXPRINTMSG-1, fmt, argptr );
+	va_end(argptr);
+	msg[sizeof(msg)-1] = '\0';
+
+	if ( win32.win_outputDebugString ) {
+		OutputDebugString( msg );
+	}
+	if ( win32.win_outputEditString ) {
+		Conbuf_AppendText( msg );
+	}
+}
+
+#define MAXPRINTMSG 4096
+void Sys_DebugPrintf( const char *fmt, ... ) {
+	char msg[MAXPRINTMSG];
+
+	va_list argptr;
+	va_start( argptr, fmt );
+	strings::vsnPrintf( msg, MAXPRINTMSG-1, fmt, argptr );
+	msg[ sizeof(msg)-1 ] = '\0';
+	va_end( argptr );
+
+	OutputDebugString( msg );
+}
+
+
+void Sys_ShowWindow( bool show ) {
+	::ShowWindow( win32.hWnd, show ? SW_SHOW : SW_HIDE );
+}
+
+void Sys_PumpEvents( void ) {
+    MSG msg;
+
+	// pump the message loop
+	while( PeekMessage( &msg, NULL, 0, 0, PM_NOREMOVE ) ) {
+		if ( !GetMessage( &msg, NULL, 0, 0 ) ) {
+			Com_Quit();
+		}
+
+		// save the msg time, because wndprocs don't have access to the timestamp
+		if ( win32.sysMsgTime && win32.sysMsgTime > (int)msg.time ) {
+			// don't ever let the event times run backwards	
+			Sys_Printf( "Sys_PumpEvents: win32.sysMsgTime (%i) > msg.time (%i)\n", win32.sysMsgTime, msg.time );
+		} else {
+			win32.sysMsgTime = msg.time;
+		}
+
+		TranslateMessage (&msg);
+      	DispatchMessage (&msg);
+	}
+}
+
+/*
+================
+Sys_GetClockTicks
+================
+*/
+double Sys_GetClockTicks( void ) {
+	LARGE_INTEGER li;
+
+	QueryPerformanceCounter( &li );
+	return (double ) li.LowPart + (double) 0xFFFFFFFF * li.HighPart;
+}
+
+/*
+================
+Sys_ClockTicksPerSecond
+================
+*/
+double Sys_ClockTicksPerSecond( void ) {
+	static double ticks = 0;
+
+	if ( !ticks ) {
+		LARGE_INTEGER li;
+		QueryPerformanceFrequency( &li );
+		ticks = li.QuadPart;
+	}
+
+	return ticks;
 }

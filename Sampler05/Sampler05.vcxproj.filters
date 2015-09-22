@@ -37,6 +37,9 @@
     <Filter Include="zlib">
       <UniqueIdentifier>{f2dd0d78-3dd1-429e-8b24-f1bb54295754}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ui">
+      <UniqueIdentifier>{de7726ab-891a-451c-ac32-fc9d7c3cfe6e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Engine\sys\win32\win_main.cpp">
@@ -47,9 +50,6 @@
     </ClCompile>
     <ClCompile Include="..\Engine\sys\win32\win_shared.cpp">
       <Filter>sys</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Engine\common\Str.cpp">
-      <Filter>common</Filter>
     </ClCompile>
     <ClCompile Include="..\Engine\sys\win32\win_wndproc.cpp">
       <Filter>sys</Filter>
@@ -71,9 +71,6 @@
     </ClCompile>
     <ClCompile Include="..\Engine\PipelineP.cpp">
       <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Engine\DrawHelper.cpp">
-      <Filter>common</Filter>
     </ClCompile>
     <ClCompile Include="..\Engine\PipelinePT.cpp">
       <Filter>源文件</Filter>
@@ -333,6 +330,21 @@
     <ClCompile Include="..\Engine\Shader.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="..\Engine\PipelinePTO.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\Pipeline.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\common\str.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\common\Timer.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\Sprite.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Engine\sys\win32\win_local.h">
@@ -343,9 +355,6 @@
     </ClInclude>
     <ClInclude Include="..\Engine\framework\Common.h">
       <Filter>framework</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Engine\common\Str.h">
-      <Filter>common</Filter>
     </ClInclude>
     <ClInclude Include="..\Engine\common\precompiled.h">
       <Filter>common</Filter>
@@ -375,9 +384,6 @@
       <Filter>renderer</Filter>
     </ClInclude>
     <ClInclude Include="..\Engine\color4.h">
-      <Filter>common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Engine\DrawHelper.h">
       <Filter>common</Filter>
     </ClInclude>
     <ClInclude Include="..\Engine\PipelinePT.h">
@@ -486,6 +492,24 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\Engine\ShaderSource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\PipelinePTO.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\Pipeline.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\common\str.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\framework\log.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\common\Timer.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\Sprite.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

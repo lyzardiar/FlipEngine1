@@ -1,6 +1,7 @@
 #include "../../glutils.h"
-#include "../../framework/Common.h"
+#include "../sys_public.h"
 #include "win_local.h"
+#include "../framework/Common.h"
 #include <windows.h>
 
 #ifdef _WIN32
@@ -40,33 +41,33 @@ static bool GL_SetPixelFormat( ) {
 		0, 0, 0							// layer masks ignored
     };
 
-	Common_Printf( "Initializing OpenGL driver\n" );
+	Sys_Printf( "Initializing OpenGL driver\n" );
 
 	//
 	// get a DC for our window if we don't already have one allocated
 	//
 	if ( win32.hDC == NULL ) {
-		Common_Printf( "...getting DC: " );
+		Sys_Printf( "...getting DC: " );
 
 		if ( ( win32.hDC = GetDC( win32.hWnd ) ) == NULL ) {
-			Common_Printf( "^3failed^0\n" );
+			Sys_Printf( "^3failed^0\n" );
 			return false;
 		}
-		Common_Printf( "succeeded\n" );
+		Sys_Printf( "succeeded\n" );
 	}
 
 	if ( ( win32.pixelformat = ChoosePixelFormat( win32.hDC, &src ) ) == 0 ) {
-		Common_Printf( "...^3GLW_ChoosePFD failed^0\n");
+		Sys_Printf( "...^3GLW_ChoosePFD failed^0\n");
 		return false;
 	}
-	Common_Printf( "...PIXELFORMAT %d selected\n", win32.pixelformat );
+	Sys_Printf( "...PIXELFORMAT %d selected\n", win32.pixelformat );
 
 	// get the full info
 	// DescribePixelFormat( win32.hDC, win32.pixelformat, sizeof( win32.pfd ), &win32.pfd );
 
 	// the same SetPixelFormat is used either way
 	if ( SetPixelFormat( win32.hDC, win32.pixelformat, &win32.pfd ) == FALSE ) {
-		Common_Printf( "...^3SetPixelFormat failed^0\n", win32.hDC );
+		Sys_Printf( "...^3SetPixelFormat failed^0\n", win32.hDC );
 		return false;
 	}
 
@@ -76,21 +77,21 @@ static bool GL_SetPixelFormat( ) {
 	// which is suitable for drawing on the device referenced by hdc. 
 	// The rendering context has the same pixel format as the device context.
 	//
-	Common_Printf( "...creating GL context: " );
+	Sys_Printf( "...creating GL context: " );
 	if ( ( win32.hGLRC = wglCreateContext( win32.hDC ) ) == 0 ) {
-		Common_Printf( "wgl create contect failed\n" );
+		Sys_Printf( "wgl create contect failed\n" );
 		return false;
 	}
-	Common_Printf( "succeeded\n" );
+	Sys_Printf( "succeeded\n" );
 
-	Common_Printf( "...making context current: " );
+	Sys_Printf( "...making context current: " );
 	if ( !wglMakeCurrent( win32.hDC, win32.hGLRC ) ) {
 		wglDeleteContext( win32.hGLRC );
 		win32.hGLRC = NULL;
-		Common_Printf( "wgl create contec failed\n" );
+		Sys_Printf( "wgl create contec failed\n" );
 		return false;
 	}
-	Common_Printf( "succeeded\n" );
+	Sys_Printf( "succeeded\n" );
 
 	return true;
 }
@@ -121,9 +122,9 @@ static void GL_CreateWindowClasses( void ) {
 	wc.lpszClassName = CLASS_NAME;
 
 	if ( !RegisterClass( &wc ) ) {
-		Common_Error( "GLW_CreateWindow: could not register window class" );
+		Sys_Error( "GLW_CreateWindow: could not register window class" );
 	}
-	Common_Printf( "...registered window class\n" );
+	Sys_Printf( "...registered window class\n" );
 }
 
 /*
@@ -166,7 +167,7 @@ static bool GL_CreateWindow(glimpParms_t *parms) {
 		 NULL);
 
 	if ( !win32.hWnd ) {
-		Common_Printf( "^3GLW_CreateWindow() - Couldn't create window^0\n" );
+		Sys_Printf( "^3GLW_CreateWindow() - Couldn't create window^0\n" );
 		return false;
 	}
 
@@ -193,31 +194,31 @@ void GLimp_Shutdown( void ) {
 	const char *success[] = { "failed", "success" };
 	int retVal;
 
-	Common_Printf( "Shutting down OpenGL subsystem\n" );
+	Sys_Printf( "Shutting down OpenGL subsystem\n" );
 
 	// set current context to NULL
 	if ( wglMakeCurrent(NULL, NULL)) {
 		retVal = wglMakeCurrent( NULL, NULL ) != 0;
-		Common_Printf( "...wglMakeCurrent( NULL, NULL ): %s\n", success[retVal] );
+		Sys_Printf( "...wglMakeCurrent( NULL, NULL ): %s\n", success[retVal] );
 	}
 
 	// delete HGLRC
 	if ( win32.hGLRC ) {
 		retVal = wglDeleteContext( win32.hGLRC ) != 0;
-		Common_Printf( "...deleting GL context: %s\n", success[retVal] );
+		Sys_Printf( "...deleting GL context: %s\n", success[retVal] );
 		win32.hGLRC = NULL;
 	}
 
 	// release DC
 	if ( win32.hDC ) {
 		retVal = ReleaseDC( win32.hWnd, win32.hDC ) != 0;
-		Common_Printf( "...releasing DC: %s\n", success[retVal] );
+		Sys_Printf( "...releasing DC: %s\n", success[retVal] );
 		win32.hDC   = NULL;
 	}
 
 	// destroy window
 	if ( win32.hWnd ) {
-		Common_Printf( "...destroying window\n" );
+		Sys_Printf( "...destroying window\n" );
 		ShowWindow( win32.hWnd, SW_HIDE );
 		DestroyWindow( win32.hWnd );
 		win32.hWnd = NULL;
@@ -225,14 +226,14 @@ void GLimp_Shutdown( void ) {
 
 	// reset display settings
 	if ( win32.cdsFullscreen ) {
-		Common_Printf( "...resetting display\n" );
+		Sys_Printf( "...resetting display\n" );
 		ChangeDisplaySettings( 0, 0 );
 		win32.cdsFullscreen = false;
 	}
 
 	// close the thread so the handle doesn't dangle
 	if ( win32.renderThreadHandle ) {
-		Common_Printf( "...closing smp thread\n" );
+		Sys_Printf( "...closing smp thread\n" );
 		CloseHandle( win32.renderThreadHandle );
 		win32.renderThreadHandle = NULL;
 	}
@@ -243,7 +244,7 @@ static int GL_InitGL()
 {
 	glewInit();
 	glShadeModel(GL_SMOOTH);							
-	glClearColor(0.0f, 0.0f, 0.0f, 0.5f);				
+	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);				
 	glClearDepth(1.0f);									
 	glEnable(GL_DEPTH_TEST);							
 	glDepthFunc(GL_LEQUAL);								
@@ -259,7 +260,7 @@ void GL_SwapBuffers( void ) {
 }
 
 bool GL_CreateDevice(glimpParms_t *parm){
-	Common_Printf( "Initializing OpenGL subsystem\n" );
+	Sys_Printf( "Initializing OpenGL subsystem\n" );
 
 	GL_CreateWindowClasses();
 	GL_CreateWindow(parm);

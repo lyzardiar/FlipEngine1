@@ -26,9 +26,6 @@ void FontGenerator::init()
         DEFAULT_QUALITY, // nQuality 
         DEFAULT_PITCH | FF_SWISS, // nPitchAndFamily 
         ("Arial")); // lpszFac
-
-
-	
 }
 
 

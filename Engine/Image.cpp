@@ -6,23 +6,14 @@
 using std::vector;
 using std::max;
 
-//
-//
-////////////////////////////////////////////////////////////
 Image::Image() : _width(0), _height(0), _depth(0), _levelCount(0), _faces(0), _format(GL_RGBA),
     _internalFormat(GL_RGBA8), _type(GL_UNSIGNED_BYTE), _elementSize(0) {
 }
 
-//
-//
-////////////////////////////////////////////////////////////
 Image::~Image() {
     FreeData();
 }
 
-//
-//
-////////////////////////////////////////////////////////////
 void Image::FreeData() {
     for (vector<GLubyte*>::iterator it = _data.begin(); it != _data.end(); it++) {
         delete []*it;
@@ -30,9 +21,6 @@ void Image::FreeData() {
     _data.clear();
 }
 
-//
-//
-////////////////////////////////////////////////////////////
 int Image::GetImageSize( int level) const {
     bool compressed = IsCompressed();
     int w = _width >> level;
@@ -49,9 +37,6 @@ int Image::GetImageSize( int level) const {
 }
 
 
-//
-//
-////////////////////////////////////////////////////////////
 const void* Image::GetLevel( int level, GLenum face) const {
     assert( level < _levelCount);
     assert( _faces == 0 || ( face >= GL_TEXTURE_CUBE_MAP_POSITIVE_X && face <= GL_TEXTURE_CUBE_MAP_NEGATIVE_Z));
@@ -62,9 +47,7 @@ const void* Image::GetLevel( int level, GLenum face) const {
     return _data[ face*_levelCount + level];
 }
 
-//
-//
-////////////////////////////////////////////////////////////
+
 void* Image::GetLevel( int level, GLenum face) {
     assert( level < _levelCount);
     assert( _faces == 0 || ( face >= GL_TEXTURE_CUBE_MAP_POSITIVE_X && face <= GL_TEXTURE_CUBE_MAP_NEGATIVE_Z));
@@ -75,14 +58,6 @@ void* Image::GetLevel( int level, GLenum face) {
     return _data[ face*_levelCount + level];
 }
 
-//
-//
-////////////////////////////////////////////////////////////
-
-
-//
-//
-////////////////////////////////////////////////////////////
 bool Image::ConvertCrossToCubemap() {
     //can't already be a cubemap
     if (IsCubeMap())
@@ -180,9 +155,6 @@ bool Image::ConvertCrossToCubemap() {
     return true;
 }
 
-//
-//
-////////////////////////////////////////////////////////////
 bool Image::SetImage( int width, int height, GLenum format, GLenum type, const void* data){
     //check parameters before destroying the old image
     int elementSize;

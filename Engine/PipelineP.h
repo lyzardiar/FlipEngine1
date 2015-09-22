@@ -13,6 +13,7 @@ public:
 	void DrawScene();
 	void DrawMesh(array<Mesh*>* meshs);
 
+
 	Shader* _shader;
 };
 

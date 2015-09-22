@@ -3,14 +3,10 @@
 
 extern const char* GAME_NAME;
 
-void Common_Init();
+void Com_Init();
 
-void Common_Frame();
+void Com_Frame();
 
-void Common_Printf(const char* fmt, ...);
-
-void Common_Error(const char* fmt, ...);
-
-void Common_Quit();
+void Com_Quit();
 
 #endif /* !__COMMON_H__ */

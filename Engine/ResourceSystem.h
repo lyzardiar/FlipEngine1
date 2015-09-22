@@ -16,6 +16,8 @@ public:
 
 	Texture* AddTexture(const char* file);
 
+	Texture* AddText(const char* text);
+
 	Mesh* AddMesh(const char* file);
 
 	Shader* AddShader(const char* vfile, const char* ffile);
