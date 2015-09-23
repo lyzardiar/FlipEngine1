@@ -47,6 +47,13 @@ Temporary Items
 *.pdb
 *.log
 
+# Visual studio
+*.opensdf
+*.sdf
+*.suo
+*.pdb
+*.vcxproj.user
+
 Debug
 FlipEngine\Debug\*
 

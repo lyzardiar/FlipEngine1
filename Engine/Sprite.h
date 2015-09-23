@@ -19,6 +19,9 @@ public:
 	void setPosition(int x, int y);
 
 private:
+	void updateVertex();
+
+private:
 	int  _width;
 	int  _height;
 	vec2 _position;
