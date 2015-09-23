@@ -30,6 +30,8 @@ static Texture* defaultTexture;
 
 static sysTextContent_t textContent;
 
+ResourceSystem* resourceSys = NULL;
+
 //ResourceManager* ResourceManager::sm_pSharedInstance = nullptr;
 ResourceSystem::ResourceSystem()
 {

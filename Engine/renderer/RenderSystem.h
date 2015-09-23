@@ -10,6 +10,7 @@
 class Material;
 class Pipeline;
 class Mesh;
+class Sprite;
 
 
 class RenderSystem
@@ -20,6 +21,10 @@ public:
 	virtual void Init() = 0;
 
 	virtual void FrameUpdate() = 0;
+
+	virtual void DrawString(const char* text) = 0;
+
+	virtual Pipeline* GetPipeline(int idx) = 0;
 };
 
 
@@ -30,20 +35,17 @@ public:
 	~RenderSystemLocal() {}
 
 	void Init();
-
 	void FrameUpdate();
+	void DrawString(const char* text);
 
+	Pipeline* GetPipeline(int idx);
 private:
 
-	renderBuffer_t _renderBuffer;
-
-	array<Pipeline*> _pipelines;
-
-	array<Mesh*> _meshs;
-
-
+	renderBuffer_t	_renderBuffer;
+	array<Pipeline*>	_pipelines;
+	array<Mesh*>		_meshs;
+	Sprite*			_defaultSprite;
 };
 
-extern ResourceSystem* _resourceSys;
-
+extern RenderSystem* renderSys;
 #endif

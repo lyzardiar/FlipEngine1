@@ -26,4 +26,5 @@ private:
 	std::map<std::string, Texture*> _textures;
 };
 
+extern ResourceSystem* resourceSys;
 #endif // !__RESOURCESYSTEM_H__

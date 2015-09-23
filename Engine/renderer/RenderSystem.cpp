@@ -14,26 +14,8 @@
 
 #include "../Sprite.h"
 
-ResourceSystem* _resourceSys = NULL;
-void GL_LOG(const char* fmt, ...)
-{
-	va_list argptr;
-	va_start( argptr, fmt );
-	Sys_Printf( fmt, argptr );
-	va_end( argptr );
-}
+RenderSystem* renderSys = NULL;
 
-static void Test_2DDraw()
-{
-	RB_SetGL2D();
-
-	glColor3f (1.0, 0.0, 0.0);
-    glPointSize(5);
-	glBegin(GL_POINTS);
-       for (int i = 0; i < 7; i++)
-          glVertex2f (i*100, 100);
-	glEnd();
-}
 
 RenderSystemLocal::RenderSystemLocal(glimpParms_t *glimpParms_t)
 {
@@ -51,36 +33,32 @@ void RenderSystemLocal::Init()
 	_renderBuffer.matView.m[14] = - 400 / tanf(3.1415936f/6.f);
 	_renderBuffer.matWVP = _renderBuffer.matPerspective * _renderBuffer.matView * _renderBuffer.matWorld;
 
-	// resourceSystem
-	_resourceSys = new ResourceSystem;
-	
 	// shader init
-	Shader* shader1 = _resourceSys->AddShader(position_vert, position_frag);
+	Shader* shader1 = resourceSys->AddShader(position_vert, position_frag);
 	shader1->BindAttribLocation(eAttrib_Position);
 	shader1->GetUniformLocation(eUniform_MVP);
 	shader1->GetUniformLocation(eUniform_Color);
 
-	Shader* shader2 = _resourceSys->AddShader(positiontex_vert, positiontex_frag);
+	Shader* shader2 = resourceSys->AddShader(positiontex_vert, positiontex_frag);
 	shader2->BindAttribLocation(eAttrib_Position);
 	shader2->BindAttribLocation(eAttrib_TexCoord);
 	shader2->GetUniformLocation(eUniform_MVP);
 	shader2->GetUniformLocation(eUniform_Samper0);
 
-	_renderBuffer.shaders[0] = shader1;
-	_renderBuffer.shaders[1] = shader2;
+	_renderBuffer.shaders[eShader_Position]		= shader1;
+	_renderBuffer.shaders[eShader_PositionTex]	= shader2;
 
 	Pipeline* pipe = new PipelineP(&_renderBuffer);
-	//_pipelines.push_back(pipe);
+	_pipelines.push_back(pipe);
 
 	Pipeline* pipe1 = new PipelinePT(&_renderBuffer);
 	_pipelines.push_back(pipe1);
 
-	Mesh* mesh = _resourceSys->AddMesh("ninja.b3d");
-	//_meshs.push_back(mesh);
-
-	Sprite* sprite = new Sprite;
-	sprite->setLabel("ninja.b3d");
-	_meshs.push_back(sprite);
+	// fps  init
+	_defaultSprite = new Sprite;
+	_defaultSprite->SetLabel("ninja.b3d");
+	_defaultSprite->SetTexture("../media/drkwood2.jpg");
+	pipe1->AddMesh(_defaultSprite);
 	GL_CheckError("oo");
 }
 
@@ -90,10 +68,20 @@ void RenderSystemLocal::FrameUpdate()
 	
 	for (int i = 0; i < _pipelines.size(); i++)
 	{
-		_pipelines[i]->DrawMesh(&_meshs);
+		//_pipelines[i]->DrawMesh(&_meshs);
+		_pipelines[i]->DrawMesh();
 	}
 	
-	Test_2DDraw();
-
 	GL_SwapBuffers();
+}
+
+void RenderSystemLocal::DrawString( const char* text )
+{
+	_defaultSprite->SetLabel(text);
+}
+
+Pipeline* RenderSystemLocal::GetPipeline( int idx )
+{
+	//assert(idx >= 0 && idx <_pipelines.size() );
+	return _pipelines[idx];
 }

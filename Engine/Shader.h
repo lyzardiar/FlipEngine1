@@ -20,6 +20,13 @@ typedef enum
 	eAttrib_Count,
 }attribType_t;
 
+typedef enum
+{
+	eShader_Position,
+	eShader_PositionTex,
+
+	eShader_Count,
+}shaderType_t;
 
 
 class Shader

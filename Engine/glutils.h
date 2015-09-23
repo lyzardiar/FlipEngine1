@@ -35,9 +35,6 @@ bool GL_CreateDevice(glimpParms_t *parm);
 
 void GL_SwapBuffers( void );
 
-void GL_LOG(const char* fmt, ...);
-
-
-
+void Test_2DDraw();
 
 #endif

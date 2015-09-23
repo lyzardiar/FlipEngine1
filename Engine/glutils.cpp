@@ -1,5 +1,5 @@
 #include "glutils.h"
-
+#include "sys/sys_public.h"
 
 static GLuint uglLoadShader(GLenum shaderType, const char* source)
 {
@@ -17,7 +17,7 @@ static GLuint uglLoadShader(GLenum shaderType, const char* source)
                 char* buf = (char*) malloc(infoLen);
                 if (buf) {
                     glGetShaderInfoLog(shader, infoLen, NULL, buf);
-					GL_LOG("Could not compile shader %d:\n%s\n",
+					Sys_Printf("Could not compile shader %d:\n%s\n",
                             shaderType, buf);
                     free(buf);
                 }
@@ -88,7 +88,7 @@ GLuint GL_CreateProgram(const char* pVertexSource, const char* pFragmentSource) 
 				char* buf = (char*)malloc(bufLength);
 				if (buf) {
 					glGetProgramInfoLog(program, bufLength, NULL, buf);
-					GL_LOG("Could not link program:\n%s\n", buf);
+					Sys_Printf("Could not link program:\n%s\n", buf);
 					free(buf);
 				}
 			}
@@ -103,7 +103,7 @@ GLuint GL_CreateProgramFromFile(const char* vert, const char* frag)
 {
 	GLuint v, f;
 
-       if(! (v = compileGLSLShaderFromFile(GL_VERTEX_SHADER, vert)))
+    if(! (v = compileGLSLShaderFromFile(GL_VERTEX_SHADER, vert)))
         v = compileGLSLShaderFromFile(GL_VERTEX_SHADER, &vert[3]); //skip the first three chars to deal with path differences
 
     if(! (f = compileGLSLShaderFromFile(GL_FRAGMENT_SHADER, frag)))
@@ -127,8 +127,52 @@ void RB_SetGL2D( void )
 
 void GL_CheckError(const char* op)
 {
-    for (GLint error = glGetError(); error; error
-            = glGetError()) {
-		GL_LOG( "after %s() glError (0x%x)\n", op, error);
-    }
+   int		err;
+    char	s[64];
+	int		i;
+
+	// check for up to 10 errors pending
+	for ( i = 0 ; i < 10 ; i++ ) {
+		err = glGetError();
+		if ( err == GL_NO_ERROR ) {
+			return;
+		}
+		switch( err ) {
+			case GL_INVALID_ENUM:
+				strcpy( s, "GL_INVALID_ENUM" );
+				break;
+			case GL_INVALID_VALUE:
+				strcpy( s, "GL_INVALID_VALUE" );
+				break;
+			case GL_INVALID_OPERATION:
+				strcpy( s, "GL_INVALID_OPERATION" );
+				break;
+			case GL_STACK_OVERFLOW:
+				strcpy( s, "GL_STACK_OVERFLOW" );
+				break;
+			case GL_STACK_UNDERFLOW:
+				strcpy( s, "GL_STACK_UNDERFLOW" );
+				break;
+			case GL_OUT_OF_MEMORY:
+				strcpy( s, "GL_OUT_OF_MEMORY" );
+				break;
+			default:
+				sprintf_s( s, sizeof(s), "%i", err);
+				break;
+		}
+
+		Sys_Printf( "GL_CheckErrors: [%s] %s\n", op, s );
+	}
+}
+
+void Test_2DDraw()
+{
+	RB_SetGL2D();
+
+	glColor3f (1.0, 0.0, 0.0);
+	glPointSize(5);
+	glBegin(GL_POINTS);
+	for (int i = 0; i < 7; i++)
+		glVertex2f (i*100.f, 100.f);
+	glEnd();
 }

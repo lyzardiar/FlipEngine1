@@ -25,7 +25,7 @@ public:
 
 protected:
 	Joint*			_rootJoint;
-	vector<Joint*>  _allJoint;
+	vector<Joint*>	_allJoint;
 	Mesh*			_mesh;
 
 	// animation positions

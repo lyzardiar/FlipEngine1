@@ -19,11 +19,19 @@ public:
 	
 	virtual void DrawMesh(array<Mesh*>* meshs) = 0;
 
+	void AddMesh(Mesh* mesh)
+	{
+		_meshs.push_back(mesh);
+	}
+
 	void DrawMeshP(Mesh* mesh);
 
 	void DrawMeshPT(Mesh* mesh);
 
+	void DrawMesh() { DrawMesh(&_meshs); }
 protected:
 	renderBuffer_t* _render;
+
+	array<Mesh*>    _meshs;
 };
 #endif

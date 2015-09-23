@@ -12,14 +12,14 @@ public:
 	~Sprite();
 
 
-	void setTexture(const char* imgPath);
+	void SetTexture(const char* imgPath);
 
-	void setLabel(const char* label);
+	void SetLabel(const char* label);
 
-	void setPosition(int x, int y);
+	void SetPosition(int x, int y);
 
 private:
-	void updateVertex();
+	void UpdateVertex();
 
 private:
 	int  _width;

@@ -12,25 +12,25 @@ Sprite::~Sprite()
 
 }
 
-void Sprite::setTexture( const char* imgPath )
+void Sprite::SetTexture( const char* imgPath )
 {
-	_texture = _resourceSys->AddTexture(imgPath);
-	updateVertex();
+	_texture = resourceSys->AddTexture(imgPath);
+	UpdateVertex();
 }
 
-void Sprite::setLabel( const char* label )
+void Sprite::SetLabel( const char* label )
 {
-	_texture = _resourceSys->AddText(label);
-	updateVertex();
+	_texture = resourceSys->AddText(label);
+	UpdateVertex();
 }
 
-void Sprite::setPosition( int x, int y )
+void Sprite::SetPosition( int x, int y )
 {
 	x;
 	y;
 }
 
-void Sprite::updateVertex()
+void Sprite::UpdateVertex()
 {
 	//1 3
 	//0 2

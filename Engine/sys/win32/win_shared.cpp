@@ -1043,3 +1043,21 @@ double Sys_ClockTicksPerSecond( void ) {
 
 	return ticks;
 }
+
+void Sys_Init()
+{
+	win32.defaultFont = CreateFont(20, // nHeight 
+        0, // nWidth 
+        0, // nEscapement 
+        0, // nOrientation 
+        FW_THIN, // nWeight 
+        FALSE, // bItalic «„–±
+        FALSE, // bUnderline 
+        0, // cStrikeOut 
+        ANSI_CHARSET, // nCharSet 
+        OUT_DEFAULT_PRECIS, // nOutPrecision 
+        CLIP_DEFAULT_PRECIS, // nClipPrecision 
+        DEFAULT_QUALITY, // nQuality 
+        DEFAULT_PITCH | FF_SWISS, // nPitchAndFamily 
+        ("Arial")); // lpszFac
+}

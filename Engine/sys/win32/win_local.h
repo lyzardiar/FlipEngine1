@@ -18,10 +18,9 @@ void	Sys_DestroyConsole( void );
 char	*Sys_ConsoleInput (void);
 char	*Sys_GetCurrentUser( void );
 
-void	Win_SetErrorText( const char *text );
-
 //cpuid_t	Sys_GetCPUId( void );
 
+void Sys_Init();
 
 void Sys_PumpEvents( void );
 int		MapKey (int key);
@@ -123,6 +122,7 @@ typedef struct {
 	HFONT			defaultFont;
 	HBITMAP          hBitmap;
 } Win32Vars_t;
+
 
 extern Win32Vars_t	win32;
 

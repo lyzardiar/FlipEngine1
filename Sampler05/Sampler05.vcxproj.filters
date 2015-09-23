@@ -345,6 +345,15 @@
     <ClCompile Include="..\Engine\Sprite.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="..\Engine\ShadowVolume.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\SkinnedMesh.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\Game.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Engine\sys\win32\win_local.h">
@@ -510,6 +519,18 @@
       <Filter>common</Filter>
     </ClInclude>
     <ClInclude Include="..\Engine\Sprite.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\ShadowVolume.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\SkinnedMesh.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\HashTable.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\Game.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

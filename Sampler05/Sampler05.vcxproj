@@ -83,6 +83,7 @@
     <ClCompile Include="..\Engine\common\str.cpp" />
     <ClCompile Include="..\Engine\common\Timer.cpp" />
     <ClCompile Include="..\Engine\framework\Common.cpp" />
+    <ClCompile Include="..\Engine\Game.cpp" />
     <ClCompile Include="..\Engine\glutils.cpp" />
     <ClCompile Include="..\Engine\Image.cpp" />
     <ClCompile Include="..\Engine\ImageLoaderBMP.cpp" />
@@ -162,6 +163,8 @@
     <ClCompile Include="..\Engine\renderer\RenderSystem.cpp" />
     <ClCompile Include="..\Engine\ResourceSystem.cpp" />
     <ClCompile Include="..\Engine\Shader.cpp" />
+    <ClCompile Include="..\Engine\ShadowVolume.cpp" />
+    <ClCompile Include="..\Engine\SkinnedMesh.cpp" />
     <ClCompile Include="..\Engine\Sprite.cpp" />
     <ClCompile Include="..\Engine\sys\win32\win_glutilsimp.cpp" />
     <ClCompile Include="..\Engine\sys\win32\win_main.cpp" />
@@ -192,7 +195,9 @@
     <ClInclude Include="..\Engine\framework\Common.h" />
     <ClInclude Include="..\Engine\framework\KeyInput.h" />
     <ClInclude Include="..\Engine\framework\log.h" />
+    <ClInclude Include="..\Engine\Game.h" />
     <ClInclude Include="..\Engine\glutils.h" />
+    <ClInclude Include="..\Engine\HashTable.h" />
     <ClInclude Include="..\Engine\Image.h" />
     <ClInclude Include="..\Engine\ImageLoader.h" />
     <ClInclude Include="..\Engine\Joint.h" />
@@ -222,6 +227,8 @@
     <ClInclude Include="..\Engine\ResourceSystem.h" />
     <ClInclude Include="..\Engine\Shader.h" />
     <ClInclude Include="..\Engine\ShaderSource.h" />
+    <ClInclude Include="..\Engine\ShadowVolume.h" />
+    <ClInclude Include="..\Engine\SkinnedMesh.h" />
     <ClInclude Include="..\Engine\Sprite.h" />
     <ClInclude Include="..\Engine\sys\sys_public.h" />
     <ClInclude Include="..\Engine\sys\win32\win_local.h" />

@@ -26,10 +26,8 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 
-#include "../../common/precompiled.h"
 #include "../../framework/KeyInput.h"
-#pragma hdrstop
-
+#include "../framework/Common.h"
 #include "win_local.h"
 //#include "../../renderer/tr_local.h"
 
@@ -312,6 +310,7 @@ LONG WINAPI MainWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam ) {
 			break;
 
 		case WM_CLOSE:
+			Com_Quit();
 			//cmdSystem->BufferCommandText( CMD_EXEC_APPEND, "quit" );
 			break;
 
