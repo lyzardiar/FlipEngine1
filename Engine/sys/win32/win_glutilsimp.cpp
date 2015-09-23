@@ -240,6 +240,7 @@ void GLimp_Shutdown( void ) {
 
 }
 
+typedef BOOL (WINAPI * PFNWGLSWAPINTERVALEXTPROC) (int interval);
 static int GL_InitGL()										
 {
 	glewInit();
@@ -249,7 +250,14 @@ static int GL_InitGL()
 	glEnable(GL_DEPTH_TEST);							
 	glDepthFunc(GL_LEQUAL);								
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);	
+	glViewport(0, 0, 800, 600);
 
+	// ´¹Ö±Í¬²½
+	PFNWGLSWAPINTERVALEXTPROC wglSwapIntervalEXT = (PFNWGLSWAPINTERVALEXTPROC) wglGetProcAddress( "wglSwapIntervalEXT" );
+	if (wglSwapIntervalEXT)
+	{
+		wglSwapIntervalEXT(0);
+	}
 	glActiveTexture(GL_TEXTURE0);
 
 	return false;										

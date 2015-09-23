@@ -33,14 +33,23 @@ void Com_Frame()
 
 	// report timing information
 	if ( bShowFps ) {
-		static int	lastTime;
-		int		nowTime = Sys_Milliseconds();
-		int		com_frameMsec = nowTime - lastTime;
-		lastTime = nowTime;
-		char buff[255];
-		sprintf( buff, "FPS: %d", com_frameMsec );
+		static int	lastTime = 0;
+		static int	frames = 0;
+		
+		++frames;
+		int nowTime = Sys_Milliseconds();
 
-		renderSys->DrawString(buff);
+		//If a second has passed
+		if(nowTime - lastTime > 1000)
+		{
+			float fps		= frames * 1000.f/(nowTime - lastTime);	//update the number of frames per second
+			lastTime	= nowTime;						//set time for the start of the next count
+			frames		=0;								//reset fps for this second
+			
+			char buff[255];
+			sprintf( buff, "FPS: %.02f, run %d", fps, nowTime );
+			renderSys->DrawString(buff);
+		}
 	}	
 }
 
