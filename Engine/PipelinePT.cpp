@@ -29,9 +29,6 @@ void PipelinePT::DrawMesh(array<Mesh*>* meshs)
 
 	glUseProgram(_shader->GetProgarm());
 	mat4* mat = &_render->matWVP;
-    glUniformMatrix4fv(_shader->GetUniform(eUniform_MVP), 1, GL_FALSE, &mat->m[0]);
-
-	//glBindTexture(GL_TEXTURE_2D, gTexId);
 
 	if(meshs != NULL)
 	{
@@ -39,6 +36,11 @@ void PipelinePT::DrawMesh(array<Mesh*>* meshs)
 		{
 			Mesh* mesh = (*meshs)[i];
 
+			mat4 t;
+			t.buildTranslate(mesh->getPosition());
+			t = (_render->matWVP * t);
+
+			glUniformMatrix4fv(_shader->GetUniform(eUniform_MVP), 1, GL_FALSE, &t.m[0]);
 			glBindTexture( GL_TEXTURE_2D, mesh->GetTexture()->GetName() );
 			DrawMeshPT(mesh);	
 		}

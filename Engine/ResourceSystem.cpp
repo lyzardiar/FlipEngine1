@@ -124,6 +124,9 @@ Texture* ResourceSystem::AddText( const char* text )
 		return texture;
 	}
 	else
+	{
+		Sys_Printf("sys_drawtext error %s", text);
 		return defaultTexture;
+	}
 }
 

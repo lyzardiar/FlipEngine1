@@ -4,6 +4,7 @@
 #include "../RenderBuffer.h"
 #include "../PipelineP.h"
 #include "../PipelinePT.h"
+#include "../PipelinePTO.h"
 #include "../framework/Common.h"
 #include "../ResourceSystem.h"
 #include <stdarg.h>
@@ -27,6 +28,8 @@ void RenderSystemLocal::Init()
 	// 文本需要
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	resourceSys = new ResourceSystem;
 
 	// _renderbuffer init
 	_renderBuffer.matPerspective.buildPerspectiveProjection(3.1415926535898 / 3, 800 / 600, 0.1, 800);
@@ -54,17 +57,20 @@ void RenderSystemLocal::Init()
 	Pipeline* pipe1 = new PipelinePT(&_renderBuffer);
 	_pipelines.push_back(pipe1);
 
+	Pipeline* pipe2 = new PipelinePTO(&_renderBuffer);
+	_pipelines.push_back(pipe2);
+
 	// fps  init
 	_defaultSprite = new Sprite;
 	_defaultSprite->SetLabel("ninja.b3d");
-	_defaultSprite->SetTexture("../media/drkwood2.jpg");
+	_defaultSprite->SetPosition(-200.f, 0.f, 0.f);
 	pipe1->AddMesh(_defaultSprite);
 	GL_CheckError("oo");
 }
 
 void RenderSystemLocal::FrameUpdate()
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	
 	for (int i = 0; i < _pipelines.size(); i++)
 	{

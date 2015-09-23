@@ -51,6 +51,9 @@ public:
 
 	void CalculateEdge();
 
+	void SetPosition(float x, float y, float z);
+	vec3& getPosition();
+
 	array<vec3>				_positions;
 	array<vec3>				_normals;
 	array<vec2>				_texCoords;
@@ -59,4 +62,6 @@ public:
 	array<Edge>				_edgeList;
 
 	Texture*					_texture;
+
+	vec3                     _position;
 };

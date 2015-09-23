@@ -28,7 +28,13 @@ public:
 
 	void DrawMeshPT(Mesh* mesh);
 
-	void DrawMesh() { DrawMesh(&_meshs); }
+	void DrawMesh() 
+	{ 
+		if (_meshs.empty())
+			return;
+
+		DrawMesh(&_meshs); 
+	}
 protected:
 	renderBuffer_t* _render;
 

@@ -54,3 +54,15 @@ void Mesh::SetTexture(Texture* tex)
 {
 	_texture = tex;
 }
+
+vec3& Mesh::getPosition()
+{
+	return _position;
+}
+
+void Mesh::SetPosition( float x, float y, float z )
+{
+	_position.x = x;
+	_position.y = y;
+	_position.z = z;
+}

@@ -45,8 +45,6 @@ void PipelineP::DrawMesh(array<Mesh*>* meshs)
 	t = (_render->matWVP * t);
     glUniformMatrix4fv(_shader->GetUniform(eUniform_MVP), 1, GL_FALSE, &t.m[0]);
 
-	draw3DCoordinate();
-
 	if(meshs != NULL)
 	{
 		for (int i=0; i < meshs->size(); ++i)

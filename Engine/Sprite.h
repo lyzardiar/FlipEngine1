@@ -16,7 +16,6 @@ public:
 
 	void SetLabel(const char* label);
 
-	void SetPosition(int x, int y);
 
 private:
 	void UpdateVertex();

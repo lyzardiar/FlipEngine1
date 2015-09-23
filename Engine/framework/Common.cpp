@@ -11,8 +11,6 @@ bool bShowFps = true;
 
 void Com_Init() 
 {
-	resourceSys = new ResourceSystem;
-
 	glimpParms_t pram;
 	pram.width = 800;
 	pram.height = 600;

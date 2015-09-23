@@ -33,6 +33,11 @@ void PipelinePTO::DrawMesh( array<Mesh*>* meshs )
 		{
 			Mesh* mesh = (*meshs)[i];
 
+			mat4 t;
+			t.buildTranslate(mesh->getPosition());
+			t = (_render->matWVP * t);
+
+
 			glEnable(GL_STENCIL_TEST);
 			// Render the mesh into the stencil buffer.
 			glPolygonMode(GL_FRONT, GL_FILL);
@@ -40,7 +45,7 @@ void PipelinePTO::DrawMesh( array<Mesh*>* meshs )
 			glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 
 			glUseProgram(_positionTexShader->GetProgarm());
-			glUniformMatrix4fv(_positionTexShader->GetUniform(eUniform_MVP), 1, GL_FALSE, &mat->m[0]);
+			glUniformMatrix4fv(_positionTexShader->GetUniform(eUniform_MVP), 1, GL_FALSE, &t.m[0]);
 			glUniform1i(_positionTexShader->GetUniform(eUniform_Samper0), 0);
 			glBindTexture( GL_TEXTURE_2D, mesh->GetTexture()->GetName() );
 			DrawMeshPT(mesh);
@@ -51,7 +56,7 @@ void PipelinePTO::DrawMesh( array<Mesh*>* meshs )
 			glLineWidth(3);
 			glPolygonMode(GL_FRONT, GL_LINE);
 			glUseProgram(_positionShader->GetProgarm());
-			glUniformMatrix4fv(_positionShader->GetUniform(eUniform_MVP), 1, GL_FALSE, &mat->m[0]);
+			glUniformMatrix4fv(_positionShader->GetUniform(eUniform_MVP), 1, GL_FALSE, &t.m[0]);
 			glUniform3f(_positionShader->GetUniform(eUniform_Color), 0.0, 1.0, 1.0);
 			DrawMeshP(mesh);
 		}
