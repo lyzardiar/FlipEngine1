@@ -160,6 +160,7 @@
     <ClCompile Include="..\Engine\PipelinePT.cpp" />
     <ClCompile Include="..\Engine\PipelinePTO.cpp" />
     <ClCompile Include="..\Engine\quat.cpp" />
+    <ClCompile Include="..\Engine\renderer\draw_common.cpp" />
     <ClCompile Include="..\Engine\renderer\RenderSystem.cpp" />
     <ClCompile Include="..\Engine\ResourceSystem.cpp" />
     <ClCompile Include="..\Engine\Shader.cpp" />
@@ -195,7 +196,6 @@
     <ClInclude Include="..\Engine\DrawVert.h" />
     <ClInclude Include="..\Engine\framework\Common.h" />
     <ClInclude Include="..\Engine\framework\KeyInput.h" />
-    <ClInclude Include="..\Engine\framework\log.h" />
     <ClInclude Include="..\Engine\Game.h" />
     <ClInclude Include="..\Engine\glutils.h" />
     <ClInclude Include="..\Engine\HashTable.h" />
@@ -224,6 +224,7 @@
     <ClInclude Include="..\Engine\PipelinePTO.h" />
     <ClInclude Include="..\Engine\quat.h" />
     <ClInclude Include="..\Engine\RenderBuffer.h" />
+    <ClInclude Include="..\Engine\renderer\draw_common.h" />
     <ClInclude Include="..\Engine\renderer\RenderSystem.h" />
     <ClInclude Include="..\Engine\ResourceSystem.h" />
     <ClInclude Include="..\Engine\Shader.h" />

@@ -7,7 +7,7 @@
 class DrawVert {
 public:
 	vec3			xyz;
-	vec2			st;
+	vec2			uv;
 	vec3			normal;
 	vec3			tangents[2];
 	unsigned char color[4];
@@ -17,8 +17,8 @@ public:
 
 	void			Clear( void );
 
-	void			Lerp( const idDrawVert &a, const idDrawVert &b, const float f );
-	void			LerpAll( const idDrawVert &a, const idDrawVert &b, const float f );
+	void			Lerp( const DrawVert &a, const DrawVert &b, const float f );
+	void			LerpAll( const DrawVert &a, const DrawVert &b, const float f );
 
 	void			Normalize( void );
 

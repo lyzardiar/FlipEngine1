@@ -3,32 +3,6 @@
 
 #include "glutils.h"
 
-typedef enum
-{
-	eUniform_MVP,
-	eUniform_Color,
-	eUniform_Samper0,
-
-	eUniform_Count,
-}unformType_t;
-
-typedef enum
-{
-	eAttrib_Position,
-	eAttrib_TexCoord,
-
-	eAttrib_Count,
-}attribType_t;
-
-typedef enum
-{
-	eShader_Position,
-	eShader_PositionTex,
-
-	eShader_Count,
-}shaderType_t;
-
-
 class Shader
 {
 public:

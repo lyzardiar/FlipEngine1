@@ -8,6 +8,9 @@
 
 class Texture;
 class DrawVert;
+
+
+
 class Edge {
 public:
 	Edge(void) {}
@@ -59,9 +62,9 @@ public:
 
 	array<DrawVert*>         _vertex;
 
-	//array<vec3>				_positions;
-	//array<vec3>				_normals;
-	//array<vec2>				_texCoords;
+	array<vec3>				_positions;
+	array<vec3>				_normals;
+	array<vec2>				_texCoords;
 	array<unsigned short>		_indices;
 
 	array<Edge>				_edgeList;

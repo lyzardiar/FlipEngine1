@@ -7,7 +7,6 @@
 
 #include "../ResourceSystem.h"
 
-class Material;
 class Pipeline;
 class Mesh;
 class Sprite;

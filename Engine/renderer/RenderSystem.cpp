@@ -15,8 +15,8 @@
 
 #include "../Sprite.h"
 #include "../common/Timer.h"
+#include "draw_common.h"
 
-RenderSystem* renderSys = NULL;
 
 
 RenderSystemLocal::RenderSystemLocal(glimpParms_t *glimpParms_t)
@@ -33,7 +33,7 @@ void RenderSystemLocal::Init()
 	resourceSys = new ResourceSystem;
 
 	// _renderbuffer init
-	_renderBuffer.matPerspective.buildPerspectiveProjection(3.1415926535898 / 3, 800.f / 600, 0.1, 800);
+	_renderBuffer.matPerspective.buildPerspectiveProjection(3.1415926535898f / 3, 800.f / 600, 0.1f, 800.f);
 	//_renderBuffer.matView.buildLookAt(vec3(0, 0,  300.f / tanf(3.1415936f/6.f)), vec3(0, 0, 0), vec3(0, 1, 0));
 	_renderBuffer.matView.m[12] = -400;
 	_renderBuffer.matView.m[13] = -300;
@@ -77,10 +77,14 @@ void RenderSystemLocal::FrameUpdate()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	
+
+	drawSurf_t* drawSurf = _defaultSprite->_drawSurf;
+	drawSurf->shader = 	_renderBuffer.shaders[eShader_PositionTex];
+	R_DrawPositonTex(drawSurf, &_renderBuffer.matWVP);
 	for (int i = 0; i < _pipelines.size(); i++)
 	{
 		//_pipelines[i]->DrawMesh(&_meshs);
-		_pipelines[i]->DrawMesh();
+	//	_pipelines[i]->DrawMesh();
 	}
 	
 	GL_SwapBuffers();

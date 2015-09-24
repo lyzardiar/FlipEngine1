@@ -354,6 +354,9 @@
     <ClCompile Include="..\Engine\Game.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="..\Engine\renderer\draw_common.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Engine\sys\win32\win_local.h">
@@ -512,9 +515,6 @@
     <ClInclude Include="..\Engine\common\str.h">
       <Filter>common</Filter>
     </ClInclude>
-    <ClInclude Include="..\Engine\framework\log.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="..\Engine\common\Timer.h">
       <Filter>common</Filter>
     </ClInclude>
@@ -534,6 +534,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\Engine\DrawVert.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\renderer\draw_common.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
