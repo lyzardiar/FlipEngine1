@@ -7,7 +7,7 @@
 #include "glutils.h"
 
 class Texture;
-
+class DrawVert;
 class Edge {
 public:
 	Edge(void) {}
@@ -23,6 +23,7 @@ public:
 	unsigned short v[2];
 	unsigned short plane[2];
 };
+
 
 class Mesh
 {
@@ -54,9 +55,13 @@ public:
 	void SetPosition(float x, float y, float z);
 	vec3& getPosition();
 
-	array<vec3>				_positions;
-	array<vec3>				_normals;
-	array<vec2>				_texCoords;
+	void setupVBO();
+
+	array<DrawVert*>         _vertex;
+
+	//array<vec3>				_positions;
+	//array<vec3>				_normals;
+	//array<vec2>				_texCoords;
 	array<unsigned short>		_indices;
 
 	array<Edge>				_edgeList;
@@ -64,4 +69,10 @@ public:
 	Texture*					_texture;
 
 	vec3                     _position;
+
+	unsigned int				_indexCount;
+	unsigned int             _vertexCount;
+
+	GLuint                  _vertexBuffer;
+	GLuint                  _indexBuffer;
 };

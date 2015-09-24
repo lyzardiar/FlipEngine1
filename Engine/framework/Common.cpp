@@ -20,10 +20,10 @@ void Com_Init()
 	renderSys = new RenderSystemLocal(&pram);
 	renderSys->Init();
 
+	Sys_Printf("Initializing Game\n");
 	game = new GameLocal();
 	game->Init();
 
-	Sys_Printf("common_init");
 }
 
 void Com_Frame()
@@ -40,7 +40,7 @@ void Com_Frame()
 		int nowTime = Sys_Milliseconds();
 
 		//If a second has passed
-		if(nowTime - lastTime > 1000)
+		if(nowTime - lastTime >= 1000)
 		{
 			float fps		= frames * 1000.f/(nowTime - lastTime);	//update the number of frames per second
 			lastTime	= nowTime;						//set time for the start of the next count

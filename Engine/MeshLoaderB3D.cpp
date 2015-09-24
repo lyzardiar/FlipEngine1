@@ -144,16 +144,16 @@ bool MeshLoaderB3D::readVRTS(FILE* fp)
 
 		if (flags & 1)
 		{
-			readFloat(fp);
-			readFloat(fp);
-			readFloat(fp);
+			normal[0] = readFloat(fp);
+			normal[1] = readFloat(fp);
+			normal[2] = readFloat(fp);
 		}
 		if (flags & 2)
 		{
-			readFloat(fp);
-			readFloat(fp);
-			readFloat(fp);
-			readFloat(fp);
+			color[0] = readFloat(fp);
+			color[1] = readFloat(fp);
+			color[2] = readFloat(fp);
+			color[3] = readFloat(fp);
 		}
 		float u, v;
 		for (int i = 0; i < tex_coord_sets; ++i)

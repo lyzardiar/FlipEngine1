@@ -192,6 +192,7 @@
     <ClInclude Include="..\Engine\common\precompiled.h" />
     <ClInclude Include="..\Engine\common\str.h" />
     <ClInclude Include="..\Engine\common\Timer.h" />
+    <ClInclude Include="..\Engine\DrawVert.h" />
     <ClInclude Include="..\Engine\framework\Common.h" />
     <ClInclude Include="..\Engine\framework\KeyInput.h" />
     <ClInclude Include="..\Engine\framework\log.h" />

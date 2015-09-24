@@ -4,6 +4,8 @@
 #include "../framework/Common.h"
 #include <windows.h>
 
+#include "gl/wglext.h"
+
 #ifdef _WIN32
 #pragma comment(lib, "opengl32.lib")
 #pragma comment(lib, "glew32.lib")
@@ -240,7 +242,6 @@ void GLimp_Shutdown( void ) {
 
 }
 
-typedef BOOL (WINAPI * PFNWGLSWAPINTERVALEXTPROC) (int interval);
 static int GL_InitGL()										
 {
 	glewInit();
@@ -252,12 +253,27 @@ static int GL_InitGL()
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);	
 	glViewport(0, 0, 800, 600);
 
-	// ´¹Ö±Í¬²½
-	PFNWGLSWAPINTERVALEXTPROC wglSwapIntervalEXT = (PFNWGLSWAPINTERVALEXTPROC) wglGetProcAddress( "wglSwapIntervalEXT" );
-	if (wglSwapIntervalEXT)
+
+	char *GL_version	=	(char *)glGetString(GL_VERSION);
+    char *GL_vendor	=	(char *)glGetString(GL_VENDOR);
+    char *GL_renderer	=	(char *)glGetString(GL_RENDERER);
+	//char *GL_extension =	(char *)glGetString(GL_EXTENSIONS);
+	Sys_Printf("gl version: %s\n", GL_version);
+	Sys_Printf("gl vendor: %s\n", GL_vendor);
+	Sys_Printf("gl renderer: %s\n", GL_renderer);
+	//Sys_Printf("gl extension: %s\n", GL_extension);
+
+	//Setting up swap intervals
+	PFNWGLSWAPINTERVALEXTPROC       wglSwapIntervalEXT = NULL;
+	PFNWGLGETSWAPINTERVALEXTPROC    wglGetSwapIntervalEXT = NULL;
+	wglSwapIntervalEXT = (PFNWGLSWAPINTERVALEXTPROC)wglGetProcAddress("wglSwapIntervalEXT");
+	wglGetSwapIntervalEXT = (PFNWGLGETSWAPINTERVALEXTPROC)wglGetProcAddress("wglGetSwapIntervalEXT");
+	if (wglGetSwapIntervalEXT && wglSwapIntervalEXT)
 	{
+		Sys_Printf("wglGetSwapIntervalEXT %d", wglGetSwapIntervalEXT());
 		wglSwapIntervalEXT(0);
 	}
+
 	glActiveTexture(GL_TEXTURE0);
 
 	return false;										

@@ -533,5 +533,8 @@
     <ClInclude Include="..\Engine\Game.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="..\Engine\DrawVert.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

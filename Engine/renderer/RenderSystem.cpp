@@ -34,10 +34,10 @@ void RenderSystemLocal::Init()
 
 	// _renderbuffer init
 	_renderBuffer.matPerspective.buildPerspectiveProjection(3.1415926535898 / 3, 800.f / 600, 0.1, 800);
-	_renderBuffer.matView.buildLookAt(vec3(0, 0,  400.f / tanf(3.1415936f/6.f)), vec3(0, 0, 0), vec3(0, 1, 0));
-	//_renderBuffer.matWorld.m[12] =  -400;
-	//_renderBuffer.matWorld.m[13] =  -300;
-	//_renderBuffer.matWorld.m[14] = - 400.f / tanf(3.1415936f/6.f);
+	//_renderBuffer.matView.buildLookAt(vec3(0, 0,  300.f / tanf(3.1415936f/6.f)), vec3(0, 0, 0), vec3(0, 1, 0));
+	_renderBuffer.matView.m[12] = -400;
+	_renderBuffer.matView.m[13] = -300;
+	_renderBuffer.matView.m[14] = -300.f / tanf(3.1415936f/6.f);
 	_renderBuffer.matWVP = _renderBuffer.matPerspective * _renderBuffer.matView * _renderBuffer.matWorld;
 
 	// shader init
@@ -66,10 +66,11 @@ void RenderSystemLocal::Init()
 
 	// fps  init
 	_defaultSprite = new Sprite;
-	_defaultSprite->SetLabel("ninja.b3d");
+	_defaultSprite->SetLabel(" ");
 	_defaultSprite->SetPosition(0.f, 0.f, 0.f);
 	pipe1->AddMesh(_defaultSprite);
-	GL_CheckError("oo");
+	
+	
 }
 
 void RenderSystemLocal::FrameUpdate()

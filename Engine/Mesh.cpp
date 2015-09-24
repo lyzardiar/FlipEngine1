@@ -1,9 +1,12 @@
 #include "Mesh.h"
+#include "DrawVert.h"
 
 Mesh::Mesh():_texture(NULL), _positions(NULL)
 {
 
 }
+
+
 
 Mesh::~Mesh()
 {
@@ -65,4 +68,24 @@ void Mesh::SetPosition( float x, float y, float z )
 	_position.x = x;
 	_position.y = y;
 	_position.z = z;
+}
+
+void Mesh::setupVBO()
+{
+	_indexCount = _indices.size();
+	// This functions copies the vertex and index buffers into their respective VBO's
+	glGenBuffers(1, &_vertexBuffer);
+	glGenBuffers(1, &_indexBuffer);
+
+	// Stick the data for the vertices into its VBO
+	glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * _vertexCount, _positions.const_pointer(), GL_STATIC_DRAW);
+
+	// Stick the data for the indices into its VBO
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(_indices[0]) * _indexCount, _indices.const_pointer(), GL_STATIC_DRAW);
+
+	// Clear the VBO state
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
