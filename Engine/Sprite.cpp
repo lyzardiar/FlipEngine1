@@ -2,6 +2,7 @@
 #include "renderer/RenderSystem.h"
 #include "Texture.h"
 #include "DrawVert.h"
+#include "glutils.h"
 
 Sprite::Sprite() : _width(0),
 				_height(0)
@@ -11,8 +12,12 @@ Sprite::Sprite() : _width(0),
 	float w = 1;
 	float h = 1;
 
+	_drawSurf->geo = R_AllocStaticTriSurf();
 	srfTriangles_t* tri = _drawSurf->geo;
-	tri = new srfTriangles_t;
+	tri->vbo[0] = 0;
+	tri->vbo[1] = 0;
+
+	tri->numVerts = 4;
 	tri->verts = new DrawVert[4];
 	tri->verts[0].xyz = vec3(0.f, 0.f, 0.f);
 	tri->verts[1].xyz = vec3(0.f, h, 0.f);
@@ -53,19 +58,20 @@ void Sprite::SetLabel( const char* label )
 	UpdateVertex();
 }
 
-
-
 void Sprite::UpdateVertex()
 {
 	//1 3
 	//0 2
-	float w = (float)_texture->_pixelsWide;
-	float h = (float)_texture->_pixelsHigh;
+	Texture* texture = _drawSurf->tex;
+	float w = (float)texture->_pixelsWide;
+	float h = (float)texture->_pixelsHigh;
 
 	srfTriangles_t* tri = _drawSurf->geo;
 	tri->verts[1].xyz.y = h;
 	tri->verts[2].xyz.x = w;
 	tri->verts[3].xyz = vec3(w, h, 0.f);
+
+	SetupVBO();
 }
 
 
@@ -73,6 +79,13 @@ void Sprite::SetupVBO()
 {
 	srfTriangles_t* tri = _drawSurf->geo;
 	// This functions copies the vertex and index buffers into their respective VBO's
+
+	if (tri->vbo[0] != 0)
+        glDeleteBuffers(1, &tri->vbo[0]);
+
+    if (tri->vbo[1] != 0)
+        glDeleteBuffers(1, &tri->vbo[0]);
+
 	glGenBuffers(1, &tri->vbo[0]);
 	glGenBuffers(1, &tri->vbo[1]);
 
@@ -82,10 +95,15 @@ void Sprite::SetupVBO()
 
 	// Stick the data for the indices into its VBO
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, tri->vbo[1]);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(_indices[0]) * tri->numIndexes, tri->indexes, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(glIndex_t) * tri->numIndexes, tri->indexes, GL_STATIC_DRAW);
 
 	// Clear the VBO state
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
+}
+
+void Sprite::SetPosition(float x, float y, float z)
+{
+	x, y, z;
 }

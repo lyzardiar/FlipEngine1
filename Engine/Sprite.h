@@ -2,12 +2,12 @@
 #define __SPRITE_H__
 #include "Mesh.h"
 #include "vec2.h"
-#include "RenderBuffer.h"
+#include "r_public.h"
 
 class Texture;
 
 
-class Sprite : public Mesh
+class Sprite
 {
 public:
 	Sprite();
@@ -19,6 +19,8 @@ public:
 	void SetLabel(const char* label);
 
 	void SetupVBO();
+
+	void SetPosition(float x, float y, float z);
 private:
 	void UpdateVertex();
 

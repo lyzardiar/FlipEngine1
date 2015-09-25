@@ -3,7 +3,7 @@
 #include "../glutils.h"
 #include "../mat4.h"
 #include "../array.h"
-#include "../RenderBuffer.h"
+#include "../r_public.h"
 
 #include "../ResourceSystem.h"
 
@@ -25,7 +25,6 @@ public:
 
 	virtual Pipeline* GetPipeline(int idx) = 0;
 };
-
 
 class RenderSystemLocal : public RenderSystem
 {

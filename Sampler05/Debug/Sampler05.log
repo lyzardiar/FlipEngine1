@@ -1,68 +1,118 @@
-﻿生成启动时间为 2015/9/25 0:52:05。
-     1>项目“C:\program1\FlipEngine1\Sampler05\Sampler05.vcxproj”在节点 2 上(Build 个目标)。
+﻿生成启动时间为 2015-9-25 15:14:36。
+     1>项目“E:\MySourceCode\FlipEngine1\Sampler05\Sampler05.vcxproj”在节点 2 上(Build 个目标)。
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I../Engine/include /I../Engine/zlib /ZI /nologo /W4 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _MBCS /D _CRT_SECURE_NO_WARNINGS /D _MBCS /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\Engine\Game.cpp ..\Engine\Mesh.cpp ..\Engine\MeshLoaderB3D.cpp ..\Engine\Pipeline.cpp ..\Engine\PipelineP.cpp ..\Engine\PipelinePT.cpp ..\Engine\PipelinePTO.cpp ..\Engine\ResourceSystem.cpp ..\Engine\Shader.cpp ..\Engine\SkinnedMesh.cpp ..\Engine\Sprite.cpp ..\Engine\framework\Common.cpp ..\Engine\glutils.cpp ..\Engine\renderer\RenderSystem.cpp ..\Engine\renderer\draw_common.cpp ..\Engine\sys\win32\win_glutilsimp.cpp
+         D:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I../Engine/include /I../Engine/zlib /ZI /nologo /W4 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _MBCS /D _CRT_SECURE_NO_WARNINGS /D _MBCS /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\Engine\renderer\draw_common.cpp
          draw_common.cpp
-     1>c:\program1\flipengine1\engine\shader.h(9): error C2143: 语法错误 : 缺少“;”(在“<class-head>”的前面)
-     1>c:\program1\flipengine1\engine\renderer\draw_common.cpp(10): error C2440: “初始化”: 无法从“Shader *”转换为“Shader *”
-                 与指向的类型无关；转换要求 reinterpret_cast、C 样式转换或函数样式转换
-         RenderSystem.cpp
-     1>c:\program1\flipengine1\engine\renderer\rendersystem.cpp(22): error C2143: 语法错误 : 缺少“;”(在“RenderSystemLocal::{ctor}”的前面)
-     1>c:\program1\flipengine1\engine\renderer\rendersystem.cpp(84): warning C4018: “<”: 有符号/无符号不匹配
-         正在生成代码...
-         正在编译...
-         Game.cpp
-         正在生成代码...
-         正在编译...
-         win_glutilsimp.cpp
-         glutils.cpp
-         Common.cpp
-         Sprite.cpp
-         SkinnedMesh.cpp
-         Shader.cpp
-     1>c:\program1\flipengine1\engine\shader.cpp(38): warning C4245: “return”: 从“int”转换到“GLuint”，有符号/无符号不匹配
-     1>c:\program1\flipengine1\engine\shader.cpp(46): warning C4100: “ffile”: 未引用的形参
-     1>c:\program1\flipengine1\engine\shader.cpp(46): warning C4100: “vfile”: 未引用的形参
-     1>c:\program1\flipengine1\engine\shader.cpp(54): warning C4800: “GLuint”: 将值强制为布尔值“true”或“false”(性能警告)
-         ResourceSystem.cpp
-         PipelinePTO.cpp
-     1>c:\program1\flipengine1\engine\pipelinepto.cpp(44): warning C4245: “参数”: 从“int”转换到“GLuint”，有符号/无符号不匹配
-     1>c:\program1\flipengine1\engine\pipelinepto.cpp(54): warning C4245: “参数”: 从“int”转换到“GLuint”，有符号/无符号不匹配
-     1>c:\program1\flipengine1\engine\pipelinepto.cpp(28): warning C4189: “mat”: 局部变量已初始化但不引用
-         PipelinePT.cpp
-     1>c:\program1\flipengine1\engine\pipelinept.cpp(35): warning C4018: “<”: 有符号/无符号不匹配
-     1>c:\program1\flipengine1\engine\pipelinept.cpp(31): warning C4189: “mat”: 局部变量已初始化但不引用
-         PipelineP.cpp
-     1>c:\program1\flipengine1\engine\pipelinep.cpp(50): warning C4018: “<”: 有符号/无符号不匹配
-     1>c:\program1\flipengine1\engine\pipelinep.cpp(4): warning C4505: “draw3DCoordinate”: 未引用的本地函数已移除
-         Pipeline.cpp
-         MeshLoaderB3D.cpp
-     1>c:\program1\flipengine1\engine\meshloaderb3d.cpp(24): warning C4100: “fmt”: 未引用的形参
-     1>c:\program1\flipengine1\engine\meshloaderb3d.cpp(73): warning C4244: “=”: 从“int”转换到“char”，可能丢失数据
-     1>c:\program1\flipengine1\engine\meshloaderb3d.cpp(206): warning C4100: “fp”: 未引用的形参
-     1>c:\program1\flipengine1\engine\meshloaderb3d.cpp(286): warning C4189: “alpha”: 局部变量已初始化但不引用
-     1>c:\program1\flipengine1\engine\meshloaderb3d.cpp(289): warning C4189: “fx”: 局部变量已初始化但不引用
-     1>c:\program1\flipengine1\engine\meshloaderb3d.cpp(287): warning C4189: “shiny”: 局部变量已初始化但不引用
-     1>c:\program1\flipengine1\engine\meshloaderb3d.cpp(293): warning C4189: “texid”: 局部变量已初始化但不引用
-     1>c:\program1\flipengine1\engine\meshloaderb3d.cpp(337): warning C4018: “<”: 有符号/无符号不匹配
-     1>c:\program1\flipengine1\engine\meshloaderb3d.cpp(375): warning C4244: “参数”: 从“int”转换到“const unsigned short”，可能丢失数据
-     1>c:\program1\flipengine1\engine\meshloaderb3d.cpp(376): warning C4244: “参数”: 从“int”转换到“const unsigned short”，可能丢失数据
-     1>c:\program1\flipengine1\engine\meshloaderb3d.cpp(377): warning C4244: “参数”: 从“int”转换到“const unsigned short”，可能丢失数据
-     1>c:\program1\flipengine1\engine\meshloaderb3d.cpp(391): warning C4189: “fps”: 局部变量已初始化但不引用
-     1>c:\program1\flipengine1\engine\meshloaderb3d.cpp(402): warning C4244: “初始化”: 从“int”转换到“float”，可能丢失数据
-     1>c:\program1\flipengine1\engine\meshloaderb3d.cpp(407): warning C4244: “初始化”: 从“int”转换到“float”，可能丢失数据
-     1>c:\program1\flipengine1\engine\meshloaderb3d.cpp(412): warning C4244: “初始化”: 从“int”转换到“float”，可能丢失数据
-         Mesh.cpp
-     1>c:\program1\flipengine1\engine\mesh.cpp(40): warning C4018: “<”: 有符号/无符号不匹配
-     1>c:\program1\flipengine1\engine\mesh.cpp(38): warning C4189: “v1”: 局部变量已初始化但不引用
-     1>c:\program1\flipengine1\engine\mesh.cpp(37): warning C4189: “v0”: 局部变量已初始化但不引用
-     1>c:\program1\flipengine1\engine\mesh.cpp(42): warning C4189: “edge”: 局部变量已初始化但不引用
-         正在生成代码...
-     1>c:\program1\flipengine1\engine\meshloaderb3d.cpp(73): warning C4706: 条件表达式内的赋值
-     1>c:\program1\flipengine1\engine\glutils.cpp(106): warning C4706: 条件表达式内的赋值
-     1>c:\program1\flipengine1\engine\glutils.cpp(109): warning C4706: 条件表达式内的赋值
-     1>已完成生成项目“C:\program1\FlipEngine1\Sampler05\Sampler05.vcxproj”(Build 个目标)的操作 - 失败。
+       Link:
+         D:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\MySourceCode\FlipEngine1\Debug\Sampler05.exe" /INCREMENTAL /NOLOGO /LIBPATH:../Engine/lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:\MySourceCode\FlipEngine1\Debug\Sampler05.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\MySourceCode\FlipEngine1\Debug\Sampler05.lib" /MACHINE:X86 Debug\str.obj
+         Debug\Timer.obj
+         Debug\Common.obj
+         Debug\Game.obj
+         Debug\glutils.obj
+         Debug\Image.obj
+         Debug\ImageLoaderBMP.obj
+         Debug\ImageLoaderDDS.obj
+         Debug\ImageLoaderJPG.obj
+         Debug\ImageLoaderPNG.obj
+         Debug\Joint.obj
+         Debug\jaricom.obj
+         Debug\jcapimin.obj
+         Debug\jcapistd.obj
+         Debug\jcarith.obj
+         Debug\jccoefct.obj
+         Debug\jccolor.obj
+         Debug\jcdctmgr.obj
+         Debug\jchuff.obj
+         Debug\jcinit.obj
+         Debug\jcmainct.obj
+         Debug\jcmarker.obj
+         Debug\jcmaster.obj
+         Debug\jcomapi.obj
+         Debug\jcparam.obj
+         Debug\jcprepct.obj
+         Debug\jcsample.obj
+         Debug\jctrans.obj
+         Debug\jdapimin.obj
+         Debug\jdapistd.obj
+         Debug\jdarith.obj
+         Debug\jdatadst.obj
+         Debug\jdatasrc.obj
+         Debug\jdcoefct.obj
+         Debug\jdcolor.obj
+         Debug\jddctmgr.obj
+         Debug\jdhuff.obj
+         Debug\jdinput.obj
+         Debug\jdmainct.obj
+         Debug\jdmarker.obj
+         Debug\jdmaster.obj
+         Debug\jdmerge.obj
+         Debug\jdpostct.obj
+         Debug\jdsample.obj
+         Debug\jdtrans.obj
+         Debug\jerror.obj
+         Debug\jfdctflt.obj
+         Debug\jfdctfst.obj
+         Debug\jfdctint.obj
+         Debug\jidctflt.obj
+         Debug\jidctfst.obj
+         Debug\jidctint.obj
+         Debug\jmemansi.obj
+         Debug\jmemmgr.obj
+         Debug\jquant1.obj
+         Debug\jquant2.obj
+         Debug\jutils.obj
+         Debug\png.obj
+         Debug\pngerror.obj
+         Debug\pngget.obj
+         Debug\pngmem.obj
+         Debug\pngpread.obj
+         Debug\pngread.obj
+         Debug\pngrio.obj
+         Debug\pngrtran.obj
+         Debug\pngrutil.obj
+         Debug\pngset.obj
+         Debug\pngtrans.obj
+         Debug\pngwio.obj
+         Debug\pngwrite.obj
+         Debug\pngwtran.obj
+         Debug\pngwutil.obj
+         Debug\mat4.obj
+         Debug\Mesh.obj
+         Debug\MeshLoaderB3D.obj
+         Debug\Pipeline.obj
+         Debug\PipelineP.obj
+         Debug\PipelinePT.obj
+         Debug\PipelinePTO.obj
+         Debug\quat.obj
+         Debug\r_public.obj
+         Debug\draw_common.obj
+         Debug\RenderSystem.obj
+         Debug\ResourceSystem.obj
+         Debug\Shader.obj
+         Debug\ShadowVolume.obj
+         Debug\SkinnedMesh.obj
+         Debug\Sprite.obj
+         Debug\win_glutilsimp.obj
+         Debug\win_main.obj
+         Debug\win_shared.obj
+         Debug\win_syscon.obj
+         Debug\win_wndproc.obj
+         Debug\Texture.obj
+         Debug\vec2.obj
+         Debug\adler32.obj
+         Debug\compress.obj
+         Debug\crc32.obj
+         Debug\deflate.obj
+         Debug\infback.obj
+         Debug\inffast.obj
+         Debug\inflate.obj
+         Debug\inftrees.obj
+         Debug\trees.obj
+         Debug\uncompr.obj
+         Debug\zutil.obj
+         Sampler05.vcxproj -> E:\MySourceCode\FlipEngine1\Debug\Sampler05.exe
+     1>已完成生成项目“E:\MySourceCode\FlipEngine1\Sampler05\Sampler05.vcxproj”(Build 个目标)的操作。
 
-生成失败。
+生成成功。
 
-已用时间 00:00:21.14
+已用时间 00:00:02.03

@@ -11,7 +11,7 @@ public:
 	vec3			normal;
 	vec3			tangents[2];
 	unsigned char color[4];
-
+ 
 	float		operator[]( const int index ) const;
 	float &		operator[]( const int index );
 

@@ -1,7 +1,10 @@
 #include "glutils.h"
 #include "sys/sys_public.h"
 
-static GLuint uglLoadShader(GLenum shaderType, const char* source)
+#include <stdio.h>
+#include <string.h>
+
+static GLuint GL_CompileShader(GLenum shaderType, const char* source)
 {
 	GLuint shader = glCreateShader(shaderType);
 	if (shader)
@@ -27,6 +30,58 @@ static GLuint uglLoadShader(GLenum shaderType, const char* source)
         }
     }
     return shader;
+}
+
+static GLuint GL_CompileShaderFromFile( GLenum target, const char* filename)
+{
+    FILE *shaderFile;
+    char *text;
+    long size;
+
+    //must read files as binary to prevent problems from newline translation
+    shaderFile = fopen( filename, "rb");
+
+    if ( shaderFile == NULL)
+        return 0;
+
+    fseek( shaderFile, 0, SEEK_END);
+    size = ftell(shaderFile);
+    fseek( shaderFile, 0, SEEK_SET);
+    text = new char[size+1];
+    fread( text, size, 1, shaderFile);
+    fclose( shaderFile);
+
+    text[size] = '\0';
+    GLuint object = GL_CompileShader( target, text);
+    delete []text;
+    return object;
+}
+
+GLuint GL_LinkProgram(GLuint vert, GLuint pixel)
+{
+	GLuint program = glCreateProgram();
+	if (program) {
+		glAttachShader(program, vert);
+		glAttachShader(program, pixel);
+		glLinkProgram(program);
+		GLint linkStatus = GL_FALSE;
+		glGetProgramiv(program, GL_LINK_STATUS, &linkStatus);
+		if (linkStatus != GL_TRUE) {
+			GLint bufLength = 0;
+			glGetProgramiv(program, GL_INFO_LOG_LENGTH, &bufLength);
+			if (bufLength) {
+				char* buf = (char*)malloc(bufLength);
+				if (buf) {
+					glGetProgramInfoLog(program, bufLength, NULL, buf);
+					Sys_Printf("Could not link program:\n%s\n", buf);
+					free(buf);
+				}
+			}
+			glDeleteProgram(program);
+			program = 0;
+		}
+	}
+	return program;
 }
 
 GLuint GL_GenTextureRGBA(int w, int h, void* data)
@@ -59,57 +114,31 @@ GLuint GL_GenTextureRGB(int w, int h, void* data)
 	return texId;
 }
 
-
-
 GLuint GL_CreateProgram(const char* pVertexSource, const char* pFragmentSource) {
-	GLuint vertexShader = uglLoadShader(GL_VERTEX_SHADER, pVertexSource);
+	GLuint vertexShader = GL_CompileShader(GL_VERTEX_SHADER, pVertexSource);
 	if (!vertexShader) {
 		return 0;
 	}
 
-	GLuint pixelShader = uglLoadShader(GL_FRAGMENT_SHADER, pFragmentSource);
+	GLuint pixelShader = GL_CompileShader(GL_FRAGMENT_SHADER, pFragmentSource);
 	if (!pixelShader) {
 		return 0;
 	}
 
-	GLuint program = glCreateProgram();
-	if (program) {
-		glAttachShader(program, vertexShader);
-		GL_CheckError("glAttachShader");
-		glAttachShader(program, pixelShader);
-		GL_CheckError("glAttachShader");
-		glLinkProgram(program);
-		GLint linkStatus = GL_FALSE;
-		glGetProgramiv(program, GL_LINK_STATUS, &linkStatus);
-		if (linkStatus != GL_TRUE) {
-			GLint bufLength = 0;
-			glGetProgramiv(program, GL_INFO_LOG_LENGTH, &bufLength);
-			if (bufLength) {
-				char* buf = (char*)malloc(bufLength);
-				if (buf) {
-					glGetProgramInfoLog(program, bufLength, NULL, buf);
-					Sys_Printf("Could not link program:\n%s\n", buf);
-					free(buf);
-				}
-			}
-			glDeleteProgram(program);
-			program = 0;
-		}
-	}
-	return program;
+	return GL_LinkProgram(vertexShader, pixelShader);
 }
 
 GLuint GL_CreateProgramFromFile(const char* vert, const char* frag)
 {
 	GLuint v, f;
 
-    if(! (v = compileGLSLShaderFromFile(GL_VERTEX_SHADER, vert)))
-        v = compileGLSLShaderFromFile(GL_VERTEX_SHADER, &vert[3]); //skip the first three chars to deal with path differences
+    if(! (v = GL_CompileShaderFromFile(GL_VERTEX_SHADER, vert)))
+        v = GL_CompileShaderFromFile(GL_VERTEX_SHADER, &vert[3]); //skip the first three chars to deal with path differences
 
-    if(! (f = compileGLSLShaderFromFile(GL_FRAGMENT_SHADER, frag)))
-        f = compileGLSLShaderFromFile(GL_FRAGMENT_SHADER, &frag[3]); //skip the first three chars to deal with path differences
+    if(! (f = GL_CompileShaderFromFile(GL_FRAGMENT_SHADER, frag)))
+        f = GL_CompileShaderFromFile(GL_FRAGMENT_SHADER, &frag[3]); //skip the first three chars to deal with path differences
 
-	return LinkGLSLProgram(v, f);
+	return GL_LinkProgram(v, f);
 }
 
 void RB_SetGL2D( void ) 
@@ -176,3 +205,4 @@ void Test_2DDraw()
 		glVertex2f (i*100.f, 100.f);
 	glEnd();
 }
+

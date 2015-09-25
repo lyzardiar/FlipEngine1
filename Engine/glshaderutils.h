@@ -1,11 +1,3 @@
-//
-// Utility functions for compiling shaders and programs
-//
-// Author: Evan Hart
-// Copyright (c) NVIDIA Corporation. All rights reserved.
-////////////////////////////////////////////////////////////////////////////////
-
-
 #ifndef NV_SHADER_UTILS_H
 #define NV_SHADER_UTILS_H
 

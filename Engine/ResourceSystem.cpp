@@ -116,7 +116,7 @@ Shader* ResourceSystem::AddShader(const char* vfile, const char* ffile)
 
 Texture* ResourceSystem::AddText( const char* text )
 {
-	if( Sys_DrawText(text, &textContent) )
+	if( Sys_DrawText(text, &textContent))
 	{
 		// get the texture pixels, width, height
 		Texture* texture = new Texture;

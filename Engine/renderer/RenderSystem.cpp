@@ -1,7 +1,7 @@
 #include "RenderSystem.h"
 #include "../glutils.h"
 #include "Material.h"
-#include "../RenderBuffer.h"
+#include "../r_public.h"
 #include "../PipelineP.h"
 #include "../PipelinePT.h"
 #include "../PipelinePTO.h"
@@ -17,7 +17,7 @@
 #include "../common/Timer.h"
 #include "draw_common.h"
 
-
+RenderSystem* renderSys;
 
 RenderSystemLocal::RenderSystemLocal(glimpParms_t *glimpParms_t)
 {
@@ -66,27 +66,27 @@ void RenderSystemLocal::Init()
 
 	// fps  init
 	_defaultSprite = new Sprite;
-	_defaultSprite->SetLabel(" ");
+	_defaultSprite->SetLabel("...");
 	_defaultSprite->SetPosition(0.f, 0.f, 0.f);
-	pipe1->AddMesh(_defaultSprite);
-	
-	
+///	pipe1->AddMesh(_defaultSprite);
+
+	GL_CheckError("frameupdate");
 }
 
 void RenderSystemLocal::FrameUpdate()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	
-
 	drawSurf_t* drawSurf = _defaultSprite->_drawSurf;
-	drawSurf->shader = 	_renderBuffer.shaders[eShader_PositionTex];
+	drawSurf->shader = _renderBuffer.shaders[eShader_PositionTex];
 	R_DrawPositonTex(drawSurf, &_renderBuffer.matWVP);
-	for (int i = 0; i < _pipelines.size(); i++)
+	for (unsigned int i = 0; i < _pipelines.size(); i++)
 	{
-		//_pipelines[i]->DrawMesh(&_meshs);
-	//	_pipelines[i]->DrawMesh();
+		// _pipelines[i]->DrawMesh(&_meshs);
+		// _pipelines[i]->DrawMesh();
 	}
 	
+	GL_CheckError("frameupdate");
 	GL_SwapBuffers();
 }
 

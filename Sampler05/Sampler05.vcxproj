@@ -160,6 +160,7 @@
     <ClCompile Include="..\Engine\PipelinePT.cpp" />
     <ClCompile Include="..\Engine\PipelinePTO.cpp" />
     <ClCompile Include="..\Engine\quat.cpp" />
+    <ClCompile Include="..\Engine\r_public.cpp" />
     <ClCompile Include="..\Engine\renderer\draw_common.cpp" />
     <ClCompile Include="..\Engine\renderer\RenderSystem.cpp" />
     <ClCompile Include="..\Engine\ResourceSystem.cpp" />
@@ -223,7 +224,7 @@
     <ClInclude Include="..\Engine\PipelinePT.h" />
     <ClInclude Include="..\Engine\PipelinePTO.h" />
     <ClInclude Include="..\Engine\quat.h" />
-    <ClInclude Include="..\Engine\RenderBuffer.h" />
+    <ClInclude Include="..\Engine\r_public.h" />
     <ClInclude Include="..\Engine\renderer\draw_common.h" />
     <ClInclude Include="..\Engine\renderer\RenderSystem.h" />
     <ClInclude Include="..\Engine\ResourceSystem.h" />

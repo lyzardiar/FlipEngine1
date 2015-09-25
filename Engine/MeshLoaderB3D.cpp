@@ -111,25 +111,25 @@ bool MeshLoaderB3D::readVRTS(FILE* fp)
 
 	//------ Allocate Memory, for speed -----------//
 
-	int numberOfReads = 3;
+	int sizeOfVertex = 3;
 	bool hasNormal = false;
 	bool hasVertexColors = false;
 	if (flags & 1)
 	{
 		hasNormal = true;
-		numberOfReads += 3;
+		sizeOfVertex += 3;
 	}
 	if (flags & 2)
 	{
-		numberOfReads += 4;
+		sizeOfVertex += 4;
 		hasVertexColors=true;
 	}
 
-	numberOfReads += tex_coord_sets*tex_coord_set_size;
+	sizeOfVertex += tex_coord_sets*tex_coord_set_size;
 	unsigned int size = m_Stack[m_Stack.size() - 1] - ftell(fp);
 	//106407 16800
-	unsigned int numberofPosition = size / sizeof(float) ;
-	numberofPosition /= numberOfReads;
+	unsigned int numVertex = size / sizeof(float) ;
+	numVertex /= sizeOfVertex;
 
 	int idx = 0;
 	while( checkSize(fp))
@@ -164,7 +164,7 @@ bool MeshLoaderB3D::readVRTS(FILE* fp)
 				v = 1.0f - readFloat(fp);
 			}
 		}
-	
+		
 		mesh->_positions.push_back(vec3(position[0], position[1], position[2]));
 		mesh->_texCoords.push_back(vec2(u, v));
 		idx++;

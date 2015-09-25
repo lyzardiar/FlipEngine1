@@ -32,10 +32,10 @@ void Shader::BindAttribLocation( attribType_t type )
 
 GLuint Shader::GetUniform( unformType_t type )
 {
-	if (type >= 0 && type < eAttrib_Count)
+	if (type >= 0 && type < eUniform_Count)
 		return _uniforms[type];
 	else
-		return -1;
+		return 0;
 }
 
 GLuint Shader::GetProgarm()
