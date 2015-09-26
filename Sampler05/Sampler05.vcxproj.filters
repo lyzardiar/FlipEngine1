@@ -66,9 +66,6 @@
     <ClCompile Include="..\Engine\glutils.cpp">
       <Filter>renderer</Filter>
     </ClCompile>
-    <ClCompile Include="..\Engine\mat4.cpp">
-      <Filter>common</Filter>
-    </ClCompile>
     <ClCompile Include="..\Engine\PipelineP.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -312,15 +309,6 @@
     <ClCompile Include="..\Engine\MeshLoaderB3D.cpp">
       <Filter>resource</Filter>
     </ClCompile>
-    <ClCompile Include="..\Engine\vec2.cpp">
-      <Filter>common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Engine\quat.cpp">
-      <Filter>common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Engine\Joint.cpp">
-      <Filter>common</Filter>
-    </ClCompile>
     <ClCompile Include="..\Engine\Mesh.cpp">
       <Filter>resource</Filter>
     </ClCompile>
@@ -348,9 +336,6 @@
     <ClCompile Include="..\Engine\ShadowVolume.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\Engine\SkinnedMesh.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="..\Engine\Game.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -359,6 +344,21 @@
     </ClCompile>
     <ClCompile Include="..\Engine\r_public.cpp">
       <Filter>renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\common\mat4.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\common\vec2.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\common\Joint.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\common\quat.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\File.cpp">
+      <Filter>sys</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -385,12 +385,6 @@
     </ClInclude>
     <ClInclude Include="..\Engine\glutils.h">
       <Filter>renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Engine\mat4.h">
-      <Filter>common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Engine\mat4helper.h">
-      <Filter>common</Filter>
     </ClInclude>
     <ClInclude Include="..\Engine\PipelineP.h">
       <Filter>头文件</Filter>
@@ -479,26 +473,11 @@
     <ClInclude Include="..\Engine\MeshLoaderB3D.h">
       <Filter>resource</Filter>
     </ClInclude>
-    <ClInclude Include="..\Engine\vec2.h">
-      <Filter>common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Engine\vec3.h">
-      <Filter>common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Engine\quat.h">
-      <Filter>common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Engine\Joint.h">
-      <Filter>common</Filter>
-    </ClInclude>
     <ClInclude Include="..\Engine\Mesh.h">
       <Filter>resource</Filter>
     </ClInclude>
     <ClInclude Include="..\Engine\Texture.h">
       <Filter>resource</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Engine\array.h">
-      <Filter>common</Filter>
     </ClInclude>
     <ClInclude Include="..\Engine\Shader.h">
       <Filter>头文件</Filter>
@@ -524,9 +503,6 @@
     <ClInclude Include="..\Engine\ShadowVolume.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\Engine\SkinnedMesh.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="..\Engine\HashTable.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -541,6 +517,30 @@
     </ClInclude>
     <ClInclude Include="..\Engine\r_public.h">
       <Filter>renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\common\mat4.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\common\mat4helper.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\common\vec2.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\common\vec3.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\common\Joint.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\common\quat.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\common\array.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\File.h">
+      <Filter>sys</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

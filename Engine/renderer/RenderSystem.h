@@ -1,8 +1,8 @@
 #ifndef __RENDERSYSTEM_H__
 #define	__RENDERSYSTEM_H__ 
 #include "../glutils.h"
-#include "../mat4.h"
-#include "../array.h"
+#include "../common/mat4.h"
+#include "../common/array.h"
 #include "../r_public.h"
 
 #include "../ResourceSystem.h"

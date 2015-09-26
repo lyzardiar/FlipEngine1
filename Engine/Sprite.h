@@ -1,7 +1,7 @@
 #ifndef __SPRITE_H__
 #define __SPRITE_H__
 #include "Mesh.h"
-#include "vec2.h"
+#include "common/vec2.h"
 #include "r_public.h"
 
 class Texture;

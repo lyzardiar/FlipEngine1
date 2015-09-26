@@ -80,8 +80,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Engine\common\Joint.cpp" />
+    <ClCompile Include="..\Engine\common\mat4.cpp" />
+    <ClCompile Include="..\Engine\common\quat.cpp" />
     <ClCompile Include="..\Engine\common\str.cpp" />
     <ClCompile Include="..\Engine\common\Timer.cpp" />
+    <ClCompile Include="..\Engine\common\vec2.cpp" />
+    <ClCompile Include="..\Engine\File.cpp" />
     <ClCompile Include="..\Engine\framework\Common.cpp" />
     <ClCompile Include="..\Engine\Game.cpp" />
     <ClCompile Include="..\Engine\glutils.cpp" />
@@ -90,7 +95,6 @@
     <ClCompile Include="..\Engine\ImageLoaderDDS.cpp" />
     <ClCompile Include="..\Engine\ImageLoaderJPG.cpp" />
     <ClCompile Include="..\Engine\ImageLoaderPNG.cpp" />
-    <ClCompile Include="..\Engine\Joint.cpp" />
     <ClCompile Include="..\Engine\jpeglib\jaricom.c" />
     <ClCompile Include="..\Engine\jpeglib\jcapimin.c" />
     <ClCompile Include="..\Engine\jpeglib\jcapistd.c" />
@@ -152,21 +156,18 @@
     <ClCompile Include="..\Engine\libpng\pngwrite.c" />
     <ClCompile Include="..\Engine\libpng\pngwtran.c" />
     <ClCompile Include="..\Engine\libpng\pngwutil.c" />
-    <ClCompile Include="..\Engine\mat4.cpp" />
     <ClCompile Include="..\Engine\Mesh.cpp" />
     <ClCompile Include="..\Engine\MeshLoaderB3D.cpp" />
     <ClCompile Include="..\Engine\Pipeline.cpp" />
     <ClCompile Include="..\Engine\PipelineP.cpp" />
     <ClCompile Include="..\Engine\PipelinePT.cpp" />
     <ClCompile Include="..\Engine\PipelinePTO.cpp" />
-    <ClCompile Include="..\Engine\quat.cpp" />
     <ClCompile Include="..\Engine\r_public.cpp" />
     <ClCompile Include="..\Engine\renderer\draw_common.cpp" />
     <ClCompile Include="..\Engine\renderer\RenderSystem.cpp" />
     <ClCompile Include="..\Engine\ResourceSystem.cpp" />
     <ClCompile Include="..\Engine\Shader.cpp" />
     <ClCompile Include="..\Engine\ShadowVolume.cpp" />
-    <ClCompile Include="..\Engine\SkinnedMesh.cpp" />
     <ClCompile Include="..\Engine\Sprite.cpp" />
     <ClCompile Include="..\Engine\sys\win32\win_glutilsimp.cpp" />
     <ClCompile Include="..\Engine\sys\win32\win_main.cpp" />
@@ -174,7 +175,6 @@
     <ClCompile Include="..\Engine\sys\win32\win_syscon.cpp" />
     <ClCompile Include="..\Engine\sys\win32\win_wndproc.cpp" />
     <ClCompile Include="..\Engine\Texture.cpp" />
-    <ClCompile Include="..\Engine\vec2.cpp" />
     <ClCompile Include="..\Engine\zlib\adler32.c" />
     <ClCompile Include="..\Engine\zlib\compress.c" />
     <ClCompile Include="..\Engine\zlib\crc32.c" />
@@ -188,13 +188,20 @@
     <ClCompile Include="..\Engine\zlib\zutil.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Engine\array.h" />
     <ClInclude Include="..\Engine\color4.h" />
+    <ClInclude Include="..\Engine\common\array.h" />
+    <ClInclude Include="..\Engine\common\Joint.h" />
     <ClInclude Include="..\Engine\common\List.h" />
+    <ClInclude Include="..\Engine\common\mat4.h" />
+    <ClInclude Include="..\Engine\common\mat4helper.h" />
     <ClInclude Include="..\Engine\common\precompiled.h" />
+    <ClInclude Include="..\Engine\common\quat.h" />
     <ClInclude Include="..\Engine\common\str.h" />
     <ClInclude Include="..\Engine\common\Timer.h" />
+    <ClInclude Include="..\Engine\common\vec2.h" />
+    <ClInclude Include="..\Engine\common\vec3.h" />
     <ClInclude Include="..\Engine\DrawVert.h" />
+    <ClInclude Include="..\Engine\File.h" />
     <ClInclude Include="..\Engine\framework\Common.h" />
     <ClInclude Include="..\Engine\framework\KeyInput.h" />
     <ClInclude Include="..\Engine\Game.h" />
@@ -202,7 +209,6 @@
     <ClInclude Include="..\Engine\HashTable.h" />
     <ClInclude Include="..\Engine\Image.h" />
     <ClInclude Include="..\Engine\ImageLoader.h" />
-    <ClInclude Include="..\Engine\Joint.h" />
     <ClInclude Include="..\Engine\jpeglib\cderror.h" />
     <ClInclude Include="..\Engine\jpeglib\jconfig.h" />
     <ClInclude Include="..\Engine\jpeglib\jdct.h" />
@@ -215,15 +221,12 @@
     <ClInclude Include="..\Engine\jpeglib\jversion.h" />
     <ClInclude Include="..\Engine\libpng\png.h" />
     <ClInclude Include="..\Engine\libpng\pngconf.h" />
-    <ClInclude Include="..\Engine\mat4.h" />
-    <ClInclude Include="..\Engine\mat4helper.h" />
     <ClInclude Include="..\Engine\Mesh.h" />
     <ClInclude Include="..\Engine\MeshLoaderB3D.h" />
     <ClInclude Include="..\Engine\Pipeline.h" />
     <ClInclude Include="..\Engine\PipelineP.h" />
     <ClInclude Include="..\Engine\PipelinePT.h" />
     <ClInclude Include="..\Engine\PipelinePTO.h" />
-    <ClInclude Include="..\Engine\quat.h" />
     <ClInclude Include="..\Engine\r_public.h" />
     <ClInclude Include="..\Engine\renderer\draw_common.h" />
     <ClInclude Include="..\Engine\renderer\RenderSystem.h" />
@@ -231,13 +234,10 @@
     <ClInclude Include="..\Engine\Shader.h" />
     <ClInclude Include="..\Engine\ShaderSource.h" />
     <ClInclude Include="..\Engine\ShadowVolume.h" />
-    <ClInclude Include="..\Engine\SkinnedMesh.h" />
     <ClInclude Include="..\Engine\Sprite.h" />
     <ClInclude Include="..\Engine\sys\sys_public.h" />
     <ClInclude Include="..\Engine\sys\win32\win_local.h" />
     <ClInclude Include="..\Engine\Texture.h" />
-    <ClInclude Include="..\Engine\vec2.h" />
-    <ClInclude Include="..\Engine\vec3.h" />
     <ClInclude Include="..\Engine\zlib\crc32.h" />
     <ClInclude Include="..\Engine\zlib\deflate.h" />
     <ClInclude Include="..\Engine\zlib\inffast.h" />

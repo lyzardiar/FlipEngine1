@@ -1,5 +1,5 @@
 #include "SkinnedMesh.h"
-#include "Joint.h"
+#include "common/Joint.h"
 #include "Mesh.h"
 
 SkinnedMesh::SkinnedMesh(Mesh* mesh, Joint* root, float totalFrame)

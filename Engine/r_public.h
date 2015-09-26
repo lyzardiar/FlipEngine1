@@ -2,20 +2,20 @@
 #define __RENDERBUFFER_H__
 #include "glutils.h"
 
-#include "mat4.h"
+#include "common/mat4.h"
 
 class DrawVert;
 class Shader;
 
 // our only drawing geometry type
 typedef struct srfTriangles_s {
-	int							numVerts;				
-	DrawVert*						verts;				
+	int				numVerts;				
+	DrawVert*			verts;				
 
-	int							numIndexes;			
-	glIndex_t*					indexes;
+	int				numIndexes;			
+	glIndex_t*		indexes;
 
-	GLuint vbo[2];
+	GLuint			vbo[2];
 }srfTriangles_t;
 
 typedef struct

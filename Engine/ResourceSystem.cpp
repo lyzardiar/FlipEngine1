@@ -93,7 +93,7 @@ Texture* ResourceSystem::AddTexture(const char* file)
 Mesh* ResourceSystem::AddMesh(const char* file)
 {
 	MeshLoaderB3D meshLoader;
-	meshLoader.loadMesh(file);
+	meshLoader.Load(file);
 
 	Mesh* mesh = new Mesh;
 	mesh = meshLoader._meshVec[0];

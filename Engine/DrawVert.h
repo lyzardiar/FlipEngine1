@@ -1,8 +1,8 @@
 #ifndef __DRAWVERT_H__
 #define __DRAWVERT_H__
 
-#include "vec2.h"
-#include "vec3.h"
+#include "common/vec2.h"
+#include "common/vec3.h"
 
 class DrawVert {
 public:

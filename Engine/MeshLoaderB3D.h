@@ -5,15 +5,14 @@ http://www.blitzbasic.com/sdkspecs/sdkspecs/b3dfile_specs.txt
 #ifndef __MESHLOADB3D_H__
 #define __MESHLOADB3D_H__
 
-#include <string>
-#include "quat.h"
-#include "vec3.h"
-#include "vec2.h"
-#include <vector>
-using std::vector;
-using std::string;
+#include "common/str.h"
+#include "common/quat.h"
+#include "common/vec3.h"
+#include "common/vec2.h"
+#include "common/array.h"
 
 class Mesh;
+class lfFile;
 class Joint;
 
 class MeshLoaderB3D
@@ -22,7 +21,7 @@ public:
 	MeshLoaderB3D();
 	~MeshLoaderB3D();
 
-	bool loadMesh(const char* file);
+	bool Load(const char* file);
 
 	struct SB3dChunkHeader
 	{
@@ -32,7 +31,7 @@ public:
 
 	struct SB3dTexture
 	{
-		string TextureName;
+		lfStr TextureName;
 		int Flags;
 		int Blend;
 		float Xpos;
@@ -58,40 +57,34 @@ public:
 		//SB3dTexture *Textures[video::MATERIAL_MAX_TEXTURES];
 	};
 
-	string	readString(FILE* fp);
-	int		readInt(FILE* fp);
-	unsigned int readUInt(FILE* fp);
-	float	readFloat(FILE* fp);
-	int     readByte(FILE* fp);
-	vec3    readVec3(FILE* fp);
-	quat readQuat(FILE* fp);
+	void ReadTEXS();
+	bool ReadVRTS();
+	void ReadNODE();
+	void ReadBRUS();
+	void ReadBONE();
+	void ReadMesh();
+	void ReadTRIS();
+	void ReadANIM();
+	void ReadKEY();
 
-	void readTEXS(FILE* fp);
-	bool readVRTS(FILE* fp);
-	void readNODE(FILE* fp);
-	void readBRUS(FILE* fp);
-	void readBONE(FILE* fp);
-	void readMesh(FILE* fp);
-	void readTRIS(FILE* fp);
-	void readANIM(FILE* fp);
-	void readKEY(FILE* fp);
-
-	string readChunk(FILE* fp);
-	bool checkSize(FILE* fp);
-	void exitChunk(FILE* fp);
+	lfStr ReadChunk();
+	bool CheckSize();
+	void ExitChunk();
 
 	void printTree(const char *psz, ...);
 	long m_lCurNodePos;
 	int m_nLayer;
-	vector<SB3dTexture> _textures;
-	vector<unsigned int> m_Stack;
+	array<SB3dTexture> _textures;
+	array<unsigned int> _stack;
 
-	vector<Mesh*> _meshVec;
+	array<Mesh*> _meshVec;
 
 	int             _meshCount;
 	Joint*			_rootJoint;
 	Joint*			_readJoint;
 	float			_totalFrame;
+
+	lfFile*         _file;
 };
 
 #endif

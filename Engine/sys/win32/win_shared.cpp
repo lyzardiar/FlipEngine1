@@ -487,7 +487,7 @@ Sym_GetFuncInfo
 
 DWORD lastAllocationBase = -1;
 HANDLE processHandle;
-strings lastModule;
+lfStr lastModule;
 
 /*
 ==================
@@ -539,7 +539,7 @@ void Sym_Shutdown( void ) {
 Sym_GetFuncInfo
 ==================
 */
-void Sym_GetFuncInfo( long addr, strings &module, strings &funcName ) {
+void Sym_GetFuncInfo( long addr, lfStr &module, lfStr &funcName ) {
 	MEMORY_BASIC_INFORMATION mbi;
 
 	VirtualQuery( (void*)addr, &mbi, sizeof(mbi) );
@@ -608,7 +608,7 @@ void Sym_Shutdown( void ) {
 Sym_GetFuncInfo
 ==================
 */
-void Sym_GetFuncInfo( long addr, strings &module, strings &funcName ) {
+void Sym_GetFuncInfo( long addr, lfStr &module, lfStr &funcName ) {
 	module = "";
 	sprintf( funcName, "0x%08x", addr );
 }
@@ -945,7 +945,7 @@ void Sys_Printf( const char *fmt, ... )
 
 	va_list argptr;
 	va_start(argptr, fmt);
-	strings::vsnPrintf( msg, MAXPRINTMSG-1, fmt, argptr );
+	lfStr::vsnPrintf( msg, MAXPRINTMSG-1, fmt, argptr );
 	va_end(argptr);
 	msg[sizeof(msg)-1] = '\0';
 
@@ -963,7 +963,7 @@ void Sys_Error( const char *fmt, ... )
 
 	va_list argptr;
 	va_start(argptr, fmt);
-	strings::vsnPrintf( msg, MAXPRINTMSG-1, fmt, argptr );
+	lfStr::vsnPrintf( msg, MAXPRINTMSG-1, fmt, argptr );
 	va_end(argptr);
 	msg[sizeof(msg)-1] = '\0';
 
@@ -981,7 +981,7 @@ void Sys_DebugPrintf( const char *fmt, ... ) {
 
 	va_list argptr;
 	va_start( argptr, fmt );
-	strings::vsnPrintf( msg, MAXPRINTMSG-1, fmt, argptr );
+	lfStr::vsnPrintf( msg, MAXPRINTMSG-1, fmt, argptr );
 	msg[ sizeof(msg)-1 ] = '\0';
 	va_end( argptr );
 

@@ -1,111 +1,64 @@
 #include "MeshLoaderB3D.h"
-#include <stdio.h>
-#include <iostream>
-#include <stdarg.h> 
 #include "Mesh.h"
-#include "Joint.h"
-using namespace std;
-
-#define DEBUG_B3D
-
-#if 0 
-
-#include "framework/Common.h"
-void B3D_LOG(const char* fmt, ...)
-{
-va_list argptr;
-va_start( argptr, fmt );
-Common_Printf( fmt, argptr );
-va_end( argptr );
-}
-
-#else
-
-void B3D_LOG(const char* fmt, ...) {}
-#endif // 
+#include "common/Joint.h"
+#include "File.h"
+#include "sys/sys_public.h"
 
 
-
-MeshLoaderB3D::MeshLoaderB3D() :_meshCount(0), _rootJoint(nullptr), _totalFrame(0), _readJoint(NULL)
+MeshLoaderB3D::MeshLoaderB3D() :_meshCount(0), _rootJoint(nullptr), _totalFrame(0), _readJoint(NULL) 
 {
 }
 
-MeshLoaderB3D::~MeshLoaderB3D()
+MeshLoaderB3D::~MeshLoaderB3D() 
 {
 }
 
-bool MeshLoaderB3D::loadMesh(const char* file)
+bool MeshLoaderB3D::Load(const char* file) 
 {
-	FILE* fp = fopen(file, "rb");
-	if (fp == NULL)
+	_file = new lfFile;
+	if( !_file->Open(file) )
 		return false;
 
-	readChunk(fp);
-	
-	int nB3DVersion = 0;
-	fread(&nB3DVersion, sizeof(int), 1, fp);
+	lfStr head = ReadChunk();
+	int nB3DVersion = _file->ReadInt();
 
-	printTree("B3D");
-	while( checkSize(fp) )
+	Sys_Printf("load b3d file %s, version %s %d", file, head.c_str(), nB3DVersion);
+
+	while( CheckSize() )
 	{
-		string t = readChunk(fp);
+		lfStr t = ReadChunk();
 		if (t == "TEXS"){
-			readTEXS(fp);
+			ReadTEXS();
 		}
 		else if (t == "BRUS"){
-			readBRUS(fp);
+			ReadBRUS();
 		}
 		else if (t == "NODE"){
-			readNODE(fp);
+			ReadNODE();
 		}
-		exitChunk(fp);
+		ExitChunk();
 	}
-	fclose(fp);
+
+	delete _file;
+	_file = NULL;
 
 	return true;
 }
 
-string MeshLoaderB3D::readString(FILE* fp)
-{
-	string str;
-	char c;
 
-	while (c = fgetc(fp))
-	{
-		str += c;
-		if (c=='/0')
-			break;
-	}
-	return str;
-}
-
-float MeshLoaderB3D::readFloat(FILE* fp)
-{
-	float f;
-	fread(&f, sizeof(float), 1, fp);
-	return f;
-}
-
-int MeshLoaderB3D::readInt(FILE* fp)
-{
-	int i;
-	fread(&i, sizeof(int), 1, fp);
-	return i;
-}
-
-bool MeshLoaderB3D::readVRTS(FILE* fp)
+bool MeshLoaderB3D::ReadVRTS() 
 {
 	Mesh* mesh = new Mesh;
 	const int max_tex_coords = 3;
 	int flags, tex_coord_sets, tex_coord_set_size;
 
-	flags = readInt(fp);
-	tex_coord_sets = readInt(fp);
-	tex_coord_set_size = readInt(fp);
+	flags = _file->ReadInt();
+	tex_coord_sets = _file->ReadInt();
+	tex_coord_set_size = _file->ReadInt();
 
-	if (tex_coord_sets >= max_tex_coords || tex_coord_set_size >= 4) // Something is wrong
+	if (tex_coord_sets >= max_tex_coords || tex_coord_set_size >= 4) // Something is wrong 
 	{
-		B3D_LOG("tex_coord_sets or tex_coord_set_size too big");
+		Sys_Printf("tex_coord_sets or tex_coord_set_size too big");
 		return false;
 	}
 
@@ -126,47 +79,43 @@ bool MeshLoaderB3D::readVRTS(FILE* fp)
 	}
 
 	sizeOfVertex += tex_coord_sets*tex_coord_set_size;
-	unsigned int size = m_Stack[m_Stack.size() - 1] - ftell(fp);
+	unsigned int size = _stack[_stack.size() - 1] - _file->Tell();
 	//106407 16800
 	unsigned int numVertex = size / sizeof(float) ;
 	numVertex /= sizeOfVertex;
 
 	int idx = 0;
-	while( checkSize(fp))
+	while( CheckSize())
 	{
-		float position[3];
-		float normal[3]={0.f, 0.f, 0.f};
+		vec3 position, normal;
 		float color[4]={1.0f, 1.0f, 1.0f, 1.0f};
 
-		position[0] = readFloat(fp);
-		position[1] = readFloat(fp);
-		position[2] = readFloat(fp);
+		position = _file->ReadVec3();
 
 		if (flags & 1)
 		{
-			normal[0] = readFloat(fp);
-			normal[1] = readFloat(fp);
-			normal[2] = readFloat(fp);
+			normal = _file->ReadVec3();
 		}
 		if (flags & 2)
 		{
-			color[0] = readFloat(fp);
-			color[1] = readFloat(fp);
-			color[2] = readFloat(fp);
-			color[3] = readFloat(fp);
+			color[0] = _file->ReadFloat();
+			color[1] = _file->ReadFloat();
+			color[2] = _file->ReadFloat();
+			color[3] = _file->ReadFloat();
 		}
 		float u, v;
 		for (int i = 0; i < tex_coord_sets; ++i)
 		{
 			//for (int j = 0; j < tex_coord_set_size; ++j)
 			{
-				u = readFloat(fp);
-				v = 1.0f - readFloat(fp);
+				u = _file->ReadFloat();
+				v = 1.0f - _file->ReadFloat();
 			}
 		}
 		
-		mesh->_positions.push_back(vec3(position[0], position[1], position[2]));
-		mesh->_texCoords.push_back(vec2(u, v));
+		//Sys_Printf("")
+		//mesh->_positions.push_back(vec3(position[0], position[1], position[2]));
+		//mesh->_texCoords.push_back(vec2(u, v));
 		idx++;
 	}
 
@@ -175,59 +124,52 @@ bool MeshLoaderB3D::readVRTS(FILE* fp)
 	return true;
 }
 
-string MeshLoaderB3D::readChunk(FILE* fp)
+lfStr MeshLoaderB3D::ReadChunk()
 {
-	string s;
+	lfStr s;
 	for (int i = 0; i < 4;++i)
 	{
-		s += char(readByte(fp));
+		s += char(_file->ReadChar());
 	}
 	
-	unsigned int size = readInt(fp);
-	unsigned int pos = ftell(fp);
-	m_Stack.push_back(pos + size);
+	unsigned int size = _file->ReadInt();
+	unsigned int pos = _file->Tell();
+	_stack.push_back(pos + size);
 	return s;
 }
 
-int MeshLoaderB3D::readByte(FILE* fp)
+bool MeshLoaderB3D::CheckSize()
 {
-	int b;
-	fread(&b, 1, 1, fp);
-	return b;
-}
-
-bool MeshLoaderB3D::checkSize(FILE* fp)
-{
-	unsigned int pos = ftell(fp);
-	unsigned int size = m_Stack[m_Stack.size() - 1];
+	unsigned int pos = _file->Tell();
+	unsigned int size = _stack[_stack.size() - 1];
 	return size > pos;
 }
 
-void MeshLoaderB3D::exitChunk(FILE* fp)
+void MeshLoaderB3D::ExitChunk()
 {
-	m_lCurNodePos = m_Stack.back();
-	m_Stack.pop_back();
+	m_lCurNodePos = _stack.getLast();
+	_stack.erase(_stack.size() - 1);
 }
 
-void MeshLoaderB3D::readTEXS(FILE* fp)
+void MeshLoaderB3D::ReadTEXS()
 {
-	while (checkSize(fp))
+	while (CheckSize())
 	{
 		printTree("read texs \n");
 		SB3dTexture tex;
-		tex.TextureName = readString(fp);
-		tex.Flags = readInt(fp);
-		tex.Blend = readInt(fp);
-		tex.Xpos = readFloat(fp);
-		tex.Ypos = readFloat(fp);
-		tex.Xscale = readFloat(fp);
-		tex.Yscale = readFloat(fp);
-		tex.Angle = readFloat(fp);
+		tex.TextureName = _file->ReadString();
+		tex.Flags = _file->ReadInt();
+		tex.Blend = _file->ReadInt();
+		tex.Xpos = _file->ReadFloat();
+		tex.Ypos = _file->ReadFloat();
+		tex.Xscale = _file->ReadFloat();
+		tex.Yscale = _file->ReadFloat();
+		tex.Angle = _file->ReadFloat();
 		_textures.push_back(tex);
 	}
 }
 
-void MeshLoaderB3D::readNODE(FILE* fp)
+void MeshLoaderB3D::ReadNODE()
 {
 	if (_readJoint == NULL)
 	{
@@ -242,135 +184,113 @@ void MeshLoaderB3D::readNODE(FILE* fp)
 		_readJoint = newJoint;
 	}
 
-	string str = readString(fp);
+	lfStr str = _file->ReadString();
 	printTree(str.c_str());
 
-	vec3 t=readVec3(fp);
-	vec3 s=readVec3(fp);
-	quat r=readQuat(fp);
+	vec3 t = _file->ReadVec3();
+	vec3 s = _file->ReadVec3();
+	quat r = _file->ReadQuat();
 
 	_readJoint->name = str;
 	_readJoint->position = t;
 	_readJoint->scale = s;
 	_readJoint->rotation = r;
 
-	while( checkSize(fp) ){
-		string t=readChunk(fp);
+	while( CheckSize() ){
+		lfStr t = ReadChunk();
 		if( t=="MESH" ){
-			readMesh(fp);
+			ReadMesh();
 		}else if( t=="BONE" ){
-			readBONE(fp);
+			ReadBONE();
 		}else if( t=="ANIM" ){
-			readANIM(fp);
+			ReadANIM();
 		}else if( t=="KEYS" ){
-			readKEY(fp);
+			ReadKEY();
 		}else if( t=="NODE" ){
-			readNODE(fp);
+			ReadNODE();
 		}
-		exitChunk(fp);
+		ExitChunk();
 	}
 
 	_readJoint = _readJoint->parent;
 }
 
-void MeshLoaderB3D::readBRUS(FILE* fp)
+void MeshLoaderB3D::ReadBRUS()
 {
-	int n_texs=readInt(fp);
+	int n_texs = _file->ReadInt();
 	if( n_texs<0 || n_texs>8 ){
 		printf( "Bad texture count" );
 	}
-	while( checkSize(fp) ){
-		string name=readString(fp);
+	while( CheckSize() ){
+		lfStr name = _file->ReadString();
 		printTree(name.c_str());
-		vec3 color= readVec3(fp);
-		float alpha=readFloat(fp);
-		float shiny=readFloat(fp);
-		/*int blend=**/readInt(fp);
-		int fx=readInt(fp);
+		vec3 color = _file->ReadVec3();
+		float alpha = _file->ReadFloat();
+		float shiny = _file->ReadFloat();
+		/*int blend=**/_file->ReadInt();
+		int fx = _file->ReadInt();
 
 		//Textures
 		for( int i=0;i<n_texs;++i ){
-			int texid=readInt(fp);
+			int texid= _file->ReadInt();
 		}
 	}
 }
 
-void MeshLoaderB3D::readBONE(FILE* fp)
-{
+void MeshLoaderB3D::ReadBONE() {
 	int i = 0;
-	while( checkSize(fp) ){
-		int vertex=readInt(fp);
-		float weight=readFloat(fp);
+	while( CheckSize() ){
+		int vertex = _file->ReadInt();
+		float weight = _file->ReadFloat();
 		_readJoint->vertexIndices.push_back(vertex);
 		_readJoint->vertexWeights.push_back(weight);
-#ifdef DEBUG_B3D
 		i++;
-#endif
 	}
 	printTree("vertex count: %d", i);
 }
 
-void MeshLoaderB3D::readMesh(FILE* fp)
-{
-	/*int matid=*/readInt(fp);
+void MeshLoaderB3D::ReadMesh() {
+	/*int matid=*/_file->ReadInt();
 
 	//printTree("mesh");
-	while( checkSize(fp) ){
-		string t=readChunk(fp);
+	while( CheckSize() ){
+		lfStr t = ReadChunk();
 		if( t=="VRTS" ){
-			readVRTS(fp);
+			ReadVRTS();
 		}else if( t=="TRIS" ){
-			readTRIS( fp );
+			ReadTRIS();
 		}
-		exitChunk(fp);
+		ExitChunk();
 	}
 }
 
-void MeshLoaderB3D::printTree(const char *psz, ...)
-{
+void MeshLoaderB3D::printTree(const char *psz, ...) {
 	char sBuf[128];
 	va_list ap;
 	va_start(ap, psz);
 	vsnprintf_s(sBuf, 128, 128, psz, ap);
 	va_end(ap);
 
-	for (int i = 0; i < m_Stack.size();i++)
-		B3D_LOG("-");
+	for (int i = 0; i < _stack.size();i++)
+		Sys_Printf("-");
 
-	B3D_LOG(sBuf);
-	B3D_LOG("\n");
+	Sys_Printf(sBuf);
+	Sys_Printf("\n");
 }
 
-vec3 MeshLoaderB3D::readVec3(FILE* fp)
-{
-	float x=readFloat(fp);
-	float y=readFloat(fp);
-	float z=readFloat(fp);
-	return vec3( x,y,z );
-}
-
-quat MeshLoaderB3D::readQuat(FILE* fp)
-{
-	float w=-readFloat(fp);
-	float x=readFloat(fp);
-	float y=readFloat(fp);
-	float z=readFloat(fp);
-	return quat( w,x,y,z );
-}
-
-void MeshLoaderB3D::readTRIS(FILE* fp){
-	Mesh* mesh = _meshVec.back();
-	int matid=readInt(fp);
+void MeshLoaderB3D::ReadTRIS(){
+	Mesh* mesh = _meshVec.getLast();
+	int matid = _file->ReadInt();
 	if( matid==-1 ){
 		matid=0;
 	}
-	int size = m_Stack.back() - ftell(fp);
+	int size = _stack.getLast() - _file->Tell();
 	int n_tris=size/12;
 
 	for( int i=0;i<n_tris;++i ){
-		int i0 = readUInt(fp);
-		int i1 = readUInt(fp);
-		int i2 = readUInt(fp);
+		int i0 = _file->ReadUInt();
+		int i1 = _file->ReadUInt();
+		int i2 = _file->ReadUInt();
 
 		mesh->_indices.push_back(i0);
 		mesh->_indices.push_back(i1);
@@ -378,37 +298,32 @@ void MeshLoaderB3D::readTRIS(FILE* fp){
 	}
 }
 
-unsigned int MeshLoaderB3D::readUInt(FILE* fp)
-{
-	unsigned int ret;
-	fread(&ret, sizeof(unsigned int), 1, fp);
-	return ret;
+
+
+void MeshLoaderB3D::ReadANIM(){
+	/*int flags=*/_file->ReadInt();
+	int frames = _file->ReadInt();
+	/*float fps = */_file->ReadFloat();
+	_totalFrame = (float)frames;
 }
 
-void MeshLoaderB3D::readANIM(FILE* fp){
-	/*int flags=*/readInt(fp);
-	int frames=readInt(fp);
-	float fps=readFloat(fp);
-	_totalFrame =(float)frames;
-}
-
-void MeshLoaderB3D::readKEY(FILE* fp)
+void MeshLoaderB3D::ReadKEY()
 {
-	int flags=readInt(fp);
-	while( checkSize(fp) ){
-		int frame=readInt(fp);
+	int flags = _file->ReadInt();
+	while( CheckSize() ){
+		int frame = _file->ReadInt();
 		if (flags & 1){
-			vec3 v = readVec3(fp);
+			vec3 v = _file->ReadVec3();
 			PositionKey k = { v, frame };
 			_readJoint->positionKeys.push_back(k);
 		}
 		if( flags & 2 ){
-			vec3 v = readVec3(fp);
+			vec3 v = _file->ReadVec3();
 			ScaleKey k = { v, frame };
 			_readJoint->scaleKeys.push_back(k);
 		}
 		if( flags & 4 ){
-			quat r = readQuat(fp);
+			quat r = _file->ReadQuat();
 			RotationKey k = { r, frame };
 			_readJoint->rotationKeys.push_back(k);
 		}

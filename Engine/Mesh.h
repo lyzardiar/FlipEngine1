@@ -1,9 +1,9 @@
 #pragma once
-#include "array.h"
-#include "vec3.h"
+#include "common/array.h"
+#include "common/vec3.h"
 #include "color4.h"
-#include "Joint.h"
-#include "vec2.h"
+#include "common/Joint.h"
+#include "common/vec2.h"
 #include "glutils.h"
 
 class Texture;
@@ -62,9 +62,6 @@ public:
 
 	array<DrawVert*>         _vertex;
 
-	array<vec3>				_positions;
-	array<vec3>				_normals;
-	array<vec2>				_texCoords;
 	array<unsigned short>		_indices;
 
 	array<Edge>				_edgeList;

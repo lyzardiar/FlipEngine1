@@ -1,11 +1,21 @@
-﻿生成启动时间为 2015-9-25 15:14:36。
+﻿生成启动时间为 2015-9-26 18:20:50。
      1>项目“E:\MySourceCode\FlipEngine1\Sampler05\Sampler05.vcxproj”在节点 2 上(Build 个目标)。
      1>ClCompile:
-         D:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I../Engine/include /I../Engine/zlib /ZI /nologo /W4 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _MBCS /D _CRT_SECURE_NO_WARNINGS /D _MBCS /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\Engine\renderer\draw_common.cpp
-         draw_common.cpp
+         D:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I../Engine/include /I../Engine/zlib /ZI /nologo /W4 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _MBCS /D _CRT_SECURE_NO_WARNINGS /D _MBCS /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\Engine\MeshLoaderB3D.cpp
+         MeshLoaderB3D.cpp
+     1>e:\mysourcecode\flipengine1\engine\meshloaderb3d.cpp(228): warning C4189: “alpha”: 局部变量已初始化但不引用
+     1>e:\mysourcecode\flipengine1\engine\meshloaderb3d.cpp(231): warning C4189: “fx”: 局部变量已初始化但不引用
+     1>e:\mysourcecode\flipengine1\engine\meshloaderb3d.cpp(229): warning C4189: “shiny”: 局部变量已初始化但不引用
+     1>e:\mysourcecode\flipengine1\engine\meshloaderb3d.cpp(235): warning C4189: “texid”: 局部变量已初始化但不引用
+     1>e:\mysourcecode\flipengine1\engine\meshloaderb3d.cpp(274): warning C4018: “<”: 有符号/无符号不匹配
        Link:
-         D:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\MySourceCode\FlipEngine1\Debug\Sampler05.exe" /INCREMENTAL /NOLOGO /LIBPATH:../Engine/lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:\MySourceCode\FlipEngine1\Debug\Sampler05.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\MySourceCode\FlipEngine1\Debug\Sampler05.lib" /MACHINE:X86 Debug\str.obj
+         D:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\MySourceCode\FlipEngine1\Debug\Sampler05.exe" /INCREMENTAL /NOLOGO /LIBPATH:../Engine/lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:\MySourceCode\FlipEngine1\Debug\Sampler05.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\MySourceCode\FlipEngine1\Debug\Sampler05.lib" /MACHINE:X86 Debug\Joint.obj
+         Debug\mat4.obj
+         Debug\quat.obj
+         Debug\str.obj
          Debug\Timer.obj
+         Debug\vec2.obj
+         Debug\File.obj
          Debug\Common.obj
          Debug\Game.obj
          Debug\glutils.obj
@@ -14,7 +24,6 @@
          Debug\ImageLoaderDDS.obj
          Debug\ImageLoaderJPG.obj
          Debug\ImageLoaderPNG.obj
-         Debug\Joint.obj
          Debug\jaricom.obj
          Debug\jcapimin.obj
          Debug\jcapistd.obj
@@ -76,21 +85,18 @@
          Debug\pngwrite.obj
          Debug\pngwtran.obj
          Debug\pngwutil.obj
-         Debug\mat4.obj
          Debug\Mesh.obj
          Debug\MeshLoaderB3D.obj
          Debug\Pipeline.obj
          Debug\PipelineP.obj
          Debug\PipelinePT.obj
          Debug\PipelinePTO.obj
-         Debug\quat.obj
          Debug\r_public.obj
          Debug\draw_common.obj
          Debug\RenderSystem.obj
          Debug\ResourceSystem.obj
          Debug\Shader.obj
          Debug\ShadowVolume.obj
-         Debug\SkinnedMesh.obj
          Debug\Sprite.obj
          Debug\win_glutilsimp.obj
          Debug\win_main.obj
@@ -98,7 +104,6 @@
          Debug\win_syscon.obj
          Debug\win_wndproc.obj
          Debug\Texture.obj
-         Debug\vec2.obj
          Debug\adler32.obj
          Debug\compress.obj
          Debug\crc32.obj
@@ -115,4 +120,4 @@
 
 生成成功。
 
-已用时间 00:00:02.03
+已用时间 00:00:06.05

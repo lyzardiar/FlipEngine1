@@ -1,6 +1,6 @@
 #ifndef __PIPELINE_H__
 #define __PIPELINE_H__
-#include "array.h"
+#include "common/array.h"
 #include "r_public.h"
 #include "Shader.h"
 

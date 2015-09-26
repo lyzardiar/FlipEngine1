@@ -33,26 +33,26 @@ void PipelineP::DrawScene()
 
 void PipelineP::DrawMesh(array<Mesh*>* meshs)
 {
-	glEnableVertexAttribArray(0);
-	glEnableVertexAttribArray(1);
+	//glEnableVertexAttribArray(0);
+	//glEnableVertexAttribArray(1);
 
-	glUseProgram(_shader->GetProgarm());
-	glUniform3f(_shader->GetUniform(eUniform_Color), 0.0, 1.0, 0.0);
-	
-	mat4 t;
-	t.buildTranslate(vec3(-10, 0, 0));
+	//glUseProgram(_shader->GetProgarm());
+	//glUniform3f(_shader->GetUniform(eUniform_Color), 0.0, 1.0, 0.0);
+	//
+	//mat4 t;
+	//t.buildTranslate(vec3(-10, 0, 0));
 
-	t = (_render->matWVP * t);
-    glUniformMatrix4fv(_shader->GetUniform(eUniform_MVP), 1, GL_FALSE, &t.m[0]);
+	//t = (_render->matWVP * t);
+ //   glUniformMatrix4fv(_shader->GetUniform(eUniform_MVP), 1, GL_FALSE, &t.m[0]);
 
-	if(meshs != NULL)
-	{
-		for (int i=0; i < meshs->size(); ++i)
-		{
-			Mesh* mesh = (*meshs)[i];
-			DrawMeshP(mesh);
-		}
-	}
+	//if(meshs != NULL)
+	//{
+	//	for (int i=0; i < meshs->size(); ++i)
+	//	{
+	//		Mesh* mesh = (*meshs)[i];
+	//		DrawMeshP(mesh);
+	//	}
+	//}
 
-	GL_CheckError("pipelinep");
+	//GL_CheckError("pipelinep");
 }

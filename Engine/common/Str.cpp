@@ -42,7 +42,7 @@ const char *units[2][4] =
 idStr::ReAllocate
 ============
 */
-void strings::ReAllocate( int amount, bool keepold ) {
+void lfStr::ReAllocate( int amount, bool keepold ) {
 	char	*newbuffer;
 	int		newsize;
 	int		mod;
@@ -85,7 +85,7 @@ void strings::ReAllocate( int amount, bool keepold ) {
 idStr::FreeData
 ============
 */
-void strings::FreeData( void ) {
+void lfStr::FreeData( void ) {
 	if ( data && data != baseBuffer ) {
 #ifdef USE_STRING_DATA_ALLOCATOR
 		stringDataAllocator.Free( data );
@@ -101,7 +101,7 @@ void strings::FreeData( void ) {
 idStr::operator=
 ============
 */
-void strings::operator=( const char *text ) {
+void lfStr::operator=( const char *text ) {
 	int l;
 	int diff;
 	int i;
@@ -148,7 +148,7 @@ idStr::FindChar
 returns -1 if not found otherwise the index of the char
 ============
 */
-int strings::FindChar( const char *str, const char c, int start, int end ) {
+int lfStr::FindChar( const char *str, const char c, int start, int end ) {
 	int i;
 
 	if ( end == -1 ) {
@@ -169,7 +169,7 @@ idStr::FindText
 returns -1 if not found otherwise the index of the text
 ============
 */
-int strings::FindText( const char *str, const char *text, bool casesensitive, int start, int end ) {
+int lfStr::FindText( const char *str, const char *text, bool casesensitive, int start, int end ) {
 	int l, i, j;
 
 	if ( end == -1 ) {
@@ -211,8 +211,8 @@ Several metacharacter may be used in the filter.
 
 ============
 */
-bool strings::Filter( const char *filter, const char *name, bool casesensitive ) {
-	strings buf;
+bool lfStr::Filter( const char *filter, const char *name, bool casesensitive ) {
+	lfStr buf;
 	int i, found, index;
 
 	while(*filter) {
@@ -230,7 +230,7 @@ bool strings::Filter( const char *filter, const char *name, bool casesensitive )
 				filter++;
 			}
 			if ( buf.Length() ) {
-				index = strings(name).Find( buf.c_str(), casesensitive );
+				index = lfStr(name).Find( buf.c_str(), casesensitive );
 				if ( index == -1 ) {
 					return false;
 				}
@@ -321,7 +321,7 @@ idStr::StripMediaName
   makes the string lower case, replaces backslashes with forward slashes, and removes extension
 =============
 */
-void strings::StripMediaName( const char *name, strings &mediaName ) {
+void lfStr::StripMediaName( const char *name, lfStr &mediaName ) {
 	char c;
 
 	mediaName.Empty();
@@ -335,7 +335,7 @@ void strings::StripMediaName( const char *name, strings &mediaName ) {
 		if ( c == '\\' ) {
 			mediaName.Append( '/' );
 		} else {
-			mediaName.Append( strings::ToLower( c ) );
+			mediaName.Append( lfStr::ToLower( c ) );
 		}
 	}
 }
@@ -345,7 +345,7 @@ void strings::StripMediaName( const char *name, strings &mediaName ) {
 idStr::CheckExtension
 =============
 */
-bool strings::CheckExtension( const char *name, const char *ext ) {
+bool lfStr::CheckExtension( const char *name, const char *ext ) {
 	const char *s1 = name + Length( name ) - 1;
 	const char *s2 = ext + Length( ext ) - 1;
 	int c1, c2, d;
@@ -380,7 +380,7 @@ bool strings::CheckExtension( const char *name, const char *ext ) {
 idStr::FloatArrayToString
 =============
 */
-const char *strings::FloatArrayToString( const float *array, const int length, const int precision ) {
+const char *lfStr::FloatArrayToString( const float *array, const int length, const int precision ) {
 	//static int index = 0;
 	//static char str[4][16384];	// in case called by nested functions
 	//int i, n;
@@ -415,7 +415,7 @@ idStr::Last
 returns -1 if not found otherwise the index of the char
 ============
 */
-int strings::Last( const char c ) const {
+int lfStr::Last( const char c ) const {
 	int i;
 	
 	for( i = Length(); i > 0; i-- ) {
@@ -432,7 +432,7 @@ int strings::Last( const char c ) const {
 idStr::StripLeading
 ============
 */
-void strings::StripLeading( const char c ) {
+void lfStr::StripLeading( const char c ) {
 	while( data[ 0 ] == c ) {
 		memmove( &data[ 0 ], &data[ 1 ], len );
 		len--;
@@ -444,7 +444,7 @@ void strings::StripLeading( const char c ) {
 idStr::StripLeading
 ============
 */
-void strings::StripLeading( const char *string ) {
+void lfStr::StripLeading( const char *string ) {
 	int l;
 
 	l = strlen( string );
@@ -461,7 +461,7 @@ void strings::StripLeading( const char *string ) {
 idStr::StripLeadingOnce
 ============
 */
-bool strings::StripLeadingOnce( const char *string ) {
+bool lfStr::StripLeadingOnce( const char *string ) {
 	int l;
 
 	l = strlen( string );
@@ -478,7 +478,7 @@ bool strings::StripLeadingOnce( const char *string ) {
 idStr::StripTrailing
 ============
 */
-void strings::StripTrailing( const char c ) {
+void lfStr::StripTrailing( const char c ) {
 	int i;
 	
 	for( i = Length(); i > 0 && data[ i - 1 ] == c; i-- ) {
@@ -492,7 +492,7 @@ void strings::StripTrailing( const char c ) {
 idStr::StripLeading
 ============
 */
-void strings::StripTrailing( const char *string ) {
+void lfStr::StripTrailing( const char *string ) {
 	int l;
 
 	l = strlen( string );
@@ -509,7 +509,7 @@ void strings::StripTrailing( const char *string ) {
 idStr::StripTrailingOnce
 ============
 */
-bool strings::StripTrailingOnce( const char *string ) {
+bool lfStr::StripTrailingOnce( const char *string ) {
 	int l;
 
 	l = strlen( string );
@@ -526,9 +526,9 @@ bool strings::StripTrailingOnce( const char *string ) {
 idStr::Replace
 ============
 */
-void strings::Replace( const char *old, const char *nw ) {
+void lfStr::Replace( const char *old, const char *nw ) {
 	int		oldLen, newLen, i, j, count;
-	strings	oldString( data );
+	lfStr	oldString( data );
 
 	oldLen = strlen( old );
 	newLen = strlen( nw );
@@ -536,7 +536,7 @@ void strings::Replace( const char *old, const char *nw ) {
 	// Work out how big the new string will be
 	count = 0;
 	for( i = 0; i < oldString.Length(); i++ ) {
-		if( !strings::Cmpn( &oldString[i], old, oldLen ) ) {
+		if( !lfStr::Cmpn( &oldString[i], old, oldLen ) ) {
 			count++;
 			i += oldLen - 1;
 		}
@@ -547,7 +547,7 @@ void strings::Replace( const char *old, const char *nw ) {
 
 		// Replace the old data with the new data
 		for( i = 0, j = 0; i < oldString.Length(); i++ ) {
-			if( !strings::Cmpn( &oldString[i], old, oldLen ) ) {
+			if( !lfStr::Cmpn( &oldString[i], old, oldLen ) ) {
 				memcpy( data + j, nw, newLen );
 				i += oldLen - 1;
 				j += newLen;
@@ -566,7 +566,7 @@ void strings::Replace( const char *old, const char *nw ) {
 idStr::Mid
 ============
 */
-const char *strings::Mid( int start, int len, strings &result ) const {
+const char *lfStr::Mid( int start, int len, lfStr &result ) const {
 	int i;
 
 	result.Empty();
@@ -589,9 +589,9 @@ const char *strings::Mid( int start, int len, strings &result ) const {
 idStr::Mid
 ============
 */
-strings strings::Mid( int start, int len ) const {
+lfStr lfStr::Mid( int start, int len ) const {
 	int i;
-	strings result;
+	lfStr result;
 
 	i = Length();
 	if ( i == 0 || len <= 0 || start >= i ) {
@@ -611,7 +611,7 @@ strings strings::Mid( int start, int len ) const {
 idStr::StripTrailingWhitespace
 ============
 */
-void strings::StripTrailingWhitespace( void ) {
+void lfStr::StripTrailingWhitespace( void ) {
 	int i;
 	
 	// cast to unsigned char to prevent stripping off high-ASCII characters
@@ -628,7 +628,7 @@ idStr::StripQuotes
 Removes the quotes from the beginning and end of the string
 ============
 */
-strings& strings::StripQuotes ( void )
+lfStr& lfStr::StripQuotes ( void )
 {
 	if ( data[0] != '\"' )
 	{
@@ -663,7 +663,7 @@ strings& strings::StripQuotes ( void )
 idStr::FileNameHash
 ============
 */
-int strings::FileNameHash( void ) const {
+int lfStr::FileNameHash( void ) const {
 	int		i;
 	long	hash;
 	char	letter;
@@ -671,7 +671,7 @@ int strings::FileNameHash( void ) const {
 	hash = 0;
 	i = 0;
 	while( data[i] != '\0' ) {
-		letter = strings::ToLower( data[i] );
+		letter = lfStr::ToLower( data[i] );
 		if ( letter == '.' ) {
 			break;				// don't include extension
 		}
@@ -690,7 +690,7 @@ int strings::FileNameHash( void ) const {
 idStr::BackSlashesToSlashes
 ============
 */
-strings &strings::BackSlashesToSlashes( void ) {
+lfStr &lfStr::BackSlashesToSlashes( void ) {
 	int i;
 
 	for ( i = 0; i < len; i++ ) {
@@ -706,7 +706,7 @@ strings &strings::BackSlashesToSlashes( void ) {
 idStr::SetFileExtension
 ============
 */
-strings &strings::SetFileExtension( const char *extension ) {
+lfStr &lfStr::SetFileExtension( const char *extension ) {
 	StripFileExtension();
 	if ( *extension != '.' ) {
 		Append( '.' );
@@ -720,7 +720,7 @@ strings &strings::SetFileExtension( const char *extension ) {
 idStr::StripFileExtension
 ============
 */
-strings &strings::StripFileExtension( void ) {
+lfStr &lfStr::StripFileExtension( void ) {
 	int i;
 
 	for ( i = len-1; i >= 0; i-- ) {
@@ -738,7 +738,7 @@ strings &strings::StripFileExtension( void ) {
 idStr::StripAbsoluteFileExtension
 ============
 */
-strings &strings::StripAbsoluteFileExtension( void ) {
+lfStr &lfStr::StripAbsoluteFileExtension( void ) {
 	int i;
 
 	for ( i = 0; i < len; i++ ) {
@@ -757,7 +757,7 @@ strings &strings::StripAbsoluteFileExtension( void ) {
 idStr::DefaultFileExtension
 ==================
 */
-strings &strings::DefaultFileExtension( const char *extension ) {
+lfStr &lfStr::DefaultFileExtension( const char *extension ) {
 	int i;
 
 	// do nothing if the string already has an extension
@@ -778,7 +778,7 @@ strings &strings::DefaultFileExtension( const char *extension ) {
 idStr::DefaultPath
 ==================
 */
-strings &strings::DefaultPath( const char *basepath ) {
+lfStr &lfStr::DefaultPath( const char *basepath ) {
 	if ( ( ( *this )[ 0 ] == '/' ) || ( ( *this )[ 0 ] == '\\' ) ) {
 		// absolute path location
 		return *this;
@@ -793,7 +793,7 @@ strings &strings::DefaultPath( const char *basepath ) {
 idStr::AppendPath
 ====================
 */
-void strings::AppendPath( const char *text ) {
+void lfStr::AppendPath( const char *text ) {
 	int pos;
 	int i = 0;
 
@@ -827,7 +827,7 @@ void strings::AppendPath( const char *text ) {
 idStr::StripFilename
 ==================
 */
-strings &strings::StripFilename( void ) {
+lfStr &lfStr::StripFilename( void ) {
 	int pos;
 
 	pos = Length() - 1;
@@ -848,7 +848,7 @@ strings &strings::StripFilename( void ) {
 idStr::StripPath
 ==================
 */
-strings &strings::StripPath( void ) {
+lfStr &lfStr::StripPath( void ) {
 	int pos;
 
 	pos = Length();
@@ -865,7 +865,7 @@ strings &strings::StripPath( void ) {
 idStr::ExtractFilePath
 ====================
 */
-void strings::ExtractFilePath( strings &dest ) const {
+void lfStr::ExtractFilePath( lfStr &dest ) const {
 	int pos;
 
 	//
@@ -884,7 +884,7 @@ void strings::ExtractFilePath( strings &dest ) const {
 idStr::ExtractFileName
 ====================
 */
-void strings::ExtractFileName( strings &dest ) const {
+void lfStr::ExtractFileName( lfStr &dest ) const {
 	int pos;
 
 	//
@@ -903,7 +903,7 @@ void strings::ExtractFileName( strings &dest ) const {
 idStr::ExtractFileBase
 ====================
 */
-void strings::ExtractFileBase( strings &dest ) const {
+void lfStr::ExtractFileBase( lfStr &dest ) const {
 	int pos;
 	int start;
 
@@ -928,7 +928,7 @@ void strings::ExtractFileBase( strings &dest ) const {
 idStr::ExtractFileExtension
 ====================
 */
-void strings::ExtractFileExtension( strings &dest ) const {
+void lfStr::ExtractFileExtension( lfStr &dest ) const {
 	int pos;
 
 	//
@@ -963,7 +963,7 @@ idStr::IsNumeric
 Checks a string to see if it contains only numerical values.
 ============
 */
-bool strings::IsNumeric( const char *s ) {
+bool lfStr::IsNumeric( const char *s ) {
 	int		i;
 	bool	dot;
 
@@ -992,7 +992,7 @@ idStr::HasLower
 Checks if a string has any lowercase chars
 ============
 */
-bool strings::HasLower( const char *s ) {
+bool lfStr::HasLower( const char *s ) {
 	if ( !s ) {
 		return false;
 	}
@@ -1014,7 +1014,7 @@ idStr::HasUpper
 Checks if a string has any uppercase chars
 ============
 */
-bool strings::HasUpper( const char *s ) {
+bool lfStr::HasUpper( const char *s ) {
 	if ( !s ) {
 		return false;
 	}
@@ -1034,7 +1034,7 @@ bool strings::HasUpper( const char *s ) {
 idStr::Cmp
 ================
 */
-int strings::Cmp( const char *s1, const char *s2 ) {
+int lfStr::Cmp( const char *s1, const char *s2 ) {
 	int c1, c2, d;
 
 	do {
@@ -1055,7 +1055,7 @@ int strings::Cmp( const char *s1, const char *s2 ) {
 idStr::Cmpn
 ================
 */
-int strings::Cmpn( const char *s1, const char *s2, int n ) {
+int lfStr::Cmpn( const char *s1, const char *s2, int n ) {
 	int c1, c2, d;
 
 	assert( n >= 0 );
@@ -1082,7 +1082,7 @@ int strings::Cmpn( const char *s1, const char *s2, int n ) {
 idStr::Icmp
 ================
 */
-int strings::Icmp( const char *s1, const char *s2 ) {
+int lfStr::Icmp( const char *s1, const char *s2 ) {
 	int c1, c2, d;
 
 	do {
@@ -1115,7 +1115,7 @@ int strings::Icmp( const char *s1, const char *s2 ) {
 idStr::Icmpn
 ================
 */
-int strings::Icmpn( const char *s1, const char *s2, int n ) {
+int lfStr::Icmpn( const char *s1, const char *s2, int n ) {
 	int c1, c2, d;
 
 	assert( n >= 0 );
@@ -1154,14 +1154,14 @@ int strings::Icmpn( const char *s1, const char *s2, int n ) {
 idStr::Icmp
 ================
 */
-int strings::IcmpNoColor( const char *s1, const char *s2 ) {
+int lfStr::IcmpNoColor( const char *s1, const char *s2 ) {
 	int c1, c2, d;
 
 	do {
-		while ( strings::IsColor( s1 ) ) {
+		while ( lfStr::IsColor( s1 ) ) {
 			s1 += 2;
 		}
-		while ( strings::IsColor( s2 ) ) {
+		while ( lfStr::IsColor( s2 ) ) {
 			s2 += 2;
 		}
 		c1 = *s1++;
@@ -1193,7 +1193,7 @@ int strings::IcmpNoColor( const char *s1, const char *s2 ) {
 idStr::IcmpPath
 ================
 */
-int strings::IcmpPath( const char *s1, const char *s2 ) {
+int lfStr::IcmpPath( const char *s1, const char *s2 ) {
 	int c1, c2, d;
 
 #if 0
@@ -1262,7 +1262,7 @@ int strings::IcmpPath( const char *s1, const char *s2 ) {
 idStr::IcmpnPath
 ================
 */
-int strings::IcmpnPath( const char *s1, const char *s2, int n ) {
+int lfStr::IcmpnPath( const char *s1, const char *s2, int n ) {
 	int c1, c2, d;
 
 #if 0
@@ -1339,7 +1339,7 @@ idStr::Copynz
 Safe strncpy that ensures a trailing zero
 =============
 */
-void strings::Copynz( char *dest, const char *src, int destsize ) {
+void lfStr::Copynz( char *dest, const char *src, int destsize ) {
 	if ( !src ) {
 		//idLib::common->Warning( "idStr::Copynz: NULL src" );
 		return;
@@ -1360,14 +1360,14 @@ idStr::Append
   never goes past bounds or leaves without a terminating 0
 ================
 */
-void strings::Append( char *dest, int size, const char *src ) {
+void lfStr::Append( char *dest, int size, const char *src ) {
 	int		l1;
 
 	l1 = strlen( dest );
 	if ( l1 >= size ) {
 		//idLib::common->Error( "idStr::Append: already overflowed" );
 	}
-	strings::Copynz( dest + l1, src, size - l1 );
+	lfStr::Copynz( dest + l1, src, size - l1 );
 }
 
 /*
@@ -1375,7 +1375,7 @@ void strings::Append( char *dest, int size, const char *src ) {
 idStr::LengthWithoutColors
 ================
 */
-int strings::LengthWithoutColors( const char *s ) {
+int lfStr::LengthWithoutColors( const char *s ) {
 	int len;
 	const char *p;
 
@@ -1386,7 +1386,7 @@ int strings::LengthWithoutColors( const char *s ) {
 	len = 0;
 	p = s;
 	while( *p ) {
-		if ( strings::IsColor( p ) ) {
+		if ( lfStr::IsColor( p ) ) {
 			p += 2;
 			continue;
 		}
@@ -1402,7 +1402,7 @@ int strings::LengthWithoutColors( const char *s ) {
 idStr::RemoveColors
 ================
 */
-char *strings::RemoveColors( char *string ) {
+char *lfStr::RemoveColors( char *string ) {
 	char *d;
 	char *s;
 	int c;
@@ -1410,7 +1410,7 @@ char *strings::RemoveColors( char *string ) {
 	s = string;
 	d = string;
 	while( (c = *s) != 0 ) {
-		if ( strings::IsColor( s ) ) {
+		if ( lfStr::IsColor( s ) ) {
 			s++;
 		}		
 		else {
@@ -1465,7 +1465,7 @@ idStr::vsnPrintf: always appends a trailing '\0', returns number of characters w
 or returns -1 on failure or if the buffer would be overflowed.
 ============
 */
-int strings::vsnPrintf( char *dest, int size, const char *fmt, va_list argptr ) {
+int lfStr::vsnPrintf( char *dest, int size, const char *fmt, va_list argptr ) {
 	int ret;
 
 #ifdef _WIN32
@@ -1491,13 +1491,13 @@ sprintf
 Sets the value of the string using a printf interface.
 ============
 */
-int sprintf( strings &string, const char *fmt, ... ) {
+int sprintf( lfStr &string, const char *fmt, ... ) {
 	int l;
 	va_list argptr;
 	char buffer[32000];
 	
 	va_start( argptr, fmt );
-	l = strings::vsnPrintf( buffer, sizeof(buffer)-1, fmt, argptr );
+	l = lfStr::vsnPrintf( buffer, sizeof(buffer)-1, fmt, argptr );
 	va_end( argptr );
 	buffer[sizeof(buffer)-1] = '\0';
 
@@ -1512,11 +1512,11 @@ vsprintf
 Sets the value of the string using a vprintf interface.
 ============
 */
-int vsprintf( strings &string, const char *fmt, va_list argptr ) {
+int vsprintf( lfStr &string, const char *fmt, va_list argptr ) {
 	int l;
 	char buffer[32000];
 	
-	l = strings::vsnPrintf( buffer, sizeof(buffer)-1, fmt, argptr );
+	l = lfStr::vsnPrintf( buffer, sizeof(buffer)-1, fmt, argptr );
 	buffer[sizeof(buffer)-1] = '\0';
 	
 	string = buffer;
@@ -1554,7 +1554,7 @@ char *va( const char *fmt, ... ) {
 idStr::BestUnit
 ============
 */
-int strings::BestUnit( const char *format, float value, Measure_t measure ) {
+int lfStr::BestUnit( const char *format, float value, Measure_t measure ) {
 	int unit = 1;
 	while ( unit <= 3 && ( 1 << ( unit * 10 ) < value ) ) {
 		unit++;
@@ -1572,7 +1572,7 @@ int strings::BestUnit( const char *format, float value, Measure_t measure ) {
 idStr::SetUnit
 ============
 */
-void strings::SetUnit( const char *format, float value, int unit, Measure_t measure ) {
+void lfStr::SetUnit( const char *format, float value, int unit, Measure_t measure ) {
 	value /= 1 << ( unit * 10 );
 	sprintf( *this, format, value );
 	*this += " ";
@@ -1584,7 +1584,7 @@ void strings::SetUnit( const char *format, float value, int unit, Measure_t meas
 idStr::InitMemory
 ================
 */
-void strings::InitMemory( void ) {
+void lfStr::InitMemory( void ) {
 #ifdef USE_STRING_DATA_ALLOCATOR
 	stringDataAllocator.Init();
 #endif
@@ -1595,7 +1595,7 @@ void strings::InitMemory( void ) {
 idStr::ShutdownMemory
 ================
 */
-void strings::ShutdownMemory( void ) {
+void lfStr::ShutdownMemory( void ) {
 #ifdef USE_STRING_DATA_ALLOCATOR
 	stringDataAllocator.Shutdown();
 #endif
@@ -1606,7 +1606,7 @@ void strings::ShutdownMemory( void ) {
 idStr::PurgeMemory
 ================
 */
-void strings::PurgeMemory( void ) {
+void lfStr::PurgeMemory( void ) {
 #ifdef USE_STRING_DATA_ALLOCATOR
 	stringDataAllocator.FreeEmptyBaseBlocks();
 #endif
@@ -1645,8 +1645,8 @@ formatList_t formatList[] = {
 int numFormatList = sizeof(formatList) / sizeof( formatList[0] );
 
 
-strings strings::FormatNumber( int number ) {
-	strings string;
+lfStr lfStr::FormatNumber( int number ) {
+	lfStr string;
 	bool hit;
 
 	// reset

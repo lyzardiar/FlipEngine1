@@ -1,13 +1,12 @@
-#pragma once
+#ifndef __JOINT_H__
+#define __JOINT_H__
 
 #include "vec3.h"
 #include "mat4.h"
 #include "quat.h"
-#include <string>
-#include <vector>
+#include "str.h"
+#include "array.h"
 
-using std::string;
-using std::vector;
 
 struct PositionKey
 {
@@ -30,18 +29,18 @@ struct RotationKey
 class Joint
 {
 public:
-	string name;
+	lfStr name;
 	vec3 position;
 	vec3 scale;
 	quat rotation;
-	vector<Joint*> children;
+	array<Joint*> children;
 	Joint* parent;
 
-	vector<PositionKey> positionKeys;
-	vector<RotationKey> rotationKeys;
-	vector<ScaleKey>    scaleKeys;
-	vector<int>         vertexIndices;
-	vector<float>       vertexWeights;
+	array<PositionKey> positionKeys;
+	array<RotationKey> rotationKeys;
+	array<ScaleKey>    scaleKeys;
+	array<int>         vertexIndices;
+	array<float>       vertexWeights;
 
 	mat4 globalAnimatedMatrix;
 	mat4 globalInvMatrix;
@@ -53,3 +52,5 @@ public:
 	void GetRotationKeyFramesAtFrame(float frame, RotationKey* preKey, RotationKey* nextKey);
 	void GetFrame(float frame, vec3& position, quat& rotation);
 };
+
+#endif
