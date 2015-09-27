@@ -42,3 +42,10 @@ void R_GenerateGeometryVbo( srfTriangles_t *tri )
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
+
+drawSurf_t* R_AllocDrawSurf()
+{
+	drawSurf_t* drawSurf = new drawSurf_t;
+	memset(drawSurf, 0, sizeof(drawSurf));
+	return drawSurf;
+}

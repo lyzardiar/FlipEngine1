@@ -21,6 +21,8 @@ public:
 	StaticModel* AddMesh(const char* file);
 
 	Shader* AddShader(const char* vfile, const char* ffile);
+
+	Shader* AddShaderFromFile(const char* vfile, const char* ffile);
 private:
 
 	std::map<std::string, Texture*> _textures;

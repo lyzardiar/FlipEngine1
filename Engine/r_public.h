@@ -3,6 +3,7 @@
 #include "glutils.h"
 
 #include "common/mat4.h"
+#include "DrawVert.h"
 
 class DrawVert;
 class Shader;
@@ -47,6 +48,7 @@ typedef struct
 	Shader* shaders[32];
 }renderBuffer_t;
 
+drawSurf_t* R_AllocDrawSurf();
 
 srfTriangles_t *R_AllocStaticTriSurf( void );
 

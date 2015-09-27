@@ -187,6 +187,7 @@
     <ClCompile Include="..\Engine\zlib\trees.c" />
     <ClCompile Include="..\Engine\zlib\uncompr.c" />
     <ClCompile Include="..\Engine\zlib\zutil.c" />
+    <ClCompile Include="..\Media\KnightModel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Engine\color4.h" />
@@ -250,6 +251,7 @@
     <ClInclude Include="..\Engine\zlib\zconf.h" />
     <ClInclude Include="..\Engine\zlib\zlib.h" />
     <ClInclude Include="..\Engine\zlib\zutil.h" />
+    <ClInclude Include="..\Media\KnightModel.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -128,3 +128,10 @@ Texture* ResourceSystem::AddText( const char* text )
 	}
 }
 
+Shader* ResourceSystem::AddShaderFromFile( const char* vfile, const char* ffile )
+{
+	Shader* shader = new Shader;
+	shader->LoadFromFile(vfile, ffile);
+	return shader;
+}
+

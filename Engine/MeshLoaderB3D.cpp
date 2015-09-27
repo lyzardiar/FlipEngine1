@@ -276,17 +276,17 @@ void MeshLoaderB3D::ReadMesh() {
 }
 
 void MeshLoaderB3D::printTree(const char *psz, ...) {
-	char sBuf[128];
-	va_list ap;
-	va_start(ap, psz);
-	vsnprintf_s(sBuf, 128, 128, psz, ap);
-	va_end(ap);
+	//char sBuf[128];
+	//va_list ap;
+	//va_start(ap, psz);
+	//vsnprintf_s(sBuf, 128, 128, psz, ap);
+	//va_end(ap);
 
-	for (int i = 0; i < _stack.size();i++)
-		Sys_Printf("-");
+	//for (int i = 0; i < _stack.size();i++)
+	//	Sys_Printf("-");
 
-	Sys_Printf(sBuf);
-	Sys_Printf("\n");
+	//Sys_Printf(sBuf);
+	//Sys_Printf("\n");
 }
 
 void MeshLoaderB3D::ReadTRIS(){

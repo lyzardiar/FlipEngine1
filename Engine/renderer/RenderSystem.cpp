@@ -36,6 +36,8 @@ void RenderSystemLocal::Init()
 	_renderBuffer.matView.m[12] = -400;
 	_renderBuffer.matView.m[13] = -300;
 	_renderBuffer.matView.m[14] = -300.f / tanf(3.1415936f/6.f);
+	float zfar = -300.f / tanf(3.1415936f/6.f);
+	Sys_Printf("\nzfar: %f\n", zfar);
 	_renderBuffer.matWVP = _renderBuffer.matPerspective * _renderBuffer.matView * _renderBuffer.matWorld;
 
 	// shader init
@@ -73,7 +75,7 @@ void RenderSystemLocal::FrameUpdate()
 	for (int i = 0; i < _surfaces.size(); i++)
 	{
 		mat4 t;
-		t.buildTranslate(vec3(400.f, 300.f, 480.f));
+		t.buildTranslate(vec3(400.f, 300.f, 515.f));
 		t = _renderBuffer.matWVP * t;
 		R_RenderPTPass(_surfaces[i], &t, R_DrawPositonTex);
 	}
@@ -100,5 +102,14 @@ bool RenderSystemLocal::AddStaticModel( StaticModel* model )
 		R_GenerateGeometryVbo(drawSur->geo);
 		_surfaces.push_back(drawSur);
 	}
+	return true;
+}
+
+bool RenderSystemLocal::AddDrawSur( drawSurf_t* drawSur )
+{
+	drawSur->material = R_AllocMaterail();
+	drawSur->material->shader = _renderBuffer.shaders[1];
+	drawSur->material->tex = resourceSys->AddTexture(".png");
+	_surfaces.push_back(drawSur);
 	return true;
 }

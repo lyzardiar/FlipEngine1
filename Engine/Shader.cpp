@@ -45,6 +45,7 @@ GLuint Shader::GetProgarm()
 
 bool Shader::LoadFromFile( const char* vfile, const char* ffile )
 {
+	_program = GL_CreateProgramFromFile(vfile, ffile);
 	return false;
 }
 

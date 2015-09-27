@@ -24,6 +24,8 @@ public:
 	virtual void DrawString(const char* text) = 0;
 
 	virtual bool AddStaticModel(StaticModel* model) = 0;
+
+	virtual bool AddDrawSur(drawSurf_t* drawSur) = 0;
 };
 
 class RenderSystemLocal : public RenderSystem
@@ -36,6 +38,8 @@ public:
 	void FrameUpdate();
 	void DrawString(const char* text);
 	virtual bool AddStaticModel(StaticModel* model);
+
+	virtual bool AddDrawSur(drawSurf_t* drawSur);
 
 
 private:
