@@ -18,3 +18,27 @@ material_t* R_AllocMaterail()
 	memset(material, 0, sizeof(material_t));
 	return material;
 }
+
+void R_GenerateGeometryVbo( srfTriangles_t *tri )
+{
+	if (tri->vbo[0] != 0)
+		glDeleteBuffers(1, &tri->vbo[0]);
+
+	if (tri->vbo[1] != 0)
+		glDeleteBuffers(1, &tri->vbo[0]);
+
+	glGenBuffers(1, &tri->vbo[0]);
+	glGenBuffers(1, &tri->vbo[1]);
+
+	// Stick the data for the vertices into its VBO
+	glBindBuffer(GL_ARRAY_BUFFER, tri->vbo[0]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(DrawVert) * tri->numVerts, tri->verts, GL_STATIC_DRAW);
+
+	// Stick the data for the indices into its VBO
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, tri->vbo[1]);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(glIndex_t) * tri->numIndexes, tri->indexes, GL_STATIC_DRAW);
+
+	// Clear the VBO state
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+}

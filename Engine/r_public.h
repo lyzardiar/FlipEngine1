@@ -53,4 +53,6 @@ srfTriangles_t *R_AllocStaticTriSurf( void );
 void	 R_AllocStaticTriSurfVerts( srfTriangles_t *tri, int numVerts );
 
 material_t* R_AllocMaterail();
+
+void R_GenerateGeometryVbo( srfTriangles_t *tri);
 #endif

@@ -75,7 +75,7 @@ void RenderSystemLocal::FrameUpdate()
 		mat4 t;
 		t.buildTranslate(vec3(400.f, 300.f, 480.f));
 		t = _renderBuffer.matWVP * t;
-		R_RenderPTPass(drawSurf, &t, R_DrawPositonTex);
+		R_RenderPTPass(_surfaces[i], &t, R_DrawPositonTex);
 	}
 	GL_CheckError("frameupdate");
 	GL_SwapBuffers();
@@ -97,6 +97,7 @@ bool RenderSystemLocal::AddStaticModel( StaticModel* model )
 		drawSur->material = R_AllocMaterail();
 		drawSur->material->shader = _renderBuffer.shaders[1];
 		drawSur->material->tex = resourceSys->AddTexture(".png");
+		R_GenerateGeometryVbo(drawSur->geo);
 		_surfaces.push_back(drawSur);
 	}
 	return true;

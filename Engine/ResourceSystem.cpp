@@ -83,6 +83,7 @@ Texture* ResourceSystem::AddTexture(const char* file)
 				texture->Init(&image);
 
 				_textures.insert(std::make_pair(fullPath, texture));
+				return texture;
 			}
 		}
 	}
