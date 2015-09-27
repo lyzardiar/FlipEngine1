@@ -5,11 +5,11 @@
 #include <algorithm>
 #include <iostream>
 #include <string>
-#include "Mesh.h"
 #include "MeshLoaderB3D.h"
 #include "Shader.h"
 #include "glutils.h"
 #include "../sys/sys_public.h"
+#include "Model.h"
 
 using std::string;
 
@@ -78,33 +78,30 @@ Texture* ResourceSystem::AddTexture(const char* file)
 				return defaultTexture;
 			}
 			else
-				break;
+			{
+				texture = new Texture();
+				texture->Init(&image);
+
+				_textures.insert(std::make_pair(fullPath, texture));
+			}
 		}
 	}
 
-	texture = new Texture();
-	texture->Init(&image);
-
-	_textures.insert(std::make_pair(fullPath, texture));
-
-	return texture;
+	Sys_Printf( "load image %s failed\n", fullPath.c_str() );
+	return defaultTexture;
 };
 
-Mesh* ResourceSystem::AddMesh(const char* file)
+StaticModel* ResourceSystem::AddMesh(const char* file)
 {
 	MeshLoaderB3D meshLoader;
 	meshLoader.Load(file);
-
-	Mesh* mesh = new Mesh;
-	mesh = meshLoader._meshVec[0];
 
 	int size = meshLoader._textures.size();
 	for (int i = 0; i<size; ++i)
 	{
 		Texture* tex = AddTexture( meshLoader._textures[i].TextureName.c_str() );
-		mesh->SetTexture( tex );
 	}
-	return mesh;
+	return meshLoader._model;
 }
 
 Shader* ResourceSystem::AddShader(const char* vfile, const char* ffile)

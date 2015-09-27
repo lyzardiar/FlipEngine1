@@ -17,10 +17,8 @@ GameLocal::~GameLocal()
 
 void GameLocal::Init()
 {
-	Mesh* mesh = resourceSys->AddMesh("ninja.b3d");
-	mesh->SetPosition(400, 300, 490);
-	//renderSys->GetPipeline(1)->AddMesh(mesh);
-	renderSys->GetPipeline(2)->AddMesh(mesh);
+	StaticModel* model = resourceSys->AddMesh("ninja.b3d");
+	renderSys->AddStaticModel(model);
 }
 
 void GameLocal::Frame()

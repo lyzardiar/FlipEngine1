@@ -13,6 +13,7 @@ Sprite::Sprite() : _width(0),
 	float h = 1;
 
 	_drawSurf->geo = R_AllocStaticTriSurf();
+	_drawSurf->material = R_AllocMaterail();
 	srfTriangles_t* tri = _drawSurf->geo;
 	tri->vbo[0] = 0;
 	tri->vbo[1] = 0;
@@ -48,13 +49,13 @@ Sprite::~Sprite()
 
 void Sprite::SetTexture( const char* imgPath )
 {
-	_drawSurf->tex = resourceSys->AddTexture(imgPath);
+	_drawSurf->material->tex = resourceSys->AddTexture(imgPath);
 	UpdateVertex();
 }
 
 void Sprite::SetLabel( const char* label )
 {
-	_drawSurf->tex = resourceSys->AddText(label);
+	_drawSurf->material->tex = resourceSys->AddText(label);
 	UpdateVertex();
 }
 
@@ -62,7 +63,7 @@ void Sprite::UpdateVertex()
 {
 	//1 3
 	//0 2
-	Texture* texture = _drawSurf->tex;
+	Texture* texture = _drawSurf->material->tex;
 	float w = (float)texture->_pixelsWide;
 	float h = (float)texture->_pixelsHigh;
 

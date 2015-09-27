@@ -158,6 +158,7 @@
     <ClCompile Include="..\Engine\libpng\pngwutil.c" />
     <ClCompile Include="..\Engine\Mesh.cpp" />
     <ClCompile Include="..\Engine\MeshLoaderB3D.cpp" />
+    <ClCompile Include="..\Engine\Model.cpp" />
     <ClCompile Include="..\Engine\Pipeline.cpp" />
     <ClCompile Include="..\Engine\PipelineP.cpp" />
     <ClCompile Include="..\Engine\PipelinePT.cpp" />
@@ -223,6 +224,7 @@
     <ClInclude Include="..\Engine\libpng\pngconf.h" />
     <ClInclude Include="..\Engine\Mesh.h" />
     <ClInclude Include="..\Engine\MeshLoaderB3D.h" />
+    <ClInclude Include="..\Engine\Model.h" />
     <ClInclude Include="..\Engine\Pipeline.h" />
     <ClInclude Include="..\Engine\PipelineP.h" />
     <ClInclude Include="..\Engine\PipelinePT.h" />

@@ -8,7 +8,7 @@
 #include "../ResourceSystem.h"
 
 class Pipeline;
-class Mesh;
+class StaticModel;
 class Sprite;
 
 
@@ -23,7 +23,7 @@ public:
 
 	virtual void DrawString(const char* text) = 0;
 
-	virtual Pipeline* GetPipeline(int idx) = 0;
+	virtual bool AddStaticModel(StaticModel* model) = 0;
 };
 
 class RenderSystemLocal : public RenderSystem
@@ -35,13 +35,13 @@ public:
 	void Init();
 	void FrameUpdate();
 	void DrawString(const char* text);
+	virtual bool AddStaticModel(StaticModel* model);
 
-	Pipeline* GetPipeline(int idx);
+
 private:
 
 	renderBuffer_t	_renderBuffer;
-	array<Pipeline*>	_pipelines;
-	array<Mesh*>		_meshs;
+	array<drawSurf_t*> _surfaces;
 	Sprite*			_defaultSprite;
 };
 

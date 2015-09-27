@@ -2,9 +2,6 @@
 #include "../glutils.h"
 #include "Material.h"
 #include "../r_public.h"
-#include "../PipelineP.h"
-#include "../PipelinePT.h"
-#include "../PipelinePTO.h"
 #include "../framework/Common.h"
 #include "../ResourceSystem.h"
 #include <stdarg.h>
@@ -16,6 +13,7 @@
 #include "../Sprite.h"
 #include "../common/Timer.h"
 #include "draw_common.h"
+#include "../Model.h"
 
 RenderSystem* renderSys;
 
@@ -55,15 +53,6 @@ void RenderSystemLocal::Init()
 	_renderBuffer.shaders[eShader_Position]		= shader1;
 	_renderBuffer.shaders[eShader_PositionTex]	= shader2;
 
-	Pipeline* pipe = new PipelineP(&_renderBuffer);
-	_pipelines.push_back(pipe);
-
-	Pipeline* pipe1 = new PipelinePT(&_renderBuffer);
-	_pipelines.push_back(pipe1);
-
-	Pipeline* pipe2 = new PipelinePTO(&_renderBuffer);
-	_pipelines.push_back(pipe2);
-
 	// fps  init
 	_defaultSprite = new Sprite;
 	_defaultSprite->SetLabel("...");
@@ -78,14 +67,16 @@ void RenderSystemLocal::FrameUpdate()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	
 	drawSurf_t* drawSurf = _defaultSprite->_drawSurf;
-	drawSurf->shader = _renderBuffer.shaders[eShader_PositionTex];
-	R_DrawPositonTex(drawSurf, &_renderBuffer.matWVP);
-	for (unsigned int i = 0; i < _pipelines.size(); i++)
+	drawSurf->material->shader = _renderBuffer.shaders[eShader_PositionTex];
+	R_RenderPTPass(drawSurf, &_renderBuffer.matWVP, R_DrawPositonTex);
+
+	for (int i = 0; i < _surfaces.size(); i++)
 	{
-		// _pipelines[i]->DrawMesh(&_meshs);
-		// _pipelines[i]->DrawMesh();
+		mat4 t;
+		t.buildTranslate(vec3(400.f, 300.f, 480.f));
+		t = _renderBuffer.matWVP * t;
+		R_RenderPTPass(drawSurf, &t, R_DrawPositonTex);
 	}
-	
 	GL_CheckError("frameupdate");
 	GL_SwapBuffers();
 }
@@ -95,8 +86,18 @@ void RenderSystemLocal::DrawString( const char* text )
 	_defaultSprite->SetLabel(text);
 }
 
-Pipeline* RenderSystemLocal::GetPipeline( int idx )
+bool RenderSystemLocal::AddStaticModel( StaticModel* model )
 {
-	//assert(idx >= 0 && idx <_pipelines.size() );
-	return _pipelines[idx];
+	array<modelSurface_t*> surfaces = model->getSurfaces();
+	for (int i = 0; i < surfaces.size(); i++)
+	{
+		drawSurf_t* drawSur = new drawSurf_t;
+		memset(drawSur, 0, sizeof(drawSurf_t));
+		drawSur->geo = surfaces[i]->geometry;
+		drawSur->material = R_AllocMaterail();
+		drawSur->material->shader = _renderBuffer.shaders[1];
+		drawSur->material->tex = resourceSys->AddTexture(".png");
+		_surfaces.push_back(drawSur);
+	}
+	return true;
 }

@@ -26,16 +26,15 @@ typedef struct
 
 typedef struct{
 	int						id;
-	material_t*				shader;
-	srfTriangles_t *			geometry;
+	material_t*				material;
+	srfTriangles_t *		geometry;
 } modelSurface_t;
 
 typedef struct{
 	int						id;
-	Shader*					shader;
-	Texture*					tex;
-	srfTriangles_t *			geo;
-	mat4						matModel;
+	material_t*             material;
+	srfTriangles_t *		geo;
+	mat4					matModel;
 } drawSurf_t;
 
 typedef struct
@@ -52,4 +51,6 @@ typedef struct
 srfTriangles_t *R_AllocStaticTriSurf( void );
 
 void	 R_AllocStaticTriSurfVerts( srfTriangles_t *tri, int numVerts );
+
+material_t* R_AllocMaterail();
 #endif

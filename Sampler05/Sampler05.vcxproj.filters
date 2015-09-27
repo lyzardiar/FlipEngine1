@@ -360,6 +360,9 @@
     <ClCompile Include="..\Engine\File.cpp">
       <Filter>sys</Filter>
     </ClCompile>
+    <ClCompile Include="..\Engine\Model.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Engine\sys\win32\win_local.h">
@@ -541,6 +544,9 @@
     </ClInclude>
     <ClInclude Include="..\Engine\File.h">
       <Filter>sys</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\Model.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

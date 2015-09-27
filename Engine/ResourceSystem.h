@@ -5,7 +5,7 @@
 #include <map>
 
 class Texture;
-class Mesh;
+class StaticModel;
 class Shader;
 
 class ResourceSystem
@@ -18,7 +18,7 @@ public:
 
 	Texture* AddText(const char* text);
 
-	Mesh* AddMesh(const char* file);
+	StaticModel* AddMesh(const char* file);
 
 	Shader* AddShader(const char* vfile, const char* ffile);
 private:

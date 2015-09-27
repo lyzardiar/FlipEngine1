@@ -1,9 +1,9 @@
 #include "MeshLoaderB3D.h"
-#include "Mesh.h"
 #include "common/Joint.h"
 #include "File.h"
 #include "sys/sys_public.h"
-
+#include "Model.h"
+#include "DrawVert.h"
 
 MeshLoaderB3D::MeshLoaderB3D() :_meshCount(0), _rootJoint(nullptr), _totalFrame(0), _readJoint(NULL) 
 {
@@ -18,6 +18,8 @@ bool MeshLoaderB3D::Load(const char* file)
 	_file = new lfFile;
 	if( !_file->Open(file) )
 		return false;
+
+	_model = new StaticModel;
 
 	lfStr head = ReadChunk();
 	int nB3DVersion = _file->ReadInt();
@@ -42,13 +44,20 @@ bool MeshLoaderB3D::Load(const char* file)
 	delete _file;
 	_file = NULL;
 
+	modelSurface_t* surf = _model->getSurfaces().getLast();
+	srfTriangles_t* tri = surf->geometry;
+	tri->numIndexes = _indices.size();
+	tri->indexes = new glIndex_t[tri->numIndexes];
+	for (unsigned int i=0; i<_indices.size(); ++i)
+	{
+		tri->indexes[i] = _indices[i];
+	}
 	return true;
 }
 
 
 bool MeshLoaderB3D::ReadVRTS() 
 {
-	Mesh* mesh = new Mesh;
 	const int max_tex_coords = 3;
 	int flags, tex_coord_sets, tex_coord_set_size;
 
@@ -84,17 +93,22 @@ bool MeshLoaderB3D::ReadVRTS()
 	unsigned int numVertex = size / sizeof(float) ;
 	numVertex /= sizeOfVertex;
 
+	modelSurface_t* surface = _model->AllocStaticSurface();
+	surface->geometry = R_AllocStaticTriSurf();
+	srfTriangles_t* tri = surface->geometry;
+	tri->numVerts = numVertex;
+	R_AllocStaticTriSurfVerts(tri, numVertex);
+
 	int idx = 0;
 	while( CheckSize())
 	{
-		vec3 position, normal;
 		float color[4]={1.0f, 1.0f, 1.0f, 1.0f};
 
-		position = _file->ReadVec3();
+		tri->verts[idx].xyz = _file->ReadVec3();
 
 		if (flags & 1)
 		{
-			normal = _file->ReadVec3();
+			tri->verts[idx].normal = _file->ReadVec3();
 		}
 		if (flags & 2)
 		{
@@ -112,14 +126,11 @@ bool MeshLoaderB3D::ReadVRTS()
 				v = 1.0f - _file->ReadFloat();
 			}
 		}
-		
-		//Sys_Printf("")
-		//mesh->_positions.push_back(vec3(position[0], position[1], position[2]));
-		//mesh->_texCoords.push_back(vec2(u, v));
+
+		tri->verts[idx].uv = vec2(u, v);
 		idx++;
 	}
 
-	_meshVec.push_back(mesh);
 	_meshCount++;
 	return true;
 }
@@ -147,7 +158,7 @@ bool MeshLoaderB3D::CheckSize()
 
 void MeshLoaderB3D::ExitChunk()
 {
-	m_lCurNodePos = _stack.getLast();
+	_curNodePos = _stack.getLast();
 	_stack.erase(_stack.size() - 1);
 }
 
@@ -279,7 +290,6 @@ void MeshLoaderB3D::printTree(const char *psz, ...) {
 }
 
 void MeshLoaderB3D::ReadTRIS(){
-	Mesh* mesh = _meshVec.getLast();
 	int matid = _file->ReadInt();
 	if( matid==-1 ){
 		matid=0;
@@ -292,9 +302,9 @@ void MeshLoaderB3D::ReadTRIS(){
 		int i1 = _file->ReadUInt();
 		int i2 = _file->ReadUInt();
 
-		mesh->_indices.push_back(i0);
-		mesh->_indices.push_back(i1);
-		mesh->_indices.push_back(i2);
+		_indices.push_back(i0);
+		_indices.push_back(i1);
+		_indices.push_back(i2);
 	}
 }
 

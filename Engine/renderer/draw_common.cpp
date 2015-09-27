@@ -6,20 +6,9 @@
 
 #define offsetof(s,m)   (size_t)&reinterpret_cast<const volatile char&>((((s *)0)->m))
 
-void R_DrawPositonTex( drawSurf_t* drawSur, mat4* t )
+
+void R_DrawPositonTex( srfTriangles_t* tri )
 {
-	// Bind the VBO for the vertex data
-	srfTriangles_t* tri = drawSur->geo;
-	Shader* shader = drawSur->shader;
-
-	glEnableVertexAttribArray(0);
-	glEnableVertexAttribArray(1);
-
-	glUseProgram( shader->GetProgarm() );
-	glUniformMatrix4fv( shader->GetUniform(eUniform_MVP), 1, GL_FALSE, &t->m[0] );
-	glUniform1i( shader->GetUniform(eUniform_Samper0), 0 );
-	glBindTexture( GL_TEXTURE_2D, drawSur->tex->GetName() );
-
 	glBindBuffer(GL_ARRAY_BUFFER, tri->vbo[0]);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(DrawVert), 0);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(DrawVert), (GLvoid *)12);
@@ -29,6 +18,23 @@ void R_DrawPositonTex( drawSurf_t* drawSur, mat4* t )
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+}
+
+void R_RenderPTPass( drawSurf_t* drawSur, mat4* t, DrawFunc drawFunc )
+{
+	srfTriangles_t* tri = drawSur->geo;
+	material_t* material = drawSur->material;
+	Shader* shader = material->shader;
+
+	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
+
+	glUseProgram( shader->GetProgarm() );
+	glUniformMatrix4fv( shader->GetUniform(eUniform_MVP), 1, GL_FALSE, &t->m[0] );
+	glUniform1i( shader->GetUniform(eUniform_Samper0), 0 );
+	glBindTexture( GL_TEXTURE_2D, material->tex->GetName() );
+
+	drawFunc(tri);
 
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);

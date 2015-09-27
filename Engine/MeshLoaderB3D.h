@@ -11,7 +11,9 @@ http://www.blitzbasic.com/sdkspecs/sdkspecs/b3dfile_specs.txt
 #include "common/vec2.h"
 #include "common/array.h"
 
-class Mesh;
+#include "r_public.h"
+
+class StaticModel;
 class lfFile;
 class Joint;
 
@@ -72,12 +74,13 @@ public:
 	void ExitChunk();
 
 	void printTree(const char *psz, ...);
-	long m_lCurNodePos;
-	int m_nLayer;
+	long _curNodePos;
+	int _layer;
 	array<SB3dTexture> _textures;
 	array<unsigned int> _stack;
 
-	array<Mesh*> _meshVec;
+	array<unsigned short> _indices;
+	StaticModel*    _model;
 
 	int             _meshCount;
 	Joint*			_rootJoint;

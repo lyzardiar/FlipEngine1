@@ -11,3 +11,10 @@ srfTriangles_t * R_AllocStaticTriSurf( void )
 void R_AllocStaticTriSurfVerts( srfTriangles_t *tri, int numVerts ) {
 	tri->verts = new DrawVert[ numVerts ];
 }
+
+material_t* R_AllocMaterail()
+{
+	material_t* material = new material_t;
+	memset(material, 0, sizeof(material_t));
+	return material;
+}
