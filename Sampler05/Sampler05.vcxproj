@@ -80,6 +80,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Engine\Camera.cpp" />
     <ClCompile Include="..\Engine\common\Joint.cpp" />
     <ClCompile Include="..\Engine\common\mat4.cpp" />
     <ClCompile Include="..\Engine\common\quat.cpp" />
@@ -190,6 +191,7 @@
     <ClCompile Include="..\Media\KnightModel.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Engine\Camera.h" />
     <ClInclude Include="..\Engine\color4.h" />
     <ClInclude Include="..\Engine\common\array.h" />
     <ClInclude Include="..\Engine\common\Joint.h" />

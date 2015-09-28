@@ -123,7 +123,7 @@ Texture* ResourceSystem::AddText( const char* text )
 	}
 	else
 	{
-		Sys_Printf("sys_drawtext error %s", text);
+		Sys_Printf("sys_drawtext error %s\n", text);
 		return defaultTexture;
 	}
 }

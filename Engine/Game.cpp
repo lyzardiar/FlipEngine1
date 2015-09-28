@@ -6,10 +6,13 @@
 #include "../media/KnightModel.h"
 #include "r_public.h"
 #include "sys/sys_public.h"
+#include "Camera.h"
+#include "Sprite.h"
 
 Game* game = NULL;
 
-GameLocal::GameLocal( void )
+GameLocal::GameLocal( void ):_camera(NULL)
+							,_defaultSprite(NULL)
 {
 }
 
@@ -20,19 +23,66 @@ GameLocal::~GameLocal()
 
 void GameLocal::Init()
 {
+	SetupCamera();
+	LoadAllModel();
+
+	_defaultSprite = new Sprite;
+	_defaultSprite->SetLabel("...");
+	_defaultSprite->SetPosition(0.f, 400.f, 0.f);
+	renderSys->AddSprite(_defaultSprite);
+}
+
+void GameLocal::Frame()
+{
+	sysEvent_t ev = Sys_GetEvent();
+	while (ev.evType != SE_NONE )
+	{
+		ProcessEvent(&ev);
+		ev = Sys_GetEvent();
+	}
+
+	vec3 pos = _camera->getPosition();
+	char buff[255];
+	sprintf_s(buff, "camera position %.02f %.02f %.02f", pos.x, pos.y, pos.z);
+	_defaultSprite->SetLabel(buff);
+}
+
+void GameLocal::ProcessEvent(sysEvent_s* event)
+{
+	switch (event->evType)
+	{
+	case SE_KEY:
+		{
+			switch (event->evValue)
+			{
+			case 'w':
+			case 'W':
+				_camera->Walk(0.5f);
+				break;
+			case 's':
+			case 'S':
+				_camera->Walk(-0.5f);
+			default:
+				break;
+			}
+		}
+		break;
+	default:
+		break;
+	}
+}
+
+void GameLocal::LoadAllModel()
+{
 	//StaticModel* model = resourceSys->AddMesh("ninja.b3d");
 	//renderSys->AddStaticModel(model);
-
-		// _renderbuffer init
-	mat4 matPerspective, matView;
-	matPerspective.buildPerspectiveProjection(3.1415926535898f / 3, 800.f / 600, 0.1f, 800.f);
-	matView.buildLookAt(vec3(0, 0,  300.f / tanf(3.1415936f/6.f)), vec3(0, 0, 0), vec3(0, 1, 0));
 
 	drawSurf_t* drawSur = R_AllocDrawSurf();
 	drawSur->geo = R_AllocStaticTriSurf();
 	srfTriangles_t* tri = drawSur->geo;
 	tri->numVerts = KnightModel::numVertices;
 	tri->numIndexes = KnightModel::numIndices;
+	drawSur->view = _camera->GetViewProj();
 	R_AllocStaticTriSurfVerts(tri, tri->numVerts);
 
 	for (int i = 0; i < KnightModel::numVertices; i++)
@@ -48,14 +98,9 @@ void GameLocal::Init()
 	renderSys->AddDrawSur(drawSur);
 }
 
-void GameLocal::Frame()
+void GameLocal::SetupCamera()
 {
-	sysEvent_t ev = Sys_GetEvent();
-	while (ev.evType != SE_NONE )
-	{
-
-		ev = Sys_GetEvent();
-	}
-
+	_camera = new Camera();
+	_camera->Setup3DCamera();
 }
 

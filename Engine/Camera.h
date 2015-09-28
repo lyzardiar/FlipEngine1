@@ -10,8 +10,10 @@ public:
 	Camera();
 	virtual ~Camera();
 	void Setup3DCamera();
-	void Setup2DCamera();
 	mat4* GetViewProj();
+
+	vec3 getPosition();
+	void Walk(float displacement);
 
 private:
 	mat4 _matView;

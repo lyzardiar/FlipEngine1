@@ -1,5 +1,10 @@
 #ifndef __GAME_H__
 #define __GAME_H__
+#include "sys/sys_public.h"
+
+class Camera;
+class Sprite;
+
 
 class Game
 {
@@ -19,8 +24,16 @@ public:
 	void Init();
 
 	void Frame();
-private:
 
+	void ProcessEvent(sysEvent_s* event);
+
+	void SetupCamera();
+
+	void LoadAllModel();
+private:
+	Camera* _camera;
+
+	Sprite* _defaultSprite;
 };
 
 extern Game* game;

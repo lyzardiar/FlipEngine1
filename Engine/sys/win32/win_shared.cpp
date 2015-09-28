@@ -873,6 +873,12 @@ bool Sys_DrawText(const char* text, sysTextContent_t* img) {
     if (win32.hBitmap)
         DeleteObject(win32.hBitmap);
 	win32.hBitmap = CreateBitmap(rc.right, rc.bottom, 1, 32, NULL);
+	
+	if (win32.hBitmap == nullptr)
+	{
+		Sys_Error("create bitmap failed ");
+		return false;
+	}
 
 	// draw the text on the _hdc
     SelectObject(_hdc, win32.defaultFont);
@@ -923,6 +929,7 @@ bool Sys_DrawText(const char* text, sysTextContent_t* img) {
 	img->w = rc.right;
 	img->h = rc.bottom;
 
+	DeleteDC(_hdc);     // #bug  Õ∑≈dc
 	//SaveBmp(win32.hBitmap, "d:/1.bmp");
 	return true;
 }

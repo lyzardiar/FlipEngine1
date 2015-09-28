@@ -366,6 +366,9 @@
     <ClCompile Include="..\Media\KnightModel.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="..\Engine\Camera.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Engine\sys\win32\win_local.h">
@@ -552,6 +555,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\Media\KnightModel.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\Camera.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

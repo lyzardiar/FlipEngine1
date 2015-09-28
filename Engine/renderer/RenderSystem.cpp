@@ -58,9 +58,7 @@ void RenderSystemLocal::Init()
 	// fps  init
 	_defaultSprite = new Sprite;
 	_defaultSprite->SetLabel("...");
-	_defaultSprite->SetPosition(0.f, 0.f, 0.f);
-///	pipe1->AddMesh(_defaultSprite);
-
+	AddSprite(_defaultSprite);
 	GL_CheckError("frameupdate");
 }
 
@@ -68,11 +66,6 @@ void RenderSystemLocal::FrameUpdate()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	
-	drawSurf_t* drawSurf = _defaultSprite->_drawSurf;
-	drawSurf->view = &_renderBuffer.matWVP;
-	drawSurf->material->shader = _renderBuffer.shaders[eShader_PositionTex];
-	R_RenderPTPass(drawSurf, R_DrawPositonTex);
-
 	for (unsigned int i = 0; i < _surfaces.size(); i++)
 	{
 		R_RenderPTPass(_surfaces[i], R_DrawPositonTex);
@@ -111,3 +104,13 @@ bool RenderSystemLocal::AddDrawSur( drawSurf_t* drawSur )
 	_surfaces.push_back(drawSur);
 	return true;
 }
+
+bool RenderSystemLocal::AddSprite( Sprite* sprite )
+{
+	drawSurf_t* drawSurf = sprite->_drawSurf;
+	drawSurf->view = &_renderBuffer.matWVP;
+	drawSurf->material->shader = _renderBuffer.shaders[eShader_PositionTex];
+	_surfaces.push_back(drawSurf);
+	return true;
+}
+

@@ -396,7 +396,7 @@ LONG WINAPI MainWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam ) {
 				// as two events (ctrl then alt)
 				break;
 			}
-			//Sys_QueEvent( win32.sysMsgTime, SE_KEY, key, true, 0, NULL );
+			Sys_QueEvent( win32.sysMsgTime, SE_KEY, key, true, 0, NULL );
 			break;
 
 		case WM_SYSKEYUP:

@@ -106,5 +106,5 @@ void Sprite::SetupVBO()
 
 void Sprite::SetPosition(float x, float y, float z)
 {
-	x, y, z;
+	_drawSurf->matModel.buildTranslate(x, y, z);
 }

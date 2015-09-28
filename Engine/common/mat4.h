@@ -26,6 +26,7 @@ public:
 
 	mat4 inverse();
 	inline void buildTranslate(const vec3& v);
+	inline void buildTranslate(float x, float y, float z);
 	inline mat4 buildLookAt(vec3 position, vec3 target, vec3 up);
 	inline void buildScale(float x, float y, float z);
 public:
@@ -34,9 +35,18 @@ public:
 
 inline void mat4::buildTranslate(const vec3& v)
 {
+	makeIdentity();
 	m[12] = v.x;
 	m[13] = v.y;
 	m[14] = v.z;
+}
+
+inline void mat4::buildTranslate(float x, float y, float z)
+{
+	makeIdentity();
+	m[12] = x;
+	m[13] = y;
+	m[14] = z;
 }
 
 inline void mat4::buildScale(float x, float y, float z)

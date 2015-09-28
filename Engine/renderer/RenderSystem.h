@@ -26,6 +26,8 @@ public:
 	virtual bool AddStaticModel(StaticModel* model) = 0;
 
 	virtual bool AddDrawSur(drawSurf_t* drawSur) = 0;
+
+	virtual bool AddSprite(Sprite* sprite) = 0;
 };
 
 class RenderSystemLocal : public RenderSystem
@@ -41,7 +43,7 @@ public:
 
 	virtual bool AddDrawSur(drawSurf_t* drawSur);
 
-
+	virtual bool AddSprite(Sprite* sprite);
 private:
 
 	renderBuffer_t	_renderBuffer;
