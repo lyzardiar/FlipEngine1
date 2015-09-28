@@ -32,9 +32,10 @@ typedef struct{
 } modelSurface_t;
 
 typedef struct{
-	int						id;
-	material_t*             material;
+	int					id;
+	material_t*          material;
 	srfTriangles_t *		geo;
+	mat4*				view;
 	mat4					matModel;
 } drawSurf_t;
 

@@ -3,7 +3,7 @@
 #define __WIN_LOCAL_H__
 
 #include <windows.h>
-
+#include "../sys_public.h"
 
 
 #define	MAX_OSPATH			256
@@ -25,7 +25,7 @@ void Sys_Init();
 void Sys_PumpEvents( void );
 int		MapKey (int key);
 
-
+void	Sys_QueEvent( int time, sysEventType_t type, int value, int value2, int ptrLength, void *ptr );
 // Input subsystem
 
 void	IN_Init (void);

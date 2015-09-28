@@ -69,15 +69,13 @@ void RenderSystemLocal::FrameUpdate()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	
 	drawSurf_t* drawSurf = _defaultSprite->_drawSurf;
+	drawSurf->view = &_renderBuffer.matWVP;
 	drawSurf->material->shader = _renderBuffer.shaders[eShader_PositionTex];
-	R_RenderPTPass(drawSurf, &_renderBuffer.matWVP, R_DrawPositonTex);
+	R_RenderPTPass(drawSurf, R_DrawPositonTex);
 
-	for (int i = 0; i < _surfaces.size(); i++)
+	for (unsigned int i = 0; i < _surfaces.size(); i++)
 	{
-		mat4 t;
-		t.buildTranslate(vec3(400.f, 300.f, 515.f));
-		t = _renderBuffer.matWVP * t;
-		R_RenderPTPass(_surfaces[i], &t, R_DrawPositonTex);
+		R_RenderPTPass(_surfaces[i], R_DrawPositonTex);
 	}
 	GL_CheckError("frameupdate");
 	GL_SwapBuffers();
@@ -91,7 +89,7 @@ void RenderSystemLocal::DrawString( const char* text )
 bool RenderSystemLocal::AddStaticModel( StaticModel* model )
 {
 	array<modelSurface_t*> surfaces = model->getSurfaces();
-	for (int i = 0; i < surfaces.size(); i++)
+	for (unsigned int i = 0; i < surfaces.size(); i++)
 	{
 		drawSurf_t* drawSur = new drawSurf_t;
 		memset(drawSur, 0, sizeof(drawSurf_t));

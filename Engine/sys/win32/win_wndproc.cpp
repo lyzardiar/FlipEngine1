@@ -29,13 +29,14 @@ If you have questions concerning this license or the applicable additional terms
 #include "../../framework/KeyInput.h"
 #include "../framework/Common.h"
 #include "win_local.h"
-//#include "../../renderer/tr_local.h"
+#include "../sys_public.h"
 
 LONG WINAPI MainWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
 
 static bool s_alttab_disabled;
 
-static void WIN_DisableAltTab( void ) {
+static void WIN_DisableAltTab( void ) 
+{
 	/*if ( s_alttab_disabled || win32.win_allowAltTab.GetBool() ) {
 	return;
 	}
@@ -410,7 +411,7 @@ LONG WINAPI MainWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam ) {
 				// as two events (ctrl then alt)
 				break;
 			}
-			//Sys_QueEvent( win32.sysMsgTime, SE_KEY, key, false, 0, NULL );
+			Sys_QueEvent( win32.sysMsgTime, SE_KEY, key, false, 0, NULL );
 			break;
 
 		case WM_CHAR:

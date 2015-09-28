@@ -52,5 +52,5 @@ bool Shader::LoadFromFile( const char* vfile, const char* ffile )
 bool Shader::LoadFromBuffer( const char* vfile, const char* ffile )
 {
 	_program = GL_CreateProgram(vfile, ffile);
-	return _program;
+	return true;
 }

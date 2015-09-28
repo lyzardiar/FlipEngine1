@@ -22,6 +22,13 @@
 #include "../../common/str.h"
 #include "../framework/Common.h"
 #include "../sys_public.h"
+
+#define	MAX_QUED_EVENTS		256
+#define	MASK_QUED_EVENTS	( MAX_QUED_EVENTS - 1)
+sysEvent_t	eventQue[MAX_QUED_EVENTS];
+int			eventHead = 0;
+int			eventTail = 0;
+
 /*
 ================
 Sys_Milliseconds
@@ -753,8 +760,7 @@ void Sys_ShutdownSymbols( void ) {
 }
 
 
-BOOL  SaveBmp(HBITMAP hBitmap, const char* FileName)         
-{         
+BOOL  SaveBmp(HBITMAP hBitmap, const char* FileName) {         
     HDC     hDC;         
     //当前分辨率下每象素所占字节数         
     int     iBits;         
@@ -808,8 +814,7 @@ BOOL  SaveBmp(HBITMAP hBitmap, const char* FileName)
   
     //     处理调色板                 
     hPal  = GetStockObject(DEFAULT_PALETTE);             
-    if (hPal)             
-    {             
+    if (hPal) {             
         hDC  = ::GetDC(NULL);             
         hOldPal = ::SelectPalette(hDC,(HPALETTE)hPal, FALSE);             
         RealizePalette(hDC);             
@@ -821,8 +826,7 @@ BOOL  SaveBmp(HBITMAP hBitmap, const char* FileName)
         (BITMAPINFO *)lpbi, DIB_RGB_COLORS);             
   
     //恢复调色板                 
-    if (hOldPal)             
-    {             
+    if (hOldPal){             
         ::SelectPalette(hDC,   (HPALETTE)hOldPal,   TRUE);             
         RealizePalette(hDC);             
         ::ReleaseDC(NULL,   hDC);             
@@ -853,8 +857,7 @@ BOOL  SaveBmp(HBITMAP hBitmap, const char* FileName)
     return     TRUE;         
 }  
 
-bool Sys_DrawText(const char* text, sysTextContent_t* img)
-{
+bool Sys_DrawText(const char* text, sysTextContent_t* img) {
 	HDC _hdc = CreateCompatibleDC(win32.hDC);
 	RECT rc;
 	rc.top = 0;
@@ -881,22 +884,19 @@ bool Sys_DrawText(const char* text, sysTextContent_t* img)
 	// get pixel
     //unsigned char* pData = new unsigned char[rc.right * rc.bottom * 4];
 
-	if (rc.right * rc.bottom > 1024 * 1024)
-	{
+	if (rc.right * rc.bottom > 1024 * 1024) {
 		Sys_Error("size is too large ");
 		return false;
 	}
 
-    struct
-    {
+    struct {
 		BITMAPINFOHEADER bmiHeader;
 		int mask[4];
     } bi = {0};
     bi.bmiHeader.biSize = sizeof(bi.bmiHeader);
 
 	// Get the BITMAPINFO structure from the bitmap
-	if(0 == GetDIBits(_hdc, win32.hBitmap, 0, 0, NULL, (LPBITMAPINFO)&bi, DIB_RGB_COLORS))
-	{
+	if(0 == GetDIBits(_hdc, win32.hBitmap, 0, 0, NULL, (LPBITMAPINFO)&bi, DIB_RGB_COLORS)) {
 		Sys_Error("GetDIBits(_hdc, hBitmap, 0, 0, NULL, (LPBITMAPINFO)&bi, DIB_RGB_COLORS)");
 		return false;
 	}
@@ -907,11 +907,9 @@ bool Sys_DrawText(const char* text, sysTextContent_t* img)
 
 	// change pixel's alpha value to 255, when it's RGB != 0
 	COLORREF * pPixel = NULL;
-	for (int y = 0; y < rc.bottom; ++y)
-	{
+	for (int y = 0; y < rc.bottom; ++y) {
 		pPixel = (COLORREF *)img->pData + y * rc.right;
-		for (int x = 0; x < rc.right; ++x)
-		{
+		for (int x = 0; x < rc.right; ++x) {
 			COLORREF& clr = *pPixel;
 
 			clr |= (0xffffff | (GetRValue(clr) << 24));
@@ -939,8 +937,7 @@ void Sys_Quit( void ) {
 
 
 #define MAXPRINTMSG 4096
-void Sys_Printf( const char *fmt, ... ) 
-{
+void Sys_Printf( const char *fmt, ... ) {
 	char		msg[MAXPRINTMSG];
 
 	va_list argptr;
@@ -957,8 +954,7 @@ void Sys_Printf( const char *fmt, ... )
 	}
 }
 
-void Sys_Error( const char *fmt, ... ) 
-{
+void Sys_Error( const char *fmt, ... ) {
 	char		msg[MAXPRINTMSG];
 
 	va_list argptr;
@@ -1044,8 +1040,7 @@ double Sys_ClockTicksPerSecond( void ) {
 	return ticks;
 }
 
-void Sys_Init()
-{
+void Sys_Init() {
 	win32.defaultFont = CreateFont(20, // nHeight 
         0, // nWidth 
         0, // nEscapement 
@@ -1061,3 +1056,53 @@ void Sys_Init()
         DEFAULT_PITCH | FF_SWISS, // nPitchAndFamily 
         ("Arial")); // lpszFac
 }
+
+void Sys_QueEvent( int time, sysEventType_t type, int value, int value2, int ptrLength, void *ptr ) {
+	sysEvent_t	*ev;
+
+	ev = &eventQue[ eventHead & MASK_QUED_EVENTS ];
+
+	if ( eventHead - eventTail >= MAX_QUED_EVENTS ) 
+	{
+		Sys_Printf("Sys_QueEvent: overflow\n");
+		eventTail++;
+	}
+
+	eventHead++;
+
+	ev->evType = type;
+	ev->evValue = value;
+	ev->evValue2 = value2;
+	ev->evPtrLength = ptrLength;
+	ev->evPtr = ptr;
+}
+
+/*
+================
+Sys_ClearEvents
+================
+*/
+void Sys_ClearEvents( void ) {
+	eventHead = eventTail = 0;
+}
+
+/*
+================
+Sys_GetEvent
+================
+*/
+sysEvent_t Sys_GetEvent( void ) {
+	sysEvent_t	ev;
+
+	// return if we have data
+	if ( eventHead > eventTail ) {
+		eventTail++;
+		return eventQue[ ( eventTail - 1 ) & MASK_QUED_EVENTS ];
+	}
+
+	// return the empty event 
+	memset( &ev, 0, sizeof( ev ) );
+
+	return ev;
+}
+

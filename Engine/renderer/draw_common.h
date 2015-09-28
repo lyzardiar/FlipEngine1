@@ -4,7 +4,7 @@
 
 typedef void (*DrawFunc)(srfTriangles_t* geo);
 
-void R_RenderPTPass(drawSurf_t* drawSurf, mat4* t, DrawFunc drawFunc);
+void R_RenderPTPass(drawSurf_t* drawSurf, DrawFunc drawFunc);
 
 void R_DrawPositonTex( srfTriangles_t* tri );
 

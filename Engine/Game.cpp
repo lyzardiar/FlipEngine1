@@ -5,6 +5,7 @@
 #include "Pipeline.h"
 #include "../media/KnightModel.h"
 #include "r_public.h"
+#include "sys/sys_public.h"
 
 Game* game = NULL;
 
@@ -22,6 +23,10 @@ void GameLocal::Init()
 	//StaticModel* model = resourceSys->AddMesh("ninja.b3d");
 	//renderSys->AddStaticModel(model);
 
+		// _renderbuffer init
+	mat4 matPerspective, matView;
+	matPerspective.buildPerspectiveProjection(3.1415926535898f / 3, 800.f / 600, 0.1f, 800.f);
+	matView.buildLookAt(vec3(0, 0,  300.f / tanf(3.1415936f/6.f)), vec3(0, 0, 0), vec3(0, 1, 0));
 
 	drawSurf_t* drawSur = R_AllocDrawSurf();
 	drawSur->geo = R_AllocStaticTriSurf();
@@ -45,6 +50,12 @@ void GameLocal::Init()
 
 void GameLocal::Frame()
 {
+	sysEvent_t ev = Sys_GetEvent();
+	while (ev.evType != SE_NONE )
+	{
+
+		ev = Sys_GetEvent();
+	}
 
 }
 
