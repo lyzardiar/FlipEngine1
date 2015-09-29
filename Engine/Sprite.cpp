@@ -55,6 +55,11 @@ void Sprite::SetTexture( const char* imgPath )
 
 void Sprite::SetLabel( const char* label )
 {
+	if (_drawSurf->material->tex != NULL )
+	{
+		GLuint tex = _drawSurf->material->tex->GetName();
+		glDeleteTextures(1, &tex );
+	}
 	_drawSurf->material->tex = resourceSys->AddText(label);
 	UpdateVertex();
 }

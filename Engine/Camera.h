@@ -12,8 +12,9 @@ public:
 	void Setup3DCamera();
 	mat4* GetViewProj();
 
-	vec3 getPosition();
+	vec3 GetPosition();
 	void Walk(float displacement);
+	void Yaw(float angle);
 
 private:
 	mat4 _matView;
@@ -21,7 +22,6 @@ private:
 	vec3 _at;					
 	vec3 _pos;								
 	vec3 _look;
-	vec3 _dir;
 	mat4 _VP;
 };
 

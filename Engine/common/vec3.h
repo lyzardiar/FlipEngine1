@@ -3,7 +3,7 @@
 
 #include <math.h>
 
-#define GRAD_PI2 3.1415926f	
+#define GRAD_PI2 3.1415926f / 360	
 //! 3d vector template class with lots of operators and methods.
 class vec3
 {

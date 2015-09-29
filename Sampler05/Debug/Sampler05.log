@@ -1,41 +1,10 @@
-﻿生成启动时间为 2015/9/29 0:17:51。
-     1>项目“C:\program1\FlipEngine1\Sampler05\Sampler05.vcxproj”在节点 2 上(Build 个目标)。
+﻿生成启动时间为 2015-9-29 21:56:53。
+     1>项目“E:\MySourceCode\FlipEngine1\Sampler05\Sampler05.vcxproj”在节点 2 上(Build 个目标)。
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I../Engine/include /I../Engine/zlib /ZI /nologo /W4 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _MBCS /D _CRT_SECURE_NO_WARNINGS /D _MBCS /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\Engine\Camera.cpp ..\Engine\File.cpp ..\Engine\Game.cpp ..\Engine\Mesh.cpp ..\Engine\MeshLoaderB3D.cpp ..\Engine\Model.cpp ..\Engine\Pipeline.cpp ..\Engine\PipelineP.cpp ..\Engine\PipelinePT.cpp ..\Engine\PipelinePTO.cpp ..\Engine\ResourceSystem.cpp ..\Engine\Sprite.cpp ..\Engine\common\Joint.cpp ..\Engine\common\mat4.cpp ..\Engine\common\quat.cpp ..\Engine\framework\Common.cpp ..\Engine\r_public.cpp ..\Engine\renderer\RenderSystem.cpp ..\Engine\renderer\draw_common.cpp
+         D:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I../Engine/include /I../Engine/zlib /ZI /nologo /W4 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _MBCS /D _CRT_SECURE_NO_WARNINGS /D _MBCS /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\Engine\Sprite.cpp
          Sprite.cpp
-         正在生成代码...
-         正在编译...
-         draw_common.cpp
-         RenderSystem.cpp
-         r_public.cpp
-         Common.cpp
-         quat.cpp
-         mat4.cpp
-         Joint.cpp
-         ResourceSystem.cpp
-     1>c:\program1\flipengine1\engine\resourcesystem.cpp(103): warning C4189: “tex”: 局部变量已初始化但不引用
-         PipelinePTO.cpp
-     1>c:\program1\flipengine1\engine\pipelinepto.cpp(44): warning C4245: “参数”: 从“int”转换到“GLuint”，有符号/无符号不匹配
-     1>c:\program1\flipengine1\engine\pipelinepto.cpp(54): warning C4245: “参数”: 从“int”转换到“GLuint”，有符号/无符号不匹配
-     1>c:\program1\flipengine1\engine\pipelinepto.cpp(28): warning C4189: “mat”: 局部变量已初始化但不引用
-         PipelinePT.cpp
-         PipelineP.cpp
-     1>c:\program1\flipengine1\engine\pipelinep.cpp(4): warning C4505: “draw3DCoordinate”: 未引用的本地函数已移除
-         Pipeline.cpp
-         Model.cpp
-         MeshLoaderB3D.cpp
-     1>c:\program1\flipengine1\engine\meshloaderb3d.cpp(239): warning C4189: “alpha”: 局部变量已初始化但不引用
-     1>c:\program1\flipengine1\engine\meshloaderb3d.cpp(242): warning C4189: “fx”: 局部变量已初始化但不引用
-     1>c:\program1\flipengine1\engine\meshloaderb3d.cpp(240): warning C4189: “shiny”: 局部变量已初始化但不引用
-     1>c:\program1\flipengine1\engine\meshloaderb3d.cpp(246): warning C4189: “texid”: 局部变量已初始化但不引用
-         Mesh.cpp
-         Game.cpp
-     1>c:\program1\flipengine1\engine\game.cpp(88): warning C4018: “<”: 有符号/无符号不匹配
-         File.cpp
-         Camera.cpp
-         正在生成代码...
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\program1\FlipEngine1\Debug\Sampler05.exe" /INCREMENTAL /NOLOGO /LIBPATH:../Engine/lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\program1\FlipEngine1\Debug\Sampler05.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\program1\FlipEngine1\Debug\Sampler05.lib" /MACHINE:X86 Debug\Camera.obj
+         D:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\MySourceCode\FlipEngine1\Debug\Sampler05.exe" /INCREMENTAL /NOLOGO /LIBPATH:../Engine/lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:\MySourceCode\FlipEngine1\Debug\Sampler05.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\MySourceCode\FlipEngine1\Debug\Sampler05.lib" /MACHINE:X86 Debug\Camera.obj
          Debug\Joint.obj
          Debug\mat4.obj
          Debug\quat.obj
@@ -144,9 +113,9 @@
          Debug\uncompr.obj
          Debug\zutil.obj
          Debug\KnightModel.obj
-         Sampler05.vcxproj -> C:\program1\FlipEngine1\Debug\Sampler05.exe
-     1>已完成生成项目“C:\program1\FlipEngine1\Sampler05\Sampler05.vcxproj”(Build 个目标)的操作。
+         Sampler05.vcxproj -> E:\MySourceCode\FlipEngine1\Debug\Sampler05.exe
+     1>已完成生成项目“E:\MySourceCode\FlipEngine1\Sampler05\Sampler05.vcxproj”(Build 个目标)的操作。
 
 生成成功。
 
-已用时间 00:00:11.39
+已用时间 00:00:03.59

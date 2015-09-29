@@ -41,7 +41,7 @@ void GameLocal::Frame()
 		ev = Sys_GetEvent();
 	}
 
-	vec3 pos = _camera->getPosition();
+	vec3 pos = _camera->GetPosition();
 	char buff[255];
 	sprintf_s(buff, "camera position %.02f %.02f %.02f", pos.x, pos.y, pos.z);
 	_defaultSprite->SetLabel(buff);
@@ -62,6 +62,15 @@ void GameLocal::ProcessEvent(sysEvent_s* event)
 			case 's':
 			case 'S':
 				_camera->Walk(-0.5f);
+				break;
+			case 'A':
+			case 'a':
+				_camera->Yaw(5.f);
+				break;
+			case 'D':
+			case 'd':
+				_camera->Yaw(-0.5f);
+				break;
 			default:
 				break;
 			}
