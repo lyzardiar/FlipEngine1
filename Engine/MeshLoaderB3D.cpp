@@ -44,8 +44,8 @@ bool MeshLoaderB3D::Load(const char* file)
 	delete _file;
 	_file = NULL;
 
-	modelSurface_t* surf = _model->getSurfaces().getLast();
-	srfTriangles_t* tri = surf->geometry;
+	drawSurf_t* surf = _model->getSurfaces().getLast();
+	srfTriangles_t* tri = surf->geo;
 	tri->numIndexes = _indices.size();
 	tri->indexes = new glIndex_t[tri->numIndexes];
 	for (unsigned int i=0; i<_indices.size(); ++i)
@@ -93,9 +93,9 @@ bool MeshLoaderB3D::ReadVRTS()
 	unsigned int numVertex = size / sizeof(float) ;
 	numVertex /= sizeOfVertex;
 
-	modelSurface_t* surface = _model->AllocStaticSurface();
-	surface->geometry = R_AllocStaticTriSurf();
-	srfTriangles_t* tri = surface->geometry;
+	drawSurf_t* surface = _model->AllocStaticSurface();
+	surface->geo = R_AllocStaticTriSurf();
+	srfTriangles_t* tri = surface->geo;
 	tri->numVerts = numVertex;
 	R_AllocStaticTriSurfVerts(tri, numVertex);
 

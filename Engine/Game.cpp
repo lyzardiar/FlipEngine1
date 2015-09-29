@@ -8,6 +8,7 @@
 #include "sys/sys_public.h"
 #include "Camera.h"
 #include "Sprite.h"
+#include "Model.h"
 
 Game* game = NULL;
 
@@ -83,8 +84,8 @@ void GameLocal::ProcessEvent(sysEvent_s* event)
 
 void GameLocal::LoadAllModel()
 {
-	//StaticModel* model = resourceSys->AddMesh("ninja.b3d");
-	//renderSys->AddStaticModel(model);
+	StaticModel* model = resourceSys->AddMesh("ninja.b3d");
+	//AddStaticModel(model);
 
 	drawSurf_t* drawSur = R_AllocDrawSurf();
 	drawSur->geo = R_AllocStaticTriSurf();
@@ -111,5 +112,16 @@ void GameLocal::SetupCamera()
 {
 	_camera = new Camera();
 	_camera->Setup3DCamera();
+}
+
+void GameLocal::AddStaticModel(StaticModel* model)
+{
+	array<drawSurf_t*> surfaces = model->getSurfaces();
+	for (unsigned int i = 0; i < surfaces.size(); i++)
+	{
+		surfaces[i]->view = _camera->GetViewProj();
+		surfaces[i]->matModel.makeIdentity();
+	}
+	renderSys->AddStaticModel(model);
 }
 

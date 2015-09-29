@@ -46,6 +46,7 @@ void R_GenerateGeometryVbo( srfTriangles_t *tri )
 drawSurf_t* R_AllocDrawSurf()
 {
 	drawSurf_t* drawSurf = new drawSurf_t;
-	memset(drawSurf, 0, sizeof(drawSurf));
+	memset(drawSurf, 0, sizeof(drawSurf_t));
+	drawSurf->matModel.makeIdentity();
 	return drawSurf;
 }

@@ -4,6 +4,7 @@
 
 class Camera;
 class Sprite;
+class StaticModel;
 
 
 class Game
@@ -30,6 +31,8 @@ public:
 	void SetupCamera();
 
 	void LoadAllModel();
+
+	void AddStaticModel(StaticModel* model);
 private:
 	Camera* _camera;
 

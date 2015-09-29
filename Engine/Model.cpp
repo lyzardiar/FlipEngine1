@@ -13,15 +13,14 @@ StaticModel::~StaticModel()
 
 }
 
-modelSurface_t* StaticModel::AllocStaticSurface()
+drawSurf_t* StaticModel::AllocStaticSurface()
 {
-	modelSurface_t* surface = new modelSurface_t;
-	memset(surface, 0, sizeof(modelSurface_t));
+	drawSurf_t* surface = R_AllocDrawSurf();
 	_surfaces.push_back(surface);
 	return surface;
 }
 
-array<modelSurface_t*> StaticModel::getSurfaces()
+array<drawSurf_t*> StaticModel::getSurfaces()
 {
 	return _surfaces;
 }

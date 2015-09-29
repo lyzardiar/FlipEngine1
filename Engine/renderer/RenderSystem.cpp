@@ -81,15 +81,17 @@ void RenderSystemLocal::DrawString( const char* text )
 
 bool RenderSystemLocal::AddStaticModel( StaticModel* model )
 {
-	array<modelSurface_t*> surfaces = model->getSurfaces();
+	array<drawSurf_t*> surfaces = model->getSurfaces();
 	for (unsigned int i = 0; i < surfaces.size(); i++)
 	{
-		drawSurf_t* drawSur = new drawSurf_t;
-		memset(drawSur, 0, sizeof(drawSurf_t));
-		drawSur->geo = surfaces[i]->geometry;
+		drawSurf_t* drawSur = surfaces[i];
 		drawSur->material = R_AllocMaterail();
 		drawSur->material->shader = _renderBuffer.shaders[1];
 		drawSur->material->tex = resourceSys->AddTexture(".png");
+		
+		if (drawSur->view == NULL)
+			drawSur->view = &_renderBuffer.matWVP;
+
 		R_GenerateGeometryVbo(drawSur->geo);
 		_surfaces.push_back(drawSur);
 	}

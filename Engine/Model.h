@@ -9,12 +9,12 @@ public:
 	StaticModel();
 	~StaticModel();
 
-	modelSurface_t* AllocStaticSurface();
+	drawSurf_t* AllocStaticSurface();
 
-	array<modelSurface_t*> getSurfaces();
+	array<drawSurf_t*> getSurfaces();
 private:
 
-	array<modelSurface_t*> _surfaces;
+	array<drawSurf_t*> _surfaces;
 
 };
 #endif
