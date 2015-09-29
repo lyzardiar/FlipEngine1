@@ -21,7 +21,6 @@ private:
 	mat4 _matProj;
 	vec3 _at;					
 	vec3 _pos;								
-	vec3 _look;
 	mat4 _VP;
 };
 

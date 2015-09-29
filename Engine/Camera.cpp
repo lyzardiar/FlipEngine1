@@ -36,9 +36,9 @@ void Camera::Yaw(float angle)
 {
 	vec3 dir = _at - _pos;
 	quat q;
-	q.fromAxisAngle(vec3(_pos.x, 1.0, _pos.z), angle * QUAT_PI / 360.f);
+	q.fromAxisAngle(vec3(0.f, 1.0f, 0.f), angle * QUAT_PI / 360.f);
 	q.toMatrix().transformVec3(dir.x, dir.y, dir.z);
-	_at = _look + dir;
+	_at = _pos + dir;
 
 	//Sys_Printf("%f %f %f \n", _dir.x, _dir.y, _dir.z);
 
