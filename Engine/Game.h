@@ -16,29 +16,6 @@ public:
 };
 
 
-class GameLocal : public Game
-{
-public:
-	GameLocal( void );
-	~GameLocal();
-
-	void Init();
-
-	void Frame();
-
-	void ProcessEvent(sysEvent_s* event);
-
-	void SetupCamera();
-
-	void LoadAllModel();
-
-	void AddStaticModel(StaticModel* model);
-private:
-	Camera* _camera;
-
-	Sprite* _defaultSprite;
-};
-
 extern Game* game;
 #endif
 

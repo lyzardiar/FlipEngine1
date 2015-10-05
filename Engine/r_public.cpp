@@ -50,3 +50,47 @@ drawSurf_t* R_AllocDrawSurf()
 	drawSurf->matModel.makeIdentity();
 	return drawSurf;
 }
+
+drawSurf_t* R_GenerateFloor(float w, float h)
+{
+	float halfw = w/2;
+	float halfh = h/2;
+	drawSurf_t* surf = R_AllocDrawSurf();
+	surf->geo = R_AllocStaticTriSurf();
+	
+	R_GenerateQuad(surf->geo);
+	surf->geo->verts[0].xyz = vec3(-halfw, 0.f, -halfh);
+	surf->geo->verts[1].xyz = vec3(-halfw, 0.f, halfh);
+	surf->geo->verts[2].xyz = vec3(halfw, 0.f, -halfh);
+	surf->geo->verts[3].xyz = vec3(halfw, 1.f, halfh);
+
+	surf->geo->verts[0].uv = vec2(0.f, 0.f);
+	surf->geo->verts[1].uv = vec2(0.f, 10.f);
+	surf->geo->verts[2].uv = vec2(10.f, 0.f);
+	surf->geo->verts[3].uv = vec2(10.f, 10.f);
+
+	return surf;
+}
+
+void R_GenerateQuad( srfTriangles_t* geo )
+{
+	geo->vbo[0] = 0;
+	geo->vbo[1] = 0;
+
+	geo->numVerts = 4;
+	 R_AllocStaticTriSurfVerts(geo, 4);
+
+	geo->verts[0].uv = vec2(0.f, 0.f);
+	geo->verts[1].uv = vec2(0.f, 1.f);
+	geo->verts[2].uv = vec2(1.f, 0.f);
+	geo->verts[3].uv = vec2(1.f, 1.f);
+
+	geo->numIndexes = 6;
+	geo->indexes = new glIndex_t[6];
+	geo->indexes[0] = 0;
+	geo->indexes[1] = 1;
+	geo->indexes[2] = 2;
+	geo->indexes[3] = 2;
+	geo->indexes[4] = 1;
+	geo->indexes[5] = 3;
+}

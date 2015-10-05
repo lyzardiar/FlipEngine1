@@ -100,9 +100,18 @@ bool RenderSystemLocal::AddStaticModel( StaticModel* model )
 
 bool RenderSystemLocal::AddDrawSur( drawSurf_t* drawSur )
 {
-	drawSur->material = R_AllocMaterail();
-	drawSur->material->shader = _renderBuffer.shaders[1];
-	drawSur->material->tex = resourceSys->AddTexture(".png");
+	if (drawSur->geo->vbo[0] <= 0)
+		R_GenerateGeometryVbo(drawSur->geo);
+
+	if (drawSur->material == NULL)
+		drawSur->material = R_AllocMaterail();
+	
+	if (drawSur->material->shader == NULL)
+		drawSur->material->shader = _renderBuffer.shaders[eShader_PositionTex];
+	
+	if (drawSur->material->tex == NULL)
+		drawSur->material->tex = resourceSys->AddTexture(".png");
+	
 	_surfaces.push_back(drawSur);
 	return true;
 }

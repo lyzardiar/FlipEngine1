@@ -48,3 +48,17 @@ void Camera::Yaw(float angle)
 	_matView.buildLookAt(_pos, _at, vec3(0.f, 1.f, 0.f));
 	_VP = _matProj * _matView;
 }
+
+void Camera::Rise( float displacement )
+{
+	_pos.y += displacement;
+	_matView.buildLookAt(_pos, _at, vec3(0.f, 1.f, 0.f));
+	_VP = _matProj * _matView;	
+}
+
+void Camera::SetPosition( float x, float y, float z )
+{
+	_pos.set(x, y, z);
+	_matView.buildLookAt(_pos, _at, vec3(0.f, 1.f, 0.f));
+	_VP = _matProj * _matView;	
+}

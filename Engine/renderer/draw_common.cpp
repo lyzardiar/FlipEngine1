@@ -39,4 +39,6 @@ void R_RenderPTPass( drawSurf_t* drawSur, DrawFunc drawFunc )
 
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
+
+	GL_CheckError("draw common");
 }

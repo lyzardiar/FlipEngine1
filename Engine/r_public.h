@@ -57,5 +57,9 @@ void	 R_AllocStaticTriSurfVerts( srfTriangles_t *tri, int numVerts );
 
 material_t* R_AllocMaterail();
 
+drawSurf_t* R_GenerateFloor(float w, float h);
+
 void R_GenerateGeometryVbo( srfTriangles_t *tri);
+
+void R_GenerateQuad(srfTriangles_t* geo);
 #endif

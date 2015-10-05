@@ -298,9 +298,9 @@ void MeshLoaderB3D::ReadTRIS(){
 	int n_tris=size/12;
 
 	for( int i=0;i<n_tris;++i ){
-		int i0 = _file->ReadUInt();
-		int i1 = _file->ReadUInt();
-		int i2 = _file->ReadUInt();
+		int i0 = _file->ReadUnsignedInt();
+		int i1 = _file->ReadUnsignedInt();
+		int i2 = _file->ReadUnsignedInt();
 
 		_indices.push_back(i0);
 		_indices.push_back(i1);

@@ -21,7 +21,6 @@ void Com_Init()
 	renderSys->Init();
 
 	Sys_Printf("Initializing Game\n");
-	game = new GameLocal();
 	game->Init();
 
 }

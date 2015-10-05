@@ -8,6 +8,8 @@ void R_RenderPTPass(drawSurf_t* drawSurf, DrawFunc drawFunc);
 
 void R_DrawPositonTex( srfTriangles_t* tri );
 
+
+
 #endif
 
 

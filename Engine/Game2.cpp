@@ -27,9 +27,7 @@ public:
 
 	void SetupCamera();
 
-	void LoadBlurExample();
-
-	void LoadOutlineExample();
+	void LoadAllModel();
 
 	void AddStaticModel(StaticModel* model);
 private:
@@ -52,14 +50,7 @@ Game* game = new GameLocal();
 void GameLocal::Init()
 {
 	SetupCamera();
-
-	LoadBlurExample();
-	LoadOutlineExample();
-
-	Sprite* sprite = new Sprite();
-	sprite->SetTexture("../media/img2_2.png");
-	renderSys->AddSprite(sprite);
-
+	LoadAllModel();
 
 	_defaultSprite = new Sprite;
 	_defaultSprite->SetLabel("...");
@@ -116,6 +107,23 @@ void GameLocal::ProcessEvent(sysEvent_s* event)
 	}
 }
 
+void GameLocal::LoadAllModel()
+{
+	drawSurf_t* surf = R_GenerateFloor(128.f, 128.f);
+	surf->material = R_AllocMaterail();
+	surf->material->tex = resourceSys->AddTexture("../media/test.png");
+	surf->view = _camera->GetViewProj();
+	renderSys->AddDrawSur(surf);
+
+/*	Sprite* sprite = new Sprite;
+	sprite->SetTexture("../media/drkwood2.jpg");
+	renderSys->AddSprite(sprite);
+	sprite->_drawSurf->view = _camera->GetViewProj()*/;
+
+	StaticModel* model = resourceSys->AddMesh("ninja.b3d");
+	AddStaticModel(model);
+}
+
 void GameLocal::SetupCamera()
 {
 	_camera = new Camera();
@@ -131,37 +139,5 @@ void GameLocal::AddStaticModel(StaticModel* model)
 		surfaces[i]->view = _camera->GetViewProj();
 	}
 	renderSys->AddStaticModel(model);
-}
-
-void GameLocal::LoadBlurExample()
-{
-	Shader* shader = resourceSys->AddShaderFromFile("../media/blur.vs", "../media/blur.fs");
-	shader->BindAttribLocation(eAttrib_Position);
-	shader->BindAttribLocation(eAttrib_TexCoord);
-	shader->GetUniformLocation(eUniform_MVP);
-	shader->GetUniformLocation(eUniform_Samper0);
-
-	Sprite* sprite = new Sprite;
-	sprite->SetTexture("../media/img2_2.png");
-	renderSys->AddSprite(sprite);
-	material_t* mater = sprite->_drawSurf->material;
-	mater->shader = shader;
-	sprite->_drawSurf->matModel.buildTranslate(153.f, 0.f, 0.f);
-}
-
-void GameLocal::LoadOutlineExample()
-{
-	Shader* shader = resourceSys->AddShaderFromFile("../media/outline.vs", "../media/outline.fs");
-	shader->BindAttribLocation(eAttrib_Position);
-	shader->BindAttribLocation(eAttrib_TexCoord);
-	shader->GetUniformLocation(eUniform_MVP);
-	shader->GetUniformLocation(eUniform_Samper0);
-
-	Sprite* sprite = new Sprite;
-	sprite->SetTexture("../media/img2_2.png");
-	renderSys->AddSprite(sprite);
-	material_t* mater = sprite->_drawSurf->material;
-	mater->shader = shader;
-	sprite->_drawSurf->matModel.buildTranslate(286.f, 0.f, 0.f);
 }
 

@@ -66,12 +66,6 @@
     <ClCompile Include="..\Engine\glutils.cpp">
       <Filter>renderer</Filter>
     </ClCompile>
-    <ClCompile Include="..\Engine\PipelineP.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Engine\PipelinePT.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="..\Engine\ResourceSystem.cpp">
       <Filter>resource</Filter>
     </ClCompile>
@@ -318,9 +312,6 @@
     <ClCompile Include="..\Engine\Shader.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\Engine\PipelinePTO.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="..\Engine\Pipeline.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -369,6 +360,9 @@
     <ClCompile Include="..\Engine\Camera.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="..\Engine\MeshLoader3DS.cpp">
+      <Filter>resource</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Engine\sys\win32\win_local.h">
@@ -395,14 +389,8 @@
     <ClInclude Include="..\Engine\glutils.h">
       <Filter>renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\Engine\PipelineP.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="..\Engine\color4.h">
       <Filter>common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Engine\PipelinePT.h">
-      <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\Engine\ResourceSystem.h">
       <Filter>resource</Filter>
@@ -494,12 +482,6 @@
     <ClInclude Include="..\Engine\ShaderSource.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\Engine\PipelinePTO.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Engine\Pipeline.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="..\Engine\common\str.h">
       <Filter>common</Filter>
     </ClInclude>
@@ -558,6 +540,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\Engine\Camera.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\MeshLoader3DS.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

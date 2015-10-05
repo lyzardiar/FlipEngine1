@@ -27,9 +27,7 @@ public:
 
 	void SetupCamera();
 
-	void LoadBlurExample();
-
-	void LoadOutlineExample();
+	void LoadAllModel();
 
 	void AddStaticModel(StaticModel* model);
 private:
@@ -52,14 +50,7 @@ Game* game = new GameLocal();
 void GameLocal::Init()
 {
 	SetupCamera();
-
-	LoadBlurExample();
-	LoadOutlineExample();
-
-	Sprite* sprite = new Sprite();
-	sprite->SetTexture("../media/img2_2.png");
-	renderSys->AddSprite(sprite);
-
+	LoadAllModel();
 
 	_defaultSprite = new Sprite;
 	_defaultSprite->SetLabel("...");
@@ -116,11 +107,40 @@ void GameLocal::ProcessEvent(sysEvent_s* event)
 	}
 }
 
+void GameLocal::LoadAllModel()
+{
+	StaticModel* dsmodel = new StaticModel;
+	LoadMesh3DS("../Media/Dino.3ds", dsmodel);
+	AddStaticModel(dsmodel);
+
+	StaticModel* model = resourceSys->AddMesh("ninja.b3d");
+	AddStaticModel(model);
+
+	drawSurf_t* drawSur = R_AllocDrawSurf();
+	drawSur->geo = R_AllocStaticTriSurf();
+	srfTriangles_t* tri = drawSur->geo;
+	tri->numVerts = KnightModel::numVertices;
+	tri->numIndexes = KnightModel::numIndices;
+	drawSur->view = _camera->GetViewProj();
+	R_AllocStaticTriSurfVerts(tri, tri->numVerts);
+
+	for (int i = 0; i < KnightModel::numVertices; i++)
+	{
+		memcpy(&(tri->verts[i].xyz), KnightModel::vertices[i].position, sizeof(float) * 3);
+		memcpy(&(tri->verts[i].uv), KnightModel::vertices[i].uv, sizeof(float) * 3);
+		memcpy(&(tri->verts[i].normal), KnightModel::vertices[i].normal, sizeof(float) * 3);
+	}
+	tri->indexes = new glIndex_t[KnightModel::numIndices];
+	memcpy(tri->indexes, KnightModel::indices, tri->numIndexes*sizeof(glIndex_t));
+
+	R_GenerateGeometryVbo(tri);
+	renderSys->AddDrawSur(drawSur);
+}
+
 void GameLocal::SetupCamera()
 {
 	_camera = new Camera();
 	_camera->Setup3DCamera();
-	_camera->SetPosition(0.f, 10.f, 20.f);
 }
 
 void GameLocal::AddStaticModel(StaticModel* model)
@@ -129,39 +149,8 @@ void GameLocal::AddStaticModel(StaticModel* model)
 	for (unsigned int i = 0; i < surfaces.size(); i++)
 	{
 		surfaces[i]->view = _camera->GetViewProj();
+		surfaces[i]->matModel.makeIdentity();
 	}
 	renderSys->AddStaticModel(model);
-}
-
-void GameLocal::LoadBlurExample()
-{
-	Shader* shader = resourceSys->AddShaderFromFile("../media/blur.vs", "../media/blur.fs");
-	shader->BindAttribLocation(eAttrib_Position);
-	shader->BindAttribLocation(eAttrib_TexCoord);
-	shader->GetUniformLocation(eUniform_MVP);
-	shader->GetUniformLocation(eUniform_Samper0);
-
-	Sprite* sprite = new Sprite;
-	sprite->SetTexture("../media/img2_2.png");
-	renderSys->AddSprite(sprite);
-	material_t* mater = sprite->_drawSurf->material;
-	mater->shader = shader;
-	sprite->_drawSurf->matModel.buildTranslate(153.f, 0.f, 0.f);
-}
-
-void GameLocal::LoadOutlineExample()
-{
-	Shader* shader = resourceSys->AddShaderFromFile("../media/outline.vs", "../media/outline.fs");
-	shader->BindAttribLocation(eAttrib_Position);
-	shader->BindAttribLocation(eAttrib_TexCoord);
-	shader->GetUniformLocation(eUniform_MVP);
-	shader->GetUniformLocation(eUniform_Samper0);
-
-	Sprite* sprite = new Sprite;
-	sprite->SetTexture("../media/img2_2.png");
-	renderSys->AddSprite(sprite);
-	material_t* mater = sprite->_drawSurf->material;
-	mater->shader = shader;
-	sprite->_drawSurf->matModel.buildTranslate(286.f, 0.f, 0.f);
 }
 

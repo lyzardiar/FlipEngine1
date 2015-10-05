@@ -23,7 +23,7 @@ int lfBuffer::ReadChar()
 	return value;
 }
 
-unsigned int lfBuffer::ReadUInt()
+unsigned int lfBuffer::ReadUnsignedInt()
 {
 	unsigned int value;
 	Read(&value, sizeof(unsigned int));
@@ -69,6 +69,25 @@ quat lfBuffer::ReadQuat()
 	return value;
 }
 
+unsigned short lfBuffer::ReadUnsignedShort()
+{
+	unsigned short value;
+	Read(&value, sizeof(unsigned short));
+	return value;
+}
+
+unsigned char lfBuffer::ReadUnsignedChar()
+{
+	unsigned char value;
+	Read(&value, sizeof(unsigned char));
+	return value;
+}
+
+int lfBuffer::Seek( long offset, fsOrigin_t origin )
+{
+	return 0;
+}
+
 bool lfFile::Open( const char* filepath )
 {
 	fp = fopen(filepath, "rb");
@@ -104,4 +123,10 @@ lfFile::~lfFile()
 int lfFile::Tell()
 {
 	return ftell(fp);
+}
+
+int lfFile::Seek( long offset, fsOrigin_t origin )
+{
+	fseek(fp, offset, origin);
+	return 0;
 }
