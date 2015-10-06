@@ -146,4 +146,5 @@ bool LoadMesh3DS(const char* filename, StaticModel* model)
 			}
 		}
 	}
+	return true;
 }

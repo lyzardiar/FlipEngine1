@@ -25,18 +25,15 @@ typedef struct
 	Texture* tex;
 }material_t;
 
-typedef struct{
-	int						id;
-	material_t*				material;
-	srfTriangles_t *		geometry;
-} modelSurface_t;
 
 typedef struct{
-	int					id;
-	material_t*          material;
-	srfTriangles_t *		geo;
-	mat4*				view;
-	mat4					matModel;
+	int	id;
+	material_t* material;
+	srfTriangles_t*	geo;
+	mat4* view;
+	mat4 matModel;
+
+	bool bShaowmap;
 } drawSurf_t;
 
 typedef struct
@@ -48,6 +45,15 @@ typedef struct
 
 	Shader* shaders[32];
 }renderBuffer_t;
+
+typedef struct
+{
+	GLuint fbo;
+	GLuint rbo;
+	GLuint texId;
+	unsigned int width;
+	unsigned int height;
+}shadowMap_t;
 
 drawSurf_t* R_AllocDrawSurf();
 
@@ -62,4 +68,9 @@ drawSurf_t* R_GenerateFloor(float w, float h);
 void R_GenerateGeometryVbo( srfTriangles_t *tri);
 
 void R_GenerateQuad(srfTriangles_t* geo);
+
+shadowMap_t* R_GenerateShadowMap();
+
+mat4& R_BillboardModelView(mat4& model, mat4& view);
+
 #endif

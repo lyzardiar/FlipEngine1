@@ -1,11 +1,11 @@
 #include "../sys_public.h"
-
 #include "../../framework/Common.h"
 #include "../../framework/KeyInput.h"
 
 #include "win_local.h"
 
 Win32Vars_t	win32;
+
 
 int Win32Vars_t::win_xpos = 100;
 int Win32Vars_t::win_ypos = 100;

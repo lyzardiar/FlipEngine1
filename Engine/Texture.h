@@ -13,12 +13,7 @@ public:
 
 	bool Init(int w, int h, void* data);
 
-	void Begin();
-
-	void End();
-
 	GLuint GetName();
-
 
     int _pixelsWide;
 

@@ -1,6 +1,8 @@
 #include "r_public.h"
 #include "DrawVert.h"
 
+static const int SHADOWMAP_DEPTH_SIZE = 1024;
+
 srfTriangles_t * R_AllocStaticTriSurf( void )
 {
 	srfTriangles_t *tris = new srfTriangles_t;
@@ -93,4 +95,45 @@ void R_GenerateQuad( srfTriangles_t* geo )
 	geo->indexes[3] = 2;
 	geo->indexes[4] = 1;
 	geo->indexes[5] = 3;
+}
+
+shadowMap_t* R_GenerateShadowMap()
+{
+	shadowMap_t* shadowMap = new shadowMap_t;
+
+	// Create texid
+	glGenTextures(1, &shadowMap->texId);
+	glBindTexture(GL_TEXTURE_2D, shadowMap->texId);
+	glTexStorage2D( GL_TEXTURE_2D, 1, GL_DEPTH_COMPONENT32F, SHADOWMAP_DEPTH_SIZE, SHADOWMAP_DEPTH_SIZE);
+
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+
+	glGenFramebuffers(1, &shadowMap->fbo);    
+	glBindFramebuffer(GL_FRAMEBUFFER, shadowMap->fbo);
+	glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, shadowMap->texId, 0);
+	glDrawBuffer(GL_NONE);
+	glReadBuffer(GL_NONE);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	return shadowMap;
+}
+
+mat4& R_BillboardModelView( mat4& model, mat4& view )
+{
+	mat4 mat;
+	mat = view * model;
+
+	for(int i=0; i<3; i++ ) 
+		for(int j=0; j<3; j++ ) 
+		{
+			if ( i==j )
+				mat.m[i*4+j] = 1.0;
+			else
+				mat.m[i*4+j] = 0.0;
+		}
+	
+	return mat;
 }

@@ -13,18 +13,18 @@ void Camera::Walk(float displacement) {
 	_pos += dir * displacement;
 	_at = _pos + dir;
 	_matView.buildLookAt(_pos, _at, vec3(0.f, 1.f, 0.f));
-	_VP = _matProj * _matView;	
+	_matViewProj = _matProj * _matView;	
 }
 
 mat4* Camera::GetViewProj() {
-	return &_VP;
+	return &_matViewProj;
 }
 
 void Camera::Setup3DCamera() {
 	_matProj.buildPerspectiveProjection(3.1415926535898f / 3, 800.f / 600, 0.1f, 800.f);
 	_at.set(0.f, 0.f, -1.f);
 	_matView.buildLookAt(_pos, _at, vec3(0.f, 1.f, 0.f));
-	_VP = _matProj * _matView;	
+	_matViewProj = _matProj * _matView;	
 }
 
 vec3 Camera::GetPosition()
@@ -46,19 +46,30 @@ void Camera::Yaw(float angle)
 	//Sys_Printf("%f %f %f \n", dir.x, dir.y, dir.z);
 
 	_matView.buildLookAt(_pos, _at, vec3(0.f, 1.f, 0.f));
-	_VP = _matProj * _matView;
+	_matViewProj = _matProj * _matView;
 }
 
 void Camera::Rise( float displacement )
 {
 	_pos.y += displacement;
 	_matView.buildLookAt(_pos, _at, vec3(0.f, 1.f, 0.f));
-	_VP = _matProj * _matView;	
+	_matViewProj = _matProj * _matView;	
 }
 
 void Camera::SetPosition( float x, float y, float z )
 {
 	_pos.set(x, y, z);
 	_matView.buildLookAt(_pos, _at, vec3(0.f, 1.f, 0.f));
-	_VP = _matProj * _matView;	
+	_matViewProj = _matProj * _matView;	
+}
+
+
+mat4* Camera::GetProj()
+{
+	return &_matProj;
+}
+
+mat4* Camera::GetView()
+{
+	return &_matView;
 }

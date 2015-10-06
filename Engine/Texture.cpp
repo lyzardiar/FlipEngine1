@@ -54,17 +54,6 @@ bool Texture::Init(int w, int h, void* data)
 	return true;
 }
 
-void Texture::Begin()
-{
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, _name);
-}
-
-void Texture::End()
-{
-	glBindTexture(GL_TEXTURE_2D, 0);
-}
-
 GLuint Texture::GetName()
 {
 	return _name;

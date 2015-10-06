@@ -31,7 +31,8 @@ void RenderSystemLocal::Init()
 	resourceSys = new ResourceSystem;
 
 	// _renderbuffer init
-	_renderBuffer.matPerspective.buildPerspectiveProjection(3.1415926535898f / 3, 800.f / 600, 0.1f, 800.f);
+	//_renderBuffer.matPerspective.buildPerspectiveProjection(3.1415926535898f / 3, 800.f / 600, 0.1f, 800.f);
+	_renderBuffer.matPerspective.BuildProjectionOrthoRH(800.f, 600.f, 0.1f, 800.f);
 	//_renderBuffer.matView.buildLookAt(vec3(0, 0,  300.f / tanf(3.1415936f/6.f)), vec3(0, 0, 0), vec3(0, 1, 0));
 	_renderBuffer.matView.m[12] = -400;
 	_renderBuffer.matView.m[13] = -300;
@@ -68,7 +69,10 @@ void RenderSystemLocal::FrameUpdate()
 	
 	for (unsigned int i = 0; i < _surfaces.size(); i++)
 	{
-		R_RenderPTPass(_surfaces[i], R_DrawPositonTex);
+		if (_surfaces[i]->bShaowmap)
+			R_RenderShadowMap(_surfaces[i], R_DrawPositon);
+		else
+			R_RenderPTPass(_surfaces[i], R_DrawPositonTex);
 	}
 	GL_CheckError("frameupdate");
 	GL_SwapBuffers();

@@ -1,3 +1,7 @@
+/************************************************************************/
+/* blur shader & outline shader
+/************************************************************************/
+
 #include "Game.h"
 #include "Mesh.h"
 #include "ResourceSystem.h"
@@ -10,8 +14,6 @@
 #include "Sprite.h"
 #include "Model.h"
 #include "MeshLoader3DS.h"
-
-
 
 class GameLocal : public Game
 {
@@ -32,6 +34,7 @@ public:
 	void LoadOutlineExample();
 
 	void AddStaticModel(StaticModel* model);
+
 private:
 	Camera* _camera;
 
@@ -59,7 +62,6 @@ void GameLocal::Init()
 	Sprite* sprite = new Sprite();
 	sprite->SetTexture("../media/img2_2.png");
 	renderSys->AddSprite(sprite);
-
 
 	_defaultSprite = new Sprite;
 	_defaultSprite->SetLabel("...");

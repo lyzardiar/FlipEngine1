@@ -20,7 +20,7 @@ void Shader::GetUniformLocation( unformType_t type )
 	if (type >= 0 && type <= eUniform_Count)
 	{
 		_uniforms[type] = glGetUniformLocation(_program, UniformType[type]);
-		Sys_Printf("%d, %d, %s \n", _uniforms[type], type, UniformType[type]);
+		//Sys_Printf("%d, %d, %s \n", _uniforms[type], type, UniformType[type]);
 	}
 }
 

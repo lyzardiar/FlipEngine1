@@ -3,6 +3,8 @@
 #include <memory.h>
 #include <math.h>
 #include "vec3.h"
+#include "vec4.h"
+
 /*
 		|0  4  8 12|
   m =   |1  5  9 13|
@@ -17,9 +19,12 @@ public:
 	~mat4() {}
 
 	inline mat4 operator*(const mat4 mat);
+	inline mat4 operator*=(const mat4& mat);
+	inline vec4 operator*( const vec4 &vec ) const;
 
 	void makeIdentity();
 	void buildPerspectiveProjection(float fieldOfViewRadians, float aspectRatio, float zNear, float zFar);
+	void BuildProjectionOrthoRH( float widthOfViewVolume, float heightOfViewVolume, float zNear, float zFar);
 	void transformVec3(float& x, float& y, float& z);
 	void setScale(float x, float y, float z);
 	void multiplyWith1x4Matrix(float *mat);
@@ -115,4 +120,17 @@ inline mat4 mat4::buildLookAt(vec3 position, vec3 target, vec3 up)
 	return *this;
 }
 
+inline mat4 mat4::operator*=(const mat4& mat)
+{
+	return *this * mat;
+}
+
+inline vec4 mat4::operator*( const vec4 &vec ) const 
+{
+	return vec4(
+		m[0] * vec.x + m[4] * vec.y + m[8] * vec.z + m[12] * vec.w,
+		m[1] * vec.x + m[5] * vec.y + m[9] * vec.z + m[13] * vec.w,
+		m[2] * vec.x + m[6] * vec.y + m[10] * vec.z + m[14] * vec.w,
+		m[3] * vec.x + m[7] * vec.y + m[11] * vec.z + m[15] * vec.w );
+}
 #endif

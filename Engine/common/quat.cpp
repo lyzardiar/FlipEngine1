@@ -90,3 +90,66 @@ quat& quat::lerp(quat q1, quat q2, float time)
 	const float scale = 1.0f - time;
 	return (*this = (q1*scale) + (q2*time));
 }
+
+quat& quat::rotationFromTo(const vec3& from, const vec3& to)
+{
+	// Based on Stan Melax's article in Game Programming Gems
+	// Copy, since cannot modify local
+	vec3 v0 = from;
+	vec3 v1 = to;
+	v0.normalize();
+	v1.normalize();
+
+	const float d = v0.dot(v1);
+	if (d >= 1.0f) // If dot == 1, vectors are the same
+	{
+		return MakeIdentity();
+	}
+	else if (d <= -1.0f) // exactly opposite
+	{
+		vec3 axis(1.0f, 0.f, 0.f);
+		axis = axis.cross(v0);
+		if (axis.getLength()==0)
+		{
+			axis.set(0.f,1.f,0.f);
+			axis = axis.cross(v0);
+		}
+		// same as fromAngleAxis(core::PI, axis).normalize();
+		return set(axis.x, axis.y, axis.z, 0).Normalize();
+	}
+
+	const float s = sqrtf( (1+d)*2 ); // optimize inv_sqrt
+	const float invs = 1.f / s;
+	const vec3 c = v0.cross(v1)*invs;
+	return set(c.x, c.y, c.z, s * 0.5f).Normalize();
+}
+
+quat& quat::MakeIdentity()
+{
+	w = 1.f;
+	x = 0.f;
+	y = 0.f;
+	z = 0.f;
+	return *this;
+}
+
+
+quat& quat::set(float x, float y, float z, float w)
+{
+	this->x = x;
+	this->y = y;
+	this->z = z;
+	this->w = w;
+	return *this;
+}
+
+quat& quat::Normalize()
+{
+	const float n = x*x + y*y + z*z + w*w;
+
+	if (n == 1)
+		return *this;
+
+	//n = 1.0f / sqrtf(n);
+	return (*this *= (1.f / sqrtf(n)) );
+}

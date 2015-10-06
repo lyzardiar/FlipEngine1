@@ -1,6 +1,7 @@
 #ifndef __TIMER_H__
 #define __TIMER_H__
 
+#define  WIN32
 #ifdef WIN32   // Windows system specific
 #include <windows.h>
 #else          // Unix based system specific

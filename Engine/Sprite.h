@@ -13,7 +13,6 @@ public:
 	Sprite();
 	~Sprite();
 
-
 	void SetTexture(const char* imgPath);
 
 	void SetLabel(const char* label);
@@ -21,6 +20,14 @@ public:
 	void SetupVBO();
 
 	void SetPosition(float x, float y, float z);
+
+	vec3 GetPosition();
+
+	// billboard
+	void LookAtView(mat4* view);
+
+	vec2 ToScreenCoord(mat4& viewProj);
+
 private:
 	void UpdateVertex();
 
@@ -29,7 +36,7 @@ public:
 	drawSurf_t* _drawSurf;
 	int  _width;
 	int  _height;
-	vec2 _position;
+	vec3 _position;
 };
 
 

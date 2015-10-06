@@ -119,3 +119,26 @@ mat4 mat4::inverse()
     r.m[15] = + (v3 * m[0] - v1 * m[4] + v0 * m[8]) * invDet;
 	return r;
 }
+
+void mat4::BuildProjectionOrthoRH(float widthOfViewVolume, float heightOfViewVolume, float zNear, float zFar)
+{
+	m[0] = 2/widthOfViewVolume;
+	m[1] = 0;
+	m[2] = 0;
+	m[3] = 0;
+
+	m[4] = 0;
+	m[5] = 2/heightOfViewVolume;
+	m[6] = 0;
+	m[7] = 0;
+
+	m[8] = 0;
+	m[9] = 0;
+	m[10] = 1/(zNear-zFar);
+	m[11] = 0;
+
+	m[12] = 0;
+	m[13] = 0;
+	m[14] = zNear/(zNear-zFar);
+	m[15] = 1;
+}

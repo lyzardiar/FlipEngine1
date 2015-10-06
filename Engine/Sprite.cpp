@@ -3,11 +3,12 @@
 #include "Texture.h"
 #include "DrawVert.h"
 #include "glutils.h"
+#include "sys/sys_public.h"
 
 Sprite::Sprite() : _width(0),
 				_height(0)
 {
-	_drawSurf = new drawSurf_t;
+	_drawSurf = R_AllocDrawSurf();
 
 	float w = 1;
 	float h = 1;
@@ -70,5 +71,44 @@ void Sprite::SetupVBO()
 
 void Sprite::SetPosition(float x, float y, float z)
 {
+	_position.set(x, y, z);
 	_drawSurf->matModel.buildTranslate(x, y, z);
+}
+
+vec3 Sprite::GetPosition()
+{
+	return _position;
+}
+
+void Sprite::LookAtView( mat4* view )
+{
+	_drawSurf->matModel.buildTranslate(_position);
+	_drawSurf->matModel = R_BillboardModelView(_drawSurf->matModel, *view);
+}
+
+vec2 Sprite::ToScreenCoord( mat4& viewProj )
+{
+	mat4 model;
+	model.buildTranslate(_position);
+	vec4 out = viewProj * model * vec4(_position, 1.0f);
+
+	out.x /= out.w;
+	out.y /= out.w;
+	out.z /= out.w;
+
+	// Map x, y and z to range 0-1
+	out.x = out.x * 0.5f + 0.5f;
+	out.y = out.y * 0.5f + 0.5f;
+	out.z = out.z * 0.5f + 0.5f;
+
+	// Map x,y to viewport
+	out.x = out.x * 800.f;
+	out.y = (1-out.y) * 600.f;
+
+	vec2 screenPos;
+	screenPos.x = out.x;
+	screenPos.y = out.y;
+
+	_drawSurf->matModel.buildTranslate(screenPos.x, screenPos.y, 0.f);
+	return screenPos;
 }
