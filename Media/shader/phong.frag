@@ -16,12 +16,12 @@ void main( void )
    vec3  fvNormal         = normalize( Normal );
    float fNDotL           = dot( fvNormal, -fvLightDirection ); 
    
-   vec3  fvReflection     = normalize( ( ( 2.0 * fvNormal ) * fNDotL ) - fvLightDirection ); 
+   vec3  fvReflection     = normalize( ( ( 2.0 * fvNormal ) * fNDotL ) + fvLightDirection ); 
    vec3  fvViewDirection  = normalize( ViewDirection );
    float fRDotV           = max( 0.0, dot( fvReflection, -fvViewDirection ) );
    
    vec4  fvBaseColor      = texture2D( texture1, TexCoord );
-   
+
    vec4  fvTotalAmbient   = fvAmbient * fvBaseColor; 
    vec4  fvTotalDiffuse   = fvDiffuse * fNDotL * fvBaseColor; 
    vec4  fvTotalSpecular  = fvSpecular * ( pow( fRDotV, fSpecularPower ) );

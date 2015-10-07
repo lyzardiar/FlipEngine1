@@ -128,11 +128,11 @@ void ShadowSampler::ProcessEvent(sysEvent_s* event)
 			{
 			case 'w':
 			case 'W':
-				_camera->Walk(0.1f);
+				_camera->Walk(1.f);
 				break;
 			case 's':
 			case 'S':
-				_camera->Walk(-0.1f);
+				_camera->Walk(-1.f);
 				break;
 			case 'A':
 			case 'a':

@@ -10,6 +10,7 @@ Camera::~Camera() {
 
 void Camera::Walk(float displacement) {
 	vec3 dir = _at - _pos;
+	dir.normalize();
 	_pos += dir * displacement;
 	_at = _pos + dir;
 	_matView.buildLookAt(_pos, _at, vec3(0.f, 1.f, 0.f));

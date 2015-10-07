@@ -68,7 +68,7 @@ void R_RenderPhongPass( drawSurf_t* drawSurf, DrawFunc drawFunc )
 	glUniform1i( shader->GetUniform(eUniform_Samper0), 0 );
 	glBindTexture( GL_TEXTURE_2D, material->tex->GetName() );
 
-	glUniform3f(shader->GetUniform(eUniform_EyePos), -126.f, 126.f, 100.f);
+	glUniform3f(shader->GetUniform(eUniform_EyePos), 0.f, 0.f, 100.f);
 	glUniform3f(shader->GetUniform(eUniform_LightPos), -100.f, 100.f, -100.f);
 
 	drawFunc(tri);

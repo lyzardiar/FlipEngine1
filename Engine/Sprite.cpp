@@ -15,10 +15,10 @@ Sprite::Sprite() : _width(0),
 
 	_drawSurf->geo = R_AllocStaticTriSurf();
 	R_GenerateQuad(_drawSurf->geo);
-	_drawSurf->geo->verts[0].xyz = vec3(0.f, 0.f, 0.f);
-	_drawSurf->geo->verts[1].xyz = vec3(0.f, h, 0.f);
-	_drawSurf->geo->verts[2].xyz = vec3(w, 0.f, 0.f);
-	_drawSurf->geo->verts[3].xyz = vec3(w, h, 0.f);
+	_drawSurf->geo->verts[0].xyz = vec3(0.f, h, 0.f);
+	_drawSurf->geo->verts[1].xyz = vec3(0.f, 0.f, 0.f);
+	_drawSurf->geo->verts[2].xyz = vec3(w, h, 0.f);
+	_drawSurf->geo->verts[3].xyz = vec3(w, 0.f, 0.f);
 
 	_drawSurf->material = R_AllocMaterail();
 
@@ -56,9 +56,9 @@ void Sprite::UpdateVertex()
 	float h = (float)texture->_pixelsHigh;
 
 	srfTriangles_t* tri = _drawSurf->geo;
-	tri->verts[1].xyz.y = h;
-	tri->verts[2].xyz.x = w;
-	tri->verts[3].xyz = vec3(w, h, 0.f);
+	tri->verts[0].xyz.y = h;
+	tri->verts[2].xyz = vec3(w, h, 0.f);
+	tri->verts[3].xyz.x = w;
 
 	SetupVBO();
 }
