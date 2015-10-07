@@ -353,6 +353,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="..\Engine\Light.cpp" />
+    <ClCompile Include="..\Engine\tr_stencilshadow.cpp" />
+    <ClCompile Include="..\Engine\Interaction.cpp" />
+    <ClCompile Include="..\Engine\common\Plane.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\tr_trisurf.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Engine\color4.h">
@@ -538,6 +544,10 @@
     <ClInclude Include="..\Engine\Light.h" />
     <ClInclude Include="..\Engine\Billboard.h" />
     <ClInclude Include="..\Engine\common\vec4.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\Interaction.h" />
+    <ClInclude Include="..\Engine\common\Plane.h">
       <Filter>common</Filter>
     </ClInclude>
   </ItemGroup>

@@ -22,6 +22,8 @@ public:
 
 	void CreateLight();
 
+	void CastShadowMap();
+
 private:
 	Camera* _camera;
 
@@ -30,6 +32,7 @@ private:
 	Sprite* _spLight;
 
 	Camera* _light;
+
 };
 
 

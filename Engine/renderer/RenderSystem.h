@@ -39,6 +39,9 @@ public:
 	void Init();
 	void FrameUpdate();
 	void DrawString(const char* text);
+
+	void RenderShadowMap(drawSurf_t* drawSur);
+
 	virtual bool AddStaticModel(StaticModel* model);
 
 	virtual bool AddDrawSur(drawSurf_t* drawSur);
@@ -48,7 +51,8 @@ private:
 
 	renderBuffer_t	_renderBuffer;
 	array<drawSurf_t*> _surfaces;
-	Sprite*			_defaultSprite;
+	Sprite*	_defaultSprite;
+	shadowMap_t* _shadowMap;
 };
 
 extern RenderSystem* renderSys;

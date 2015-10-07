@@ -34,6 +34,10 @@ void ShadowSampler::Init()
 {
 	SetupCamera();
 
+	StaticModel* model = resourceSys->AddMesh("../media/ninja.b3d");
+	AddStaticModel(model);
+
+
 	_defaultSprite = new Sprite;
 	_defaultSprite->SetLabel("...");
 	_defaultSprite->SetPosition(0.f, 540.f, 0.f);
@@ -74,7 +78,15 @@ void ShadowSampler::Init()
 	drawSur = R_AllocDrawSurf();
 	drawSur->geo = tri;
 	drawSur->view = _camera->GetViewProj();
+	drawSur->matModel.buildTranslate(0.f, 0.4f, 0.f);
 	renderSys->AddDrawSur(drawSur);
+
+	drawSurf_t* surf = R_GenerateFloor(4.f, 4.f);
+	surf->material = R_AllocMaterail();
+	surf->material->tex = resourceSys->AddTexture("../media/test.png");
+	surf->view = _camera->GetViewProj();
+	renderSys->AddDrawSur(surf);
+
 }
 
 void ShadowSampler::Frame()
@@ -85,6 +97,12 @@ void ShadowSampler::Frame()
 		ProcessEvent(&ev);
 		ev = Sys_GetEvent();
 	}
+
+
+	glCullFace(GL_BACK);
+	glUseProgram(0);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	vec2 screenpos = _spLight->ToScreenCoord(*_camera->GetViewProj());
 

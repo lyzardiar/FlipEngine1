@@ -64,12 +64,12 @@ drawSurf_t* R_GenerateFloor(float w, float h)
 	surf->geo->verts[0].xyz = vec3(-halfw, 0.f, -halfh);
 	surf->geo->verts[1].xyz = vec3(-halfw, 0.f, halfh);
 	surf->geo->verts[2].xyz = vec3(halfw, 0.f, -halfh);
-	surf->geo->verts[3].xyz = vec3(halfw, 1.f, halfh);
+	surf->geo->verts[3].xyz = vec3(halfw, 0.f, halfh);
 
 	surf->geo->verts[0].uv = vec2(0.f, 0.f);
-	surf->geo->verts[1].uv = vec2(0.f, 10.f);
-	surf->geo->verts[2].uv = vec2(10.f, 0.f);
-	surf->geo->verts[3].uv = vec2(10.f, 10.f);
+	surf->geo->verts[1].uv = vec2(0.f, 1.f);
+	surf->geo->verts[2].uv = vec2(1.f, 0.f);
+	surf->geo->verts[3].uv = vec2(1.f, 1.f);
 
 	return surf;
 }

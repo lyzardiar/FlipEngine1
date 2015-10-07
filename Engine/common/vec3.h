@@ -133,6 +133,17 @@ public:
 		y += center.y;
 	}
 
+	void Zero() {
+		x = y = z = 0.0f;
+	}
+
+	inline float operator[]( const int index ) const {
+		return ( &x )[ index ];
+	}
+
+	inline float& operator[]( const int index ) {
+		return ( &x )[ index ];
+	}
 	// member variables
 
 	float x, y, z;

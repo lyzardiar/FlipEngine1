@@ -66,6 +66,7 @@
     <ClCompile Include="..\Engine\Camera.cpp" />
     <ClCompile Include="..\Engine\common\Joint.cpp" />
     <ClCompile Include="..\Engine\common\mat4.cpp" />
+    <ClCompile Include="..\Engine\common\Plane.cpp" />
     <ClCompile Include="..\Engine\common\quat.cpp" />
     <ClCompile Include="..\Engine\common\str.cpp" />
     <ClCompile Include="..\Engine\common\Timer.cpp" />
@@ -78,6 +79,7 @@
     <ClCompile Include="..\Engine\ImageLoaderDDS.cpp" />
     <ClCompile Include="..\Engine\ImageLoaderJPG.cpp" />
     <ClCompile Include="..\Engine\ImageLoaderPNG.cpp" />
+    <ClCompile Include="..\Engine\Interaction.cpp" />
     <ClCompile Include="..\Engine\jpeglib\jaricom.c" />
     <ClCompile Include="..\Engine\jpeglib\jcapimin.c" />
     <ClCompile Include="..\Engine\jpeglib\jcapistd.c" />
@@ -156,6 +158,8 @@
     <ClCompile Include="..\Engine\sys\win32\win_syscon.cpp" />
     <ClCompile Include="..\Engine\sys\win32\win_wndproc.cpp" />
     <ClCompile Include="..\Engine\Texture.cpp" />
+    <ClCompile Include="..\Engine\tr_stencilshadow.cpp" />
+    <ClCompile Include="..\Engine\tr_trisurf.cpp" />
     <ClCompile Include="..\Engine\zlib\adler32.c" />
     <ClCompile Include="..\Engine\zlib\compress.c" />
     <ClCompile Include="..\Engine\zlib\crc32.c" />
@@ -178,6 +182,7 @@
     <ClInclude Include="..\Engine\common\List.h" />
     <ClInclude Include="..\Engine\common\mat4.h" />
     <ClInclude Include="..\Engine\common\mat4helper.h" />
+    <ClInclude Include="..\Engine\common\Plane.h" />
     <ClInclude Include="..\Engine\common\precompiled.h" />
     <ClInclude Include="..\Engine\common\quat.h" />
     <ClInclude Include="..\Engine\common\str.h" />
@@ -194,6 +199,7 @@
     <ClInclude Include="..\Engine\HashTable.h" />
     <ClInclude Include="..\Engine\Image.h" />
     <ClInclude Include="..\Engine\ImageLoader.h" />
+    <ClInclude Include="..\Engine\Interaction.h" />
     <ClInclude Include="..\Engine\jpeglib\cderror.h" />
     <ClInclude Include="..\Engine\jpeglib\jconfig.h" />
     <ClInclude Include="..\Engine\jpeglib\jdct.h" />

@@ -10,13 +10,15 @@ class Shader;
 
 // our only drawing geometry type
 typedef struct srfTriangles_s {
-	int				numVerts;				
-	DrawVert*			verts;				
+	int	numVerts;				
+	DrawVert* verts;				
 
-	int				numIndexes;			
-	glIndex_t*		indexes;
+	int	numIndexes;			
+	glIndex_t* indexes;
 
-	GLuint			vbo[2];
+	GLuint vbo[2];
+
+	bool tangentsCalculated;
 }srfTriangles_t;
 
 typedef struct
@@ -72,5 +74,7 @@ void R_GenerateQuad(srfTriangles_t* geo);
 shadowMap_t* R_GenerateShadowMap();
 
 mat4& R_BillboardModelView(mat4& model, mat4& view);
+
+void R_DeriveNormals( srfTriangles_t *tri, bool allocFacePlanes );
 
 #endif

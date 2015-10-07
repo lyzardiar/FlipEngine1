@@ -70,12 +70,27 @@ void RenderSystemLocal::FrameUpdate()
 	for (unsigned int i = 0; i < _surfaces.size(); i++)
 	{
 		if (_surfaces[i]->bShaowmap)
-			R_RenderShadowMap(_surfaces[i], R_DrawPositon);
+		{
+			//RenderShadowMap(_surfaces[i]);
+		}
 		else
 			R_RenderPTPass(_surfaces[i], R_DrawPositonTex);
 	}
 	GL_CheckError("frameupdate");
 	GL_SwapBuffers();
+}
+
+void RenderSystemLocal::RenderShadowMap(drawSurf_t* drawSur)
+{
+	glViewport(0, 0, 1024, 1024);
+
+	glClearColor(1.0, 1.0, 1.0, 1.0);
+	glBindFramebuffer(GL_FRAMEBUFFER, _shadowMap->fbo);
+	glClear(GL_DEPTH_BUFFER_BIT);
+
+	glCullFace(GL_FRONT);
+	R_RenderShadowMap(drawSur, R_DrawPositon);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void RenderSystemLocal::DrawString( const char* text )
