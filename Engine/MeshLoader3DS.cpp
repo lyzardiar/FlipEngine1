@@ -105,14 +105,14 @@ bool LoadMesh3DS(const char* filename, StaticModel* model)
 
 		case INDEX_DATA_3DS:
 			{
-				int numTri = file->ReadUnsignedShort();
+				unsigned short numTri = file->ReadUnsignedShort();
 				geo->numIndexes = numTri * 3;
 				geo->indexes = new glIndex_t[geo->numIndexes];
 				for(int i=0; i<numTri; ++i)
 				{
-					geo->indexes[i] = file->ReadUnsignedShort();
-					geo->indexes[i+1] = file->ReadUnsignedShort();
-					geo->indexes[i+2] = file->ReadUnsignedShort();
+					geo->indexes[i*3] = file->ReadUnsignedShort();
+					geo->indexes[i*3+1] = file->ReadUnsignedShort();
+					geo->indexes[i*3+2] = file->ReadUnsignedShort();
 					unsigned short flag = file->ReadUnsignedShort();
 					//Sys_Printf("%d %d %d ", geo->indexes[i], geo->indexes[i+1], geo->indexes[i+2]);
 				}

@@ -12,6 +12,8 @@ public:
 	drawSurf_t* AllocStaticSurface();
 
 	array<drawSurf_t*> getSurfaces();
+
+	void GenerateNormals();
 private:
 
 	array<drawSurf_t*> _surfaces;

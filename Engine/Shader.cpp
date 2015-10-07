@@ -5,13 +5,18 @@ const char* UniformType[16] =
 {
 	"WVP",
 	"COLOR",
-	"texture1"
+	"texture1",
+	"modelView",
+	"invModelView",
+	"fvEyePosition",
+	"fvLightPosition",
 };
 
 const char* AttribType[16] = 
 {
 	"vPosition",
-	"vTexCoord"
+	"vTexCoord",
+	"vNormal"
 };
 
 

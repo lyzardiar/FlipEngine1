@@ -33,7 +33,12 @@ typedef struct{
 	material_t* material;
 	srfTriangles_t*	geo;
 	mat4* view;
+	mat4* proj;
+	mat4* viewProj;
 	mat4 matModel;
+
+	vec3 eyePos;
+	vec3 lightPos;
 
 	bool bShaowmap;
 } drawSurf_t;
@@ -75,6 +80,6 @@ shadowMap_t* R_GenerateShadowMap();
 
 mat4& R_BillboardModelView(mat4& model, mat4& view);
 
-void R_DeriveNormals( srfTriangles_t *tri, bool allocFacePlanes );
+void R_DeriveNormals( srfTriangles_t *tri );
 
 #endif

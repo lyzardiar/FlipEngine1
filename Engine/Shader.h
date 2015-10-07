@@ -8,6 +8,10 @@ typedef enum
 	eUniform_MVP,
 	eUniform_Color,
 	eUniform_Samper0,
+	eUniform_ModelView,
+	eUniform_InvModelView,
+	eUniform_EyePos,
+	eUniform_LightPos,
 
 	eUniform_Count,
 }unformType_t;
@@ -16,6 +20,7 @@ typedef enum
 {
 	eAttrib_Position,
 	eAttrib_TexCoord,
+	eAttrib_Normal,
 
 	eAttrib_Count,
 }attribType_t;

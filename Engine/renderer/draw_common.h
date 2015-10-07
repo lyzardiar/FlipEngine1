@@ -8,9 +8,13 @@ void R_RenderPTPass(drawSurf_t* drawSur, DrawFunc drawFunc);
 
 void R_RenderShadowMap(drawSurf_t* drawSur, DrawFunc drawFunc);
 
+void R_RenderPhongPass(drawSurf_t* drawSurf, DrawFunc drawFunc);
+
 void R_DrawPositonTex( srfTriangles_t* tri );
 
 void R_DrawPositon( srfTriangles_t* tri );
+
+void R_DrawPositionTexNorm( srfTriangles_t* tri );
 
 
 #endif

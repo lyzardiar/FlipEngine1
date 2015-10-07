@@ -26,6 +26,11 @@ void RenderSystemLocal::Init()
 {
 	// 文本需要
 	glEnable(GL_BLEND);
+
+	glEnable(GL_CULL_FACE);
+	glFrontFace(GL_CCW);// The initial value is GL_CCW.
+	glCullFace(GL_BACK);// The initial value is GL_BACK.
+
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	resourceSys = new ResourceSystem;
@@ -53,8 +58,22 @@ void RenderSystemLocal::Init()
 	shader2->GetUniformLocation(eUniform_MVP);
 	shader2->GetUniformLocation(eUniform_Samper0);
 
+	Shader* phong = resourceSys->AddShaderFromFile("../media/shader/phong.vert",
+		"../media/shader/phong.frag");
+	phong->BindAttribLocation(eAttrib_Position);
+	phong->BindAttribLocation(eAttrib_TexCoord);
+	phong->BindAttribLocation(eAttrib_Normal);
+	
+	phong->GetUniformLocation(eUniform_MVP);
+	phong->GetUniformLocation(eUniform_EyePos);
+	phong->GetUniformLocation(eUniform_LightPos);
+	phong->GetUniformLocation(eUniform_ModelView);
+	phong->GetUniformLocation(eUniform_InvModelView);
+	phong->GetUniformLocation(eUniform_Samper0);
+
 	_renderBuffer.shaders[eShader_Position]		= shader1;
 	_renderBuffer.shaders[eShader_PositionTex]	= shader2;
+	_renderBuffer.shaders[2] = phong;
 
 	// fps  init
 	_defaultSprite = new Sprite;
@@ -73,6 +92,8 @@ void RenderSystemLocal::FrameUpdate()
 		{
 			//RenderShadowMap(_surfaces[i]);
 		}
+		else if(_surfaces[i]->geo->tangentsCalculated)
+			R_RenderPhongPass(_surfaces[i], R_DrawPositionTexNorm);
 		else
 			R_RenderPTPass(_surfaces[i], R_DrawPositonTex);
 	}
@@ -105,7 +126,7 @@ bool RenderSystemLocal::AddStaticModel( StaticModel* model )
 	{
 		drawSurf_t* drawSur = surfaces[i];
 		drawSur->material = R_AllocMaterail();
-		drawSur->material->shader = _renderBuffer.shaders[1];
+		drawSur->material->shader = _renderBuffer.shaders[2];
 		drawSur->material->tex = resourceSys->AddTexture(".png");
 		
 		if (drawSur->view == NULL)

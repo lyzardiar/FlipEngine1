@@ -35,8 +35,13 @@ void ShadowSampler::Init()
 	SetupCamera();
 
 	StaticModel* model = resourceSys->AddMesh("../media/ninja.b3d");
+	model->GenerateNormals();
 	AddStaticModel(model);
 
+	StaticModel* dsmodel = new StaticModel;
+	LoadMesh3DS("../Media/Teapot.3ds", dsmodel);
+	dsmodel->GenerateNormals();
+	AddStaticModel(dsmodel);
 
 	_defaultSprite = new Sprite;
 	_defaultSprite->SetLabel("...");
@@ -108,7 +113,7 @@ void ShadowSampler::Frame()
 
 	vec3 pos = _camera->GetPosition();
 	char buff[255];
-	sprintf_s(buff, "camera position %.02f %.02f %.02f %.02f %.02f", pos.x, pos.y, 
+	sprintf_s(buff, "camera position %.02f %.02f %.02f screen pos: %.02f %.02f", pos.x, pos.y, 
 		pos.z, screenpos.x, screenpos.y);
 	_defaultSprite->SetLabel(buff);
 }
@@ -151,7 +156,8 @@ void ShadowSampler::SetupCamera()
 {
 	_camera = new Camera();
 	_camera->Setup3DCamera();
-	_camera->SetPosition(-1.26f, 1.26f, 1.8f);
+	//_camera->SetPosition(-1.26f, 1.26f, 1.8f);
+	_camera->SetPosition(-126.f, 126.f, 100.f);
 }
 
 void ShadowSampler::AddStaticModel(StaticModel* model)
@@ -159,7 +165,8 @@ void ShadowSampler::AddStaticModel(StaticModel* model)
 	array<drawSurf_t*> surfaces = model->getSurfaces();
 	for (unsigned int i = 0; i < surfaces.size(); i++)
 	{
-		surfaces[i]->view = _camera->GetViewProj();
+		surfaces[i]->view = _camera->GetView();
+		surfaces[i]->viewProj = _camera->GetViewProj();
 	}
 	renderSys->AddStaticModel(model);
 }
@@ -172,7 +179,7 @@ void ShadowSampler::CreateLight()
 
 	_spLight = new Sprite;
 	_spLight->SetLabel("light");
-	_spLight->SetPosition(-1.f, 1.f, -1.f);
+	_spLight->SetPosition(-100.f, 100.f, -100.f);
 	renderSys->AddSprite(_spLight);
 }
 

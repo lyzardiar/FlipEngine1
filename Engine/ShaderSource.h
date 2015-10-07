@@ -19,12 +19,12 @@ static const char position_frag[] =
 
 //------------------------------------------------------------------------------------------------------
 	static const char positiontex_vert[] =
-		"attribute vec4 vPosition;\n"
+		"attribute vec3 vPosition;\n"
 		"attribute vec2 vTexCoord;\n"
 		"uniform mat4 WVP;\n"
 		"varying vec2 v_texCoord;\n"
 		"void main() {\n"
-		"  gl_Position = WVP*vPosition;\n"
+		"  gl_Position = WVP* vec4(vPosition, 1.0);\n"
 		"  v_texCoord = vTexCoord;\n"
     "}\n";
 

@@ -24,3 +24,11 @@ array<drawSurf_t*> StaticModel::getSurfaces()
 {
 	return _surfaces;
 }
+
+void StaticModel::GenerateNormals()
+{
+	for (int i=0; i<_surfaces.size(); ++i)
+	{
+		R_DeriveNormals(_surfaces[i]->geo);
+	}
+}

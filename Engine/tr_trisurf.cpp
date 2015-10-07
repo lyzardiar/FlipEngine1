@@ -9,7 +9,7 @@ This is called once for static surfaces, and every frame for deforming surfaces
 Builds tangents, normals, and face planes
 ==================
 */
-void R_DeriveNormals( srfTriangles_t *tri, bool allocFacePlanes ) {
+void R_DeriveNormals( srfTriangles_t *tri ) {
 	int				i;
 	Plane			*planes;
 
@@ -50,7 +50,7 @@ void R_DeriveNormals( srfTriangles_t *tri, bool allocFacePlanes ) {
 		// sum up the tangents and normals for each vertex on this face
 		for ( int j = 0 ; j < 3 ; j++ ) {
 			DrawVert* vert = &tri->verts[tri->indexes[i+j]];
-			vert->normal += normal;
+			vert->normal += temp;
 		}
 	}
 
