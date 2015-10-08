@@ -542,7 +542,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\Engine\Light.h" />
-    <ClInclude Include="..\Engine\Billboard.h" />
     <ClInclude Include="..\Engine\common\vec4.h">
       <Filter>common</Filter>
     </ClInclude>

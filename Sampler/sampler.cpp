@@ -38,10 +38,10 @@ void ShadowSampler::Init()
 	model->GenerateNormals();
 	AddStaticModel(model);
 
-	StaticModel* dsmodel = new StaticModel;
-	LoadMesh3DS("../Media/Teapot.3ds", dsmodel);
-	dsmodel->GenerateNormals();
-	AddStaticModel(dsmodel);
+	//StaticModel* dsmodel = new StaticModel;
+	//LoadMesh3DS("../Media/Teapot.3ds", dsmodel);
+	//dsmodel->GenerateNormals();
+	//AddStaticModel(dsmodel);
 
 	_defaultSprite = new Sprite;
 	_defaultSprite->SetLabel("...");
@@ -142,6 +142,9 @@ void ShadowSampler::ProcessEvent(sysEvent_s* event)
 			case 'd':
 				_camera->Yaw(-0.5f);
 				break;
+			case 'Q': case'q':
+				_camera->RotateByAxis(vec3(0.f, 1.f, 0.f), 5.f);
+				break;;
 			default:
 				break;
 			}

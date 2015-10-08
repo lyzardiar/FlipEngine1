@@ -20,6 +20,7 @@ public:
 	void Yaw(float angle);
 	void Rise(float displacement);
 	void SetPosition(float x, float y, float z);
+	void RotateByAxis(vec3 axis, float angle);
 
 private:
 	mat4 _matView;

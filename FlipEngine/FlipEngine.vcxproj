@@ -174,7 +174,6 @@
     <ClCompile Include="..\Media\KnightModel.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Engine\Billboard.h" />
     <ClInclude Include="..\Engine\Camera.h" />
     <ClInclude Include="..\Engine\color4.h" />
     <ClInclude Include="..\Engine\common\array.h" />

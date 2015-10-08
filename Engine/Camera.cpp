@@ -12,7 +12,6 @@ void Camera::Walk(float displacement) {
 	vec3 dir = _at - _pos;
 	dir.normalize();
 	_pos += dir * displacement;
-	_at = _pos + dir;
 	_matView.buildLookAt(_pos, _at, vec3(0.f, 1.f, 0.f));
 	_matViewProj = _matProj * _matView;	
 }
@@ -23,7 +22,7 @@ mat4* Camera::GetViewProj() {
 
 void Camera::Setup3DCamera() {
 	_matProj.buildPerspectiveProjection(3.1415926535898f / 3, 800.f / 600, 0.1f, 800.f);
-	_at.set(0.f, 0.f, -1.f);
+	_at.set(0.f, 0.f, 0.f);
 	_matView.buildLookAt(_pos, _at, vec3(0.f, 1.f, 0.f));
 	_matViewProj = _matProj * _matView;	
 }
@@ -73,4 +72,13 @@ mat4* Camera::GetProj()
 mat4* Camera::GetView()
 {
 	return &_matView;
+}
+
+void Camera::RotateByAxis( vec3 axis, float angle )
+{
+	quat q;
+	q.fromAxisAngle(axis, angle * QUAT_PI / 360.f);
+	q.toMatrix().transformVec3(_pos.x, _pos.y, _pos.z);
+	_matView.buildLookAt(_pos, _at, vec3(0.f, 1.f, 0.f));
+	_matViewProj = _matProj * _matView;	
 }
