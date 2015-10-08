@@ -14,8 +14,11 @@
 #include "../common/Timer.h"
 #include "draw_common.h"
 #include "../Model.h"
+#include "../extern.h"
 
 RenderSystem* renderSys;
+int view_width = 1366;
+int view_height = 768;
 
 RenderSystemLocal::RenderSystemLocal(glimpParms_t *glimpParms_t)
 {
@@ -23,7 +26,16 @@ RenderSystemLocal::RenderSystemLocal(glimpParms_t *glimpParms_t)
 }
 
 void RenderSystemLocal::Init()
-{
+{	
+	glShadeModel(GL_SMOOTH);							
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);			// init value
+
+	glClearDepth(1.0f);									
+	glEnable(GL_DEPTH_TEST);							
+	glDepthFunc(GL_LEQUAL);								
+	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);	
+	glViewport(0, 0, win_width, win_height);
+
 	// 文本需要
 	glEnable(GL_BLEND);
 
@@ -37,11 +49,11 @@ void RenderSystemLocal::Init()
 
 	// _renderbuffer init
 	//_renderBuffer.matPerspective.buildPerspectiveProjection(3.1415926535898f / 3, 800.f / 600, 0.1f, 800.f);
-	_renderBuffer.matPerspective.BuildProjectionOrthoRH(800.f, 600.f, 0.1f, 800.f);
+	_renderBuffer.matPerspective.BuildProjectionOrthoRH((float)view_width, (float)view_height, 0.1f, 800.f);
 	//_renderBuffer.matView.buildLookAt(vec3(0, 0,  300.f / tanf(3.1415936f/6.f)), vec3(0, 0, 0), vec3(0, 1, 0));
-	_renderBuffer.matView.m[12] = -400;
-	_renderBuffer.matView.m[13] = -300;
-	_renderBuffer.matView.m[14] = -300.f / tanf(3.1415936f/6.f);
+	_renderBuffer.matView.m[12] = -view_width/2;
+	_renderBuffer.matView.m[13] = -view_height/2;
+	_renderBuffer.matView.m[14] = -((float)view_height/2.f) / tanf(3.1415936f/6.f);
 	float zfar = -300.f / tanf(3.1415936f/6.f);
 	Sys_Printf("\nzfar: %f\n", zfar);
 	_renderBuffer.matWVP = _renderBuffer.matPerspective * _renderBuffer.matView * _renderBuffer.matWorld;

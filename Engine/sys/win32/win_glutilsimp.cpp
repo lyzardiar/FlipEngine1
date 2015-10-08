@@ -5,7 +5,7 @@
 #include <windows.h>
 
 #include "gl/wglext.h"
-
+#include "../extern.h"
 #ifdef _WIN32
 #pragma comment(lib, "opengl32.lib")
 #pragma comment(lib, "glew32.lib")
@@ -160,7 +160,7 @@ static bool GL_CreateWindow(glimpParms_t *parms) {
 	win32.hWnd = CreateWindowEx (
 		 exstyle, 
 		 CLASS_NAME,
-		 GAME_NAME,
+		 win_name,
 		 stylebits,
 		 x, y, w, h,
 		 NULL,
@@ -245,15 +245,7 @@ void GLimp_Shutdown( void ) {
 static int GL_InitGL()										
 {
 	glewInit();
-	glShadeModel(GL_SMOOTH);							
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);			// init value
 
-	//glClearColor(1.0f, 1.0f, 1.0f, 1.0f);				
-	glClearDepth(1.0f);									
-	glEnable(GL_DEPTH_TEST);							
-	glDepthFunc(GL_LEQUAL);								
-	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);	
-	glViewport(0, 0, 800, 600);
 
 
 	char *GL_version	=	(char *)glGetString(GL_VERSION);

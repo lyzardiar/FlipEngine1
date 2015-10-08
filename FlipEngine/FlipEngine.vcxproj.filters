@@ -549,5 +549,6 @@
     <ClInclude Include="..\Engine\common\Plane.h">
       <Filter>common</Filter>
     </ClInclude>
+    <ClInclude Include="..\Engine\extern.h" />
   </ItemGroup>
 </Project>

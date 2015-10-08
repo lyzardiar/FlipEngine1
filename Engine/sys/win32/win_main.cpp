@@ -3,12 +3,13 @@
 #include "../../framework/KeyInput.h"
 
 #include "win_local.h"
+#include "../extern.h"
 
 Win32Vars_t	win32;
 
 
-int Win32Vars_t::win_xpos = 100;
-int Win32Vars_t::win_ypos = 100;
+int Win32Vars_t::win_xpos = 0;
+int Win32Vars_t::win_ypos = 0;
 bool Win32Vars_t::win_outputDebugString = true;
 bool Win32Vars_t::win_outputEditString = true;
 
@@ -40,9 +41,9 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 //	::SetFocus( win32.hWnd );
 
     // main game loop
-	while( 1 ) {
+	while( 1 ) 
+	{
 		Sys_PumpEvents();
-
 		Com_Frame();
 	}
 

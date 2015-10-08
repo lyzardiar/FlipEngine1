@@ -190,6 +190,7 @@
     <ClInclude Include="..\Engine\common\vec3.h" />
     <ClInclude Include="..\Engine\common\vec4.h" />
     <ClInclude Include="..\Engine\DrawVert.h" />
+    <ClInclude Include="..\Engine\extern.h" />
     <ClInclude Include="..\Engine\File.h" />
     <ClInclude Include="..\Engine\framework\Common.h" />
     <ClInclude Include="..\Engine\framework\KeyInput.h" />

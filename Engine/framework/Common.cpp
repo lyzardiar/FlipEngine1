@@ -5,15 +5,16 @@
 #include "../Game.h"
 #include "../ResourceSystem.h"
 
-const char* GAME_NAME = "null";
-
-bool bShowFps = true;
+char* win_name = "null";
+bool show_fps = true;
+int win_width = 1366;
+int win_height = 768;
 
 void Com_Init() 
 {
 	glimpParms_t pram;
-	pram.width = 800;
-	pram.height = 600;
+	pram.width = win_width;
+	pram.height = win_height;
 	pram.displayHz = 1/60;
 	pram.stereo = 1/60;
 
@@ -31,7 +32,7 @@ void Com_Frame()
 	renderSys->FrameUpdate();
 
 	// report timing information
-	if ( bShowFps ) {
+	if ( show_fps ) {
 		static int	lastTime = 0;
 		static int	frames = 0;
 		
