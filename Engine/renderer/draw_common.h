@@ -16,7 +16,7 @@ void R_DrawPositon( srfTriangles_t* tri );
 
 void R_DrawPositionTexNorm( srfTriangles_t* tri );
 
-
+void RB_DrawBounds( aabb3d* aabb3d );
 #endif
 
 

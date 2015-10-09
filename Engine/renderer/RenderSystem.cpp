@@ -94,20 +94,48 @@ void RenderSystemLocal::Init()
 	GL_CheckError("frameupdate");
 }
 
+void draw3DCoordinate()
+{
+	float vertices[] = {0.f, 0.f, 0.f, 
+						0.f, 1.f, 0.f,
+						0.f, 0.f, 1.f,
+						1.f, 0.f, 0.f
+	};
+
+	unsigned short indices[] = {0, 1, 0, 2, 0, 3};
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, vertices);
+	glDrawElements(GL_LINES, 6, GL_UNSIGNED_SHORT, indices);
+}
+
+
 void RenderSystemLocal::FrameUpdate()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	
-	for (unsigned int i = 0; i < _surfaces.size(); i++)
+	//for (unsigned int i = 0; i < _surfaces.size(); i++)
+	//{
+	//	if (_surfaces[i]->bShaowmap)
+	//	{
+	//		//RenderShadowMap(_surfaces[i]);
+	//	}
+	//	else if(_surfaces[i]->geo->tangentsCalculated)
+	//		R_RenderPhongPass(_surfaces[i], R_DrawPositionTexNorm);
+	//	else
+	//		R_RenderPTPass(_surfaces[i], R_DrawPositonTex);
+	//}
+	
+	glEnableVertexAttribArray(0);
+	glUseProgram(_renderBuffer.shaders[0]->GetProgarm());
+	glUniform3f(_renderBuffer.shaders[0]->GetUniform(eUniform_Color), 0.0, 1.0, 0.0);
+
+	for (int i = 0; i < _surfaces.size(); i++)
 	{
-		if (_surfaces[i]->bShaowmap)
-		{
-			//RenderShadowMap(_surfaces[i]);
-		}
-		else if(_surfaces[i]->geo->tangentsCalculated)
-			R_RenderPhongPass(_surfaces[i], R_DrawPositionTexNorm);
-		else
-			R_RenderPTPass(_surfaces[i], R_DrawPositonTex);
+		if(!_surfaces[i]->bShowBound)
+			continue;
+
+		mat4 t = (*_surfaces[i]->viewProj) * _surfaces[i]->matModel;
+		glUniformMatrix4fv( _renderBuffer.shaders[0]->GetUniform(eUniform_MVP), 1, GL_FALSE, &t.m[0] );
+		RB_DrawBounds(&_surfaces[i]->geo->aabb);
 	}
 	GL_CheckError("frameupdate");
 	GL_SwapBuffers();

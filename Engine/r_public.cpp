@@ -137,3 +137,11 @@ mat4& R_BillboardModelView( mat4& model, mat4& view )
 	
 	return mat;
 }
+
+void R_BoundTriSurf( srfTriangles_t* tri )
+{
+	for (int i=0; i<tri->numVerts; i++)
+	{
+		tri->aabb.AddPoint(tri->verts[i].xyz);
+	}
+}

@@ -23,7 +23,6 @@ void Com_Init()
 
 	Sys_Printf("Initializing Game\n");
 	game->Init();
-
 }
 
 void Com_Frame()

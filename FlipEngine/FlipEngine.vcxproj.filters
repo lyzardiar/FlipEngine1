@@ -359,6 +359,9 @@
       <Filter>common</Filter>
     </ClCompile>
     <ClCompile Include="..\Engine\tr_trisurf.cpp" />
+    <ClCompile Include="..\Engine\common\aabb3d.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Engine\color4.h">
@@ -550,5 +553,8 @@
       <Filter>common</Filter>
     </ClInclude>
     <ClInclude Include="..\Engine\extern.h" />
+    <ClInclude Include="..\Engine\common\aabb3d.h">
+      <Filter>common</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

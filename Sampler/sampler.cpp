@@ -36,6 +36,7 @@ void ShadowSampler::Init()
 
 	StaticModel* model = resourceSys->AddMesh("../media/ninja.b3d");
 	model->GenerateNormals();
+	model->CalcBounds();
 	AddStaticModel(model);
 
 	//StaticModel* dsmodel = new StaticModel;

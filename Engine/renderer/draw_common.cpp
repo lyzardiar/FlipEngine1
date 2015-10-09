@@ -120,4 +120,22 @@ void R_DrawPositionTexNorm( srfTriangles_t* tri )
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
+void RB_DrawBounds( aabb3d* aabb3d )
+{
+	float vertices[] = {  aabb3d->_min.x, aabb3d->_min.y, aabb3d->_min.z,
+						aabb3d->_min.x, aabb3d->_min.y, aabb3d->_max.z,
+						aabb3d->_min.x, aabb3d->_max.y, aabb3d->_max.z,
+						aabb3d->_min.x, aabb3d->_max.y, aabb3d->_min.z,
 
+						aabb3d->_max.x, aabb3d->_min.y, aabb3d->_min.z,
+						aabb3d->_max.x, aabb3d->_min.y, aabb3d->_max.z,
+						aabb3d->_max.x, aabb3d->_max.y, aabb3d->_max.z,
+						aabb3d->_max.x, aabb3d->_max.y, aabb3d->_min.z,
+	};
+
+	unsigned short indices[] = {0, 1, 1, 2, 2, 3, 3, 0,  
+							 0, 4, 1, 5, 2, 6, 3, 7, 
+							 4, 5, 5, 6, 6, 7, 7, 4};
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, vertices);
+	glDrawElements(GL_LINES, 24, GL_UNSIGNED_SHORT, indices);
+}

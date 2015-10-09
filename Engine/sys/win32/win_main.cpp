@@ -3,7 +3,6 @@
 #include "../../framework/KeyInput.h"
 
 #include "win_local.h"
-#include "../extern.h"
 
 Win32Vars_t	win32;
 

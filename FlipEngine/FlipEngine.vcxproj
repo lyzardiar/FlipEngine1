@@ -64,6 +64,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Engine\Camera.cpp" />
+    <ClCompile Include="..\Engine\common\aabb3d.cpp" />
     <ClCompile Include="..\Engine\common\Joint.cpp" />
     <ClCompile Include="..\Engine\common\mat4.cpp" />
     <ClCompile Include="..\Engine\common\Plane.cpp" />
@@ -176,6 +177,7 @@
   <ItemGroup>
     <ClInclude Include="..\Engine\Camera.h" />
     <ClInclude Include="..\Engine\color4.h" />
+    <ClInclude Include="..\Engine\common\aabb3d.h" />
     <ClInclude Include="..\Engine\common\array.h" />
     <ClInclude Include="..\Engine\common\Joint.h" />
     <ClInclude Include="..\Engine\common\List.h" />

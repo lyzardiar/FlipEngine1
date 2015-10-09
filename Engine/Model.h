@@ -14,6 +14,8 @@ public:
 	array<drawSurf_t*> getSurfaces();
 
 	void GenerateNormals();
+
+	void CalcBounds();
 private:
 
 	array<drawSurf_t*> _surfaces;

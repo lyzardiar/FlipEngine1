@@ -4,12 +4,14 @@
 
 #include "common/mat4.h"
 #include "DrawVert.h"
+#include "common/aabb3d.h"
 
 class DrawVert;
 class Shader;
 
 // our only drawing geometry type
-typedef struct srfTriangles_s {
+typedef struct srfTriangles_s 
+{
 	int	numVerts;				
 	DrawVert* verts;				
 
@@ -17,6 +19,8 @@ typedef struct srfTriangles_s {
 	glIndex_t* indexes;
 
 	GLuint vbo[2];
+
+	aabb3d aabb;
 
 	bool tangentsCalculated;
 }srfTriangles_t;
@@ -41,6 +45,7 @@ typedef struct{
 	vec3 lightPos;
 
 	bool bShaowmap;
+	bool bShowBound;
 } drawSurf_t;
 
 typedef struct
@@ -81,5 +86,7 @@ shadowMap_t* R_GenerateShadowMap();
 mat4& R_BillboardModelView(mat4& model, mat4& view);
 
 void R_DeriveNormals( srfTriangles_t *tri );
+
+void R_BoundTriSurf( srfTriangles_t* tri );
 
 #endif

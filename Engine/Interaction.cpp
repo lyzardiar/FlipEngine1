@@ -104,8 +104,6 @@ bool isFrontFace(vec3 v0, vec3 v1, vec3 v2, vec3 light)
 //	}
 //};
 
-
-
 srfTriangles_t* R_GenerateCaps( vec3 light, srfTriangles_t* tri )
 {
 	numShadowIndexes = 0;
