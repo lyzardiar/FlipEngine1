@@ -136,7 +136,7 @@ bool LoadMesh3DS(const char* filename, StaticModel* model)
 				{
 					float u = file->ReadFloat();
 					float v = file->ReadFloat();
-					geo->verts[i].uv = vec2(u, v);
+					geo->verts[i].st = vec2(u, v);
 				}
 			}
 			break;

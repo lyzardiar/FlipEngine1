@@ -28,6 +28,8 @@ public:
 	virtual bool AddDrawSur(drawSurf_t* drawSur) = 0;
 
 	virtual bool AddSprite(Sprite* sprite) = 0;
+
+	virtual	Shader* GetShader(int t) = 0;
 };
 
 class RenderSystemLocal : public RenderSystem
@@ -47,6 +49,8 @@ public:
 	virtual bool AddDrawSur(drawSurf_t* drawSur);
 
 	virtual bool AddSprite(Sprite* sprite);
+
+	Shader* GetShader(int t);
 private:
 
 	renderBuffer_t	_renderBuffer;

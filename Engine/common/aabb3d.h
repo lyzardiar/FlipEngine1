@@ -11,6 +11,7 @@ public:
 
 	bool AddPoint(const vec3& v);
 
+	bool RayIntersection( const vec3 &start, const vec3 &dir, float &scale ) const;
 public:
 	vec3 _min;
 	vec3 _max;

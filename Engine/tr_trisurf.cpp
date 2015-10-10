@@ -25,7 +25,7 @@ void R_DeriveNormals( srfTriangles_t *tri ) {
 
 	for ( i = 0; i < tri->numIndexes; i += 3 ) {
 		// make face tangents
-		float		d0[3], d1[3];
+		float		d0[5], d1[5];
 		DrawVert	*a, *b, *c;
 		vec3		temp, normal, tangents[2];
 
@@ -36,21 +36,37 @@ void R_DeriveNormals( srfTriangles_t *tri ) {
 		d0[0] = b->xyz[0] - a->xyz[0];
 		d0[1] = b->xyz[1] - a->xyz[1];
 		d0[2] = b->xyz[2] - a->xyz[2];
+		d0[3] = b->st[0] - a->st[0];
+		d0[4] = b->st[1] - a->st[1];
 
 		d1[0] = c->xyz[0] - a->xyz[0];
 		d1[1] = c->xyz[1] - a->xyz[1];
 		d1[2] = c->xyz[2] - a->xyz[2];
+		d1[3] = b->st[0] - a->st[0];
+		d1[4] = b->st[1] - a->st[1];
 
 		// normal
 		temp[0] = d1[1] * d0[2] - d1[2] * d0[1];
 		temp[1] = d1[2] * d0[0] - d1[0] * d0[2];
 		temp[2] = d1[0] * d0[1] - d1[1] * d0[0];
-		temp.normalize();
+		normal.set(temp.normalize());
+
+		temp[0] = (d0[0] * d1[4] - d0[4] * d1[0]);
+		temp[1] = (d0[1] * d1[4] - d0[4] * d1[1]);
+		temp[2] = (d0[2] * d1[4] - d0[4] * d1[2]);
+		tangents[0].set(temp.normalize());
+
+		temp[0] = (d0[3] * d1[0] - d0[0] * d1[3]);
+		temp[1] = (d0[3] * d1[1] - d0[1] * d1[3]);
+		temp[2] = (d0[3] * d1[2] - d0[2] * d1[3]);
+		tangents[1].set(temp.normalize());
 
 		// sum up the tangents and normals for each vertex on this face
 		for ( int j = 0 ; j < 3 ; j++ ) {
 			DrawVert* vert = &tri->verts[tri->indexes[i+j]];
 			vert->normal += temp;
+			vert->tangents[0] += tangents[0];
+			vert->tangents[1] += tangents[1];
 		}
 	}
 

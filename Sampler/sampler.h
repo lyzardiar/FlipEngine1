@@ -24,6 +24,8 @@ public:
 
 	void CastShadowMap();
 
+	bool HitTest(int x, int y);
+
 private:
 	Camera* _camera;
 

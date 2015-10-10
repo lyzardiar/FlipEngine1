@@ -556,5 +556,6 @@
     <ClInclude Include="..\Engine\common\aabb3d.h">
       <Filter>common</Filter>
     </ClInclude>
+    <ClInclude Include="..\Engine\renderer\r_shader.h" />
   </ItemGroup>
 </Project>

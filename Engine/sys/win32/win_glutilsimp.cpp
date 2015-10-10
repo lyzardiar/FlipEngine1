@@ -268,7 +268,6 @@ static int GL_InitGL()
 		wglSwapIntervalEXT(0);
 	}
 
-	glActiveTexture(GL_TEXTURE0);
 
 	return false;										
 }

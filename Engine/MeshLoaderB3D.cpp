@@ -127,7 +127,7 @@ bool MeshLoaderB3D::ReadVRTS()
 			}
 		}
 
-		tri->verts[idx].uv = vec2(u, v);
+		tri->verts[idx].st = vec2(u, v);
 		idx++;
 	}
 

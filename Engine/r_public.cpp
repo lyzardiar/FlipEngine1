@@ -66,10 +66,10 @@ drawSurf_t* R_GenerateFloor(float w, float h)
 	surf->geo->verts[2].xyz = vec3(halfw, 0.f, -halfh);
 	surf->geo->verts[3].xyz = vec3(halfw, 0.f, halfh);
 
-	surf->geo->verts[0].uv = vec2(0.f, 0.f);
-	surf->geo->verts[1].uv = vec2(0.f, 1.f);
-	surf->geo->verts[2].uv = vec2(1.f, 0.f);
-	surf->geo->verts[3].uv = vec2(1.f, 1.f);
+	surf->geo->verts[0].st = vec2(0.f, 0.f);
+	surf->geo->verts[1].st = vec2(0.f, 1.f);
+	surf->geo->verts[2].st = vec2(1.f, 0.f);
+	surf->geo->verts[3].st = vec2(1.f, 1.f);
 
 	return surf;
 }
@@ -82,10 +82,10 @@ void R_GenerateQuad( srfTriangles_t* geo )
 	geo->numVerts = 4;
 	 R_AllocStaticTriSurfVerts(geo, 4);
 
-	geo->verts[0].uv = vec2(0.f, 1.f);
-	geo->verts[1].uv = vec2(0.f, 0.f);
-	geo->verts[2].uv = vec2(1.f, 1.f);
-	geo->verts[3].uv = vec2(1.f, 0.f);
+	geo->verts[0].st = vec2(0.f, 1.f);
+	geo->verts[1].st = vec2(0.f, 0.f);
+	geo->verts[2].st = vec2(1.f, 1.f);
+	geo->verts[3].st = vec2(1.f, 0.f);
 
 	geo->numIndexes = 6;
 	geo->indexes = new glIndex_t[6];

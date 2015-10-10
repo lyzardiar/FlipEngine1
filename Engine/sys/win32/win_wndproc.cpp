@@ -438,7 +438,11 @@ LONG WINAPI MainWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam ) {
 		case WM_RBUTTONUP:
 		case WM_MBUTTONDOWN:
 		case WM_MBUTTONUP:
-		case WM_MOUSEMOVE: {
+		//case WM_MOUSEMOVE: 
+		case WM_LBUTTONDOWN:{
+			POINT p;
+			GetCursorPos(&p);
+			Sys_QueEvent( win32.sysMsgTime, SE_MOUSE, p.x, p.y, 0, NULL );
 			break;
 		}
 		case WM_MOUSEWHEEL: {

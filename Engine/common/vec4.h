@@ -17,6 +17,7 @@ public:
 
 	void Set(float x, float y, float z, float w);
 
+	inline vec3 &ToVec3( void );
 
 public:
 	float x;
@@ -53,6 +54,10 @@ inline void vec4::operator=( const vec4& other )
 	this->w = other.w;
 }
 
+inline vec3 &vec4::ToVec3( void )
+{
+	return *reinterpret_cast<vec3 *>(this);
+}
 #endif // !1
 
 

@@ -26,7 +26,7 @@ void R_RenderPTPass( drawSurf_t* drawSur, DrawFunc drawFunc )
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 
-	GL_CheckError("draw common");
+	GL_CheckError("R_RenderPTPass error");
 }
 
 void R_RenderShadowMap( drawSurf_t* drawSur, DrawFunc drawFunc )
@@ -59,15 +59,18 @@ void R_RenderPhongPass( drawSurf_t* drawSurf, DrawFunc drawFunc )
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
+	GL_CheckError("R_RenderPhongPass error1111");
 
 	glUseProgram( shader->GetProgarm() );
 	glUniformMatrix4fv( shader->GetUniform(eUniform_MVP), 1, GL_FALSE, &t.m[0] );
 	glUniformMatrix4fv( shader->GetUniform(eUniform_ModelView), 1, GL_FALSE, &modelView.m[0] );
 	glUniformMatrix4fv( shader->GetUniform(eUniform_InvModelView), 1, GL_FALSE, &invModelView.m[0] );
 
+		GL_CheckError("R_RenderPhongPass error");
 	glUniform1i( shader->GetUniform(eUniform_Samper0), 0 );
 	glBindTexture( GL_TEXTURE_2D, material->tex->GetName() );
 
+		GL_CheckError("R_RenderPhongPass error1");
 	glUniform3f(shader->GetUniform(eUniform_EyePos), 0.f, 0.f, 100.f);
 	glUniform3f(shader->GetUniform(eUniform_LightPos), -100.f, 100.f, -100.f);
 
@@ -77,8 +80,7 @@ void R_RenderPhongPass( drawSurf_t* drawSurf, DrawFunc drawFunc )
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(2);
 
-
-	GL_CheckError("draw common");
+	GL_CheckError("R_RenderPhongPass error2");
 }
 
 void R_DrawPositon( srfTriangles_t* tri )
@@ -138,4 +140,41 @@ void RB_DrawBounds( aabb3d* aabb3d )
 							 4, 5, 5, 6, 6, 7, 7, 4};
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, vertices);
 	glDrawElements(GL_LINES, 24, GL_UNSIGNED_SHORT, indices);
+}
+
+void R_RenderBumpPass( drawSurf_t* drawSurf, DrawFunc drawFunc )
+{
+	srfTriangles_t* tri = drawSurf->geo;
+	material_t* material = drawSurf->material;
+	mat4 t = (*drawSurf->viewProj) * drawSurf->matModel;
+	mat4 modelView = (*drawSurf->view) * drawSurf->matModel;
+	mat4 invModelView = modelView.inverse();
+	Shader* shader = material->shader;
+
+	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
+	glEnableVertexAttribArray(2);
+
+	glUseProgram( shader->GetProgarm() );
+	glUniformMatrix4fv( shader->GetUniform(eUniform_MVP), 1, GL_FALSE, &t.m[0] );
+	glUniformMatrix4fv( shader->GetUniform(eUniform_ModelView), 1, GL_FALSE, &modelView.m[0] );
+	glUniformMatrix4fv( shader->GetUniform(eUniform_InvModelView), 1, GL_FALSE, &invModelView.m[0] );
+
+	glUniform1i( shader->GetUniform(eUniform_Samper0), 0 );
+	glBindTexture( GL_TEXTURE_2D, material->tex->GetName() );
+
+	glUniform1i( shader->GetUniform(eUniform_BumpMap), 1 );
+	glBindTexture( GL_TEXTURE_2D, material->bumpMap->GetName() );
+
+	glUniform3f(shader->GetUniform(eUniform_EyePos), 0.f, 0.f, 100.f);
+	glUniform3f(shader->GetUniform(eUniform_LightPos), -100.f, 100.f, -100.f);
+
+	drawFunc(tri);
+
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
+	glDisableVertexAttribArray(2);
+
+
+	GL_CheckError("draw common");
 }

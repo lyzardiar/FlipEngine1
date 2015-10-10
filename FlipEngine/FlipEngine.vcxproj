@@ -221,6 +221,7 @@
     <ClInclude Include="..\Engine\Model.h" />
     <ClInclude Include="..\Engine\renderer\draw_common.h" />
     <ClInclude Include="..\Engine\renderer\RenderSystem.h" />
+    <ClInclude Include="..\Engine\renderer\r_shader.h" />
     <ClInclude Include="..\Engine\ResourceSystem.h" />
     <ClInclude Include="..\Engine\r_public.h" />
     <ClInclude Include="..\Engine\Shader.h" />

@@ -37,9 +37,14 @@ public:
 	bool operator!=(const vec2& other) const { return other.x!=x || other.y!=y; }
 
 	// functions
+	inline float& operator[]( const int index );
 
 	float x, y;
 
 };
 
+inline float& vec2::operator[]( const int index )
+{
+	return ( &x )[ index ];
+}
 #endif /* !__VEC2_H__! */

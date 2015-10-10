@@ -30,6 +30,7 @@ ShadowSampler::~ShadowSampler()
 {
 }
 
+StaticModel* testModel;
 void ShadowSampler::Init()
 {
 	SetupCamera();
@@ -38,6 +39,8 @@ void ShadowSampler::Init()
 	model->GenerateNormals();
 	model->CalcBounds();
 	AddStaticModel(model);
+	model->getSurfaces()[0]->bShaowmap = true;
+	testModel = model;
 
 	//StaticModel* dsmodel = new StaticModel;
 	//LoadMesh3DS("../Media/Teapot.3ds", dsmodel);
@@ -49,13 +52,14 @@ void ShadowSampler::Init()
 	_defaultSprite->SetPosition(0.f, 540.f, 0.f);
 	renderSys->AddSprite(_defaultSprite);
 
-	Shader* shader = new Shader;
-	shader->LoadFromFile("../media/shader/shadowmap.vert", "../media/shader/shadowmap.frag");
-	shader->BindAttribLocation(eAttrib_Position);
-	shader->GetUniformLocation(eUniform_MVP);
+	//Shader* shader = new Shader;
+	//shader->LoadFromFile("../media/shader/shadowmap.vert", "../media/shader/shadowmap.frag");
+	//shader->BindAttribLocation(eAttrib_Position);
+	//shader->GetUniformLocation(eUniform_MVP);
 
 	CreateLight();
 
+	/*
 	srfTriangles_t* tri = R_AllocStaticTriSurf();;
 	tri->numVerts = KnightModel::numVertices;
 	tri->numIndexes = KnightModel::numIndices;
@@ -63,33 +67,34 @@ void ShadowSampler::Init()
 
 	for (int i = 0; i < KnightModel::numVertices; i++)
 	{
-		memcpy(&(tri->verts[i].xyz), KnightModel::vertices[i].position, sizeof(float) * 3);
-		memcpy(&(tri->verts[i].uv), KnightModel::vertices[i].uv, sizeof(float) * 3);
-		memcpy(&(tri->verts[i].normal), KnightModel::vertices[i].normal, sizeof(float) * 3);
+	memcpy(&(tri->verts[i].xyz), KnightModel::vertices[i].position, sizeof(float) * 3);
+	memcpy(&(tri->verts[i].st), KnightModel::vertices[i].uv, sizeof(float) * 3);
+	memcpy(&(tri->verts[i].normal), KnightModel::vertices[i].normal, sizeof(float) * 3);
 	}
 	tri->indexes = new glIndex_t[KnightModel::numIndices];
 	memcpy(tri->indexes, KnightModel::indices, tri->numIndexes*sizeof(glIndex_t));
 	R_GenerateGeometryVbo(tri);
 
 	material_t* material = R_AllocMaterail();
-	material->shader = shader;
+	material->shader = shader*/;
 
-	drawSurf_t* drawSur = R_AllocDrawSurf();
-	drawSur->geo = tri;
-	drawSur->material = material;
-	drawSur->view = _light->GetViewProj();
-	drawSur->bShaowmap = true;
-	renderSys->AddDrawSur(drawSur);
+	//drawSurf_t* drawSur = R_AllocDrawSurf();
+	//drawSur->geo = tri;
+	//drawSur->material = material;
+	//drawSur->view = _light->GetViewProj();
+	//drawSur->bShaowmap = true;
+	//renderSys->AddDrawSur(drawSur);
 
-	drawSur = R_AllocDrawSurf();
-	drawSur->geo = tri;
-	drawSur->view = _camera->GetViewProj();
-	drawSur->matModel.buildTranslate(0.f, 0.4f, 0.f);
-	renderSys->AddDrawSur(drawSur);
+	//drawSur = R_AllocDrawSurf();
+	//drawSur->geo = tri;
+	//drawSur->view = _camera->GetViewProj();
+	//drawSur->matModel.buildTranslate(0.f, 0.4f, 0.f);
+	//renderSys->AddDrawSur(drawSur);
 
 	drawSurf_t* surf = R_GenerateFloor(4.f, 4.f);
 	surf->material = R_AllocMaterail();
 	surf->material->tex = resourceSys->AddTexture("../media/test.png");
+	surf->material->shader = renderSys->GetShader(eShader_PositionTex);
 	surf->view = _camera->GetViewProj();
 	renderSys->AddDrawSur(surf);
 
@@ -151,17 +156,56 @@ void ShadowSampler::ProcessEvent(sysEvent_s* event)
 			}
 		}
 		break;
+	case SE_MOUSE:
+		{
+			HitTest(event->evValue, event->evValue2);
+		}
 	default:
 		break;
 	}
+}
+
+bool ShadowSampler::HitTest(int mouseX, int mouseY)
+{
+	int width = 1366;
+	int height = 768;
+	float x = (2.0f * mouseX) / width - 1.0f;
+	float y = 1.0f - (2.0f * mouseY) / height;
+	float z = 1.0f;
+	vec3 ray_nds = vec3 (x, y, z);
+
+	vec4 ray_clip = vec4 (ray_nds, 1.0);
+
+	mat4 invViewProj = _camera->GetViewProj()->inverse();
+	vec4 ray_world = invViewProj * ray_clip;
+
+	if (ray_world.w != 0.0)
+	{
+		ray_world.x /= ray_world.w;
+		ray_world.y /= ray_world.w;
+		ray_world.z /= ray_world.w;			
+	}
+
+	vec3 ray_dir = ray_world.ToVec3() - _camera->GetPosition();
+
+	Sys_Printf("hit test");
+
+	drawSurf_t* drawSurf = testModel->getSurfaces()[0];
+	float scale;
+	if( drawSurf->geo->aabb.RayIntersection(_camera->GetPosition(), ray_dir, scale) )
+		drawSurf->bHit = true;
+	else
+		drawSurf->bHit = false;
+
+	return true;
 }
 
 void ShadowSampler::SetupCamera()
 {
 	_camera = new Camera();
 	_camera->Setup3DCamera();
-	//_camera->SetPosition(-1.26f, 1.26f, 1.8f);
-	_camera->SetPosition(-126.f, 126.f, 100.f);
+	_camera->SetPosition(-1.26f, 1.26f, 1.8f);
+	//_camera->SetPosition(-126.f, 126.f, 100.f);
 }
 
 void ShadowSampler::AddStaticModel(StaticModel* model)

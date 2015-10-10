@@ -29,6 +29,7 @@ typedef struct
 {
 	Shader* shader;
 	Texture* tex;
+	Texture* bumpMap;
 }material_t;
 
 
@@ -46,6 +47,7 @@ typedef struct{
 
 	bool bShaowmap;
 	bool bShowBound;
+	bool bHit;
 } drawSurf_t;
 
 typedef struct

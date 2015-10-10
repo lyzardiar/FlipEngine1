@@ -7,7 +7,7 @@
 class DrawVert {
 public:
 	vec3			xyz;
-	vec2			uv;
+	vec2			st;
 	vec3			normal;
 	vec3			tangents[2];
 	unsigned char color[4];

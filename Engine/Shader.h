@@ -2,6 +2,7 @@
 #define __SHADER_H__
 
 #include "glutils.h"
+#include "common/Str.h"
 
 typedef enum
 {
@@ -12,6 +13,7 @@ typedef enum
 	eUniform_InvModelView,
 	eUniform_EyePos,
 	eUniform_LightPos,
+	eUniform_BumpMap,
 
 	eUniform_Count,
 }unformType_t;
@@ -21,6 +23,8 @@ typedef enum
 	eAttrib_Position,
 	eAttrib_TexCoord,
 	eAttrib_Normal,
+	eAttrib_Tangent,
+	eAttrib_Binormal,
 
 	eAttrib_Count,
 }attribType_t;
@@ -29,6 +33,9 @@ typedef enum
 {
 	eShader_Position,
 	eShader_PositionTex,
+	eShader_Phong,
+	eShader_Bump,
+	eShader_Blur,
 
 	eShader_Count,
 }shaderType_t;
@@ -36,7 +43,7 @@ typedef enum
 class Shader
 {
 public:
-	Shader() {}
+	Shader();
 	~Shader() {}
 
 	void BindAttribLocation(attribType_t type);
@@ -50,9 +57,12 @@ public:
 	bool LoadFromBuffer(const char* vfile, const char* ffile);
 
 	bool LoadFromFile(const char* vfile, const char* ffile);
+	
+	bool SetName(const char* name);
 private:
 	GLuint _program;
 	GLuint _uniforms[eUniform_Count];
+	lfStr _name;
 };
 
 #endif

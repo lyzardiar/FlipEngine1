@@ -20,6 +20,93 @@ RenderSystem* renderSys;
 int view_width = 1366;
 int view_height = 768;
 
+static Shader* LoadPostionShader()
+{
+	Shader* shader = resourceSys->AddShader(position_vert, position_frag);
+	shader->SetName("position");
+	shader->BindAttribLocation(eAttrib_Position);
+	shader->GetUniformLocation(eUniform_MVP);
+	shader->GetUniformLocation(eUniform_Color);
+	return shader;
+}
+
+static Shader* LoadPositionTexShader()
+{
+	Shader* shader = resourceSys->AddShader(positiontex_vert, positiontex_frag);
+	shader->SetName("positionTex");
+	shader->BindAttribLocation(eAttrib_Position);
+	shader->BindAttribLocation(eAttrib_TexCoord);
+	shader->GetUniformLocation(eUniform_MVP);
+	shader->GetUniformLocation(eUniform_Samper0);
+	return shader;
+}
+
+static Shader* LoadPhongShader()
+{
+	Shader* shader = resourceSys->AddShaderFromFile("../media/shader/phong.vert",
+		"../media/shader/phong.frag");
+	shader->SetName("phong");
+	shader->BindAttribLocation(eAttrib_Position);
+	shader->BindAttribLocation(eAttrib_TexCoord);
+	shader->BindAttribLocation(eAttrib_Normal);
+
+	shader->GetUniformLocation(eUniform_MVP);
+	shader->GetUniformLocation(eUniform_EyePos);
+	shader->GetUniformLocation(eUniform_LightPos);
+	shader->GetUniformLocation(eUniform_ModelView);
+	shader->GetUniformLocation(eUniform_InvModelView);
+	shader->GetUniformLocation(eUniform_Samper0);
+	GL_CheckError("load phong shader");
+	return shader;
+}
+
+static Shader* LoadBumpShader()
+{
+	Shader* shader = resourceSys->AddShaderFromFile("../media/shader/bump.vert",
+		"../media/shader/bump.frag");
+	shader->SetName("bump");
+	shader->BindAttribLocation(eAttrib_Position);
+	shader->BindAttribLocation(eAttrib_TexCoord);
+	shader->BindAttribLocation(eAttrib_Normal);
+	shader->BindAttribLocation(eAttrib_Tangent);
+	shader->BindAttribLocation(eAttrib_Binormal);
+
+	shader->GetUniformLocation(eUniform_MVP);
+	shader->GetUniformLocation(eUniform_EyePos);
+	shader->GetUniformLocation(eUniform_LightPos);
+	shader->GetUniformLocation(eUniform_ModelView);
+	shader->GetUniformLocation(eUniform_InvModelView);
+	shader->GetUniformLocation(eUniform_Samper0);
+	shader->GetUniformLocation(eUniform_BumpMap);
+	return shader;
+}
+
+static Shader* LoadBlurShader()
+{
+	Shader* shader = resourceSys->AddShaderFromFile("../media/blur.vs", "../media/blur.fs");
+	shader->SetName("blur");
+	shader->BindAttribLocation(eAttrib_Position);
+	shader->BindAttribLocation(eAttrib_TexCoord);
+	shader->GetUniformLocation(eUniform_MVP);
+	shader->GetUniformLocation(eUniform_Samper0);
+	return shader;
+}
+
+typedef Shader* (*LoadShaderFunc)();
+struct ShaderPlugin
+{
+	int name;
+	LoadShaderFunc func;
+};
+static ShaderPlugin shaderplugin[] = {
+	{ eShader_Position, LoadPostionShader },
+	{ eShader_PositionTex, LoadPositionTexShader },
+	{ eShader_Phong, LoadPhongShader },
+	{ eShader_Blur, LoadBlurShader  },
+//	{ eShader_Bump, LoadBumpShader },
+};
+static int PluginCount = sizeof(shaderplugin) / sizeof(ShaderPlugin);
+
 RenderSystemLocal::RenderSystemLocal(glimpParms_t *glimpParms_t)
 {
 	GL_CreateDevice(glimpParms_t);
@@ -45,6 +132,9 @@ void RenderSystemLocal::Init()
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	glActiveTexture(GL_TEXTURE0);
+	//glActiveTexture(GL_TEXTURE1);
+
 	resourceSys = new ResourceSystem;
 
 	// _renderbuffer init
@@ -58,34 +148,11 @@ void RenderSystemLocal::Init()
 	Sys_Printf("\nzfar: %f\n", zfar);
 	_renderBuffer.matWVP = _renderBuffer.matPerspective * _renderBuffer.matView * _renderBuffer.matWorld;
 
-	// shader init
-	Shader* shader1 = resourceSys->AddShader(position_vert, position_frag);
-	shader1->BindAttribLocation(eAttrib_Position);
-	shader1->GetUniformLocation(eUniform_MVP);
-	shader1->GetUniformLocation(eUniform_Color);
-
-	Shader* shader2 = resourceSys->AddShader(positiontex_vert, positiontex_frag);
-	shader2->BindAttribLocation(eAttrib_Position);
-	shader2->BindAttribLocation(eAttrib_TexCoord);
-	shader2->GetUniformLocation(eUniform_MVP);
-	shader2->GetUniformLocation(eUniform_Samper0);
-
-	Shader* phong = resourceSys->AddShaderFromFile("../media/shader/phong.vert",
-		"../media/shader/phong.frag");
-	phong->BindAttribLocation(eAttrib_Position);
-	phong->BindAttribLocation(eAttrib_TexCoord);
-	phong->BindAttribLocation(eAttrib_Normal);
-	
-	phong->GetUniformLocation(eUniform_MVP);
-	phong->GetUniformLocation(eUniform_EyePos);
-	phong->GetUniformLocation(eUniform_LightPos);
-	phong->GetUniformLocation(eUniform_ModelView);
-	phong->GetUniformLocation(eUniform_InvModelView);
-	phong->GetUniformLocation(eUniform_Samper0);
-
-	_renderBuffer.shaders[eShader_Position]		= shader1;
-	_renderBuffer.shaders[eShader_PositionTex]	= shader2;
-	_renderBuffer.shaders[2] = phong;
+	memset(_renderBuffer.shaders, 0, 32);
+	for (int i =0; i<PluginCount; i++)
+	{
+		_renderBuffer.shaders[shaderplugin[i].name] = shaderplugin[i].func();
+	}
 
 	// fps  init
 	_defaultSprite = new Sprite;
@@ -112,32 +179,37 @@ void RenderSystemLocal::FrameUpdate()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	
-	//for (unsigned int i = 0; i < _surfaces.size(); i++)
-	//{
-	//	if (_surfaces[i]->bShaowmap)
-	//	{
-	//		//RenderShadowMap(_surfaces[i]);
-	//	}
-	//	else if(_surfaces[i]->geo->tangentsCalculated)
-	//		R_RenderPhongPass(_surfaces[i], R_DrawPositionTexNorm);
-	//	else
-	//		R_RenderPTPass(_surfaces[i], R_DrawPositonTex);
-	//}
+	for (unsigned int i = 0; i < _surfaces.size(); i++)
+	{
+		//if (_surfaces[i]->bShaowmap)
+		{
+			//R_RenderPTPass(_surfaces[i], R_DrawPositonTex);
+			//RenderShadowMap(_surfaces[i]);
+		}
+		if(_surfaces[i]->geo->tangentsCalculated)
+		
+			R_RenderPhongPass(_surfaces[i], R_DrawPositionTexNorm);
+		else
+			R_RenderPTPass(_surfaces[i], R_DrawPositonTex);
+	}
 	
 	glEnableVertexAttribArray(0);
-	glUseProgram(_renderBuffer.shaders[0]->GetProgarm());
-	glUniform3f(_renderBuffer.shaders[0]->GetUniform(eUniform_Color), 0.0, 1.0, 0.0);
+	glUseProgram(_renderBuffer.shaders[eShader_Position]->GetProgarm());
 
 	for (int i = 0; i < _surfaces.size(); i++)
 	{
 		if(!_surfaces[i]->bShowBound)
 			continue;
 
+		if (_surfaces[i]->bHit)
+			glUniform3f(_renderBuffer.shaders[0]->GetUniform(eUniform_Color), 1.0, 0.0, 0.0);
+		else
+			glUniform3f(_renderBuffer.shaders[0]->GetUniform(eUniform_Color), 0.0, 1.0, 0.0);
+
 		mat4 t = (*_surfaces[i]->viewProj) * _surfaces[i]->matModel;
 		glUniformMatrix4fv( _renderBuffer.shaders[0]->GetUniform(eUniform_MVP), 1, GL_FALSE, &t.m[0] );
 		RB_DrawBounds(&_surfaces[i]->geo->aabb);
 	}
-	GL_CheckError("frameupdate");
 	GL_SwapBuffers();
 }
 
@@ -166,14 +238,14 @@ bool RenderSystemLocal::AddStaticModel( StaticModel* model )
 	{
 		drawSurf_t* drawSur = surfaces[i];
 		drawSur->material = R_AllocMaterail();
-		drawSur->material->shader = _renderBuffer.shaders[2];
+		drawSur->material->shader = _renderBuffer.shaders[eShader_Phong];
 		drawSur->material->tex = resourceSys->AddTexture(".png");
 		
 		if (drawSur->view == NULL)
 			drawSur->view = &_renderBuffer.matWVP;
 
 		R_GenerateGeometryVbo(drawSur->geo);
-		_surfaces.push_back(drawSur);
+		AddDrawSur(drawSur);
 	}
 	return true;
 }
@@ -183,16 +255,14 @@ bool RenderSystemLocal::AddDrawSur( drawSurf_t* drawSur )
 	if (drawSur->geo->vbo[0] <= 0)
 		R_GenerateGeometryVbo(drawSur->geo);
 
-	if (drawSur->material == NULL)
-		drawSur->material = R_AllocMaterail();
-	
-	if (drawSur->material->shader == NULL)
-		drawSur->material->shader = _renderBuffer.shaders[eShader_PositionTex];
-	
-	if (drawSur->material->tex == NULL)
-		drawSur->material->tex = resourceSys->AddTexture(".png");
+	if (drawSur->material == NULL || drawSur->material->shader == NULL)
+	{
+		Sys_Error("draw surface material is not");
+		return false;
+	}
 	
 	_surfaces.push_back(drawSur);
+	Sys_Printf("draw surfce size %d\n", _surfaces.size());
 	return true;
 }
 
@@ -200,8 +270,14 @@ bool RenderSystemLocal::AddSprite( Sprite* sprite )
 {
 	drawSurf_t* drawSurf = sprite->_drawSurf;
 	drawSurf->view = &_renderBuffer.matWVP;
-	drawSurf->material->shader = _renderBuffer.shaders[eShader_PositionTex];
-	_surfaces.push_back(drawSurf);
-	return true;
+	drawSurf->material->shader = _renderBuffer.shaders[eShader_Phong];
+	if (drawSurf->material->tex == NULL)
+		drawSurf->material->tex = resourceSys->AddTexture(".png");
+	return AddDrawSur(drawSurf);
+}
+
+Shader* RenderSystemLocal::GetShader( int t )
+{
+	return _renderBuffer.shaders[t];
 }
 
