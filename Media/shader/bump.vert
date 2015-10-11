@@ -33,7 +33,7 @@ void main()
    ViewDirection.y  = dot( fvBinormal, fvViewDirection );
    ViewDirection.z  = dot( fvNormal, fvViewDirection );
    
-   LightDirection.x  = dot( fvTangent, fvLightDirection.xyz );
-   LightDirection.y  = dot( fvBinormal, fvLightDirection.xyz );
-   LightDirection.z  = dot( fvNormal, fvLightDirection.xyz );
+   LightDirection.x  = dot( fvTangent, fvLightDirection );
+   LightDirection.y  = dot( fvBinormal, fvLightDirection );
+   LightDirection.z  = dot( fvNormal, fvLightDirection );
 }

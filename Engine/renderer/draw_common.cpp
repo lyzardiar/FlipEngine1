@@ -154,6 +154,8 @@ void R_RenderBumpPass( drawSurf_t* drawSurf, DrawFunc drawFunc )
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
+	glEnableVertexAttribArray(3);
+	glEnableVertexAttribArray(4);
 
 	glUseProgram( shader->GetProgarm() );
 	glUniformMatrix4fv( shader->GetUniform(eUniform_MVP), 1, GL_FALSE, &t.m[0] );
@@ -169,7 +171,7 @@ void R_RenderBumpPass( drawSurf_t* drawSurf, DrawFunc drawFunc )
 	glBindTexture( GL_TEXTURE_2D, material->bumpMap->GetName() );
 
 	glUniform3f(shader->GetUniform(eUniform_EyePos), 0.f, 0.f, 10.f);
-	glUniform3f(shader->GetUniform(eUniform_LightPos), -10.f, 10.f, -10.f);
+	glUniform3f(shader->GetUniform(eUniform_LightPos), 0.f, 10.f, 0.f);
 
 	drawFunc(tri);
 
@@ -177,6 +179,8 @@ void R_RenderBumpPass( drawSurf_t* drawSurf, DrawFunc drawFunc )
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(2);
+	glDisableVertexAttribArray(3);
+	glDisableVertexAttribArray(4);
 
 
 	GL_CheckError("draw common");

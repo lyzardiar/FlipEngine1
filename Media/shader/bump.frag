@@ -26,6 +26,6 @@ void main( void )
    vec4  fvTotalDiffuse   = fvDiffuse * fNDotL * fvBaseColor; 
    vec4  fvTotalSpecular  = fvSpecular * ( pow( fRDotV, fSpecularPower ) );
   
-   //gl_FragColor = ( fvTotalAmbient + fvTotalDiffuse + fvTotalSpecular );
-   gl_FragColor = vec4(fvNormal, 1.0);
+   gl_FragColor = ( fvTotalAmbient + fvTotalDiffuse + fvTotalSpecular );
+   //gl_FragColor = fvTotalDiffuse;
 }

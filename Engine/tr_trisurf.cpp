@@ -42,8 +42,8 @@ void R_DeriveNormals( srfTriangles_t *tri ) {
 		d1[0] = c->xyz[0] - a->xyz[0];
 		d1[1] = c->xyz[1] - a->xyz[1];
 		d1[2] = c->xyz[2] - a->xyz[2];
-		d1[3] = b->st[0] - a->st[0];
-		d1[4] = b->st[1] - a->st[1];
+		d1[3] = c->st[0] - a->st[0];
+		d1[4] = c->st[1] - a->st[1];
 
 		// normal
 		temp[0] = d1[1] * d0[2] - d1[2] * d0[1];
@@ -64,7 +64,7 @@ void R_DeriveNormals( srfTriangles_t *tri ) {
 		// sum up the tangents and normals for each vertex on this face
 		for ( int j = 0 ; j < 3 ; j++ ) {
 			DrawVert* vert = &tri->verts[tri->indexes[i+j]];
-			vert->normal += temp;
+			vert->normal += normal;
 			vert->tangents[0] += tangents[0];
 			vert->tangents[1] += tangents[1];
 		}
