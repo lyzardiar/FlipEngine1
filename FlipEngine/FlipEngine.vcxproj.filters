@@ -283,9 +283,6 @@
     <ClCompile Include="..\Engine\Texture.cpp">
       <Filter>resource</Filter>
     </ClCompile>
-    <ClCompile Include="..\Engine\File.cpp">
-      <Filter>sys</Filter>
-    </ClCompile>
     <ClCompile Include="..\Engine\sys\win32\win_glutilsimp.cpp">
       <Filter>sys</Filter>
     </ClCompile>
@@ -365,6 +362,10 @@
     <ClCompile Include="..\Engine\ImageLoaderTGA.cpp">
       <Filter>resource</Filter>
     </ClCompile>
+    <ClCompile Include="..\Engine\Model_lwo.cpp">
+      <Filter>resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\File.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Engine\color4.h">
@@ -469,9 +470,6 @@
     <ClInclude Include="..\Engine\Texture.h">
       <Filter>resource</Filter>
     </ClInclude>
-    <ClInclude Include="..\Engine\File.h">
-      <Filter>sys</Filter>
-    </ClInclude>
     <ClInclude Include="..\Engine\sys\sys_public.h">
       <Filter>sys</Filter>
     </ClInclude>
@@ -560,5 +558,9 @@
     <ClInclude Include="..\Engine\ImageLoader.h">
       <Filter>resource</Filter>
     </ClInclude>
+    <ClInclude Include="..\Engine\Model_lwo.h">
+      <Filter>resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\File.h" />
   </ItemGroup>
 </Project>

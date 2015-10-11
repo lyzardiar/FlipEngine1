@@ -148,6 +148,7 @@
     <ClCompile Include="..\Engine\MeshLoader3DS.cpp" />
     <ClCompile Include="..\Engine\MeshLoaderB3D.cpp" />
     <ClCompile Include="..\Engine\Model.cpp" />
+    <ClCompile Include="..\Engine\Model_lwo.cpp" />
     <ClCompile Include="..\Engine\renderer\draw_common.cpp" />
     <ClCompile Include="..\Engine\renderer\RenderSystem.cpp" />
     <ClCompile Include="..\Engine\ResourceSystem.cpp" />
@@ -220,6 +221,7 @@
     <ClInclude Include="..\Engine\MeshLoader3DS.h" />
     <ClInclude Include="..\Engine\MeshLoaderB3D.h" />
     <ClInclude Include="..\Engine\Model.h" />
+    <ClInclude Include="..\Engine\Model_lwo.h" />
     <ClInclude Include="..\Engine\renderer\draw_common.h" />
     <ClInclude Include="..\Engine\renderer\RenderSystem.h" />
     <ClInclude Include="..\Engine\renderer\r_shader.h" />

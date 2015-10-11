@@ -88,6 +88,8 @@ bool loadImageTGA( const char *filename, Image& i )
 	i._levelCount = 1;
 	i._faces = 0;
 	i._depth = 0;
+
+	delete file;
 	return true;
 }
 
