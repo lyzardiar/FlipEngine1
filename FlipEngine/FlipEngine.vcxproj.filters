@@ -362,6 +362,9 @@
     <ClCompile Include="..\Engine\common\aabb3d.cpp">
       <Filter>common</Filter>
     </ClCompile>
+    <ClCompile Include="..\Engine\ImageLoaderTGA.cpp">
+      <Filter>resource</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Engine\color4.h">
@@ -452,9 +455,6 @@
       <Filter>renderer</Filter>
     </ClInclude>
     <ClInclude Include="..\Engine\Image.h">
-      <Filter>resource</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Engine\ImageLoader.h">
       <Filter>resource</Filter>
     </ClInclude>
     <ClInclude Include="..\Engine\Mesh.h">
@@ -557,5 +557,8 @@
       <Filter>common</Filter>
     </ClInclude>
     <ClInclude Include="..\Engine\renderer\r_shader.h" />
+    <ClInclude Include="..\Engine\ImageLoader.h">
+      <Filter>resource</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

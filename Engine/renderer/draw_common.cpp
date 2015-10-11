@@ -160,21 +160,40 @@ void R_RenderBumpPass( drawSurf_t* drawSurf, DrawFunc drawFunc )
 	glUniformMatrix4fv( shader->GetUniform(eUniform_ModelView), 1, GL_FALSE, &modelView.m[0] );
 	glUniformMatrix4fv( shader->GetUniform(eUniform_InvModelView), 1, GL_FALSE, &invModelView.m[0] );
 
+	glActiveTexture(GL_TEXTURE0);
 	glUniform1i( shader->GetUniform(eUniform_Samper0), 0 );
 	glBindTexture( GL_TEXTURE_2D, material->tex->GetName() );
 
+	glActiveTexture(GL_TEXTURE1);
 	glUniform1i( shader->GetUniform(eUniform_BumpMap), 1 );
 	glBindTexture( GL_TEXTURE_2D, material->bumpMap->GetName() );
 
-	glUniform3f(shader->GetUniform(eUniform_EyePos), 0.f, 0.f, 100.f);
-	glUniform3f(shader->GetUniform(eUniform_LightPos), -100.f, 100.f, -100.f);
+	glUniform3f(shader->GetUniform(eUniform_EyePos), 0.f, 0.f, 10.f);
+	glUniform3f(shader->GetUniform(eUniform_LightPos), -10.f, 10.f, -10.f);
 
 	drawFunc(tri);
 
+	glActiveTexture(GL_TEXTURE0);
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(2);
 
 
 	GL_CheckError("draw common");
+}
+
+void R_DrawPositonTangent( srfTriangles_t* tri )
+{
+	glBindBuffer(GL_ARRAY_BUFFER, tri->vbo[0]);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(DrawVert), 0);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(DrawVert), (GLvoid *)12);
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(DrawVert), (GLvoid *)20);
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(DrawVert), (GLvoid *)32);
+	glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(DrawVert), (GLvoid *)44);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, tri->vbo[1]);
+	glDrawElements(GL_TRIANGLES, tri->numIndexes, GL_UNSIGNED_SHORT, 0);
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }

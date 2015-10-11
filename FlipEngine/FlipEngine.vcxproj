@@ -80,6 +80,7 @@
     <ClCompile Include="..\Engine\ImageLoaderDDS.cpp" />
     <ClCompile Include="..\Engine\ImageLoaderJPG.cpp" />
     <ClCompile Include="..\Engine\ImageLoaderPNG.cpp" />
+    <ClCompile Include="..\Engine\ImageLoaderTGA.cpp" />
     <ClCompile Include="..\Engine\Interaction.cpp" />
     <ClCompile Include="..\Engine\jpeglib\jaricom.c" />
     <ClCompile Include="..\Engine\jpeglib\jcapimin.c" />
