@@ -52,7 +52,6 @@ typedef struct matchVert_s {
 
 bool StaticModel::ConvertLWOToModelSurfaces( const struct st_lwObject *lwo ) {
 	srfTriangles_t	*tri;
-	lwSurface *		lwoSurf;
 	int				numTVertexes;
 	int				i, j, k;
 	int				v, tv;
@@ -80,6 +79,7 @@ bool StaticModel::ConvertLWOToModelSurfaces( const struct st_lwObject *lwo ) {
 	//timeStamp = lwo->timeStamp;
 
 	// count the number of surfaces
+	lwSurface *		lwoSurf;
 	i = 0;
 	for ( lwoSurf = lwo->surf; lwoSurf; lwoSurf = lwoSurf->next ) {
 		i++;
@@ -90,41 +90,32 @@ bool StaticModel::ConvertLWOToModelSurfaces( const struct st_lwObject *lwo ) {
 	mergeTo = (int *)_alloca( i * sizeof( mergeTo[0] ) ); 
 	memset( &surf, 0, sizeof( surf ) );
 
-	//if ( !r_mergeModelSurfaces.GetBool() ) {
-	//	// don't merge any
-	//	for ( lwoSurf = lwo->surf, i = 0; lwoSurf; lwoSurf = lwoSurf->next, i++ ) {
-	//		mergeTo[i] = i;
-	//		surf.shader = declManager->FindMaterial( lwoSurf->name );
-	//		surf.id = this->NumSurfaces();
-	//		this->AddSurface( surf );
-	//	}
-	//} else {
-	//	// search for material matches
-	//	for ( lwoSurf = lwo->surf, i = 0; lwoSurf; lwoSurf = lwoSurf->next, i++ ) {
-	//		im1 = declManager->FindMaterial( lwoSurf->name );
-	//		if ( im1->IsDiscrete() ) {
-	//			// flares, autosprites, etc
-	//			j = this->NumSurfaces();
-	//		} else {
-	//			for ( j = 0 ; j < this->NumSurfaces() ; j++ ) {
-	//				modelSurf = &this->surfaces[j];
-	//				im2 = modelSurf->shader;
-	//				if ( im1 == im2 ) {
-	//					// merge this
-	//					mergeTo[i] = j;
-	//					break;
-	//				}
-	//			}
-	//		}
-	//		if ( j == this->NumSurfaces() ) {
-	//			// didn't merge
-	//			mergeTo[i] = j;
-	//			surf.shader = im1;
-	//			surf.id = this->NumSurfaces();
-	//			this->AddSurface( surf );
-	//		}
-	//	}
-	//}
+	for ( lwoSurf = lwo->surf, i = 0; lwoSurf; lwoSurf = lwoSurf->next, i++ ) 
+	{
+		//im1 = declmanager->findmaterial( lwosurf->name );
+		Sys_Printf("lwo surface name %s\N", lwoSurf->name);
+		//if ( im1->isdiscrete() ) {
+		//	// flares, autosprites, etc
+		//	j = this->numsurfaces();
+		//} else {
+		//	for ( j = 0 ; j < this->numsurfaces() ; j++ ) {
+		//		modelsurf = &this->surfaces[j];
+		//		im2 = modelsurf->shader;
+		//		if ( im1 == im2 ) {
+		//			// merge this
+		//			mergeto[i] = j;
+		//			break;
+		//		}
+		//	}
+		//}
+		//if ( j == this->numsurfaces() ) {
+		//	// didn't merge
+		//	mergeto[i] = j;
+		//	surf.shader = im1;
+		//	surf.id = this->numsurfaces();
+		//	this->addsurface( surf );
+		//}
+	}
 
 	//idVectorSubset<idVec3, 3> vertexSubset;
 	//idVectorSubset<idVec2, 2> texCoordSubset;

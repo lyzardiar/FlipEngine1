@@ -545,7 +545,7 @@ typedef struct st_lwObject {
 
 ///* lwo2.c */
 //
-lwObject *lwGetObject( const char *filename );
+lwObject *lwGetObject( const char *filename, unsigned int *failID, int *failpos );
 void lwFreeObject( lwObject *object );
 void lwFreeLayer( lwLayer *layer );
 

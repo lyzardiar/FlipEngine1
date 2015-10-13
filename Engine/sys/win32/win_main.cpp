@@ -6,6 +6,7 @@
 
 
 #include "Model_lwo.h"
+#include "Model.h"
 
 Win32Vars_t	win32;
 
@@ -26,8 +27,12 @@ WinMain
 */
 int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow ) {
 
+	unsigned int failId;
+	int failedPos;
+	lwObject* object = lwGetObject("../media/planet2.lwo", &failId, &failedPos);
 
-	lwGetObject("../media/planet2.lwo");
+	StaticModel* model = new StaticModel;
+	model->ConvertLWOToModelSurfaces(object);
 
 	const HCURSOR hcurSave = ::SetCursor( LoadCursor( 0, IDC_WAIT ) );
 

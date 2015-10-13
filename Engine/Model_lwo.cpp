@@ -45,7 +45,7 @@ void BigRevBytes( void *bp, int elsize, int elcount ) {
 	}
 }
 
-lwObject *lwGetObject( const char *filename)
+lwObject *lwGetObject1( const char *filename)
 {
 	lfFile file;
 	
