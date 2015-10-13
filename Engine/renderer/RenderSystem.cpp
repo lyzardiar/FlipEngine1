@@ -14,7 +14,6 @@
 #include "../common/Timer.h"
 #include "draw_common.h"
 #include "../Model.h"
-#include "../extern.h"
 
 RenderSystem* renderSys;
 int view_width = 1366;

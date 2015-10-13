@@ -5,7 +5,6 @@
 #include <windows.h>
 
 #include "gl/wglext.h"
-#include "../extern.h"
 #ifdef _WIN32
 #pragma comment(lib, "opengl32.lib")
 #pragma comment(lib, "glew32.lib")
