@@ -11,7 +11,6 @@
 
 #include "vec3.h"
 
-#define ID_INLINE inline
 
 
 #define	ON_EPSILON					0.1f
@@ -57,24 +56,5 @@ private:
 	float d;
 };
 
-ID_INLINE Plane::Plane( void ) {
-}
 
-ID_INLINE Plane::Plane( float a, float b, float c, float d ) {
-	this->a = a;
-	this->b = b;
-	this->c = c;
-	this->d = d;
-}
-
-ID_INLINE Plane::Plane( const vec3 &normal, const float dist ) {
-	this->a = normal.x;
-	this->b = normal.y;
-	this->c = normal.z;
-	this->d = -dist;
-}
-
-ID_INLINE float Plane::Distance( const vec3 &v ) const {
-	return a * v.x + b * v.y + c * v.z + d;
-}
 #endif /* !__MATH_PLANE_H__ */

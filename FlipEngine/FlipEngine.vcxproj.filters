@@ -366,6 +366,12 @@
       <Filter>resource</Filter>
     </ClCompile>
     <ClCompile Include="..\Engine\File.cpp" />
+    <ClCompile Include="..\Engine\common\Heap.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\common\Math.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Engine\color4.h">
@@ -562,5 +568,14 @@
       <Filter>resource</Filter>
     </ClInclude>
     <ClInclude Include="..\Engine\File.h" />
+    <ClInclude Include="..\Engine\common\Heap.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\common\Math.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\common\idlib.h">
+      <Filter>common</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

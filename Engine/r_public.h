@@ -22,6 +22,7 @@ typedef struct srfTriangles_s
 
 	aabb3d aabb;
 
+	bool generateNormals;
 	bool tangentsCalculated;
 }srfTriangles_t;
 
@@ -73,7 +74,8 @@ drawSurf_t* R_AllocDrawSurf();
 
 srfTriangles_t *R_AllocStaticTriSurf( void );
 
-void	 R_AllocStaticTriSurfVerts( srfTriangles_t *tri, int numVerts );
+void	R_AllocStaticTriSurfVerts( srfTriangles_t *tri, int numVerts );
+void	R_AllocStaticTriSurfIndexes( srfTriangles_t *tri, int numIndexes );
 
 material_t* R_AllocMaterail();
 
@@ -91,4 +93,16 @@ void R_DeriveNormals( srfTriangles_t *tri );
 
 void R_BoundTriSurf( srfTriangles_t* tri );
 
+// Only deals with vertexes and indexes, not silhouettes, planes, etc.
+// Does NOT perform a cleanup triangles, so there may be duplicated verts in the result.
+srfTriangles_t *	R_MergeSurfaceList( const srfTriangles_t **surfaces, int numSurfaces );
+srfTriangles_t *	R_MergeTriangles( const srfTriangles_t *tri1, const srfTriangles_t *tri2 );
+
+void R_StaticFree( void *data );
+
+void R_FreeStaticTriSurf( srfTriangles_t *tri );
+
+void *R_ClearedStaticAlloc( int bytes );
+
+void *R_StaticAlloc( int bytes );
 #endif

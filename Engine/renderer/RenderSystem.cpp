@@ -16,8 +16,11 @@
 #include "../Model.h"
 
 RenderSystem* renderSys;
-int view_width = 1366;
-int view_height = 768;
+static const int view_width = 1366;
+static const int view_height = 768;
+static const int win_width = 1366;
+static const int win_height = 768;
+
 
 static Shader* LoadPostionShader()
 {
@@ -97,6 +100,7 @@ struct ShaderPlugin
 	int name;
 	LoadShaderFunc func;
 };
+
 static ShaderPlugin shaderplugin[] = {
 	{ eShader_Position, LoadPostionShader },
 	{ eShader_PositionTex, LoadPositionTexShader },

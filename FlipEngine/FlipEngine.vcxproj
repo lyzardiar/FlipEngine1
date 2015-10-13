@@ -65,8 +65,10 @@
   <ItemGroup>
     <ClCompile Include="..\Engine\Camera.cpp" />
     <ClCompile Include="..\Engine\common\aabb3d.cpp" />
+    <ClCompile Include="..\Engine\common\Heap.cpp" />
     <ClCompile Include="..\Engine\common\Joint.cpp" />
     <ClCompile Include="..\Engine\common\mat4.cpp" />
+    <ClCompile Include="..\Engine\common\Math.cpp" />
     <ClCompile Include="..\Engine\common\Plane.cpp" />
     <ClCompile Include="..\Engine\common\quat.cpp" />
     <ClCompile Include="..\Engine\common\str.cpp" />
@@ -181,10 +183,13 @@
     <ClInclude Include="..\Engine\color4.h" />
     <ClInclude Include="..\Engine\common\aabb3d.h" />
     <ClInclude Include="..\Engine\common\array.h" />
+    <ClInclude Include="..\Engine\common\Heap.h" />
+    <ClInclude Include="..\Engine\common\idlib.h" />
     <ClInclude Include="..\Engine\common\Joint.h" />
     <ClInclude Include="..\Engine\common\List.h" />
     <ClInclude Include="..\Engine\common\mat4.h" />
     <ClInclude Include="..\Engine\common\mat4helper.h" />
+    <ClInclude Include="..\Engine\common\Math.h" />
     <ClInclude Include="..\Engine\common\Plane.h" />
     <ClInclude Include="..\Engine\common\precompiled.h" />
     <ClInclude Include="..\Engine\common\quat.h" />

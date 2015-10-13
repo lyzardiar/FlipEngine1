@@ -961,6 +961,19 @@ void Sys_Printf( const char *fmt, ... ) {
 	}
 }
 
+#define MAXPRINTMSG 4096
+void Sys_Warning( const char *fmt, ... ) {
+	char		msg[MAXPRINTMSG];
+
+	va_list argptr;
+	va_start(argptr, fmt);
+	lfStr::vsnPrintf( msg, MAXPRINTMSG-1, fmt, argptr );
+	va_end(argptr);
+	msg[sizeof(msg)-1] = '\0';
+	
+	Sys_Printf(msg);
+}
+
 void Sys_Error( const char *fmt, ... ) {
 	char		msg[MAXPRINTMSG];
 

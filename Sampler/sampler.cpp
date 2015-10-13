@@ -207,7 +207,7 @@ bool ShadowSampler::HitTest(int mouseX, int mouseY)
 void ShadowSampler::SetupCamera()
 {
 	_camera = new Camera();
-	_camera->Setup3DCamera();
+	_camera->Setup3DCamera(1366, 768);
 	_camera->SetPosition(-1.26f, 1.26f, 1.8f);
 	//_camera->SetPosition(-126.f, 126.f, 100.f);
 }
@@ -226,7 +226,7 @@ void ShadowSampler::AddStaticModel(StaticModel* model)
 void ShadowSampler::CreateLight()
 {
 	_light = new Camera();
-	_light->Setup3DCamera();
+	_light->Setup3DCamera(1366, 768);
 	_light->SetPosition(-1.f, 1.f, -1.f);
 
 	_spLight = new Sprite;

@@ -160,6 +160,7 @@
 #define ID_SHDR  LWID_('S','H','D','R')
 #define ID_DATA  LWID_('D','A','T','A')
 
+typedef lfFile idFile;
 
 /* generic linked list */
 
@@ -545,106 +546,106 @@ typedef struct st_lwObject {
 ///* lwo2.c */
 //
 lwObject *lwGetObject( const char *filename );
-//void lwFreeObject( lwObject *object );
-//void lwFreeLayer( lwLayer *layer );
-//
-///* pntspols.c */
-//
-//void lwFreePoints( lwPointList *point );
-//void lwFreePolygons( lwPolygonList *plist );
-//int lwGetPoints( lfFile *fp, int cksize, lwPointList *point );
-//void lwGetBoundingBox( lwPointList *point, float bbox[] );
-//int lwAllocPolygons( lwPolygonList *plist, int npols, int nverts );
-//int lwGetPolygons( lfFile *fp, int cksize, lwPolygonList *plist, int ptoffset );
-//void lwGetPolyNormals( lwPointList *point, lwPolygonList *polygon );
-//int lwGetPointPolygons( lwPointList *point, lwPolygonList *polygon );
-//int lwResolvePolySurfaces( lwPolygonList *polygon, lwTagList *tlist,
-//   lwSurface **surf, int *nsurfs );
-//void lwGetVertNormals( lwPointList *point, lwPolygonList *polygon );
-//void lwFreeTags( lwTagList *tlist );
-//int lwGetTags( lfFile *fp, int cksize, lwTagList *tlist );
-//int lwGetPolygonTags( lfFile *fp, int cksize, lwTagList *tlist,
-//   lwPolygonList *plist );
-//
-///* vmap.c */
-//
-//void lwFreeVMap( lwVMap *vmap );
-//lwVMap *lwGetVMap( lfFile *fp, int cksize, int ptoffset, int poloffset,
-//   int perpoly );
-//int lwGetPointVMaps( lwPointList *point, lwVMap *vmap );
-//int lwGetPolyVMaps( lwPolygonList *polygon, lwVMap *vmap );
-//
-///* clip.c */
-//
-//void lwFreeClip( lwClip *clip );
-//lwClip *lwGetClip( lfFile *fp, int cksize );
-//lwClip *lwFindClip( lwClip *list, int index );
-//
-///* envelope.c */
-//
-//void lwFreeEnvelope( lwEnvelope *env );
-//lwEnvelope *lwGetEnvelope( lfFile *fp, int cksize );
-//lwEnvelope *lwFindEnvelope( lwEnvelope *list, int index );
-//float lwEvalEnvelope( lwEnvelope *env, float time );
-//
-///* surface.c */
-//
-//void lwFreePlugin( lwPlugin *p );
-//void lwFreeTexture( lwTexture *t );
-//void lwFreeSurface( lwSurface *surf );
-//int lwGetTHeader( lfFile *fp, int hsz, lwTexture *tex );
-//int lwGetTMap( lfFile *fp, int tmapsz, lwTMap *tmap );
-//int lwGetImageMap( lfFile *fp, int rsz, lwTexture *tex );
-//int lwGetProcedural( lfFile *fp, int rsz, lwTexture *tex );
-//int lwGetGradient( lfFile *fp, int rsz, lwTexture *tex );
-//lwTexture *lwGetTexture( lfFile *fp, int bloksz, unsigned int type );
-//lwPlugin *lwGetShader( lfFile *fp, int bloksz );
-//lwSurface *lwGetSurface( lfFile *fp, int cksize );
-//lwSurface *lwDefaultSurface( void );
-//
-///* lwob.c */
-//
-//lwSurface *lwGetSurface5( lfFile *fp, int cksize, lwObject *obj );
-//int lwGetPolygons5( lfFile *fp, int cksize, lwPolygonList *plist, int ptoffset );
-//lwObject *lwGetObject5( const char *filename, unsigned int *failID, int *failpos );
-//
-///* list.c */
-//
-//void lwListFree( void *list, void ( *freeNode )( void * ));
-//void lwListAdd( void **list, void *node );
-//void lwListInsert( void **vlist, void *vitem,
-//   int ( *compare )( void *, void * ));
-//
-///* vecmath.c */
-//
-//float dot( float a[], float b[] );
-//void cross( float a[], float b[], float c[] );
-//void normalize( float v[] );
-//#define vecangle( a, b ) ( float ) idMath::ACos( dot( a, b ) )
-//
-///* lwio.c */
-//
-//void  set_flen( int i );
-//int   get_flen( void );
-//void *getbytes( lfFile *fp, int size );
-//void  skipbytes( lfFile *fp, int n );
-//int   getI1( lfFile *fp );
-//short getI2( lfFile *fp );
-//int   getI4( lfFile *fp );
-//unsigned char  getU1( lfFile *fp );
-//unsigned short getU2( lfFile *fp );
-//unsigned int   getU4( lfFile *fp );
-//int   getVX( lfFile *fp );
-//float getF4( lfFile *fp );
-//char *getS0( lfFile *fp );
-//int   sgetI1( unsigned char **bp );
-//short sgetI2( unsigned char **bp );
-//int   sgetI4( unsigned char **bp );
-//unsigned char  sgetU1( unsigned char **bp );
-//unsigned short sgetU2( unsigned char **bp );
-//unsigned int   sgetU4( unsigned char **bp );
-//int   sgetVX( unsigned char **bp );
-//float sgetF4( unsigned char **bp );
-//char *sgetS0( unsigned char **bp );
+void lwFreeObject( lwObject *object );
+void lwFreeLayer( lwLayer *layer );
+
+// * pntspols.c */
+
+void lwFreePoints( lwPointList *point );
+void lwFreePolygons( lwPolygonList *plist );
+int lwGetPoints( lfFile *fp, int cksize, lwPointList *point );
+void lwGetBoundingBox( lwPointList *point, float bbox[] );
+int lwAllocPolygons( lwPolygonList *plist, int npols, int nverts );
+int lwGetPolygons( lfFile *fp, int cksize, lwPolygonList *plist, int ptoffset );
+void lwGetPolyNormals( lwPointList *point, lwPolygonList *polygon );
+int lwGetPointPolygons( lwPointList *point, lwPolygonList *polygon );
+int lwResolvePolySurfaces( lwPolygonList *polygon, lwTagList *tlist,
+						  lwSurface **surf, int *nsurfs );
+void lwGetVertNormals( lwPointList *point, lwPolygonList *polygon );
+void lwFreeTags( lwTagList *tlist );
+int lwGetTags( lfFile *fp, int cksize, lwTagList *tlist );
+int lwGetPolygonTags( lfFile *fp, int cksize, lwTagList *tlist,
+					 lwPolygonList *plist );
+
+/* vmap.c */
+
+	void lwFreeVMap( lwVMap *vmap );
+lwVMap *lwGetVMap( lfFile *fp, int cksize, int ptoffset, int poloffset,
+				  int perpoly );
+int lwGetPointVMaps( lwPointList *point, lwVMap *vmap );
+int lwGetPolyVMaps( lwPolygonList *polygon, lwVMap *vmap );
+
+/* clip.c */
+
+	void lwFreeClip( lwClip *clip );
+lwClip *lwGetClip( lfFile *fp, int cksize );
+lwClip *lwFindClip( lwClip *list, int index );
+
+/* envelope.c */
+
+	void lwFreeEnvelope( lwEnvelope *env );
+lwEnvelope *lwGetEnvelope( lfFile *fp, int cksize );
+lwEnvelope *lwFindEnvelope( lwEnvelope *list, int index );
+float lwEvalEnvelope( lwEnvelope *env, float time );
+
+/* surface.c */
+
+	void lwFreePlugin( lwPlugin *p );
+void lwFreeTexture( lwTexture *t );
+void lwFreeSurface( lwSurface *surf );
+int lwGetTHeader( lfFile *fp, int hsz, lwTexture *tex );
+int lwGetTMap( lfFile *fp, int tmapsz, lwTMap *tmap );
+int lwGetImageMap( lfFile *fp, int rsz, lwTexture *tex );
+int lwGetProcedural( lfFile *fp, int rsz, lwTexture *tex );
+int lwGetGradient( lfFile *fp, int rsz, lwTexture *tex );
+lwTexture *lwGetTexture( lfFile *fp, int bloksz, unsigned int type );
+lwPlugin *lwGetShader( lfFile *fp, int bloksz );
+lwSurface *lwGetSurface( lfFile *fp, int cksize );
+lwSurface *lwDefaultSurface( void );
+
+/* lwob.c */
+
+	lwSurface *lwGetSurface5( lfFile *fp, int cksize, lwObject *obj );
+int lwGetPolygons5( lfFile *fp, int cksize, lwPolygonList *plist, int ptoffset );
+lwObject *lwGetObject5( const char *filename, unsigned int *failID, int *failpos );
+
+/* list.c */
+
+	void lwListFree( void *list, void ( *freeNode )( void * ));
+void lwListAdd( void **list, void *node );
+void lwListInsert( void **vlist, void *vitem,
+				  int ( *compare )( void *, void * ));
+
+/* vecmath.c */
+
+	float dot( float a[], float b[] );
+void cross( float a[], float b[], float c[] );
+void normalize( float v[] );
+#define vecangle( a, b ) ( float ) cosf( dot( a, b ) )
+
+/* lwio.c */
+
+	void  set_flen( int i );
+int   get_flen( void );
+void *getbytes( lfFile *fp, int size );
+void  skipbytes( lfFile *fp, int n );
+int   getI1( lfFile *fp );
+short getI2( lfFile *fp );
+int   getI4( lfFile *fp );
+unsigned char  getU1( lfFile *fp );
+unsigned short getU2( lfFile *fp );
+unsigned int   getU4( lfFile *fp );
+int   getVX( lfFile *fp );
+float getF4( lfFile *fp );
+char *getS0( lfFile *fp );
+int   sgetI1( unsigned char **bp );
+short sgetI2( unsigned char **bp );
+int   sgetI4( unsigned char **bp );
+unsigned char  sgetU1( unsigned char **bp );
+unsigned short sgetU2( unsigned char **bp );
+unsigned int   sgetU4( unsigned char **bp );
+int   sgetVX( unsigned char **bp );
+float sgetF4( unsigned char **bp );
+char *sgetS0( unsigned char **bp );
 
 #endif /* !__LWO2_H__ */

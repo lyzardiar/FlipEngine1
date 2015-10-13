@@ -1,9 +1,8 @@
 #ifndef __VEC3_H__
 #define __VEC3_H__
 
-#include <math.h>
+#include "Math.h"
 
-#define GRAD_PI2 3.1415926f / 360	
 //! 3d vector template class with lots of operators and methods.
 class vec3
 {
@@ -99,7 +98,7 @@ public:
 
 	void rotatexzBy(float degrees, const vec3& center)
 	{
-		degrees *= (float)GRAD_PI2;
+		degrees = DEG2RAD(degrees);
 		float cs = (float)cos(degrees);
 		float sn = (float)sin(degrees);
 		x -= center.x;
@@ -111,7 +110,7 @@ public:
 
 	void rotatexyBy(float degrees, const vec3& center)
 	{
-		degrees *= GRAD_PI2;
+		degrees = DEG2RAD(degrees);
 		float cs = (float)cos(degrees);
 		float sn = (float)sin(degrees);
 		x -= center.x;
@@ -123,7 +122,7 @@ public:
 
 	void rotateyzBy(float degrees, const vec3& center)
 	{
-		degrees *= GRAD_PI2;
+		degrees = DEG2RAD(degrees);
 		float cs = (float)cos(degrees);
 		float sn = (float)sin(degrees);
 		z -= center.z;
@@ -146,7 +145,77 @@ public:
 	}
 	// member variables
 
+	inline bool FixDegenerateNormal( void );
+
 	float x, y, z;
 };
+
+inline bool vec3::FixDegenerateNormal( void ) {
+	if ( x == 0.0f ) {
+		if ( y == 0.0f ) {
+			if ( z > 0.0f ) {
+				if ( z != 1.0f ) {
+					z = 1.0f;
+					return true;
+				}
+			} else {
+				if ( z != -1.0f ) {
+					z = -1.0f;
+					return true;
+				}
+			}
+			return false;
+		} else if ( z == 0.0f ) {
+			if ( y > 0.0f ) {
+				if ( y != 1.0f ) {
+					y = 1.0f;
+					return true;
+				}
+			} else {
+				if ( y != -1.0f ) {
+					y = -1.0f;
+					return true;
+				}
+			}
+			return false;
+		}
+	} else if ( y == 0.0f ) {
+		if ( z == 0.0f ) {
+			if ( x > 0.0f ) {
+				if ( x != 1.0f ) {
+					x = 1.0f;
+					return true;
+				}
+			} else {
+				if ( x != -1.0f ) {
+					x = -1.0f;
+					return true;
+				}
+			}
+			return false;
+		}
+	}
+	if ( idMath::Fabs( x ) == 1.0f ) {
+		if ( y != 0.0f || z != 0.0f ) {
+			y = z = 0.0f;
+			return true;
+		}
+		return false;
+	} else if ( idMath::Fabs( y ) == 1.0f ) {
+		if ( x != 0.0f || z != 0.0f ) {
+			x = z = 0.0f;
+			return true;
+		}
+		return false;
+	} else if ( idMath::Fabs( z ) == 1.0f ) {
+		if ( x != 0.0f || y != 0.0f ) {
+			x = y = 0.0f;
+			return true;
+		}
+		return false;
+	}
+	return false;
+}
+
 
 #endif

@@ -12,6 +12,10 @@ public:
 
 	// operators
 
+	void vec2::Zero( void ) {
+		x = y = 0.0f;
+	}
+
 	vec2& operator=(const vec2& other);
 
 	vec2 operator+(const vec2& other);

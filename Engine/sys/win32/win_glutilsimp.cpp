@@ -159,7 +159,7 @@ static bool GL_CreateWindow(glimpParms_t *parms) {
 	win32.hWnd = CreateWindowEx (
 		 exstyle, 
 		 CLASS_NAME,
-		 win_name,
+		 "null",
 		 stylebits,
 		 x, y, w, h,
 		 NULL,

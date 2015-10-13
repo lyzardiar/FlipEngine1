@@ -145,3 +145,4 @@ void R_BoundTriSurf( srfTriangles_t* tri )
 		tri->aabb.AddPoint(tri->verts[i].xyz);
 	}
 }
+

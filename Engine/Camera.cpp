@@ -2,7 +2,6 @@
 #include "common/quat.h"
 
 #include "sys/sys_public.h"
-#include "extern.h"
 
 Camera::Camera() {
 }
@@ -22,8 +21,8 @@ mat4* Camera::GetViewProj() {
 	return &_matViewProj;
 }
 
-void Camera::Setup3DCamera() {
-	_matProj.buildPerspectiveProjection(3.1415926535898f / 3, float(view_width)/(view_height), 0.1f, 800.f);
+void Camera::Setup3DCamera(int width, int height) {
+	_matProj.buildPerspectiveProjection(3.1415926535898f / 3, float(width)/(height), 0.1f, 800.f);
 	_at.set(0.f, 0.f, 0.f);
 	_matView.buildLookAt(_pos, _at, vec3(0.f, 1.f, 0.f));
 	_matViewProj = _matProj * _matView;	

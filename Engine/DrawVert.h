@@ -15,7 +15,15 @@ public:
 	float		operator[]( const int index ) const;
 	float &		operator[]( const int index );
 
-	void			Clear( void );
+	void			Clear( void )
+	{
+		xyz.Zero();
+		st.Zero();
+		normal.Zero();
+		tangents[0].Zero();
+		tangents[1].Zero();
+		color[0] = color[1] = color[2] = color[3] = 0;
+	}
 
 	void			Lerp( const DrawVert &a, const DrawVert &b, const float f );
 	void			LerpAll( const DrawVert &a, const DrawVert &b, const float f );

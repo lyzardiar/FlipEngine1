@@ -2,6 +2,7 @@
 #define __SYS_PUBLIC__
 
 #include <stdarg.h>
+#include "../common/idlib.h"
 
 typedef struct
 {
@@ -44,7 +45,7 @@ template<class type> class idList;		// for Sys_ListFiles
 
 void			Sys_Error( const char *error, ...);
 void			Sys_Quit( void );
-
+void			Sys_Warning( const char *msg, ...);
 // will go to the various text consoles
 // NOT thread safe - never use in the async paths
 void			Sys_Printf( const char *msg, ... );
