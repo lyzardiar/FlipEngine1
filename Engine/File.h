@@ -28,6 +28,8 @@ public:
 	 unsigned short ReadUnsignedShort();
 	 unsigned char ReadUnsignedChar();
 
+
+
 	 virtual int Length();
 	 virtual int Read( void *buffer, int len );
 	 virtual int Seek( long offset, fsOrigin_t origin );
@@ -46,9 +48,16 @@ public:
 	virtual int Read( void *buffer, int len );
 	virtual int Length();
 	virtual int Seek( long offset, fsOrigin_t origin );
+	virtual int Skip( int len );
+
+	//lfFile& operator>>(unsigned char& value)
+	//{
+	//	value = ReadUnsignedChar();
+	//	return *this;
+	//}
 private:
 	FILE* fp;
-
+	int current;
 	int fileSize;
 };
 

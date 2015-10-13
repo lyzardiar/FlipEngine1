@@ -92,10 +92,14 @@ void ShadowSampler::Init()
 	//renderSys->AddDrawSur(drawSur);
 
 	drawSurf_t* surf = R_GenerateFloor(4.f, 4.f);
+	R_DeriveNormals(surf->geo);
 	surf->material = R_AllocMaterail();
-	surf->material->tex = resourceSys->AddTexture("../media/test.png");
-	surf->material->shader = renderSys->GetShader(eShader_PositionTex);
-	surf->view = _camera->GetViewProj();
+	surf->material->bumpMap = resourceSys->AddTexture("../media/FieldstoneBumpDOT3.tga");
+	surf->material->tex = resourceSys->AddTexture("../media/Fieldstone.tga");
+	//surf->material->shader = renderSys->GetShader(eShader_PositionTex);
+	surf->material->shader = renderSys->GetShader(eShader_Bump);
+	surf->viewProj = _camera->GetViewProj();
+	surf->view = _camera->GetView();
 	renderSys->AddDrawSur(surf);
 
 }

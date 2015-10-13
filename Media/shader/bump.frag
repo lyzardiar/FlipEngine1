@@ -13,7 +13,7 @@ varying vec3 LightDirection;
 void main( void )
 {
    vec3  fvLightDirection = normalize( LightDirection );
-   vec3  fvNormal         = normalize( ( texture2D( bumpMap, Texcoord ).xyz * 2.0 ) - 1.0 );
+   vec3  fvNormal         = normalize( ( texture2D( bumpMap, TexCoord ).xyz * 2.0 ) - 1.0 );
    float fNDotL           = dot( fvNormal, -fvLightDirection ); 
    
    vec3  fvReflection     = normalize( ( ( 2.0 * fvNormal ) * fNDotL ) + fvLightDirection ); 
@@ -27,5 +27,5 @@ void main( void )
    vec4  fvTotalSpecular  = fvSpecular * ( pow( fRDotV, fSpecularPower ) );
   
    gl_FragColor = ( fvTotalAmbient + fvTotalDiffuse + fvTotalSpecular );
-   //gl_FragColor = vec4(fvNormal, 0);
+   //gl_FragColor = fvTotalDiffuse;
 }

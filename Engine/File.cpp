@@ -100,11 +100,13 @@ bool lfFile::Open( const char* filepath )
 	fseek(fp, 0, SEEK_END);
 	fileSize = ftell(fp);
 	fseek(fp, 0, SEEK_SET);
+	current = 0;
 	return true;
 }
 
 int lfFile::Read( void *buffer, int len )
 {
+	current += len;
 	fread(buffer, len, 1, fp);
 	return len;
 }
@@ -128,5 +130,11 @@ int lfFile::Tell()
 int lfFile::Seek( long offset, fsOrigin_t origin )
 {
 	fseek(fp, offset, origin);
+	return 0;
+}
+
+int lfFile::Skip( int len )
+{
+	Seek(len, FS_SEEK_CUR);
 	return 0;
 }

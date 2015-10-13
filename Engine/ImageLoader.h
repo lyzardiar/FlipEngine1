@@ -10,4 +10,5 @@ bool loadImageBMP(const char *file, Image& i);
 
 bool loadImageDDS(const char *file, Image& i);
 
+bool loadImageTGA(const char *file, Image& i);
 #endif

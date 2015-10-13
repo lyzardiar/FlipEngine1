@@ -80,6 +80,7 @@
     <ClCompile Include="..\Engine\ImageLoaderDDS.cpp" />
     <ClCompile Include="..\Engine\ImageLoaderJPG.cpp" />
     <ClCompile Include="..\Engine\ImageLoaderPNG.cpp" />
+    <ClCompile Include="..\Engine\ImageLoaderTGA.cpp" />
     <ClCompile Include="..\Engine\Interaction.cpp" />
     <ClCompile Include="..\Engine\jpeglib\jaricom.c" />
     <ClCompile Include="..\Engine\jpeglib\jcapimin.c" />
@@ -147,6 +148,7 @@
     <ClCompile Include="..\Engine\MeshLoader3DS.cpp" />
     <ClCompile Include="..\Engine\MeshLoaderB3D.cpp" />
     <ClCompile Include="..\Engine\Model.cpp" />
+    <ClCompile Include="..\Engine\Model_lwo.cpp" />
     <ClCompile Include="..\Engine\renderer\draw_common.cpp" />
     <ClCompile Include="..\Engine\renderer\RenderSystem.cpp" />
     <ClCompile Include="..\Engine\ResourceSystem.cpp" />
@@ -219,6 +221,7 @@
     <ClInclude Include="..\Engine\MeshLoader3DS.h" />
     <ClInclude Include="..\Engine\MeshLoaderB3D.h" />
     <ClInclude Include="..\Engine\Model.h" />
+    <ClInclude Include="..\Engine\Model_lwo.h" />
     <ClInclude Include="..\Engine\renderer\draw_common.h" />
     <ClInclude Include="..\Engine\renderer\RenderSystem.h" />
     <ClInclude Include="..\Engine\renderer\r_shader.h" />

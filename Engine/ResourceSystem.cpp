@@ -22,8 +22,8 @@ struct LoaderPlugin{
 static LoaderPlugin loaderPlugin[] = {
     { "jpg", loadImageJPG},
     { "png", loadImagePNG},
-   // { "tga", loadImageTGA},
-	{ "bmp", loadImageBMP}
+	{ "tga", loadImageTGA},
+	{ "bmp", loadImageBMP},
 };
 static int PluginCount = sizeof(loaderPlugin) / sizeof(LoaderPlugin);
 static Texture* defaultTexture;

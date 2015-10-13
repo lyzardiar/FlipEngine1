@@ -102,7 +102,7 @@ static ShaderPlugin shaderplugin[] = {
 	{ eShader_PositionTex, LoadPositionTexShader },
 	{ eShader_Phong, LoadPhongShader },
 	{ eShader_Blur, LoadBlurShader  },
-//	{ eShader_Bump, LoadBumpShader },
+	{ eShader_Bump, LoadBumpShader },
 };
 static int PluginCount = sizeof(shaderplugin) / sizeof(ShaderPlugin);
 
@@ -185,9 +185,14 @@ void RenderSystemLocal::FrameUpdate()
 			//R_RenderPTPass(_surfaces[i], R_DrawPositonTex);
 			//RenderShadowMap(_surfaces[i]);
 		}
-		if(_surfaces[i]->geo->tangentsCalculated)
-		
+		if (_surfaces[i]->material->bumpMap != nullptr)
+		{
+			R_RenderBumpPass(_surfaces[i], R_DrawPositonTangent);
+		}
+		else if(_surfaces[i]->geo->tangentsCalculated)
+		{
 			R_RenderPhongPass(_surfaces[i], R_DrawPositionTexNorm);
+		}
 		else
 			R_RenderPTPass(_surfaces[i], R_DrawPositonTex);
 	}
@@ -269,7 +274,7 @@ bool RenderSystemLocal::AddSprite( Sprite* sprite )
 {
 	drawSurf_t* drawSurf = sprite->_drawSurf;
 	drawSurf->view = &_renderBuffer.matWVP;
-	drawSurf->material->shader = _renderBuffer.shaders[eShader_Phong];
+	drawSurf->material->shader = _renderBuffer.shaders[eShader_PositionTex];
 	if (drawSurf->material->tex == NULL)
 		drawSurf->material->tex = resourceSys->AddTexture(".png");
 	return AddDrawSur(drawSurf);

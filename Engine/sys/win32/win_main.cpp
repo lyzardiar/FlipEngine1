@@ -4,6 +4,9 @@
 
 #include "win_local.h"
 
+
+#include "Model_lwo.h"
+
 Win32Vars_t	win32;
 
 
@@ -22,6 +25,9 @@ WinMain
 ==================
 */
 int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow ) {
+
+
+	lwGetObject("../media/planet2.lwo");
 
 	const HCURSOR hcurSave = ::SetCursor( LoadCursor( 0, IDC_WAIT ) );
 
