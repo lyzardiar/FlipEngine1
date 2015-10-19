@@ -51,11 +51,11 @@ typedef struct matchVert_s {
 } matchVert_t;
 
 bool StaticModel::ConvertLWOToModelSurfaces( const struct st_lwObject *lwo ) {
-	srfTriangles_t	*tri;
-	int				numTVertexes;
-	int				i, j, k;
-	int				v, tv;
-	idVec3 *		vList;
+	srfTriangles_t *tri;
+	int	numTVertexes;
+	int	i, j, k;
+	int	v, tv;
+	idVec3* vList;
 	int *			vRemap;
 	idVec2 *		tvList;
 	int *			tvRemap;
@@ -93,7 +93,10 @@ bool StaticModel::ConvertLWOToModelSurfaces( const struct st_lwObject *lwo ) {
 	for ( lwoSurf = lwo->surf, i = 0; lwoSurf; lwoSurf = lwoSurf->next, i++ ) 
 	{
 		//im1 = declmanager->findmaterial( lwosurf->name );
-		Sys_Printf("lwo surface name %s\N", lwoSurf->name);
+		Sys_Printf("lwo surface name %s\n", lwoSurf->name);
+		drawSurf_t* surf = R_AllocDrawSurf();
+		mergeTo[i] = i;
+		_surfaces.push_back(surf);
 		//if ( im1->isdiscrete() ) {
 		//	// flares, autosprites, etc
 		//	j = this->numsurfaces();
@@ -161,7 +164,7 @@ bool StaticModel::ConvertLWOToModelSurfaces( const struct st_lwObject *lwo ) {
 			}
 		}
 	} else {
-		Sys_Warning( "ConvertLWOToModelSurfaces: model \'%s\' has bad or missing uv data" );
+		Sys_Warning( "ConvertLWOToModelSurfaces: model  has bad or missing uv data" );
 	  	numTVertexes = 1;
 		tvList = (idVec2 *)Mem_ClearedAlloc( numTVertexes * sizeof( tvList[0] ) );
 	}
@@ -176,9 +179,9 @@ bool StaticModel::ConvertLWOToModelSurfaces( const struct st_lwObject *lwo ) {
 
 	//if ( fastLoad ) {
 	//	// renderbump doesn't care about vertex count
-	//	for ( j = 0; j < layer->point.count; j++ ) {
-	//		vRemap[j] = j;
-	//	}
+	for ( j = 0; j < layer->point.count; j++ ) {
+		vRemap[j] = j;
+	}
 	//} else {
 	//	float vertexEpsilon = r_slopVertex.GetFloat();
 	//	float expand = 2 * 32 * vertexEpsilon;
@@ -197,9 +200,9 @@ bool StaticModel::ConvertLWOToModelSurfaces( const struct st_lwObject *lwo ) {
 
 	//if ( fastLoad ) {
 	//	// renderbump doesn't care about vertex count
-	//	for ( j = 0; j < numTVertexes; j++ ) {
-	//		tvRemap[j] = j;
-	//	}
+	for ( j = 0; j < numTVertexes; j++ ) {
+		tvRemap[j] = j;
+	}
 	//} else {
 	//	float texCoordEpsilon = r_slopTexCoord.GetFloat();
 	//	float expand = 2 * 32 * texCoordEpsilon;

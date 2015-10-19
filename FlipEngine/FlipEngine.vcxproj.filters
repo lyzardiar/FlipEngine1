@@ -38,6 +38,9 @@
     <Filter Include="源文件">
       <UniqueIdentifier>{4bc43604-2c62-4dd9-89b6-92796b8f17da}</UniqueIdentifier>
     </Filter>
+    <Filter Include="complier">
+      <UniqueIdentifier>{ffda58b7-fe9b-413f-a3f9-c4f395c35e5c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Engine\common\Joint.cpp">
@@ -372,6 +375,16 @@
     <ClCompile Include="..\Engine\common\Math.cpp">
       <Filter>common</Filter>
     </ClCompile>
+    <ClCompile Include="..\Engine\Token.cpp">
+      <Filter>complier</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\Parser.cpp">
+      <Filter>complier</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\Lexer.cpp">
+      <Filter>complier</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\Material.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Engine\color4.h">
@@ -577,5 +590,15 @@
     <ClInclude Include="..\Engine\common\idlib.h">
       <Filter>common</Filter>
     </ClInclude>
+    <ClInclude Include="..\Engine\Token.h">
+      <Filter>complier</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\Parser.h">
+      <Filter>complier</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\Lexer.h">
+      <Filter>complier</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\Material.h" />
   </ItemGroup>
 </Project>

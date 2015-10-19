@@ -3,6 +3,7 @@
 
 #include "glutils.h"
 #include "common/Str.h"
+#include "common/idlib.h"
 
 typedef enum
 {
@@ -39,6 +40,8 @@ typedef enum
 
 	eShader_Count,
 }shaderType_t;
+
+
 
 class Shader
 {

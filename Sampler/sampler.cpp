@@ -15,11 +15,33 @@
 #include "MeshLoader3DS.h"
 #include "Shader.h"
 
+
+#include "Model_lwo.h"
+#include "Model.h"
+
 #pragma comment(lib, "FlipEngine.lib")
 #pragma comment(lib, "opengl32.lib")
 #pragma comment(lib, "glew32.lib")
 
 Game* game = new ShadowSampler();
+
+StaticModel* loadLwoModel(const char* filename)
+{
+	unsigned int failId;
+	int failedPos;
+	lwObject* object = lwGetObject(filename, &failId, &failedPos);
+
+	StaticModel* model = new StaticModel;
+	model->ConvertLWOToModelSurfaces(object);
+	delete object;
+	return model;
+}
+
+drawSurf_t* CreateTestBumpSurf()
+{
+	return NULL;
+}
+
 
 ShadowSampler::ShadowSampler( void ):_camera(NULL)
 	,_defaultSprite(NULL)
@@ -41,6 +63,8 @@ void ShadowSampler::Init()
 	AddStaticModel(model);
 	model->getSurfaces()[0]->bShaowmap = true;
 	testModel = model;
+
+	AddStaticModel(loadLwoModel("../media/planet2.lwo"));
 
 	//StaticModel* dsmodel = new StaticModel;
 	//LoadMesh3DS("../Media/Teapot.3ds", dsmodel);

@@ -182,7 +182,6 @@ void R_RenderBumpPass( drawSurf_t* drawSurf, DrawFunc drawFunc )
 	glDisableVertexAttribArray(3);
 	glDisableVertexAttribArray(4);
 
-
 	GL_CheckError("draw common");
 }
 

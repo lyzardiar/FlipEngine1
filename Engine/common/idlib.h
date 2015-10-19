@@ -8,6 +8,12 @@ typedef unsigned int dword;
 
 typedef vec3 idVec3;
 typedef vec2 idVec2;
+
+#ifndef BIT
+#define BIT( num )				( 1 << ( num ) )
+#endif
+
+
 #endif
 
 
