@@ -55,11 +55,13 @@ public:
 	//	value = ReadUnsignedChar();
 	//	return *this;
 	//}
+
 private:
 	FILE* fp;
 	int current;
 	int fileSize;
 };
 
+char* F_ReadFileData( const char* filename );
 #endif
 

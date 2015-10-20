@@ -28,6 +28,8 @@ public:
 	Lexer();
 	~Lexer();
 
+	void LoadMemory(const char* buffer);
+
 	bool Lex(Token& result);
 
 
@@ -42,7 +44,7 @@ private:
 
 private:
 	const char* _buffer;
-	char* _bufferPtr;
+	const char* _bufferPtr;
 	int _currentLine;
 	int _lineNumber;
 };

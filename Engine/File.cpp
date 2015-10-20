@@ -138,3 +138,26 @@ int lfFile::Skip( int len )
 	Seek(len, FS_SEEK_CUR);
 	return 0;
 }
+
+char* F_ReadFileData( const char* filename )
+{
+	FILE* fp;
+	char* buf;
+	long len;
+
+	//must read files as binary to prevent problems from newline translation
+	fp = fopen( filename, "rb");
+
+	if ( fp == NULL)
+		return 0;
+
+	fseek( fp, 0, SEEK_END);
+	len = ftell(fp);
+	fseek( fp, 0, SEEK_SET);
+	buf = new char[len+1];
+	fread( buf, len, 1, fp);
+	fclose( fp);
+
+	buf[len] = '\0';
+	return buf;
+}

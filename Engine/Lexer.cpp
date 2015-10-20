@@ -19,7 +19,7 @@ bool Lexer::Lex( Token& result )
 		switch (c)
 		{
 		case 0:
-
+			return false;
 		case '0': case '1': case '2': case '3': case '4':
 		case '5': case '6': case '7': case '8': case '9':
 			return ReadNumber(result);
@@ -44,6 +44,7 @@ bool Lexer::Lex( Token& result )
 			 }
 			 break;
 		default:
+			_bufferPtr++;
 			break;
 		}
 	}
@@ -113,4 +114,10 @@ bool Lexer::ReadName( Token& result )
 				c == '_');
 	result.AppendData('\n');
 	return true;
+}
+
+void Lexer::LoadMemory(const char* buffer )
+{
+	_bufferPtr = buffer;
+	_buffer = buffer;
 }

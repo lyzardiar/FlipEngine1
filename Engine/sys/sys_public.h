@@ -150,6 +150,7 @@ void			Sys_SetFatalError( const char *error );
 // display perference dialog
 void			Sys_DoPreferences( void );
 
+char* Sys_ReadFileData(const char* filename);
 /*
 ==============================================================
 
@@ -219,6 +220,8 @@ private:
 	netadr_t	address;		// remote address
 	int			fd;				// OS specific socket
 };
+
+
 
 				// parses the port number
 				// can also do DNS resolve if you ask for it.

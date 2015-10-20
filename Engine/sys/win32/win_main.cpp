@@ -4,7 +4,8 @@
 
 #include "win_local.h"
 
-
+#include "Material.h"
+#include "ShaderSource.h"
 
 Win32Vars_t	win32;
 
@@ -23,9 +24,10 @@ static sysMemoryStats_t exeLaunchMemoryStats;
 WinMain
 ==================
 */
-int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow ) {
-
-
+int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow ) 
+{
+	Material matr;
+	matr.LoadBuffer(position_vert);
 
 	const HCURSOR hcurSave = ::SetCursor( LoadCursor( 0, IDC_WAIT ) );
 
