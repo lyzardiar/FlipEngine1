@@ -1,13 +1,17 @@
 #ifndef __MATERIAL_H__
 #define __MATERIAL_H__
 
+#define MAX_ATTRI 9
+
+class Lexer;
+
 class Material
 {
 public:
 	Material();
 	~Material();
 
-	bool LoadBuffer(const char* buffer);
+	bool LoadMemory(const char* buffer);
 
 	bool HasPosition();
 
@@ -17,14 +21,22 @@ public:
 
 	bool HasColor();
 
-	bool ParseVertProgram();
+	bool ParseVertProgram(Lexer& lexer);
 
-	bool ParseFlagProgram();
+	bool ParseFragProgram(Lexer& lexer);
 
 	unsigned int ProgramId();
 
 private:
-	unsigned int _AttriBits;
+	bool _hasPosition;
+	bool _hasTexCoord;
+	bool _hasNormal;
+	bool _hasTangent;
+	bool _hasBinormal;
+
+public:
+	unsigned short _attriArr[MAX_ATTRI];
+	unsigned short _numAttri;
 };
 
 #endif

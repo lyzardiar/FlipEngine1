@@ -24,8 +24,7 @@ bool loadImageTGA( const char *filename, Image& i )
 		return false;
 
 
-	int	columns, rows, numPixels, fileSize, numBytes;
-	int	row, column;
+	int	columns, rows, numPixels;
 	TargaHeader targa_header;
 
 	targa_header.id_length = file->ReadUnsignedChar();

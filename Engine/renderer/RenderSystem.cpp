@@ -1,6 +1,6 @@
 #include "RenderSystem.h"
 #include "../glutils.h"
-#include "Material.h"
+#include "../Material.h"
 #include "../r_public.h"
 #include "../framework/Common.h"
 #include "../ResourceSystem.h"

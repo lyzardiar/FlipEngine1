@@ -8,6 +8,7 @@
 
 class DrawVert;
 class Shader;
+class Material;
 
 // our only drawing geometry type
 typedef struct srfTriangles_s 
@@ -38,6 +39,7 @@ typedef struct{
 	int	id;
 	material_t* material;
 	srfTriangles_t*	geo;
+	Material* matr;
 	mat4* view;
 	mat4* proj;
 	mat4* viewProj;
@@ -105,4 +107,5 @@ void R_FreeStaticTriSurf( srfTriangles_t *tri );
 void *R_ClearedStaticAlloc( int bytes );
 
 void *R_StaticAlloc( int bytes );
+
 #endif

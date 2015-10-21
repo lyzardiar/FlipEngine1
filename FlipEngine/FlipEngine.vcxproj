@@ -156,6 +156,7 @@
     <ClCompile Include="..\Engine\Parser.cpp" />
     <ClCompile Include="..\Engine\renderer\draw_common.cpp" />
     <ClCompile Include="..\Engine\renderer\RenderSystem.cpp" />
+    <ClCompile Include="..\Engine\renderer\r_draw.cpp" />
     <ClCompile Include="..\Engine\ResourceSystem.cpp" />
     <ClCompile Include="..\Engine\r_public.cpp" />
     <ClCompile Include="..\Engine\Shader.cpp" />

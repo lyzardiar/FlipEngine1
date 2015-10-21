@@ -3,11 +3,11 @@
 #include "../Texture.h"
 #include "../DrawVert.h"
 #include "../sys/sys_public.h"
+#include "../Material.h"
 
 #define offsetof(s,m)   (size_t)&reinterpret_cast<const volatile char&>((((s *)0)->m))
 
-void R_RenderPTPass( drawSurf_t* drawSur, DrawFunc drawFunc )
-{
+void R_RenderPTPass( drawSurf_t* drawSur, DrawFunc drawFunc ) {
 	srfTriangles_t* tri = drawSur->geo;
 	material_t* material = drawSur->material;
 	mat4 t = (*drawSur->view) * drawSur->matModel;
@@ -29,8 +29,7 @@ void R_RenderPTPass( drawSurf_t* drawSur, DrawFunc drawFunc )
 	GL_CheckError("R_RenderPTPass error");
 }
 
-void R_RenderShadowMap( drawSurf_t* drawSur, DrawFunc drawFunc )
-{
+void R_RenderShadowMap( drawSurf_t* drawSur, DrawFunc drawFunc ) {
 	srfTriangles_t* tri = drawSur->geo;
 	material_t* material = drawSur->material;
 	mat4 t = (*drawSur->view) * drawSur->matModel;
@@ -47,8 +46,7 @@ void R_RenderShadowMap( drawSurf_t* drawSur, DrawFunc drawFunc )
 	GL_CheckError("draw common");
 }
 
-void R_RenderPhongPass( drawSurf_t* drawSurf, DrawFunc drawFunc )
-{
+void R_RenderPhongPass( drawSurf_t* drawSurf, DrawFunc drawFunc ) {
 	srfTriangles_t* tri = drawSurf->geo;
 	material_t* material = drawSurf->material;
 	mat4 t = (*drawSurf->viewProj) * drawSurf->matModel;
@@ -83,8 +81,7 @@ void R_RenderPhongPass( drawSurf_t* drawSurf, DrawFunc drawFunc )
 	GL_CheckError("R_RenderPhongPass error2");
 }
 
-void R_DrawPositon( srfTriangles_t* tri )
-{
+void R_DrawPositon( srfTriangles_t* tri ) {
 	glBindBuffer(GL_ARRAY_BUFFER, tri->vbo[0]);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(DrawVert), 0);
 
@@ -95,8 +92,7 @@ void R_DrawPositon( srfTriangles_t* tri )
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-void R_DrawPositonTex( srfTriangles_t* tri )
-{
+void R_DrawPositonTex( srfTriangles_t* tri ) {
 	glBindBuffer(GL_ARRAY_BUFFER, tri->vbo[0]);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(DrawVert), 0);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(DrawVert), (GLvoid *)12);
@@ -108,8 +104,7 @@ void R_DrawPositonTex( srfTriangles_t* tri )
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-void R_DrawPositionTexNorm( srfTriangles_t* tri )
-{
+void R_DrawPositionTexNorm( srfTriangles_t* tri ) {
 	glBindBuffer(GL_ARRAY_BUFFER, tri->vbo[0]);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(DrawVert), 0);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(DrawVert), (GLvoid *)12);
@@ -122,8 +117,7 @@ void R_DrawPositionTexNorm( srfTriangles_t* tri )
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-void RB_DrawBounds( aabb3d* aabb3d )
-{
+void RB_DrawBounds( aabb3d* aabb3d ) {
 	float vertices[] = {  aabb3d->_min.x, aabb3d->_min.y, aabb3d->_min.z,
 						aabb3d->_min.x, aabb3d->_min.y, aabb3d->_max.z,
 						aabb3d->_min.x, aabb3d->_max.y, aabb3d->_max.z,
@@ -142,8 +136,7 @@ void RB_DrawBounds( aabb3d* aabb3d )
 	glDrawElements(GL_LINES, 24, GL_UNSIGNED_SHORT, indices);
 }
 
-void R_RenderBumpPass( drawSurf_t* drawSurf, DrawFunc drawFunc )
-{
+void R_RenderBumpPass( drawSurf_t* drawSurf, DrawFunc drawFunc ) {
 	srfTriangles_t* tri = drawSurf->geo;
 	material_t* material = drawSurf->material;
 	mat4 t = (*drawSurf->viewProj) * drawSurf->matModel;
@@ -185,8 +178,7 @@ void R_RenderBumpPass( drawSurf_t* drawSurf, DrawFunc drawFunc )
 	GL_CheckError("draw common");
 }
 
-void R_DrawPositonTangent( srfTriangles_t* tri )
-{
+void R_DrawPositonTangent( srfTriangles_t* tri ) {
 	glBindBuffer(GL_ARRAY_BUFFER, tri->vbo[0]);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(DrawVert), 0);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(DrawVert), (GLvoid *)12);

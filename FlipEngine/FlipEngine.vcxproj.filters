@@ -385,6 +385,9 @@
       <Filter>complier</Filter>
     </ClCompile>
     <ClCompile Include="..\Engine\Material.cpp" />
+    <ClCompile Include="..\Engine\renderer\r_draw.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Engine\color4.h">

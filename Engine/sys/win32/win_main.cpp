@@ -26,8 +26,9 @@ WinMain
 */
 int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow ) 
 {
+	const char* buffer = "width = 5";
 	Material matr;
-	matr.LoadBuffer(position_vert);
+	matr.LoadMemory(buffer);
 
 	const HCURSOR hcurSave = ::SetCursor( LoadCursor( 0, IDC_WAIT ) );
 

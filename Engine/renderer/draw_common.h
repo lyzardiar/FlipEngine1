@@ -21,6 +21,10 @@ void RB_DrawBounds( aabb3d* aabb3d );
 void R_RenderBumpPass( drawSurf_t* drawSurf, DrawFunc drawFunc );
 
 void R_DrawPositonTangent( srfTriangles_t* tri);
+
+void R_RenderCommon(drawSurf_t* drawSurf);
+
+void R_DrawCommon( srfTriangles_t* tri, unsigned short *attri, unsigned short numAttri );
 #endif
 
 

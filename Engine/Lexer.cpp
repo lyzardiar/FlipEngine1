@@ -9,15 +9,12 @@ Lexer::~Lexer()
 
 }
 
-bool Lexer::Lex( Token& result )
-{
+bool Lexer::Lex( Token& result ) {
 	result.Reset();
 
-	for (;;)
-	{
+	for (;;) {
 		char c = *_bufferPtr;
-		switch (c)
-		{
+		switch (c) {
 		case 0:
 			return false;
 		case '0': case '1': case '2': case '3': case '4':
@@ -33,8 +30,7 @@ bool Lexer::Lex( Token& result )
 		case 'v': case 'w': case 'x': case 'y': case 'z':
 		case '_':
 			return ReadName(result);
-		case '=':
-			{
+		case '=': {
 				CurrentAndNext();
 				c = *_bufferPtr;
 				if (c == '=')
@@ -42,7 +38,12 @@ bool Lexer::Lex( Token& result )
 				else 
 					result._type = '=';
 			 }
-			 break;
+			 return true;
+		case '{': {
+			CurrentAndNext();
+			result._type = '{';
+		}
+			return true;
 		default:
 			_bufferPtr++;
 			break;
@@ -59,6 +60,7 @@ inline char Lexer::CurrentAndNext()
 
 bool Lexer::ReadNumber( Token& result )
 {
+	result._type = TK_NUMBER;
 	int i;
 	int dot;
 	char c, c2;
@@ -104,7 +106,7 @@ bool Lexer::ReadNumber( Token& result )
 bool Lexer::ReadName( Token& result )
 {
 	char c = CurrentAndNext();
-	result._type = TT_NAME;
+	result._type = TK_NAME;
 	do {
 		result.AppendData(c);
 		c = CurrentAndNext();
@@ -112,7 +114,6 @@ bool Lexer::ReadName( Token& result )
 				(c >= 'A' && c <= 'Z') ||
 				(c >= '0' && c <= '9') ||
 				c == '_');
-	result.AppendData('\n');
 	return true;
 }
 
