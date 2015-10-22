@@ -1,0 +1,14 @@
+vert{
+attribute vec4 vPosition;
+uniform mat4 WVP;
+void main() {
+  gl_Position = WVP*vPosition;
+}}
+
+frag{
+precision mediump float;
+uniform vec3 COLOR;
+void main() 
+{
+  	gl_FragColor = vec4(COLOR, 1.0);
+}}

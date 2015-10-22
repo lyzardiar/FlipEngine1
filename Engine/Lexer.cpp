@@ -39,9 +39,10 @@ bool Lexer::Lex( Token& result ) {
 					result._type = '=';
 			 }
 			 return true;
-		case '{': {
+		case '{':
+		case '}':{
 			CurrentAndNext();
-			result._type = '{';
+			result._type = c;
 		}
 			return true;
 		default:
@@ -121,4 +122,21 @@ void Lexer::LoadMemory(const char* buffer )
 {
 	_bufferPtr = buffer;
 	_buffer = buffer;
+}
+
+int Lexer::CurrentPos()
+{
+	return _bufferPtr - _buffer;
+}
+
+char* Lexer::SubStr( int start, int end )
+{
+	int len = end - start;
+	char* text = new char[len+1];
+	for (int i=0; i<len; ++i)
+	{
+		text[i] = _buffer[start+i];
+	}
+	text[len] = '\0';
+	return text;
 }

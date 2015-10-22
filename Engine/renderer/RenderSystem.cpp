@@ -14,6 +14,7 @@
 #include "../common/Timer.h"
 #include "draw_common.h"
 #include "../Model.h"
+#include "../File.h"
 
 RenderSystem* renderSys;
 static const int view_width = 1366;
@@ -151,11 +152,18 @@ void RenderSystemLocal::Init()
 	Sys_Printf("\nzfar: %f\n", zfar);
 	_renderBuffer.matWVP = _renderBuffer.matPerspective * _renderBuffer.matView * _renderBuffer.matWorld;
 
+	Material matr;
+	const char* buffer = F_ReadFileData("../media/Position.matr");
+	matr.LoadMemory(buffer);
+	
 	memset(_renderBuffer.shaders, 0, 32);
 	for (int i =0; i<PluginCount; i++)
 	{
 		_renderBuffer.shaders[shaderplugin[i].name] = shaderplugin[i].func();
 	}
+
+
+
 
 	// fps  init
 	_defaultSprite = new Sprite;

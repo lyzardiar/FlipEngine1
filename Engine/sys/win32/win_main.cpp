@@ -6,6 +6,7 @@
 
 #include "Material.h"
 #include "ShaderSource.h"
+#include "File.h"
 
 Win32Vars_t	win32;
 
@@ -26,9 +27,9 @@ WinMain
 */
 int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow ) 
 {
-	const char* buffer = "width = 5";
-	Material matr;
-	matr.LoadMemory(buffer);
+	//const char* buffer = "width = 5";
+
+
 
 	const HCURSOR hcurSave = ::SetCursor( LoadCursor( 0, IDC_WAIT ) );
 

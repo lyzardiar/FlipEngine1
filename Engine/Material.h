@@ -1,6 +1,7 @@
 #ifndef __MATERIAL_H__
 #define __MATERIAL_H__
 
+#include "glutils.h"
 #define MAX_ATTRI 9
 
 class Lexer;
@@ -33,10 +34,23 @@ private:
 	bool _hasNormal;
 	bool _hasTangent;
 	bool _hasBinormal;
+	bool _hasWorldViewPorj;
+	bool _hasColor;
+	bool _hasTexture;
+	bool _hasModelView;
+	bool _hasInvModelView;
+	bool _hasEyePosition;
+	bool _hasLightPosition;
+	bool _hasBumpMap;
 
 public:
 	unsigned short _attriArr[MAX_ATTRI];
 	unsigned short _numAttri;
+
+	char* _vert;
+	char* _frag;
+
+	GLuint _program;
 };
 
 #endif
