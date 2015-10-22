@@ -2,6 +2,8 @@
 #define __MATERIAL_H__
 
 #include "glutils.h"
+#include "Shader.h"
+
 #define MAX_ATTRI 9
 
 class Lexer;
@@ -28,7 +30,7 @@ public:
 
 	unsigned int ProgramId();
 
-private:
+	public:
 	bool _hasPosition;
 	bool _hasTexCoord;
 	bool _hasNormal;
@@ -50,7 +52,7 @@ public:
 	char* _vert;
 	char* _frag;
 
-	GLuint _program;
+	Shader _shader;
 };
 
 #endif

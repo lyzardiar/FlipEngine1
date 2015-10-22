@@ -7,6 +7,7 @@
 class Texture;
 class StaticModel;
 class Shader;
+class Material;
 
 class ResourceSystem
 {
@@ -23,9 +24,13 @@ public:
 	Shader* AddShader(const char* vfile, const char* ffile);
 
 	Shader* AddShaderFromFile(const char* vfile, const char* ffile);
+
+	Material* AddMaterial(const char* file);
 private:
 
 	std::map<std::string, Texture*> _textures;
+
+	std::map<std::string, Material*> _materials;
 };
 
 extern ResourceSystem* resourceSys;

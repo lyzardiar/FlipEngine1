@@ -10,6 +10,8 @@
 #include "glutils.h"
 #include "../sys/sys_public.h"
 #include "Model.h"
+#include "Material.h"
+#include "File.h"
 
 using std::string;
 
@@ -133,5 +135,29 @@ Shader* ResourceSystem::AddShaderFromFile( const char* vfile, const char* ffile 
 	Shader* shader = new Shader;
 	shader->LoadFromFile(vfile, ffile);
 	return shader;
+}
+
+Material* ResourceSystem::AddMaterial( const char* file )
+{
+	Material* mtr;
+	string fullPath = file;
+	auto it = _materials.find(fullPath);
+	if( it != _materials.end() ) {
+		mtr = it->second;
+		return mtr;
+	}
+
+	mtr = new Material();
+	const char* buffer = F_ReadFileData(file); //"../media/Position.mtr");
+
+	if (buffer == NULL)
+	{
+		Sys_Error("add material failed %s\n", file);
+		return NULL;
+	}
+
+	mtr->LoadMemory(buffer);
+	_materials.insert(std::make_pair(fullPath, mtr));
+	return mtr;
 }
 

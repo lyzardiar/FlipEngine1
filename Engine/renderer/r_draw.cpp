@@ -31,14 +31,31 @@ static void R_BindArrayBuffer(int i) {
 }
 
 void R_RenderCommon(drawSurf_t* drawSurf){
-	Material* matr = drawSurf->matr;
+	Material* mtr = drawSurf->mtr;
 	srfTriangles_t* tri = drawSurf->geo;
-	unsigned short* attri = matr->_attriArr;
-	unsigned short numAttri = matr->_numAttri;
+	if (mtr == NULL)
+	{
+		return;
+	}
+	unsigned short* attri = mtr->_attriArr;
+	unsigned short numAttri = mtr->_numAttri;
+	Shader* shader = &mtr->_shader;
 
 	for (int i = 0; i < numAttri; i++)
 		glEnableVertexAttribArray(attri[i]);
 
+	glUseProgram(shader->GetProgarm());
+
+	if (mtr->_hasColor)
+	{
+		glUniform3f(shader->GetUniform(eUniform_Color), 1.0, 0.0, 0.0);
+	}
+
+	if (mtr->_hasWorldViewPorj)
+	{
+		mat4 t = (*drawSurf->viewProj) * drawSurf->matModel;
+		glUniformMatrix4fv(shader->GetUniform(eUniform_MVP), 1, GL_FALSE, &t.m[0] );
+	}
 	R_DrawCommon(tri, attri, numAttri);
 
 	for (int i = 0; i < numAttri; i++)

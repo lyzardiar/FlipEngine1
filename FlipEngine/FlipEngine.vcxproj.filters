@@ -388,6 +388,7 @@
     <ClCompile Include="..\Engine\renderer\r_draw.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="..\Engine\common\hashtable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Engine\color4.h">
@@ -603,5 +604,6 @@
       <Filter>complier</Filter>
     </ClInclude>
     <ClInclude Include="..\Engine\Material.h" />
+    <ClInclude Include="..\Engine\common\hashtable.h" />
   </ItemGroup>
 </Project>

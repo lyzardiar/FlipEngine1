@@ -1,12 +1,18 @@
 #include "Material.h"
 #include "Lexer.h"
 #include "sys/sys_public.h"
+#include "Shader.h"
 
 Material::Material() {
 
 }
 
 Material::~Material() {
+	if (_vert)
+		delete[] _vert;
+
+	if (_frag)
+		delete[] _frag;
 
 }
 
@@ -46,7 +52,22 @@ bool Material::LoadMemory( const char* buffer ) {
 		}
 	}
 
-	_program = GL_CreateProgram(_vert, _frag);
+	
+	_shader.LoadFromBuffer(_vert, _frag);
+	if (_hasPosition)
+	{
+		_shader.BindAttribLocation(eAttrib_Position);
+	}
+
+	if (_hasWorldViewPorj)
+	{
+		_shader.GetUniformLocation(eUniform_MVP);
+	}
+
+	if (_hasColor)
+	{
+		_shader.GetUniformLocation(eUniform_Color);
+	}
 	return false;
 }
 

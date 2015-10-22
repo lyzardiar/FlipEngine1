@@ -152,9 +152,7 @@ void RenderSystemLocal::Init()
 	Sys_Printf("\nzfar: %f\n", zfar);
 	_renderBuffer.matWVP = _renderBuffer.matPerspective * _renderBuffer.matView * _renderBuffer.matWorld;
 
-	Material matr;
-	const char* buffer = F_ReadFileData("../media/Position.matr");
-	matr.LoadMemory(buffer);
+
 	
 	memset(_renderBuffer.shaders, 0, 32);
 	for (int i =0; i<PluginCount; i++)
@@ -190,42 +188,12 @@ void RenderSystemLocal::FrameUpdate()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	
-	for (unsigned int i = 0; i < _surfaces.size(); i++)
-	{
-		//if (_surfaces[i]->bShaowmap)
-		{
-			//R_RenderPTPass(_surfaces[i], R_DrawPositonTex);
-			//RenderShadowMap(_surfaces[i]);
-		}
-		if (_surfaces[i]->material->bumpMap != nullptr)
-		{
-			R_RenderBumpPass(_surfaces[i], R_DrawPositonTangent);
-		}
-		else if(_surfaces[i]->geo->tangentsCalculated)
-		{
-			R_RenderPhongPass(_surfaces[i], R_DrawPositionTexNorm);
-		}
-		else
-			R_RenderPTPass(_surfaces[i], R_DrawPositonTex);
-	}
-	
-	glEnableVertexAttribArray(0);
-	glUseProgram(_renderBuffer.shaders[eShader_Position]->GetProgarm());
+	RenderCommon();
 
-	for (int i = 0; i < _surfaces.size(); i++)
-	{
-		if(!_surfaces[i]->bShowBound)
-			continue;
+	//RenderPasses();
 
-		if (_surfaces[i]->bHit)
-			glUniform3f(_renderBuffer.shaders[0]->GetUniform(eUniform_Color), 1.0, 0.0, 0.0);
-		else
-			glUniform3f(_renderBuffer.shaders[0]->GetUniform(eUniform_Color), 0.0, 1.0, 0.0);
+	//RenderBounds();
 
-		mat4 t = (*_surfaces[i]->viewProj) * _surfaces[i]->matModel;
-		glUniformMatrix4fv( _renderBuffer.shaders[0]->GetUniform(eUniform_MVP), 1, GL_FALSE, &t.m[0] );
-		RB_DrawBounds(&_surfaces[i]->geo->aabb);
-	}
 	GL_SwapBuffers();
 }
 
@@ -256,6 +224,7 @@ bool RenderSystemLocal::AddStaticModel( StaticModel* model )
 		drawSur->material = R_AllocMaterail();
 		drawSur->material->shader = _renderBuffer.shaders[eShader_Phong];
 		drawSur->material->tex = resourceSys->AddTexture(".png");
+		drawSur->mtr = resourceSys->AddMaterial("../media/position.mtr");
 		
 		if (drawSur->view == NULL)
 			drawSur->view = &_renderBuffer.matWVP;
@@ -295,5 +264,56 @@ bool RenderSystemLocal::AddSprite( Sprite* sprite )
 Shader* RenderSystemLocal::GetShader( int t )
 {
 	return _renderBuffer.shaders[t];
+}
+
+void RenderSystemLocal::RenderBounds()
+{	
+	glEnableVertexAttribArray(0);
+	glUseProgram(_renderBuffer.shaders[eShader_Position]->GetProgarm());
+
+	for (int i = 0; i < _surfaces.size(); i++)
+	{
+		if(!_surfaces[i]->bShowBound)
+			continue;
+
+		if (_surfaces[i]->bHit)
+			glUniform3f(_renderBuffer.shaders[0]->GetUniform(eUniform_Color), 1.0, 0.0, 0.0);
+		else
+			glUniform3f(_renderBuffer.shaders[0]->GetUniform(eUniform_Color), 0.0, 1.0, 0.0);
+
+		mat4 t = (*_surfaces[i]->viewProj) * _surfaces[i]->matModel;
+		glUniformMatrix4fv( _renderBuffer.shaders[0]->GetUniform(eUniform_MVP), 1, GL_FALSE, &t.m[0] );
+		RB_DrawBounds(&_surfaces[i]->geo->aabb);
+	}
+}
+
+void RenderSystemLocal::RenderPasses()
+{
+	for (unsigned int i = 0; i < _surfaces.size(); i++)
+	{
+		//if (_surfaces[i]->bShaowmap)
+		{
+			//R_RenderPTPass(_surfaces[i], R_DrawPositonTex);
+			//RenderShadowMap(_surfaces[i]);
+		}
+		if (_surfaces[i]->material->bumpMap != nullptr)
+		{
+			R_RenderBumpPass(_surfaces[i], R_DrawPositonTangent);
+		}
+		else if(_surfaces[i]->geo->tangentsCalculated)
+		{
+			R_RenderPhongPass(_surfaces[i], R_DrawPositionTexNorm);
+		}
+		else
+			R_RenderPTPass(_surfaces[i], R_DrawPositonTex);
+	}
+}
+
+void RenderSystemLocal::RenderCommon()
+{
+	for (unsigned int i = 0; i < _surfaces.size(); i++)
+	{
+		R_RenderCommon(_surfaces[i]);
+	}
 }
 

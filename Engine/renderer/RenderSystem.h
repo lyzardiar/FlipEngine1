@@ -10,6 +10,7 @@
 class Pipeline;
 class StaticModel;
 class Sprite;
+class Material;
 
 
 class RenderSystem
@@ -51,8 +52,16 @@ public:
 	virtual bool AddSprite(Sprite* sprite);
 
 	Shader* GetShader(int t);
-private:
 
+private:
+	
+	void RenderCommon();
+
+	void RenderPasses();
+
+	void RenderBounds();
+
+private:
 	renderBuffer_t	_renderBuffer;
 	array<drawSurf_t*> _surfaces;
 	Sprite*	_defaultSprite;

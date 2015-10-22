@@ -39,7 +39,7 @@ typedef struct{
 	int	id;
 	material_t* material;
 	srfTriangles_t*	geo;
-	Material* matr;
+	Material* mtr;
 	mat4* view;
 	mat4* proj;
 	mat4* viewProj;

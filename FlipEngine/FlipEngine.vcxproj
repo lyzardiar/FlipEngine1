@@ -65,6 +65,7 @@
   <ItemGroup>
     <ClCompile Include="..\Engine\Camera.cpp" />
     <ClCompile Include="..\Engine\common\aabb3d.cpp" />
+    <ClCompile Include="..\Engine\common\hashtable.cpp" />
     <ClCompile Include="..\Engine\common\Heap.cpp" />
     <ClCompile Include="..\Engine\common\Joint.cpp" />
     <ClCompile Include="..\Engine\common\mat4.cpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="..\Engine\color4.h" />
     <ClInclude Include="..\Engine\common\aabb3d.h" />
     <ClInclude Include="..\Engine\common\array.h" />
+    <ClInclude Include="..\Engine\common\hashtable.h" />
     <ClInclude Include="..\Engine\common\Heap.h" />
     <ClInclude Include="..\Engine\common\idlib.h" />
     <ClInclude Include="..\Engine\common\Joint.h" />
