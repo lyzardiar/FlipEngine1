@@ -3,6 +3,7 @@
 
 #include <stdarg.h>
 #include "../common/idlib.h"
+#include "../common/array.h"
 
 typedef struct
 {
@@ -241,5 +242,5 @@ double Sys_ClockTicksPerSecond( void );
 
 bool        Sys_DrawText(const char* text, sysTextContent_t* img);
 
-
+int Sys_ListAllFile( const char *directory, const char *extension, array<lfStr>& fileList );
 #endif /* !__SYS_PUBLIC__ */

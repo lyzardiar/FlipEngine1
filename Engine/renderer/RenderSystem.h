@@ -11,6 +11,7 @@ class Pipeline;
 class StaticModel;
 class Sprite;
 class Material;
+class Camera;
 
 
 class RenderSystem
@@ -30,7 +31,7 @@ public:
 
 	virtual bool AddSprite(Sprite* sprite) = 0;
 
-	virtual	Shader* GetShader(int t) = 0;
+	virtual bool AddUISurf(drawSurf_t* drawSurf) = 0;
 };
 
 class RenderSystemLocal : public RenderSystem
@@ -51,7 +52,7 @@ public:
 
 	virtual bool AddSprite(Sprite* sprite);
 
-	Shader* GetShader(int t);
+	virtual bool AddUISurf(drawSurf_t* drawSurf);
 
 private:
 	
@@ -62,7 +63,7 @@ private:
 	void RenderBounds();
 
 private:
-	renderBuffer_t	_renderBuffer;
+	Camera* _camera;
 	array<drawSurf_t*> _surfaces;
 	Sprite*	_defaultSprite;
 	shadowMap_t* _shadowMap;

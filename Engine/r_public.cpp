@@ -57,19 +57,11 @@ drawSurf_t* R_GenerateFloor(float w, float h)
 {
 	float halfw = w/2;
 	float halfh = h/2;
-	drawSurf_t* surf = R_AllocDrawSurf();
-	surf->geo = R_AllocStaticTriSurf();
-	
-	R_GenerateQuad(surf->geo);
+	drawSurf_t* surf = R_GenerateQuadSurf();
 	surf->geo->verts[0].xyz = vec3(-halfw, 0.f, -halfh);
 	surf->geo->verts[1].xyz = vec3(-halfw, 0.f, halfh);
 	surf->geo->verts[2].xyz = vec3(halfw, 0.f, -halfh);
 	surf->geo->verts[3].xyz = vec3(halfw, 0.f, halfh);
-
-	surf->geo->verts[0].st = vec2(0.f, 0.f);
-	surf->geo->verts[1].st = vec2(0.f, 1.f);
-	surf->geo->verts[2].st = vec2(1.f, 0.f);
-	surf->geo->verts[3].st = vec2(1.f, 1.f);
 
 	return surf;
 }
@@ -144,5 +136,14 @@ void R_BoundTriSurf( srfTriangles_t* tri )
 	{
 		tri->aabb.AddPoint(tri->verts[i].xyz);
 	}
+}
+
+drawSurf_t* R_GenerateQuadSurf()
+{
+	drawSurf_t* surf = R_AllocDrawSurf();
+	surf->geo = R_AllocStaticTriSurf();
+
+	R_GenerateQuad(surf->geo);
+	return surf;
 }
 

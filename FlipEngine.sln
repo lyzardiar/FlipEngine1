@@ -5,6 +5,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sampler", "Sampler\Sampler.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FlipEngine", "FlipEngine\FlipEngine.vcxproj", "{43D5EEC3-7C08-413F-A26E-C1A11F05247B}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ImageView", "ImageView\ImageView.vcxproj", "{695EC2AD-36D7-4C2F-8FFC-21B23EBFC819}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -19,6 +21,10 @@ Global
 		{43D5EEC3-7C08-413F-A26E-C1A11F05247B}.Debug|Win32.Build.0 = Debug|Win32
 		{43D5EEC3-7C08-413F-A26E-C1A11F05247B}.Release|Win32.ActiveCfg = Release|Win32
 		{43D5EEC3-7C08-413F-A26E-C1A11F05247B}.Release|Win32.Build.0 = Release|Win32
+		{695EC2AD-36D7-4C2F-8FFC-21B23EBFC819}.Debug|Win32.ActiveCfg = Debug|Win32
+		{695EC2AD-36D7-4C2F-8FFC-21B23EBFC819}.Debug|Win32.Build.0 = Debug|Win32
+		{695EC2AD-36D7-4C2F-8FFC-21B23EBFC819}.Release|Win32.ActiveCfg = Release|Win32
+		{695EC2AD-36D7-4C2F-8FFC-21B23EBFC819}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

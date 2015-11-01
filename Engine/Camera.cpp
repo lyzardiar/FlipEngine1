@@ -28,6 +28,16 @@ void Camera::Setup3DCamera(int width, int height) {
 	_matViewProj = _matProj * _matView;	
 }
 
+void Camera::Setup2DCamera(float width, float height)
+{
+	_matProj.BuildProjectionOrthoRH(width, height, 0.1f, 800.f);
+	_matView.m[12] = -width/2;
+	_matView.m[13] = -height/2;
+	_matView.m[14] = -((float)height/2.f) / tanf(3.1415936f/6.f);
+	_matViewProj = _matProj * _matView;	
+	//float zfar = -300.f / tanf(3.1415936f/6.f);
+}
+
 vec3 Camera::GetPosition()
 {
 	return _pos;

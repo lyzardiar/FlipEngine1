@@ -8,6 +8,22 @@ class Texture;
 class StaticModel;
 class Shader;
 class Material;
+class Image;
+
+#define MAX_SHADER_COUNT 32
+
+typedef Shader* (*LoadShaderFunc)();
+struct ShaderPlugin
+{
+	int name;
+	LoadShaderFunc func;
+};
+
+typedef bool(*loadImageFunc)(const char*, Image&);
+struct LoaderPlugin{
+	const char* name;
+	loadImageFunc pFunc;
+};
 
 class ResourceSystem
 {
@@ -15,13 +31,15 @@ public:
 	ResourceSystem();
 	~ResourceSystem();
 
+	bool LoadAllShader();
+
 	Texture* AddTexture(const char* file);
 
 	Texture* AddText(const char* text);
 
 	StaticModel* AddMesh(const char* file);
 
-	Shader* AddShader(const char* vfile, const char* ffile);
+	Shader* FindShader(int shaderId);
 
 	Shader* AddShaderFromFile(const char* vfile, const char* ffile);
 
@@ -31,6 +49,8 @@ private:
 	std::map<std::string, Texture*> _textures;
 
 	std::map<std::string, Material*> _materials;
+
+	Shader* _shaders[MAX_SHADER_COUNT];
 };
 
 extern ResourceSystem* resourceSys;

@@ -22,6 +22,7 @@
 #include "../../common/str.h"
 #include "../framework/Common.h"
 #include "../sys_public.h"
+#include "../../common/array.h"
 
 #define	MAX_QUED_EVENTS		256
 #define	MASK_QUED_EVENTS	( MAX_QUED_EVENTS - 1)
@@ -1126,3 +1127,51 @@ sysEvent_t Sys_GetEvent( void ) {
 	return ev;
 }
 
+int Sys_ListAllFile( const char *directory, const char *extension, array<lfStr>& fileList ) {
+	char search[256];
+	char path[256];
+	struct _finddata_t findinfo;
+	int	 findhandle;
+	int	 flag;
+
+	if ( !extension) {
+		extension = "";
+	}
+
+	// passing a slash as extension will find directories
+	if ( extension[0] == '/' && extension[1] == 0 ) {
+		extension = "";
+		flag = 0;
+	} else {
+		flag = _A_SUBDIR;
+	}
+
+	//sprintf( search, "%s\\*%s", directory, extension );
+	sprintf( search, "%s\\*.*", directory );
+
+	findhandle = _findfirst( search, &findinfo );
+	if ( findhandle == -1 ) {
+		return -1;
+	}
+
+	do {
+		if ( findinfo.attrib & _A_SUBDIR ) {
+			//rc4(path);
+			if(strcmp(findinfo.name, ".") != 0 && strcmp(findinfo.name, "..") != 0)
+			{
+				sprintf(path, "%s/%s", directory, findinfo.name);
+				fileList.push_back(lfStr(path));
+			}
+		}
+		else{
+			printf("File: %s\n", findinfo.name);
+			sprintf(path, "%s/%s", directory, findinfo.name);
+			fileList.push_back(lfStr(path));
+		}
+
+	} while ( _findnext( findhandle, &findinfo ) != -1 );
+
+	_findclose( findhandle );
+
+	return 0;
+}

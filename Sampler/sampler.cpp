@@ -24,6 +24,7 @@
 #pragma comment(lib, "glew32.lib")
 
 Game* game = new ShadowSampler();
+Texture* _texture;
 
 StaticModel* loadLwoModel(const char* filename)
 {
@@ -57,14 +58,14 @@ void ShadowSampler::Init()
 {
 	SetupCamera();
 
-	StaticModel* model = resourceSys->AddMesh("../media/ninja.b3d");
+	/*	StaticModel* model = resourceSys->AddMesh("../media/ninja.b3d");
 	model->GenerateNormals();
 	model->CalcBounds();
 	AddStaticModel(model);
 	model->getSurfaces()[0]->bShaowmap = true;
-	testModel = model;
+	testModel = model*/;
 
-	AddStaticModel(loadLwoModel("../media/planet2.lwo"));
+	AddStaticModel(loadLwoModel("../media/aircannister.lwo"));
 
 	//StaticModel* dsmodel = new StaticModel;
 	//LoadMesh3DS("../Media/Teapot.3ds", dsmodel);
@@ -115,16 +116,16 @@ void ShadowSampler::Init()
 	//drawSur->matModel.buildTranslate(0.f, 0.4f, 0.f);
 	//renderSys->AddDrawSur(drawSur);
 
-	drawSurf_t* surf = R_GenerateFloor(4.f, 4.f);
-	R_DeriveNormals(surf->geo);
-	surf->material = R_AllocMaterail();
-	surf->material->bumpMap = resourceSys->AddTexture("../media/FieldstoneBumpDOT3.tga");
-	surf->material->tex = resourceSys->AddTexture("../media/Fieldstone.tga");
-	//surf->material->shader = renderSys->GetShader(eShader_PositionTex);
-	surf->material->shader = renderSys->GetShader(eShader_Bump);
-	surf->viewProj = _camera->GetViewProj();
-	surf->view = _camera->GetView();
-	renderSys->AddDrawSur(surf);
+	//drawSurf_t* surf = R_GenerateFloor(4.f, 4.f);
+	//R_DeriveNormals(surf->geo);
+	//surf->material = R_AllocMaterail();
+	//surf->material->bumpMap = resourceSys->AddTexture("../media/FieldstoneBumpDOT3.tga");
+	//surf->material->tex = resourceSys->AddTexture("../media/Fieldstone.tga");
+	////surf->material->shader = renderSys->GetShader(eShader_PositionTex);
+	//surf->material->shader = renderSys->GetShader(eShader_Bump);
+	//surf->viewProj = _camera->GetViewProj();
+	//surf->view = _camera->GetView();
+	//renderSys->AddDrawSur(surf);
 
 }
 

@@ -10,7 +10,7 @@
 void R_RenderPTPass( drawSurf_t* drawSur, DrawFunc drawFunc ) {
 	srfTriangles_t* tri = drawSur->geo;
 	material_t* material = drawSur->material;
-	mat4 t = (*drawSur->view) * drawSur->matModel;
+	mat4 t = (*drawSur->viewProj) * drawSur->matModel;
 	Shader* shader = material->shader;
 
 	glEnableVertexAttribArray(0);
@@ -32,7 +32,7 @@ void R_RenderPTPass( drawSurf_t* drawSur, DrawFunc drawFunc ) {
 void R_RenderShadowMap( drawSurf_t* drawSur, DrawFunc drawFunc ) {
 	srfTriangles_t* tri = drawSur->geo;
 	material_t* material = drawSur->material;
-	mat4 t = (*drawSur->view) * drawSur->matModel;
+	mat4 t = (*drawSur->viewProj) * drawSur->matModel;
 	Shader* shader = material->shader;
 
 	glEnableVertexAttribArray(0);

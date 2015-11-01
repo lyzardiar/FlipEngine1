@@ -10,6 +10,7 @@ public:
 	Camera();
 	virtual ~Camera();
 	void Setup3DCamera(int width, int height);
+	void Setup2DCamera(float width, float height);
 	
 	mat4* GetProj();
 	mat4* GetView();

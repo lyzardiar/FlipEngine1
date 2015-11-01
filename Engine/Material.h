@@ -30,7 +30,7 @@ public:
 
 	unsigned int ProgramId();
 
-	public:
+public:
 	bool _hasPosition;
 	bool _hasTexCoord;
 	bool _hasNormal;

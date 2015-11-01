@@ -51,11 +51,11 @@ void R_RenderCommon(drawSurf_t* drawSurf){
 		glUniform3f(shader->GetUniform(eUniform_Color), 1.0, 0.0, 0.0);
 	}
 
-	if (mtr->_hasWorldViewPorj)
-	{
-		mat4 t = (*drawSurf->viewProj) * drawSurf->matModel;
-		glUniformMatrix4fv(shader->GetUniform(eUniform_MVP), 1, GL_FALSE, &t.m[0] );
-	}
+	//if (mtr->_hasWorldViewPorj)
+	//{
+	mat4 t = (*drawSurf->viewProj) * drawSurf->matModel;
+	glUniformMatrix4fv(shader->GetUniform(eUniform_MVP), 1, GL_FALSE, &t.m[0] );
+	//}
 	R_DrawCommon(tri, attri, numAttri);
 
 	for (int i = 0; i < numAttri; i++)

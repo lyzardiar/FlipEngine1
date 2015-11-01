@@ -13,13 +13,8 @@
 #include "Material.h"
 #include "File.h"
 
+#include "../ShaderSource.h"
 using std::string;
-
-typedef bool(*loadImageFunc)(const char*, Image&);
-struct LoaderPlugin{
-	const char* name;
-	loadImageFunc pFunc;
-};
 
 static LoaderPlugin loaderPlugin[] = {
     { "jpg", loadImageJPG},
@@ -27,8 +22,95 @@ static LoaderPlugin loaderPlugin[] = {
 	{ "tga", loadImageTGA},
 	{ "bmp", loadImageBMP},
 };
-static int PluginCount = sizeof(loaderPlugin) / sizeof(LoaderPlugin);
+static int TexPluginCount = sizeof(loaderPlugin) / sizeof(LoaderPlugin);
 static Texture* defaultTexture;
+//--------------------------------------------------------------------------------------------
+static Shader* LoadPostionShader()
+{
+	Shader* shader = new Shader;
+	shader->LoadFromBuffer(position_vert, position_frag);
+	shader->SetName("position");
+	shader->BindAttribLocation(eAttrib_Position);
+	shader->GetUniformLocation(eUniform_MVP);
+	shader->GetUniformLocation(eUniform_Color);
+	return shader;
+}
+
+static Shader* LoadPositionTexShader()
+{
+	Shader* shader = new Shader;
+	shader->LoadFromBuffer(positiontex_vert, positiontex_frag);
+	shader->SetName("positionTex");
+	shader->BindAttribLocation(eAttrib_Position);
+	shader->BindAttribLocation(eAttrib_TexCoord);
+	shader->GetUniformLocation(eUniform_MVP);
+	shader->GetUniformLocation(eUniform_Samper0);
+	return shader;
+}
+
+static Shader* LoadPhongShader()
+{
+	Shader* shader = new Shader;
+	shader->LoadFromFile("../media/shader/phong.vert", "../media/shader/phong.frag");
+	shader->SetName("phong");
+	shader->BindAttribLocation(eAttrib_Position);
+	shader->BindAttribLocation(eAttrib_TexCoord);
+	shader->BindAttribLocation(eAttrib_Normal);
+
+	shader->GetUniformLocation(eUniform_MVP);
+	shader->GetUniformLocation(eUniform_EyePos);
+	shader->GetUniformLocation(eUniform_LightPos);
+	shader->GetUniformLocation(eUniform_ModelView);
+	shader->GetUniformLocation(eUniform_InvModelView);
+	shader->GetUniformLocation(eUniform_Samper0);
+	GL_CheckError("load phong shader");
+	return shader;
+}
+
+static Shader* LoadBumpShader()
+{
+	Shader* shader = resourceSys->AddShaderFromFile("../media/shader/bump.vert",
+		"../media/shader/bump.frag");
+	shader->SetName("bump");
+	shader->BindAttribLocation(eAttrib_Position);
+	shader->BindAttribLocation(eAttrib_TexCoord);
+	shader->BindAttribLocation(eAttrib_Normal);
+	shader->BindAttribLocation(eAttrib_Tangent);
+	shader->BindAttribLocation(eAttrib_Binormal);
+
+	shader->GetUniformLocation(eUniform_MVP);
+	shader->GetUniformLocation(eUniform_EyePos);
+	shader->GetUniformLocation(eUniform_LightPos);
+	shader->GetUniformLocation(eUniform_ModelView);
+	shader->GetUniformLocation(eUniform_InvModelView);
+	shader->GetUniformLocation(eUniform_Samper0);
+	shader->GetUniformLocation(eUniform_BumpMap);
+	return shader;
+}
+
+static Shader* LoadBlurShader()
+{
+	Shader* shader = new Shader;
+	shader->LoadFromFile("../media/blur.vs", "../media/blur.fs");
+	shader->SetName("blur");
+	shader->BindAttribLocation(eAttrib_Position);
+	shader->BindAttribLocation(eAttrib_TexCoord);
+	shader->GetUniformLocation(eUniform_MVP);
+	shader->GetUniformLocation(eUniform_Samper0);
+	return shader;
+}
+
+
+static ShaderPlugin shaderplugin[] = {
+	{ eShader_Position, LoadPostionShader },
+	{ eShader_PositionTex, LoadPositionTexShader },
+	//{ eShader_Phong, LoadPhongShader },
+	//{ eShader_Blur, LoadBlurShader  },
+	//{ eShader_Bump, LoadBumpShader },
+};
+static int ShaderPluginCount = sizeof(shaderplugin) / sizeof(ShaderPlugin);
+
+//--------------------------------------------------------------------------------------------
 
 static sysTextContent_t textContent;
 
@@ -45,14 +127,6 @@ ResourceSystem::~ResourceSystem()
 	
 }
 
-//ResourceManager* ResourceManager::getInstance()
-//{
-//	if (sm_pSharedInstance == NULL)
-//	{
-//		sm_pSharedInstance = new ResourceManager();
-//	}
-//	return sm_pSharedInstance;
-//}
 
 Texture* ResourceSystem::AddTexture(const char* file)
 {
@@ -70,7 +144,7 @@ Texture* ResourceSystem::AddTexture(const char* file)
 	std::string basename(file);
     std::transform(basename.begin(), basename.end(), basename.begin(), ::tolower);
     
-	for (int i = 0; i < PluginCount; ++i)
+	for (int i = 0; i < TexPluginCount; ++i)
 	{
 		if (basename.find(loaderPlugin[i].name) != std::string::npos)
 		{
@@ -105,13 +179,6 @@ StaticModel* ResourceSystem::AddMesh(const char* file)
 		Texture* tex = AddTexture( meshLoader._textures[i].TextureName.c_str() );
 	}
 	return meshLoader._model;
-}
-
-Shader* ResourceSystem::AddShader(const char* vfile, const char* ffile)
-{
-	Shader* shader = new Shader;
-	shader->LoadFromBuffer(vfile, ffile);
-	return shader;
 }
 
 Texture* ResourceSystem::AddText( const char* text )
@@ -159,5 +226,26 @@ Material* ResourceSystem::AddMaterial( const char* file )
 	mtr->LoadMemory(buffer);
 	_materials.insert(std::make_pair(fullPath, mtr));
 	return mtr;
+}
+
+bool ResourceSystem::LoadAllShader()
+{
+	memset(_shaders, 0, 32);
+	for (int i =0; i<ShaderPluginCount; i++)
+	{
+		_shaders[shaderplugin[i].name] = shaderplugin[i].func();
+	}
+	return true;
+}
+
+Shader* ResourceSystem::FindShader( int shaderId )
+{
+	if (shaderId >= MAX_SHADER_COUNT && shaderId < 0)
+	{
+		Sys_Error("find shader out of bounds");
+		return NULL;
+	}	
+
+	return _shaders[shaderId];
 }
 

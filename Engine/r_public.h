@@ -55,16 +55,6 @@ typedef struct{
 
 typedef struct
 {
-	mat4 matWorld;
-	mat4 matView;
-	mat4 matPerspective;
-	mat4 matWVP;
-
-	Shader* shaders[32];
-}renderBuffer_t;
-
-typedef struct
-{
 	GLuint fbo;
 	GLuint rbo;
 	GLuint texId;
@@ -108,4 +98,5 @@ void *R_ClearedStaticAlloc( int bytes );
 
 void *R_StaticAlloc( int bytes );
 
+drawSurf_t* R_GenerateQuadSurf();
 #endif
