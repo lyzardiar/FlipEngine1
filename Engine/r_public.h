@@ -32,12 +32,13 @@ typedef struct
 	Shader* shader;
 	Texture* tex;
 	Texture* bumpMap;
+	vec3 color;
 }material_t;
 
 
 typedef struct{
 	int	id;
-	material_t* material;
+	material_t* shaderParms;
 	srfTriangles_t*	geo;
 	Material* mtr;
 	mat4* view;

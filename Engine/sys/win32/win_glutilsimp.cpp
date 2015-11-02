@@ -263,7 +263,7 @@ static int GL_InitGL()
 	wglGetSwapIntervalEXT = (PFNWGLGETSWAPINTERVALEXTPROC)wglGetProcAddress("wglGetSwapIntervalEXT");
 	if (wglGetSwapIntervalEXT && wglSwapIntervalEXT)
 	{
-		Sys_Printf("wglGetSwapIntervalEXT %d", wglGetSwapIntervalEXT());
+		Sys_Printf("wglGetSwapIntervalEXT %d\n", wglGetSwapIntervalEXT());
 		wglSwapIntervalEXT(0);
 	}
 

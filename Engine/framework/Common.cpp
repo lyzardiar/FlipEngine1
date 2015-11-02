@@ -7,8 +7,8 @@
 
 char* win_name = "null";
 bool show_fps = true;
-int win_width = 1366;
-int win_height = 768;
+int win_width = 800;
+int win_height = 600;
 
 void Com_Init() 
 {
@@ -46,7 +46,7 @@ void Com_Frame()
 			frames		=0;								//reset fps for this second
 			
 			char buff[255];
-			sprintf( buff, "FPS: %.02f, run %d", fps, nowTime );
+			sprintf( buff, "FPS: %.02f, run: %d  num of surface: %d", fps, nowTime, renderSys->GetNumSurf() );
 			renderSys->DrawString(buff);
 		}
 	}	

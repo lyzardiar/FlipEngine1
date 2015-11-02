@@ -17,17 +17,17 @@
 #include "../Camera.h"
 
 RenderSystem* renderSys;
-static const int view_width = 1366;
-static const int view_height = 768;
-static const int win_width = 1366;
-static const int win_height = 768;
+static const int view_width = 800;
+static const int view_height = 600;
 
 
 
 
-RenderSystemLocal::RenderSystemLocal(glimpParms_t *glimpParms_t)
+RenderSystemLocal::RenderSystemLocal(glimpParms_t *glimpParms)
 {
-	GL_CreateDevice(glimpParms_t);
+	GL_CreateDevice(glimpParms);
+	_winWidth = glimpParms->width;
+	_winHeight = glimpParms->height;
 }
 
 void RenderSystemLocal::Init()
@@ -39,7 +39,7 @@ void RenderSystemLocal::Init()
 	glEnable(GL_DEPTH_TEST);							
 	glDepthFunc(GL_LEQUAL);								
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);	
-	glViewport(0, 0, win_width, win_height);
+	glViewport(0, 0, _winWidth, _winHeight);
 
 	// 文本需要
 	glEnable(GL_BLEND);
@@ -86,9 +86,9 @@ void RenderSystemLocal::FrameUpdate()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	
-	//RenderCommon();
+	RenderCommon();
 
-	RenderPasses();
+	//RenderPasses();
 
 	RenderBounds();
 
@@ -119,9 +119,8 @@ bool RenderSystemLocal::AddStaticModel( StaticModel* model )
 	for (unsigned int i = 0; i < surfaces.size(); i++)
 	{
 		drawSurf_t* drawSur = surfaces[i];
-		drawSur->material = R_AllocMaterail();
-		drawSur->material->shader = resourceSys->FindShader(eShader_Phong);
-		drawSur->material->tex = resourceSys->AddTexture(".png");
+		drawSur->shaderParms = R_AllocMaterail();
+		drawSur->shaderParms->tex = resourceSys->AddTexture(".png");
 		drawSur->mtr = resourceSys->AddMaterial("../media/position.mtr");
 		
 		if (drawSur->view == NULL)
@@ -138,9 +137,9 @@ bool RenderSystemLocal::AddDrawSur( drawSurf_t* drawSur )
 	if (drawSur->geo->vbo[0] <= 0)
 		R_GenerateGeometryVbo(drawSur->geo);
 
-	if (drawSur->material == NULL || drawSur->material->shader == NULL)
+	if (drawSur->mtr == NULL)
 	{
-		Sys_Error("draw surface material is not");
+		Sys_Error("draw surface material is not\n");
 		return false;
 	}
 
@@ -186,7 +185,7 @@ void RenderSystemLocal::RenderPasses()
 			//R_RenderPTPass(_surfaces[i], R_DrawPositonTex);
 			//RenderShadowMap(_surfaces[i]);
 		}
-		if (_surfaces[i]->material->bumpMap != nullptr)
+		if (_surfaces[i]->shaderParms->bumpMap != nullptr)
 		{
 			R_RenderBumpPass(_surfaces[i], R_DrawPositonTangent);
 		}
@@ -210,9 +209,11 @@ void RenderSystemLocal::RenderCommon()
 bool RenderSystemLocal::AddUISurf( drawSurf_t* drawSurf )
 {
 	drawSurf->viewProj = _camera->GetViewProj();
-	drawSurf->material->shader = resourceSys->FindShader(eShader_PositionTex);
-	if (drawSurf->material->tex == NULL)
-		drawSurf->material->tex = resourceSys->AddTexture(".png");
+	drawSurf->shaderParms->shader = resourceSys->FindShader(eShader_PositionTex);
+	if (drawSurf->shaderParms->tex == NULL)
+		drawSurf->shaderParms->tex = resourceSys->AddTexture(".png");
+
+	drawSurf->mtr = resourceSys->AddMaterial("../media/mtr/positiontex.mtr");
 	return AddDrawSur(drawSurf);
 }
 

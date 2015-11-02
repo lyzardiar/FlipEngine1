@@ -9,7 +9,7 @@
 
 void R_RenderPTPass( drawSurf_t* drawSur, DrawFunc drawFunc ) {
 	srfTriangles_t* tri = drawSur->geo;
-	material_t* material = drawSur->material;
+	material_t* material = drawSur->shaderParms;
 	mat4 t = (*drawSur->viewProj) * drawSur->matModel;
 	Shader* shader = material->shader;
 
@@ -31,7 +31,7 @@ void R_RenderPTPass( drawSurf_t* drawSur, DrawFunc drawFunc ) {
 
 void R_RenderShadowMap( drawSurf_t* drawSur, DrawFunc drawFunc ) {
 	srfTriangles_t* tri = drawSur->geo;
-	material_t* material = drawSur->material;
+	material_t* material = drawSur->shaderParms;
 	mat4 t = (*drawSur->viewProj) * drawSur->matModel;
 	Shader* shader = material->shader;
 
@@ -48,7 +48,7 @@ void R_RenderShadowMap( drawSurf_t* drawSur, DrawFunc drawFunc ) {
 
 void R_RenderPhongPass( drawSurf_t* drawSurf, DrawFunc drawFunc ) {
 	srfTriangles_t* tri = drawSurf->geo;
-	material_t* material = drawSurf->material;
+	material_t* material = drawSurf->shaderParms;
 	mat4 t = (*drawSurf->viewProj) * drawSurf->matModel;
 	mat4 modelView = (*drawSurf->view) * drawSurf->matModel;
 	mat4 invModelView = modelView.inverse();
@@ -138,7 +138,7 @@ void RB_DrawBounds( aabb3d* aabb3d ) {
 
 void R_RenderBumpPass( drawSurf_t* drawSurf, DrawFunc drawFunc ) {
 	srfTriangles_t* tri = drawSurf->geo;
-	material_t* material = drawSurf->material;
+	material_t* material = drawSurf->shaderParms;
 	mat4 t = (*drawSurf->viewProj) * drawSurf->matModel;
 	mat4 modelView = (*drawSurf->view) * drawSurf->matModel;
 	mat4 invModelView = modelView.inverse();

@@ -20,7 +20,7 @@ Sprite::Sprite() : _width(0),
 	_drawSurf->geo->verts[2].xyz = vec3(w, h, 0.f);
 	_drawSurf->geo->verts[3].xyz = vec3(w, 0.f, 0.f);
 
-	_drawSurf->material = R_AllocMaterail();
+	_drawSurf->shaderParms = R_AllocMaterail();
 
 	SetupVBO();
 }
@@ -32,18 +32,18 @@ Sprite::~Sprite()
 
 void Sprite::SetTexture( const char* imgPath )
 {
-	_drawSurf->material->tex = resourceSys->AddTexture(imgPath);
+	_drawSurf->shaderParms->tex = resourceSys->AddTexture(imgPath);
 	UpdateVertex();
 }
 
 void Sprite::SetLabel( const char* label )
 {
-	if (_drawSurf->material->tex != NULL )
+	if (_drawSurf->shaderParms->tex != NULL )
 	{
-		GLuint tex = _drawSurf->material->tex->GetName();
+		GLuint tex = _drawSurf->shaderParms->tex->GetName();
 		glDeleteTextures(1, &tex );
 	}
-	_drawSurf->material->tex = resourceSys->AddText(label);
+	_drawSurf->shaderParms->tex = resourceSys->AddText(label);
 	UpdateVertex();
 }
 
@@ -51,7 +51,7 @@ void Sprite::UpdateVertex()
 {
 	//1 3
 	//0 2
-	Texture* texture = _drawSurf->material->tex;
+	Texture* texture = _drawSurf->shaderParms->tex;
 	float w = (float)texture->_pixelsWide;
 	float h = (float)texture->_pixelsHigh;
 

@@ -104,7 +104,6 @@ void ShadowSampler::ProcessEvent(sysEvent_s* event)
 			{
 			case 'w':
 			case 'W':
-				ShowNext();
 				break;
 			case 's':
 			case 'S':
@@ -128,6 +127,7 @@ void ShadowSampler::ProcessEvent(sysEvent_s* event)
 		break;
 	case SE_MOUSE:
 		{
+				ShowNext();
 		}
 	default:
 		break;

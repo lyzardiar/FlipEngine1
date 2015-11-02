@@ -3,7 +3,8 @@
 #include "sys/sys_public.h"
 #include "Shader.h"
 
-Material::Material() {
+Material::Material() :_hasColor(false), 
+					  _hasTexture(false){
 
 }
 
@@ -52,7 +53,6 @@ bool Material::LoadMemory( const char* buffer ) {
 		}
 	}
 
-	
 	_shader.LoadFromBuffer(_vert, _frag);
 	if (_hasPosition)
 	{
@@ -68,6 +68,15 @@ bool Material::LoadMemory( const char* buffer ) {
 	{
 		_shader.GetUniformLocation(eUniform_Color);
 	}
+
+	if (_hasTexture)
+	{
+		_shader.GetUniformLocation(eUniform_Samper0);
+	}
+
+	Sys_Printf("material: %s\n", _name.c_str());
+	Sys_Printf("has color:  %s\n", _hasColor? "true" : "false");
+	Sys_Printf("has texture:  %s\n", _hasTexture? "true" : "false");
 	return false;
 }
 
@@ -109,10 +118,6 @@ bool Material::ParseVertProgram( Lexer& lexer ) {
 			_attriArr[_numAttri++] = 4;
 		else if (tk._data == "WVP")
 			_hasWorldViewPorj = true;
-		else if (tk._data == "COLOR")
-			_hasColor = true;
-		else if (tk._data == "texture1")
-			_hasTexture = true;
 		else if (tk._data == "modelView")
 			_hasModelView = true;
 		else if (tk._data == "invModelView")
@@ -175,5 +180,10 @@ bool Material::ParseFragProgram( Lexer& lexer ) {
 		}
 	}
 	return false;
+}
+
+void Material::SetName( const char* name )
+{
+	_name = name;
 }
 

@@ -58,12 +58,12 @@ void ShadowSampler::Init()
 {
 	SetupCamera();
 
-	/*	StaticModel* model = resourceSys->AddMesh("../media/ninja.b3d");
-	model->GenerateNormals();
-	model->CalcBounds();
-	AddStaticModel(model);
-	model->getSurfaces()[0]->bShaowmap = true;
-	testModel = model*/;
+	//StaticModel* model = resourceSys->AddMesh("../media/ninja.b3d");
+	//model->GenerateNormals();
+	//model->CalcBounds();
+	//AddStaticModel(model);
+	//model->getSurfaces()[0]->bShaowmap = true;
+	//testModel = model;
 
 	AddStaticModel(loadLwoModel("../media/aircannister.lwo"));
 

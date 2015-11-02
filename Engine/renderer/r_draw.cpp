@@ -47,8 +47,12 @@ void R_RenderCommon(drawSurf_t* drawSurf){
 	glUseProgram(shader->GetProgarm());
 
 	if (mtr->_hasColor)
-	{
 		glUniform3f(shader->GetUniform(eUniform_Color), 1.0, 0.0, 0.0);
+
+	if (mtr->_hasTexture)
+	{
+		glUniform1i( shader->GetUniform(eUniform_BumpMap), 1 );
+		glBindTexture( GL_TEXTURE_2D, drawSurf->shaderParms->tex->GetName() );
 	}
 
 	//if (mtr->_hasWorldViewPorj)

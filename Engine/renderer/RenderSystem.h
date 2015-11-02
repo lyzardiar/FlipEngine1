@@ -32,6 +32,8 @@ public:
 	virtual bool AddSprite(Sprite* sprite) = 0;
 
 	virtual bool AddUISurf(drawSurf_t* drawSurf) = 0;
+
+	virtual int GetNumSurf() = 0;
 };
 
 class RenderSystemLocal : public RenderSystem
@@ -54,6 +56,7 @@ public:
 
 	virtual bool AddUISurf(drawSurf_t* drawSurf);
 
+	virtual int GetNumSurf(){ return _surfaces.size(); }
 private:
 	
 	void RenderCommon();
@@ -67,6 +70,9 @@ private:
 	array<drawSurf_t*> _surfaces;
 	Sprite*	_defaultSprite;
 	shadowMap_t* _shadowMap;
+
+	int _winWidth;
+	int _winHeight;
 };
 
 extern RenderSystem* renderSys;

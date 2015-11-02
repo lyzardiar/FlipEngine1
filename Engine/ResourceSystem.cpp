@@ -215,11 +215,12 @@ Material* ResourceSystem::AddMaterial( const char* file )
 	}
 
 	mtr = new Material();
+	mtr->SetName(file);
 	const char* buffer = F_ReadFileData(file); //"../media/Position.mtr");
 
 	if (buffer == NULL)
 	{
-		Sys_Error("add material failed %s\n", file);
+		Sys_Error("add material failed %s, file data is null\n", file);
 		return NULL;
 	}
 

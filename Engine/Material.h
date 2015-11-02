@@ -30,7 +30,10 @@ public:
 
 	unsigned int ProgramId();
 
+	void SetName(const char* name);
 public:
+	lfStr _name;
+
 	bool _hasPosition;
 	bool _hasTexCoord;
 	bool _hasNormal;
@@ -53,6 +56,7 @@ public:
 	char* _frag;
 
 	Shader _shader;
+
 };
 
 #endif
