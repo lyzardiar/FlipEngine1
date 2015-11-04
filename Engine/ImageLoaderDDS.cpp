@@ -1,6 +1,6 @@
 #include "ImageLoader.h"
 #include "Image.h"
-#include "gl/glew.h"
+#include "glutils.h"
 
 using std::vector;
 

@@ -106,7 +106,6 @@ If you have questions concerning this license or the applicable additional terms
 #include <assert.h>
 #include <time.h>
 #include <ctype.h>
-#include <typeinfo>
 #include <errno.h>
 #include <math.h>
 

@@ -17,20 +17,6 @@ Material::~Material() {
 
 }
 
-	//"vPosition",
-	//"vTexCoord",
-	//"vNormal",
-	//"vTangent",
-	//"vBinormal"
-
-	//"WVP",
-	//"COLOR",
-	//"texture1",
-	//"modelView",
-	//"invModelView",
-	//"fvEyePosition",
-	//"fvLightPosition",
-	//"bumpMap"
 bool Material::LoadMemory( const char* buffer ) {
 	_numAttri = 0;
 
@@ -74,9 +60,9 @@ bool Material::LoadMemory( const char* buffer ) {
 		_shader.GetUniformLocation(eUniform_Samper0);
 	}
 
-	Sys_Printf("material: %s\n", _name.c_str());
-	Sys_Printf("has color:  %s\n", _hasColor? "true" : "false");
-	Sys_Printf("has texture:  %s\n", _hasTexture? "true" : "false");
+	Sys_Printf("material: %s\n"
+			  "has color: %s\n" 
+			  "has texture: %s\n", _name.c_str(), _hasColor? "true" : "false", _hasTexture? "true" : "false");
 	return false;
 }
 

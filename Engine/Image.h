@@ -1,9 +1,10 @@
-#pragma once
+#ifndef __IMAGE_H__
+#define __IMAGE_H__
 
 #include <vector>
 #include <assert.h>
 
-#include <GL/glew.h>
+#include "glutils.h"
 
 class Image {
 public:
@@ -100,3 +101,4 @@ public:
 
     static FormatInfo formatTable[]; 
 };
+#endif

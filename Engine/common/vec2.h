@@ -12,27 +12,52 @@ public:
 
 	// operators
 
-	void vec2::Zero( void ) {
+	void Zero( void ) {
 		x = y = 0.0f;
 	}
 
 	vec2& operator=(const vec2& other);
-
 	vec2 operator+(const vec2& other);
-	vec2& operator+=(const vec2& other)	{ x+=other.x; y+=other.y; return *this; }
+	vec2& operator+=(const vec2& other);
+	vec2 operator-(const vec2& other) const { 
+		return vec2(x - other.x, y - other.y);	
+	}
 
-	vec2 operator-(const vec2& other) const { return vec2(x - other.x, y - other.y);	}
-	vec2& operator-=(const vec2& other)	{ x-=other.x; y-=other.y; return *this; }
+	vec2& operator-=(const vec2& other)	{ 
+		x-=other.x; y-=other.y; return *this; 
+	}
 
-	vec2 operator*(const vec2& other) const { return vec2(x * other.x, y * other.y);	}
-	vec2& operator*=(const vec2& other)	{ x*=other.x; y*=other.y; return *this; }
-	vec2 operator*(const float v) const { return vec2(x * v, y * v);	}
-	vec2& operator*=(const float v) { x*=v; y*=v; return *this; }
+	vec2 operator*(const vec2& other) const {
+		return vec2(x * other.x, y * other.y);
+	}
 
-	vec2 operator/(const vec2& other) const { return vec2(x / other.x, y / other.y);	}
-	vec2& operator/=(const vec2& other)	{ x/=other.x; y/=other.y; return *this; }
-	vec2 operator/(const float v) const { float i=(float)1.0/v; return vec2(x * i, y * i);	}
-	vec2& operator/=(const float v) { float i=(float)1.0/v; x*=i; y*=i; return *this; }
+	vec2& operator*=(const vec2& other)	{ 
+		x*=other.x; y*=other.y; return *this; 
+	}
+
+	vec2 operator*(const float v) const { 
+		return vec2(x * v, y * v);	
+	}
+
+	vec2& operator*=(const float v) { 
+		x*=v; y*=v; return *this; 
+	}
+
+	vec2 operator/(const vec2& other) const {
+		return vec2(x / other.x, y / other.y);	
+	}
+
+	vec2& operator/=(const vec2& other)	{ 
+		x/=other.x; y/=other.y; return *this; 
+	}
+
+	vec2 operator/(const float v) const { 
+		float i=(float)1.0/v; return vec2(x * i, y * i);	
+	}
+
+	vec2& operator/=(const float v) { 
+		float i=(float)1.0/v; x*=i; y*=i; return *this; 
+	}
 
 	bool operator<=(const vec2&other) const { return x<=other.x && y<=other.y;};
 	bool operator>=(const vec2&other) const { return x>=other.x && y>=other.y;};

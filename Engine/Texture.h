@@ -1,5 +1,7 @@
-#pragma once
-#include "gl/glew.h"
+#ifndef __TEXTURE_H__
+#define __TEXTURE_H__
+
+#include "glutils.h"
 
 class  Image;
 
@@ -34,3 +36,5 @@ private:
     bool _antialiasEnabled;
 
 };
+
+#endif
