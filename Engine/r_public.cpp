@@ -113,7 +113,7 @@ shadowMap_t* R_GenerateShadowMap()
 	return shadowMap;
 }
 
-mat4& R_BillboardModelView( mat4& model, mat4& view )
+mat4 R_BillboardModelView( mat4& model, mat4& view )
 {
 	mat4 mat;
 	mat = view * model;

@@ -80,7 +80,7 @@ void R_GenerateQuad(srfTriangles_t* geo);
 
 shadowMap_t* R_GenerateShadowMap();
 
-mat4& R_BillboardModelView(mat4& model, mat4& view);
+mat4 R_BillboardModelView(mat4& model, mat4& view);
 
 void R_DeriveNormals( srfTriangles_t *tri );
 

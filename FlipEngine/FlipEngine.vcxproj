@@ -43,7 +43,8 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../Engine/include;../Engine/zlib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Engine/include;../Engine/zlib;../Engine/lua/lua;../Engine/lua/tolua</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -148,6 +149,43 @@
     <ClCompile Include="..\Engine\libpng\pngwtran.c" />
     <ClCompile Include="..\Engine\libpng\pngwutil.c" />
     <ClCompile Include="..\Engine\Light.cpp" />
+    <ClCompile Include="..\Engine\lua\lua\lapi.c" />
+    <ClCompile Include="..\Engine\lua\lua\lauxlib.c" />
+    <ClCompile Include="..\Engine\lua\lua\lbaselib.c" />
+    <ClCompile Include="..\Engine\lua\lua\lcode.c" />
+    <ClCompile Include="..\Engine\lua\lua\ldblib.c" />
+    <ClCompile Include="..\Engine\lua\lua\ldebug.c" />
+    <ClCompile Include="..\Engine\lua\lua\ldo.c" />
+    <ClCompile Include="..\Engine\lua\lua\ldump.c" />
+    <ClCompile Include="..\Engine\lua\lua\lfunc.c" />
+    <ClCompile Include="..\Engine\lua\lua\lgc.c" />
+    <ClCompile Include="..\Engine\lua\lua\linit.c" />
+    <ClCompile Include="..\Engine\lua\lua\liolib.c" />
+    <ClCompile Include="..\Engine\lua\lua\llex.c" />
+    <ClCompile Include="..\Engine\lua\lua\lmathlib.c" />
+    <ClCompile Include="..\Engine\lua\lua\lmem.c" />
+    <ClCompile Include="..\Engine\lua\lua\loadlib.c" />
+    <ClCompile Include="..\Engine\lua\lua\lobject.c" />
+    <ClCompile Include="..\Engine\lua\lua\lopcodes.c" />
+    <ClCompile Include="..\Engine\lua\lua\loslib.c" />
+    <ClCompile Include="..\Engine\lua\lua\lparser.c" />
+    <ClCompile Include="..\Engine\lua\lua\lstate.c" />
+    <ClCompile Include="..\Engine\lua\lua\lstring.c" />
+    <ClCompile Include="..\Engine\lua\lua\lstrlib.c" />
+    <ClCompile Include="..\Engine\lua\lua\ltable.c" />
+    <ClCompile Include="..\Engine\lua\lua\ltablib.c" />
+    <ClCompile Include="..\Engine\lua\lua\ltm.c" />
+    <ClCompile Include="..\Engine\lua\lua\lua.c" />
+    <ClCompile Include="..\Engine\lua\lua\lundump.c" />
+    <ClCompile Include="..\Engine\lua\lua\lvm.c" />
+    <ClCompile Include="..\Engine\lua\lua\lzio.c" />
+    <ClCompile Include="..\Engine\lua\lua\print.c" />
+    <ClCompile Include="..\Engine\lua\tolua\tolua_event.c" />
+    <ClCompile Include="..\Engine\lua\tolua\tolua_is.c" />
+    <ClCompile Include="..\Engine\lua\tolua\tolua_map.c" />
+    <ClCompile Include="..\Engine\lua\tolua\tolua_push.c" />
+    <ClCompile Include="..\Engine\lua\tolua\tolua_to.c" />
+    <ClCompile Include="..\Engine\lua_engine_auto.cpp" />
     <ClCompile Include="..\Engine\Material.cpp" />
     <ClCompile Include="..\Engine\Mesh.cpp" />
     <ClCompile Include="..\Engine\MeshLoader3DS.cpp" />
@@ -160,6 +198,7 @@
     <ClCompile Include="..\Engine\renderer\r_draw.cpp" />
     <ClCompile Include="..\Engine\ResourceSystem.cpp" />
     <ClCompile Include="..\Engine\r_public.cpp" />
+    <ClCompile Include="..\Engine\ScriptSystem.cpp" />
     <ClCompile Include="..\Engine\Shader.cpp" />
     <ClCompile Include="..\Engine\ShadowVolume.cpp" />
     <ClCompile Include="..\Engine\Sprite.cpp" />
@@ -169,7 +208,6 @@
     <ClCompile Include="..\Engine\sys\win32\win_wndproc.cpp" />
     <ClCompile Include="..\Engine\Texture.cpp" />
     <ClCompile Include="..\Engine\Token.cpp" />
-    <ClCompile Include="..\Engine\tr_stencilshadow.cpp" />
     <ClCompile Include="..\Engine\tr_trisurf.cpp" />
     <ClCompile Include="..\Engine\zlib\adler32.c" />
     <ClCompile Include="..\Engine\zlib\compress.c" />
@@ -206,7 +244,6 @@
     <ClInclude Include="..\Engine\common\vec3.h" />
     <ClInclude Include="..\Engine\common\vec4.h" />
     <ClInclude Include="..\Engine\DrawVert.h" />
-    <ClInclude Include="..\Engine\extern.h" />
     <ClInclude Include="..\Engine\File.h" />
     <ClInclude Include="..\Engine\framework\Common.h" />
     <ClInclude Include="..\Engine\framework\KeyInput.h" />
@@ -230,6 +267,32 @@
     <ClInclude Include="..\Engine\libpng\png.h" />
     <ClInclude Include="..\Engine\libpng\pngconf.h" />
     <ClInclude Include="..\Engine\Light.h" />
+    <ClInclude Include="..\Engine\lua\lua\lapi.h" />
+    <ClInclude Include="..\Engine\lua\lua\lauxlib.h" />
+    <ClInclude Include="..\Engine\lua\lua\lcode.h" />
+    <ClInclude Include="..\Engine\lua\lua\ldebug.h" />
+    <ClInclude Include="..\Engine\lua\lua\ldo.h" />
+    <ClInclude Include="..\Engine\lua\lua\lfunc.h" />
+    <ClInclude Include="..\Engine\lua\lua\lgc.h" />
+    <ClInclude Include="..\Engine\lua\lua\llex.h" />
+    <ClInclude Include="..\Engine\lua\lua\llimits.h" />
+    <ClInclude Include="..\Engine\lua\lua\lmem.h" />
+    <ClInclude Include="..\Engine\lua\lua\lobject.h" />
+    <ClInclude Include="..\Engine\lua\lua\lopcodes.h" />
+    <ClInclude Include="..\Engine\lua\lua\lparser.h" />
+    <ClInclude Include="..\Engine\lua\lua\lstate.h" />
+    <ClInclude Include="..\Engine\lua\lua\lstring.h" />
+    <ClInclude Include="..\Engine\lua\lua\ltable.h" />
+    <ClInclude Include="..\Engine\lua\lua\ltm.h" />
+    <ClInclude Include="..\Engine\lua\lua\lua.h" />
+    <ClInclude Include="..\Engine\lua\lua\luaconf.h" />
+    <ClInclude Include="..\Engine\lua\lua\lualib.h" />
+    <ClInclude Include="..\Engine\lua\lua\lundump.h" />
+    <ClInclude Include="..\Engine\lua\lua\lvm.h" />
+    <ClInclude Include="..\Engine\lua\lua\lzio.h" />
+    <ClInclude Include="..\Engine\lua\tolua\tolua++.h" />
+    <ClInclude Include="..\Engine\lua\tolua\tolua_event.h" />
+    <ClInclude Include="..\Engine\lua_engine_auto.h" />
     <ClInclude Include="..\Engine\Material.h" />
     <ClInclude Include="..\Engine\Mesh.h" />
     <ClInclude Include="..\Engine\MeshLoader3DS.h" />
@@ -239,9 +302,9 @@
     <ClInclude Include="..\Engine\Parser.h" />
     <ClInclude Include="..\Engine\renderer\draw_common.h" />
     <ClInclude Include="..\Engine\renderer\RenderSystem.h" />
-    <ClInclude Include="..\Engine\renderer\r_shader.h" />
     <ClInclude Include="..\Engine\ResourceSystem.h" />
     <ClInclude Include="..\Engine\r_public.h" />
+    <ClInclude Include="..\Engine\ScriptSystem.h" />
     <ClInclude Include="..\Engine\Shader.h" />
     <ClInclude Include="..\Engine\ShaderSource.h" />
     <ClInclude Include="..\Engine\ShadowVolume.h" />

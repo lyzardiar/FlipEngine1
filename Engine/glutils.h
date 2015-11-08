@@ -1,7 +1,6 @@
 #ifndef __GLUTILS_H__
 #define __GLUTILS_H__
 
-#undef _WIN32
 #ifdef _WIN32
 //#  include <GL/glew.h>
 #include "gl/glew.h"

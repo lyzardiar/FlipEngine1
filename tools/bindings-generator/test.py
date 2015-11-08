@@ -3,6 +3,7 @@
 """
 import os
 import sys
+from generatorcode import *
 from clang import cindex
 
 def _pretty_print(diagnostics):
@@ -12,23 +13,27 @@ def _pretty_print(diagnostics):
         print "%s. <severity = %s,\n    location = %r,\n    details = %r>" % (
             idx+1, severities[d.severity], d.location, d.spelling)
     print("====\n")
-        
 
-def find_typerefs(node, typename):
-    """ Find all references to the type named 'typename'
-    """
-    text = node.spelling or node.displayname
-    print node.kind
-    print text
-    if node.kind.is_reference():
-        ref_node = clang.cindex.Cursor_ref(node)
-        print ref_node.spelling
-        if ref_node.spelling == typename:
-            print 'Found %s [line=%s, col=%s]' % (
-                typename, node.location.line, node.location.column)
-    # Recurse for children of this node
-    for c in node.get_children():
-        find_typerefs(c, typename)
+def _deep_iterate(cursor, depth = 0):
+    # get the canonical type
+    if cursor.kind == cindex.CursorKind.CLASS_DECL:
+        if cursor == cursor.type.get_declaration() and len(cursor.get_children_array()) > 0:
+            print "class", cursor.displayname
+            # is_targeted_class = True
+            # if self.cpp_ns:
+            #     is_targeted_class = False
+            #     namespaced_name = get_namespaced_name(cursor)
+            #     for ns in self.cpp_ns:
+            #         if namespaced_name.startswith(ns):
+            #             is_targeted_class = True
+            #             break
+
+            nclass = NativeClass(cursor)
+            nclass.generate_code()
+
+    for node in cursor.get_children():
+        # print("%s %s - %s" % (">" * depth, node.displayname, node.kind))
+        _deep_iterate(node, depth + 1)
 
 def main():
     clang_dir = os.path.join(os.path.dirname(__file__), "libclang")
@@ -36,11 +41,11 @@ def main():
 
     project_dir = os.path.join(os.path.dirname(__file__), "../..")
     src_dir = os.path.join(project_dir, "engine")
-    file_dir = os.path.join(src_dir, "Model.h")
+    file_dir = os.path.join(src_dir, "common/vec2.h")
     print(file_dir)
 
-    ndk_root = "F:/AndroidTool/android-ndk-r9d"
-    clangllvmdir = "F:/AndroidTool/android-ndk-r9d/toolchains/llvm-3.3/prebuilt/windows-x86_64"
+    ndk_root = "C:/program1/android-ndk-r9d"
+    clangllvmdir = os.path.join(ndk_root, "toolchains/llvm-3.3/prebuilt/windows")
     # project_inc = "-I%s/Engine/include" % project_dir
 
     clang_inc = "-I%s/lib/clang/3.3/include" % clangllvmdir
@@ -51,7 +56,7 @@ def main():
 
     print clang_inc
 
-    args = ["-x", "c++", clang_inc]
+    args = ["-x", "c++", "-nostdinc", clang_inc]
     args.extend(android_inc)
     args.extend(extra_flags)
     print args
@@ -70,4 +75,7 @@ def main():
             print("*** Found errors - can not continue")
             raise Exception("Fatal error in parsing headers")
 
+    _deep_iterate(tu.cursor)
+
+   
 main()

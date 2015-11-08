@@ -4,14 +4,19 @@
 #include "../common/str.h"
 #include "../Game.h"
 #include "../ResourceSystem.h"
+#include "../ScriptSystem.h"
 
 char* win_name = "null";
 bool show_fps = true;
 int win_width = 800;
 int win_height = 600;
 
+ScriptSystem* scriptSys;
+
 void Com_Init() 
 {
+	scriptSys = new ScriptSystem;
+
 	glimpParms_t pram;
 	pram.width = win_width;
 	pram.height = win_height;
@@ -23,6 +28,10 @@ void Com_Init()
 
 	Sys_Printf("Initializing Game\n");
 	game->Init();
+
+	scriptSys->Init();
+	scriptSys->Register("renderSys", resourceSys);
+	scriptSys->RunScript("../script/main.lua");
 }
 
 void Com_Frame()
