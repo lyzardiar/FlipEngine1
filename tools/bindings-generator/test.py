@@ -35,6 +35,47 @@ def _deep_iterate(cursor, depth = 0):
         # print("%s %s - %s" % (">" * depth, node.displayname, node.kind))
         _deep_iterate(node, depth + 1)
 
+def generate_code(filePath, tempPath, outFile):
+    stream = file(os.path.join(tempPath, "conversions.yaml"), "r")
+    implfilepath = os.path.join(outFile + ".cpp")
+    headfilepath = os.path.join(outFile + ".hpp")
+
+    base = os.path.basename(headfilepath)
+    search = {
+        "macro_judgement": base,
+        "prefix": base,
+        "out_file":base,
+        "headers":[],
+        "sorted_classes":[]
+    }
+
+    impl_file = open(implfilepath, "w+")
+    head_file = open(headfilepath, "w+")
+
+    layout_h = Template(file=os.path.join(tempPath, "templates", "layout_head.h"),
+                        searchList=[search])
+
+    layout_c = Template(file=os.path.join(tempPath, "templates", "layout_head.c"),
+                        searchList=[search])
+
+    apidoc_ns_script = Template(file=os.path.join(tempPath, "templates", "apidoc_ns.script"),
+                            searchList=[search])
+    head_file.write(str(layout_h))
+    impl_file.write(str(layout_c))
+
+    # _parse_headers()
+
+    layout_h = Template(file=os.path.join(tempPath, "templates", "layout_foot.h"),
+                        searchList=[search])
+
+    layout_c = Template(file=os.path.join(tempPath, "templates", "layout_foot.c"),
+                        searchList=[search])
+    head_file.write(str(layout_h))
+    impl_file.write(str(layout_c))
+
+    impl_file.close()
+    head_file.close()
+
 def main():
     clang_dir = os.path.join(os.path.dirname(__file__), "libclang")
     print "clang_dir:", clang_dir
@@ -54,7 +95,8 @@ def main():
     "-I%s/sources/cxx-stl/gnu-libstdc++/4.7/include" % ndk_root]
     extra_flags = ["-D__WCHAR_MAX__=0x7fffffff", "-U__MINGW32__"]
 
-    print clang_inc
+    tempPath = os.path.join(os.path.dirname(__file__), "targets/lua")
+    outfile = os.path.join(os.path.dirname(__file__), "out/vec2")
 
     args = ["-x", "c++", "-nostdinc", clang_inc]
     args.extend(android_inc)
@@ -63,19 +105,21 @@ def main():
 
     cindex.Config.set_library_path(clang_dir)
     index = cindex.Index.create()
-    tu = index.parse(file_dir, args)
 
-    if len(tu.diagnostics) > 0:
-        _pretty_print(tu.diagnostics)
-        is_fatal = False
-        for d in tu.diagnostics:
-            if d.severity >= cindex.Diagnostic.Error:
-                is_fatal = True
-        if is_fatal :
-            print("*** Found errors - can not continue")
-            raise Exception("Fatal error in parsing headers")
+    generate_code(src_dir, tempPath, outfile)
+    # tu = index.parse(file_dir, args)
 
-    _deep_iterate(tu.cursor)
+    # if len(tu.diagnostics) > 0:
+    #     _pretty_print(tu.diagnostics)
+    #     is_fatal = False
+    #     for d in tu.diagnostics:
+    #         if d.severity >= cindex.Diagnostic.Error:
+    #             is_fatal = True
+    #     if is_fatal :
+    #         print("*** Found errors - can not continue")
+    #         raise Exception("Fatal error in parsing headers")
 
-   
+    # _deep_iterate(tu.cursor)
+
+
 main()

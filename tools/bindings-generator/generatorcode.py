@@ -514,48 +514,7 @@ class NativeFunction(object):
 
         return replaceStr
 
-    def generate_code(self, current_class=None, generator=None, is_override=False):
-        gen = current_class.generator if current_class else generator
-        config = gen.config
-        tpl = Template(file=os.path.join(gen.target, "templates", "function.h"),
-                        searchList=[current_class, self])
-        if not is_override:
-            gen.head_file.write(str(tpl))
-        if self.static:
-            if config['definitions'].has_key('sfunction'):
-                tpl = Template(config['definitions']['sfunction'],
-                                    searchList=[current_class, self])
-                self.signature_name = str(tpl)
-            tpl = Template(file=os.path.join(gen.target, "templates", "sfunction.c"),
-                            searchList=[current_class, self])
-        else:
-            if not self.is_constructor:
-                if config['definitions'].has_key('ifunction'):
-                    tpl = Template(config['definitions']['ifunction'],
-                                    searchList=[current_class, self])
-                    self.signature_name = str(tpl)
-            else:
-                if config['definitions'].has_key('constructor'):
-                    tpl = Template(config['definitions']['constructor'],
-                                    searchList=[current_class, self])
-                    self.signature_name = str(tpl)
-            if self.is_constructor and gen.script_type == "spidermonkey" :
-                tpl = Template(file=os.path.join(gen.target, "templates", "constructor.c"),
-                                                searchList=[current_class, self])
-            else :
-                tpl = Template(file=os.path.join(gen.target, "templates", "ifunction.c"),
-                                searchList=[current_class, self])
-        if not is_override:
-            gen.impl_file.write(str(tpl))
-        apidoc_function_script = Template(file=os.path.join(gen.target,
-                                                        "templates",
-                                                        "apidoc_function.script"),
-                                      searchList=[current_class, self])
-        if gen.script_type == "spidermonkey":
-            gen.doc_file.write(str(apidoc_function_script))
-        else:
-            if gen.script_type == "lua" and current_class != None :
-                current_class.doc_func_file.write(str(apidoc_function_script))
+ 
 
 
 class NativeOverloadedFunction(object):
@@ -631,27 +590,22 @@ class NativeOverloadedFunction(object):
             tpl = Template(file=os.path.join(gen.target, "templates", "ifunction_overloaded.c"),
                             searchList=[current_class, self])
         if not is_override:
+            print str(tpl)
             gen.impl_file.write(str(tpl))
 
         if current_class != None:
-            if gen.script_type == "lua":
-                apidoc_function_overload_script = Template(file=os.path.join(gen.target,
-                                                        "templates",
-                                                        "apidoc_function_overload.script"),
-                                      searchList=[current_class, self])
-                current_class.doc_func_file.write(str(apidoc_function_overload_script))
-            else:
-                if gen.script_type == "spidermonkey":
-                    apidoc_function_overload_script = Template(file=os.path.join(gen.target,
-                                                        "templates",
-                                                        "apidoc_function_overload.script"),
-                                      searchList=[current_class, self])
-                    gen.doc_file.write(str(apidoc_function_overload_script))
-
+            apidoc_function_overload_script = Template(file=os.path.join(gen.target,
+                                                    "templates",
+                                                    "apidoc_function_overload.script"),
+                                  searchList=[current_class, self])
+            current_class.doc_func_file.write(str(apidoc_function_overload_script))
+      
 
 class NativeClass(object):
     def __init__(self, cursor):
         # the cursor to the implementation
+        self.target = os.path.join(os.path.dirname(__file__), "targets/lua")
+        print self.target
         self.cursor = cursor
         self.class_name = cursor.displayname
         self.parents = []
@@ -686,9 +640,7 @@ class NativeClass(object):
             should_skip = False
             if name == 'constructor':
                 should_skip = True
-            else:
-                if self.generator.should_skip(self.class_name, name):
-                    should_skip = True
+
             if not should_skip:
                 ret.append({"name": name, "impl": impl})
         return ret
@@ -715,21 +667,55 @@ class NativeClass(object):
         #         ret.append({"name": name, "impl": impl})
         return ret
 
+   # def generate_code(self, current_class=None, generator=None, is_override=False):
+   #  tpl = Template(file=os.path.join(gen.target, "templates", "function.h"),
+   #                  searchList=[current_class, self])
+   #  if not is_override:
+   #      gen.head_file.write(str(tpl))
+   #  if self.static:
+   #      if config['definitions'].has_key('sfunction'):
+   #          tpl = Template(config['definitions']['sfunction'],
+   #                              searchList=[current_class, self])
+   #          self.signature_name = str(tpl)
+   #      tpl = Template(file=os.path.join(gen.target, "templates", "sfunction.c"),
+   #                      searchList=[current_class, self])
+   #  else:
+   #      if not self.is_constructor:
+   #          if config['definitions'].has_key('ifunction'):
+   #              tpl = Template(config['definitions']['ifunction'],
+   #                              searchList=[current_class, self])
+   #              self.signature_name = str(tpl)
+   #      else:
+   #          if config['definitions'].has_key('constructor'):
+   #              tpl = Template(config['definitions']['constructor'],
+   #                              searchList=[current_class, self])
+   #              self.signature_name = str(tpl)
+   #      if self.is_constructor and gen.script_type == "spidermonkey" :
+   #          tpl = Template(file=os.path.join(gen.target, "templates", "constructor.c"),
+   #                                          searchList=[current_class, self])
+   #      else :
+   #          tpl = Template(file=os.path.join(gen.target, "templates", "ifunction.c"),
+   #                          searchList=[current_class, self])
+   #  if not is_override:
+   #      gen.impl_file.write(str(tpl))
+   #  apidoc_function_script = Template(file=os.path.join(gen.target,
+   #                                                  "templates",
+   #                                                  "apidoc_function.script"),
+   #                                searchList=[current_class, self])
+   #  if gen.script_type == "spidermonkey":
+   #      gen.doc_file.write(str(apidoc_function_script))
+   #  else:
+   #      if gen.script_type == "lua" and current_class != None :
+   #          current_class.doc_func_file.write(str(apidoc_function_script))
+                
     def generate_code(self):
         '''
         actually generate the code. it uses the current target templates/rules in order to
         generate the right code
         '''
-
         # config = self.generator.config
-        # prelude_h = Template(file=os.path.join(self.generator.target, "templates", "prelude.h"),
-        #                     searchList=[{"current_class": self}])
-        # prelude_c = Template(file=os.path.join(self.generator.target, "templates", "prelude.c"),
-        #                     searchList=[{"current_class": self}])
-        # apidoc_classhead_script = Template(file=os.path.join(self.generator.target,
-        #                                                  "templates",
-        #                                                  "apidoc_classhead.script"),
-        #                                searchList=[{"current_class": self}])
+
+
         # if self.generator.script_type == "lua":
         #     docfuncfilepath = os.path.join(self.generator.outdir + "/api", self.class_name + ".lua")
         #     self.doc_func_file = open(docfuncfilepath, "w+")
@@ -742,13 +728,12 @@ class NativeClass(object):
         # self.generator.head_file.write(str(prelude_h))
         # self.generator.impl_file.write(str(prelude_c))
         # self.generator.doc_file.write(str(apidoc_classhead_script))
-        # for m in self.methods_clean():
-        #     m['impl'].generate_code(self)
-        # for m in self.static_methods_clean():
-        #     m['impl'].generate_code(self)
-        # if self.generator.script_type == "lua":  
-        #     for m in self.override_methods_clean():
-        #         m['impl'].generate_code(self, is_override = True)
+        for m in self.methods_clean():
+            m['impl'].generate_code(self)
+        for m in self.static_methods_clean():
+            m['impl'].generate_code(self)
+        for m in self.override_methods_clean():
+            m['impl'].generate_code(self, is_override = True)
         # # generate register section
         # register = Template(file=os.path.join(self.generator.target, "templates", "register.c"),
         #                     searchList=[{"current_class": self}])
@@ -816,41 +801,40 @@ class NativeClass(object):
             if self._current_visibility == cindex.AccessSpecifierKind.PUBLIC and not cursor.type.is_function_variadic():
                 print "NativeFunction " + cursor.displayname
                 m = NativeFunction(cursor)
-                # registration_name = self.generator.should_rename_function(self.class_name, m.func_name) or m.func_name
-                # # bail if the function is not supported (at least one arg not supported)
-                # if m.not_supported:
-                #     return False
-                # if m.is_override:
-                #     if NativeClass._is_method_in_parents(self, registration_name):
-                #         if self.generator.script_type == "lua":
-                #             if not self.override_methods.has_key(registration_name):
-                #                 self.override_methods[registration_name] = m
-                #             else:
-                #                 previous_m = self.override_methods[registration_name]
-                #                 if isinstance(previous_m, NativeOverloadedFunction):
-                #                     previous_m.append(m)
-                #                 else:
-                #                     self.override_methods[registration_name] = NativeOverloadedFunction([m, previous_m])
-                #         return False
+                # bail if the function is not supported (at least one arg not supported)
+                registration_name = m.func_name
+                if m.not_supported:
+                    return False
+                if m.is_override:
+                    if NativeClass._is_method_in_parents(self, registration_name):
+                        if not self.override_methods.has_key(m.func_name):
+                            self.override_methods[registration_name] = m
+                        else:
+                            previous_m = self.override_methods[registration_name]
+                            if isinstance(previous_m, NativeOverloadedFunction):
+                                previous_m.append(m)
+                            else:
+                                self.override_methods[registration_name] = NativeOverloadedFunction([m, previous_m])
+                        return False
 
-                # if m.static:
-                #     if not self.static_methods.has_key(registration_name):
-                #         self.static_methods[registration_name] = m
-                #     else:
-                #         previous_m = self.static_methods[registration_name]
-                #         if isinstance(previous_m, NativeOverloadedFunction):
-                #             previous_m.append(m)
-                #         else:
-                #             self.static_methods[registration_name] = NativeOverloadedFunction([m, previous_m])
-                # else:
-                #     if not self.methods.has_key(registration_name):
-                #         self.methods[registration_name] = m
-                #     else:
-                #         previous_m = self.methods[registration_name]
-                #         if isinstance(previous_m, NativeOverloadedFunction):
-                #             previous_m.append(m)
-                #         else:
-                #             self.methods[registration_name] = NativeOverloadedFunction([m, previous_m])
+                if m.static:
+                    if not self.static_methods.has_key(registration_name):
+                        self.static_methods[registration_name] = m
+                    else:
+                        previous_m = self.static_methods[registration_name]
+                        if isinstance(previous_m, NativeOverloadedFunction):
+                            previous_m.append(m)
+                        else:
+                            self.static_methods[registration_name] = NativeOverloadedFunction([m, previous_m])
+                else:
+                    if not self.methods.has_key(registration_name):
+                        self.methods[registration_name] = m
+                    else:
+                        previous_m = self.methods[registration_name]
+                        if isinstance(previous_m, NativeOverloadedFunction):
+                            previous_m.append(m)
+                        else:
+                            self.methods[registration_name] = NativeOverloadedFunction([m, previous_m])
             return True
 
         elif self._current_visibility == cindex.AccessSpecifierKind.PUBLIC and cursor.kind == cindex.CursorKind.CONSTRUCTOR:
