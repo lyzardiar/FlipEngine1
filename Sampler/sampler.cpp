@@ -20,6 +20,8 @@
 #include "Model.h"
 #include "ScriptSystem.h"
 
+#include "luautils.h"
+
 #pragma comment(lib, "FlipEngine.lib")
 #pragma comment(lib, "opengl32.lib")
 #pragma comment(lib, "glew32.lib")
@@ -60,11 +62,21 @@ void ShadowSampler::Init()
 	_scriptSys = new ScriptSystem;
 	_scriptSys->Init();
 	_scriptSys->Register("renderSys", resourceSys);
-	_scriptSys->RunScript("../script/main.lua");
 
-	
+	lua_State* L = _scriptSys->GetLuaState();
+	lua_pushlightuserdata(L, renderSys);
+
+	luaL_getmetatable(L, "RenderSystem");                                 /* stack: mt */
+	if (lua_isnil(L, -1)) { /* NOT FOUND metatable */
+		lua_pop(L, 1);
+		return;
+	}
+	lua_setmetatable(L,-2);   
+	lua_setfield(L, LUA_GLOBALSINDEX, "renderSys");
+	//lua_setfield(_state, LUA_GLOBALSINDEX, name);
 	//SetupCamera();
 
+	_scriptSys->RunScript("../script/main.lua");
 	//StaticModel* model = resourceSys->AddMesh("../media/ninja.b3d");
 	//model->GenerateNormals();
 	//model->CalcBounds();
@@ -204,6 +216,7 @@ void ShadowSampler::ProcessEvent(sysEvent_s* event)
 
 bool ShadowSampler::HitTest(int mouseX, int mouseY)
 {
+	return false;
 	int width = 1366;
 	int height = 768;
 	float x = (2.0f * mouseX) / width - 1.0f;

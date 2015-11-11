@@ -87,12 +87,6 @@ bool ScriptSystem::RunScript( const char* filePath )
 	return true;
 }
 
-int lua_engine_resourcesystem_addMesh(lua_State* tolua_S)
-{
-	Sys_Printf("addmeshaaaaaaaaaaaaaaaaaa");
-	return 0;
-}
-
 bool ScriptSystem::Register(const char* name, void* userdata)
 {
 	//lua_pushlightuserdata(_state, userdata);
@@ -107,12 +101,11 @@ bool ScriptSystem::Register(const char* name, void* userdata)
 
 //	lua_setfield(_state, LUA_GLOBALSINDEX, "render");	
 
-	luaL_newmetatable(_state, "RenderSystem");
-	//lua_pushvalue(_state, -1);
-	lua_pushstring(_state, "==========");
-	lua_setfield(_state, -2, "__index");
-	lua_pushcfunction(_state, lua_engine_resourcesystem_addMesh);
-	lua_setfield(_state, -2, "AddMesh");
+	//luaL_newmetatable(_state, "RenderSystem");
+	////lua_pushvalue(_state, -1);
+	//lua_pushstring(_state, "==========");
+	//lua_setfield(_state, -2, "__index");
+	//lua_setfield(_state, -2, "AddMesh");
 
 	return true;
 }
@@ -126,4 +119,9 @@ bool ScriptSystem::Call( const char* funcname )
 		Sys_Error("script system call %s error code %d", funcname, err);
 	}
 	return false;
+}
+
+lua_State* ScriptSystem::GetLuaState()
+{
+	return _state;
 }

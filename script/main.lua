@@ -1,7 +1,14 @@
 -- print("=====================================")
 -- print("helloworld")
--- print(renderSys)
+print(renderSys)
 
+local meta = getmetatable(renderSys)
+
+for k,v in pairs(meta) do
+	print(k,v)
+end
+
+renderSys:DrawString("===")
 -- print(render)
 
 
@@ -23,6 +30,7 @@ local function main()
 	-- for k,v in pairs(meta) do
 	-- 	print(k,v)
 	-- end
+
 end
 
 xpcall(main,

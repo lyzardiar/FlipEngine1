@@ -149,6 +149,7 @@
     <ClCompile Include="..\Engine\libpng\pngwtran.c" />
     <ClCompile Include="..\Engine\libpng\pngwutil.c" />
     <ClCompile Include="..\Engine\Light.cpp" />
+    <ClCompile Include="..\Engine\luautils.cpp" />
     <ClCompile Include="..\Engine\lua\lua\lapi.c" />
     <ClCompile Include="..\Engine\lua\lua\lauxlib.c" />
     <ClCompile Include="..\Engine\lua\lua\lbaselib.c" />
@@ -267,6 +268,7 @@
     <ClInclude Include="..\Engine\libpng\png.h" />
     <ClInclude Include="..\Engine\libpng\pngconf.h" />
     <ClInclude Include="..\Engine\Light.h" />
+    <ClInclude Include="..\Engine\luautils.h" />
     <ClInclude Include="..\Engine\lua\lua\lapi.h" />
     <ClInclude Include="..\Engine\lua\lua\lauxlib.h" />
     <ClInclude Include="..\Engine\lua\lua\lcode.h" />

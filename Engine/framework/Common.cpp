@@ -7,7 +7,7 @@
 #include "../ScriptSystem.h"
 
 char* win_name = "null";
-bool show_fps = true;
+bool show_fps = false;
 int win_width = 800;
 int win_height = 600;
 
