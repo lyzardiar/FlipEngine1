@@ -35,6 +35,8 @@ private:
 
 	Camera* _light;
 
+
+
 };
 
 #endif

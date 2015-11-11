@@ -18,6 +18,7 @@
 
 #include "Model_lwo.h"
 #include "Model.h"
+#include "ScriptSystem.h"
 
 #pragma comment(lib, "FlipEngine.lib")
 #pragma comment(lib, "opengl32.lib")
@@ -56,7 +57,13 @@ ShadowSampler::~ShadowSampler()
 StaticModel* testModel;
 void ShadowSampler::Init()
 {
-	SetupCamera();
+	_scriptSys = new ScriptSystem;
+	_scriptSys->Init();
+	_scriptSys->Register("renderSys", resourceSys);
+	_scriptSys->RunScript("../script/main.lua");
+
+	
+	//SetupCamera();
 
 	//StaticModel* model = resourceSys->AddMesh("../media/ninja.b3d");
 	//model->GenerateNormals();
@@ -65,24 +72,24 @@ void ShadowSampler::Init()
 	//model->getSurfaces()[0]->bShaowmap = true;
 	//testModel = model;
 
-	AddStaticModel(loadLwoModel("../media/aircannister.lwo"));
+	//AddStaticModel(loadLwoModel("../media/aircannister.lwo"));
 
 	//StaticModel* dsmodel = new StaticModel;
 	//LoadMesh3DS("../Media/Teapot.3ds", dsmodel);
 	//dsmodel->GenerateNormals();
 	//AddStaticModel(dsmodel);
 
-	_defaultSprite = new Sprite;
-	_defaultSprite->SetLabel("...");
-	_defaultSprite->SetPosition(0.f, 540.f, 0.f);
-	renderSys->AddSprite(_defaultSprite);
+	//_defaultSprite = new Sprite;
+	//_defaultSprite->SetLabel("...");
+	//_defaultSprite->SetPosition(0.f, 540.f, 0.f);
+	//renderSys->AddSprite(_defaultSprite);
 
 	//Shader* shader = new Shader;
 	//shader->LoadFromFile("../media/shader/shadowmap.vert", "../media/shader/shadowmap.frag");
 	//shader->BindAttribLocation(eAttrib_Position);
 	//shader->GetUniformLocation(eUniform_MVP);
 
-	CreateLight();
+	//CreateLight();
 
 	/*
 	srfTriangles_t* tri = R_AllocStaticTriSurf();;
@@ -138,19 +145,20 @@ void ShadowSampler::Frame()
 		ev = Sys_GetEvent();
 	}
 
+	_scriptSys->Call("frameUpdate");
 
-	glCullFace(GL_BACK);
-	glUseProgram(0);
-	glBindTexture(GL_TEXTURE_2D, 0);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	//glCullFace(GL_BACK);
+	//glUseProgram(0);
+	//glBindTexture(GL_TEXTURE_2D, 0);
+	//glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-	vec2 screenpos = _spLight->ToScreenCoord(*_camera->GetViewProj());
+	//vec2 screenpos = _spLight->ToScreenCoord(*_camera->GetViewProj());
 
-	vec3 pos = _camera->GetPosition();
-	char buff[255];
-	sprintf_s(buff, "camera position %.02f %.02f %.02f screen pos: %.02f %.02f", pos.x, pos.y, 
-		pos.z, screenpos.x, screenpos.y);
-	_defaultSprite->SetLabel(buff);
+	//vec3 pos = _camera->GetPosition();
+	//char buff[255];
+	//sprintf_s(buff, "camera position %.02f %.02f %.02f screen pos: %.02f %.02f", pos.x, pos.y, 
+	//	pos.z, screenpos.x, screenpos.y);
+	//_defaultSprite->SetLabel(buff);
 }
 
 void ShadowSampler::ProcessEvent(sysEvent_s* event)

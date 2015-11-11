@@ -1,6 +1,29 @@
 #include "lua_engine_auto.h"
 #include "ResourceSystem.h"
 
+class Test
+{
+public:
+	void print() { }
+};
+
+
+int testprint(lua_State* tolua_S)
+{
+	return 0;
+}
+
+static int lnewbuffer(lua_State *L) {
+	Test *rb = (Test *)lua_newuserdata(L, sizeof(*rb));
+	if (luaL_newmetatable(L, "Test")) {
+		lua_pushvalue(L, -1);
+		lua_setfield(L, -2, "__index");
+		lua_pushcfunction(L, testprint);
+		lua_setfield(L, -2, "print");
+	}
+	lua_setmetatable(L, -2);
+	return 1;
+}
 int lua_engine_resourcesystem_addMesh(lua_State* tolua_S)
 {
 	/*int argc = 0;
@@ -28,29 +51,28 @@ int lua_engine_resourcesystem_addMesh(lua_State* tolua_S)
 	return 0;
 }
 
-//int lua_register_cocos2dx_3d_BillBoard(lua_State* tolua_S)
-//{
-//	tolua_usertype(tolua_S,"cc.BillBoard");
-//	tolua_cclass(tolua_S,"BillBoard","cc.BillBoard","cc.Sprite",nullptr);
-//
-//	tolua_beginmodule(tolua_S,"BillBoard");
-//	tolua_function(tolua_S,"getMode",lua_cocos2dx_3d_BillBoard_getMode);
-//	tolua_function(tolua_S,"setMode",lua_cocos2dx_3d_BillBoard_setMode);
-//	tolua_function(tolua_S,"create", lua_cocos2dx_3d_BillBoard_create);
-//	tolua_function(tolua_S,"createWithTexture", lua_cocos2dx_3d_BillBoard_createWithTexture);
-//	tolua_endmodule(tolua_S);
-//	return 1;
-//}
+int lua_register_cocos2dx_3d_BillBoard(lua_State* tolua_S)
+{
+	tolua_usertype(tolua_S,"cc.BillBoard");
+	tolua_cclass(tolua_S,"BillBoard","cc.BillBoard","cc.Sprite",nullptr);
+
+	tolua_beginmodule(tolua_S,"BillBoard");
+	tolua_function(tolua_S,"getMode",lua_cocos2dx_3d_BillBoard_getMode);
+	tolua_function(tolua_S,"setMode",lua_cocos2dx_3d_BillBoard_setMode);
+	tolua_function(tolua_S,"create", lua_cocos2dx_3d_BillBoard_create);
+	tolua_function(tolua_S,"createWithTexture", lua_cocos2dx_3d_BillBoard_createWithTexture);
+	tolua_endmodule(tolua_S);
+	return 1;
+}
 TOLUA_API int register_all_engine(lua_State* tolua_S)
 {
-	tolua_open(tolua_S);
+	if (luaL_newmetatable(L, "RenderSystem")) {
+		lua_pushvalue(L, -1);
+		lua_setfield(L, -2, "__index");
+		lua_pushcfunction(L, testprint);
+		lua_setfield(L, -2, "DrawString");
+	}
 
-	tolua_module(tolua_S, "ResourceSystem", 0);
-	tolua_beginmodule(tolua_S, "ResourceSystem");
-	
-	tolua_function(tolua_S, "AddMesh", lua_engine_resourcesystem_addMesh);
-
-	tolua_endmodule(tolua_S);
 	return 1;
 }
 

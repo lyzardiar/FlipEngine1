@@ -1,6 +1,7 @@
 #include "ScriptSystem.h"
 #include "sys/sys_public.h"
 #include "common/Str.h"
+#include "lua_engine_auto.h"
 
 extern "C"
 {
@@ -51,30 +52,7 @@ int lua_print(lua_State * luastate)
 	return 0;
 }
 
-class Test
-{
-public:
-	void print() { Sys_Printf("aaaaaaaaaaaaaaaaaaaaaaaa"); }
-};
 
-
-int testprint(lua_State* tolua_S)
-{
-	Sys_Printf("addmeshaaaaaaaaaaaaaaaaaa\n");
-	return 0;
-}
-
-static int lnewbuffer(lua_State *L) {
-	Test *rb = (Test *)lua_newuserdata(L, sizeof(*rb));
-	if (luaL_newmetatable(L, "Test")) {
-		lua_pushvalue(L, -1);
-		lua_setfield(L, -2, "__index");
-		lua_pushcfunction(L, testprint);
-		lua_setfield(L, -2, "print");
-	}
-	lua_setmetatable(L, -2);
-	return 1;
-}
 
 ScriptSystem::ScriptSystem()
 {
@@ -94,10 +72,11 @@ bool ScriptSystem::Init()
 	// Register our version of the global "print" function
 	const luaL_reg global_functions [] = {
 		{"print", lua_print},
-		{"newbuffer", lnewbuffer},
 		{nullptr, nullptr}
 	};
 	luaL_register(_state, "_G", global_functions);
+
+	register_all_engine(_state);
 	return true;
 }
 
@@ -136,4 +115,15 @@ bool ScriptSystem::Register(const char* name, void* userdata)
 	lua_setfield(_state, -2, "AddMesh");
 
 	return true;
+}
+
+bool ScriptSystem::Call( const char* funcname )
+{
+	lua_getglobal(_state, funcname);
+	int err = lua_pcall(_state, 0, 0, 0);
+	if (err != 0)
+	{
+		Sys_Error("script system call %s error code %d", funcname, err);
+	}
+	return false;
 }
