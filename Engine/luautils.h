@@ -10,7 +10,7 @@ extern "C"
 
 void Lua_Function (lua_State* L, const char* name, lua_CFunction func);
 
-
+void Lua_PushCObject(lua_State* L, const char* name, void* userdata);
 
 #endif
 

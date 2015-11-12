@@ -181,11 +181,6 @@
     <ClCompile Include="..\Engine\lua\lua\lvm.c" />
     <ClCompile Include="..\Engine\lua\lua\lzio.c" />
     <ClCompile Include="..\Engine\lua\lua\print.c" />
-    <ClCompile Include="..\Engine\lua\tolua\tolua_event.c" />
-    <ClCompile Include="..\Engine\lua\tolua\tolua_is.c" />
-    <ClCompile Include="..\Engine\lua\tolua\tolua_map.c" />
-    <ClCompile Include="..\Engine\lua\tolua\tolua_push.c" />
-    <ClCompile Include="..\Engine\lua\tolua\tolua_to.c" />
     <ClCompile Include="..\Engine\lua_engine_auto.cpp" />
     <ClCompile Include="..\Engine\Material.cpp" />
     <ClCompile Include="..\Engine\Mesh.cpp" />
@@ -292,8 +287,6 @@
     <ClInclude Include="..\Engine\lua\lua\lundump.h" />
     <ClInclude Include="..\Engine\lua\lua\lvm.h" />
     <ClInclude Include="..\Engine\lua\lua\lzio.h" />
-    <ClInclude Include="..\Engine\lua\tolua\tolua++.h" />
-    <ClInclude Include="..\Engine\lua\tolua\tolua_event.h" />
     <ClInclude Include="..\Engine\lua_engine_auto.h" />
     <ClInclude Include="..\Engine\Material.h" />
     <ClInclude Include="..\Engine\Mesh.h" />

@@ -1,30 +1,21 @@
 #include "lua_engine_auto.h"
 #include "../renderer/RenderSystem.h"
+#include "../Sprite.h"
 
-class Test
-{
-public:
-	void print() { }
-};
+static int lnewSprite(lua_State *L) {
+	Sprite* obj = new Sprite;
+	lua_pushlightuserdata(L, obj);
 
-
-int testprint(lua_State* tolua_S)
-{
-	return 0;
-}
-
-static int lnewbuffer(lua_State *L) {
-	Test *rb = (Test *)lua_newuserdata(L, sizeof(*rb));
-	if (luaL_newmetatable(L, "Test")) {
-		lua_pushvalue(L, -1);
-		lua_setfield(L, -2, "__index");
-		lua_pushcfunction(L, testprint);
-		lua_setfield(L, -2, "print");
+	/*	luaL_getmetatable(L, "RenderSystem");     
+	if (lua_isnil(L, -1)) { 
+	lua_pop(L, 1);
+	return;
 	}
-	lua_setmetatable(L, -2);
+	lua_setmetatable(L,-2); */ 
 	return 1;
 }
-int lua_register_RenderSystem_DrawString(lua_State* tolua_S)
+
+int lRenderSysDrawString(lua_State* tolua_S)
 {
 	int argc = 0;
 	RenderSystem* cobj = nullptr;
@@ -46,28 +37,20 @@ int lua_register_RenderSystem_DrawString(lua_State* tolua_S)
 	return 0;
 }
 
-int lua_register_cocos2dx_3d_BillBoard(lua_State* tolua_S)
+int RegisterAllEngine(lua_State* L)
 {
-	/*	tolua_usertype(tolua_S,"cc.BillBoard");
-	tolua_cclass(tolua_S,"BillBoard","cc.BillBoard","cc.Sprite",nullptr);
-
-	tolua_beginmodule(tolua_S,"BillBoard");
-	tolua_function(tolua_S,"getMode", lua_cocos2dx_3d_BillBoard_getMode);
-	tolua_function(tolua_S,"setMode", lua_cocos2dx_3d_BillBoard_setMode);
-	tolua_function(tolua_S,"create", lua_cocos2dx_3d_BillBoard_create);
-	tolua_function(tolua_S,"createWithTexture", lua_cocos2dx_3d_BillBoard_createWithTexture);
-	tolua_endmodule(tolua_S)*/;
-	return 1;
-}
-
-TOLUA_API int register_all_engine(lua_State* tolua_S)
-{
-	if (luaL_newmetatable(tolua_S, "RenderSystem")) {
-		lua_pushvalue(tolua_S, -1);
-		lua_setfield(tolua_S, -2, "__index");
-		lua_pushcfunction(tolua_S, lua_register_RenderSystem_DrawString);
-		lua_setfield(tolua_S, -2, "DrawString");
+	if (luaL_newmetatable(L, "RenderSystem")) {
+		lua_pushvalue(L, -1);
+		lua_setfield(L, -2, "__index");
+		lua_pushcfunction(L, lRenderSysDrawString);
+		lua_setfield(L, -2, "DrawString");
 	}
+
+	lua_newtable(L);
+	lua_pushcfunction(L, lnewSprite);
+	lua_setfield(L, -2, "CreateSprite");
+
+	lua_setfield(L, LUA_GLOBALSINDEX, "RenderSystem");
 
 	return 1;
 }

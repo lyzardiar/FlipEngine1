@@ -1,16 +1,18 @@
 -- print("=====================================")
 -- print("helloworld")
-print(renderSys)
 
-local meta = getmetatable(renderSys)
+-- local meta = getmetatable(renderSys)
 
-for k,v in pairs(meta) do
-	print(k,v)
-end
+-- for k,v in pairs(meta) do
+-- 	print(k,v)
+-- end
 
-renderSys:DrawString("===")
--- print(render)
+-- renderSys:DrawString("===")
+-- -- print(render)
 
+
+-- -- print(sprite)
+-- print(renderSys)
 
 -- for k,v in pairs(meta) do
 -- 	for kk,vv in pairs(v) do
@@ -31,6 +33,10 @@ local function main()
 	-- 	print(k,v)
 	-- end
 
+	print("RenderSystem")
+	print(RenderSystem)
+	local sprite = RenderSystem.CreateSprite()
+	print("sprite", sprite )
 end
 
 xpcall(main,

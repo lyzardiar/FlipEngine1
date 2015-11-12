@@ -61,19 +61,9 @@ void ShadowSampler::Init()
 {
 	_scriptSys = new ScriptSystem;
 	_scriptSys->Init();
-	_scriptSys->Register("renderSys", resourceSys);
 
-	lua_State* L = _scriptSys->GetLuaState();
-	lua_pushlightuserdata(L, renderSys);
-
-	luaL_getmetatable(L, "RenderSystem");                                 /* stack: mt */
-	if (lua_isnil(L, -1)) { /* NOT FOUND metatable */
-		lua_pop(L, 1);
-		return;
-	}
-	lua_setmetatable(L,-2);   
-	lua_setfield(L, LUA_GLOBALSINDEX, "renderSys");
-	//lua_setfield(_state, LUA_GLOBALSINDEX, name);
+	Lua_PushCObject(_scriptSys->GetLuaState(), "RenderSystem", _renderSys);
+	lua_setfield(_scriptSys->GetLuaState(), LUA_GLOBALSINDEX, "renderSys");
 	//SetupCamera();
 
 	_scriptSys->RunScript("../script/main.lua");
@@ -157,7 +147,7 @@ void ShadowSampler::Frame()
 		ev = Sys_GetEvent();
 	}
 
-	_scriptSys->Call("frameUpdate");
+	//_scriptSys->Call("frameUpdate");
 
 	//glCullFace(GL_BACK);
 	//glUseProgram(0);

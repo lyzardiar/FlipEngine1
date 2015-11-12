@@ -44,9 +44,6 @@
     <Filter Include="lua">
       <UniqueIdentifier>{a8d0bcd7-9093-4de8-b540-1ec814b16f62}</UniqueIdentifier>
     </Filter>
-    <Filter Include="tolua">
-      <UniqueIdentifier>{39bc0040-9b95-4703-b66e-073a47d2412e}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Engine\common\Joint.cpp">
@@ -490,21 +487,6 @@
       <Filter>common</Filter>
     </ClCompile>
     <ClCompile Include="..\Engine\ScriptSystem.cpp" />
-    <ClCompile Include="..\Engine\lua\tolua\tolua_event.c">
-      <Filter>tolua</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Engine\lua\tolua\tolua_is.c">
-      <Filter>tolua</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Engine\lua\tolua\tolua_map.c">
-      <Filter>tolua</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Engine\lua\tolua\tolua_push.c">
-      <Filter>tolua</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Engine\lua\tolua\tolua_to.c">
-      <Filter>tolua</Filter>
-    </ClCompile>
     <ClCompile Include="..\Engine\lua_engine_auto.cpp" />
     <ClCompile Include="..\Engine\luautils.cpp" />
   </ItemGroup>
@@ -793,12 +775,6 @@
       <Filter>common</Filter>
     </ClInclude>
     <ClInclude Include="..\Engine\ScriptSystem.h" />
-    <ClInclude Include="..\Engine\lua\tolua\tolua_event.h">
-      <Filter>tolua</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Engine\lua\tolua\tolua++.h">
-      <Filter>tolua</Filter>
-    </ClInclude>
     <ClInclude Include="..\Engine\lua_engine_auto.h" />
     <ClInclude Include="..\Engine\luautils.h" />
   </ItemGroup>

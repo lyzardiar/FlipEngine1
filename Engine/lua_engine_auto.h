@@ -2,10 +2,10 @@
 
 #ifdef __cplusplus
 extern "C" {
-#endif
-#include "tolua++.h"
-#ifdef __cplusplus
+#include "lua.h"
+#include "lualib.h"
+#include "lauxlib.h"
 }
 #endif
 
-TOLUA_API int register_all_engine(lua_State* tolua_S);
+int RegisterAllEngine(lua_State* tolua_S);

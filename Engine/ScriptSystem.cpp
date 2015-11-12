@@ -62,7 +62,6 @@ ScriptSystem::~ScriptSystem()
 {
 }
 
-#define OS_STRING "ANDROID"
 bool ScriptSystem::Init()
 {
 	_state = lua_open();
@@ -76,7 +75,7 @@ bool ScriptSystem::Init()
 	};
 	luaL_register(_state, "_G", global_functions);
 
-	register_all_engine(_state);
+	RegisterAllEngine(_state);
 	return true;
 }
 
@@ -87,28 +86,6 @@ bool ScriptSystem::RunScript( const char* filePath )
 	return true;
 }
 
-bool ScriptSystem::Register(const char* name, void* userdata)
-{
-	//lua_pushlightuserdata(_state, userdata);
-	//lua_setfield(_state, LUA_GLOBALSINDEX, name);
-
-	////luaL_newmetatable(_state, "RenderSystem");
-	//lua_newtable(_state);
-	//lua_pushcfunction(_state, lua_engine_resourcesystem_addMesh);
-	//lua_setfield(_state, -2, "AddMesh");
-	//lua_pushcfunction(_state, lua_engine_resourcesystem_addMesh);
-	//lua_setfield(_state, -2, "AddMesh1");
-
-//	lua_setfield(_state, LUA_GLOBALSINDEX, "render");	
-
-	//luaL_newmetatable(_state, "RenderSystem");
-	////lua_pushvalue(_state, -1);
-	//lua_pushstring(_state, "==========");
-	//lua_setfield(_state, -2, "__index");
-	//lua_setfield(_state, -2, "AddMesh");
-
-	return true;
-}
 
 bool ScriptSystem::Call( const char* funcname )
 {

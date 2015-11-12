@@ -13,7 +13,6 @@ public:
 
 	bool RunScript(const char* filePath);
 
-	bool Register(const char* name, void* userdata);
 
 	bool Call(const char* funcname);
 
