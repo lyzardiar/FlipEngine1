@@ -506,6 +506,7 @@
       <Filter>tolua</Filter>
     </ClCompile>
     <ClCompile Include="..\Engine\lua_engine_auto.cpp" />
+    <ClCompile Include="..\Engine\luautils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Engine\color4.h">
@@ -799,5 +800,6 @@
       <Filter>tolua</Filter>
     </ClInclude>
     <ClInclude Include="..\Engine\lua_engine_auto.h" />
+    <ClInclude Include="..\Engine\luautils.h" />
   </ItemGroup>
 </Project>

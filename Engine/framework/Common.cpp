@@ -7,31 +7,26 @@
 #include "../ScriptSystem.h"
 
 char* win_name = "null";
-bool show_fps = true;
+bool show_fps = false;
 int win_width = 800;
 int win_height = 600;
 
-ScriptSystem* scriptSys;
 
 void Com_Init() 
 {
-	scriptSys = new ScriptSystem;
-
 	glimpParms_t pram;
 	pram.width = win_width;
 	pram.height = win_height;
 	pram.displayHz = 1/60;
 	pram.stereo = 1/60;
 
+	Sys_Printf("Initializing RenderSystem\n");
 	renderSys = new RenderSystemLocal(&pram);
 	renderSys->Init();
 
 	Sys_Printf("Initializing Game\n");
+	game->SetRenderSys(renderSys);
 	game->Init();
-
-	scriptSys->Init();
-	scriptSys->Register("renderSys", resourceSys);
-	scriptSys->RunScript("../script/main.lua");
 }
 
 void Com_Frame()

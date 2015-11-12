@@ -33,6 +33,7 @@ static Shader* LoadPostionShader()
 	shader->BindAttribLocation(eAttrib_Position);
 	shader->GetUniformLocation(eUniform_MVP);
 	shader->GetUniformLocation(eUniform_Color);
+	GL_CheckError("LoadPostionShader");
 	return shader;
 }
 
@@ -45,6 +46,7 @@ static Shader* LoadPositionTexShader()
 	shader->BindAttribLocation(eAttrib_TexCoord);
 	shader->GetUniformLocation(eUniform_MVP);
 	shader->GetUniformLocation(eUniform_Samper0);
+	GL_CheckError("LoadPositionTexShader");
 	return shader;
 }
 
