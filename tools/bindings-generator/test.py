@@ -29,14 +29,13 @@ def _deep_iterate(cursor, depth = 0):
             #             break
 
             nclass = NativeClass(cursor)
-            nclass.generate_code()
+            # nclass.generate_code()
 
     for node in cursor.get_children():
         # print("%s %s - %s" % (">" * depth, node.displayname, node.kind))
         _deep_iterate(node, depth + 1)
 
 def generate_code(filePath, tempPath, outFile):
-    stream = file(os.path.join(tempPath, "conversions.yaml"), "r")
     implfilepath = os.path.join(outFile + ".cpp")
     headfilepath = os.path.join(outFile + ".hpp")
 
@@ -48,7 +47,6 @@ def generate_code(filePath, tempPath, outFile):
         "headers":[],
         "sorted_classes":[]
     }
-
     impl_file = open(implfilepath, "w+")
     head_file = open(headfilepath, "w+")
 
@@ -58,8 +56,6 @@ def generate_code(filePath, tempPath, outFile):
     layout_c = Template(file=os.path.join(tempPath, "templates", "layout_head.c"),
                         searchList=[search])
 
-    apidoc_ns_script = Template(file=os.path.join(tempPath, "templates", "apidoc_ns.script"),
-                            searchList=[search])
     head_file.write(str(layout_h))
     impl_file.write(str(layout_c))
 
@@ -77,13 +73,13 @@ def generate_code(filePath, tempPath, outFile):
     head_file.close()
 
 def main():
+    source = "ResourceSystem.h"
+
     clang_dir = os.path.join(os.path.dirname(__file__), "libclang")
     print "clang_dir:", clang_dir
 
     project_dir = os.path.join(os.path.dirname(__file__), "../..")
     src_dir = os.path.join(project_dir, "engine")
-    file_dir = os.path.join(src_dir, "common/vec2.h")
-    print(file_dir)
 
     ndk_root = "C:/program1/android-ndk-r9d"
     clangllvmdir = os.path.join(ndk_root, "toolchains/llvm-3.3/prebuilt/windows")
@@ -106,20 +102,22 @@ def main():
     cindex.Config.set_library_path(clang_dir)
     index = cindex.Index.create()
 
-    generate_code(src_dir, tempPath, outfile)
-    # tu = index.parse(file_dir, args)
+    file_dir = os.path.join(src_dir, source)
+    # print(file_dir)
+    # generate_code(src_dir, tempPath, outfile)
+    tu = index.parse(file_dir, args)
 
-    # if len(tu.diagnostics) > 0:
-    #     _pretty_print(tu.diagnostics)
-    #     is_fatal = False
-    #     for d in tu.diagnostics:
-    #         if d.severity >= cindex.Diagnostic.Error:
-    #             is_fatal = True
-    #     if is_fatal :
-    #         print("*** Found errors - can not continue")
-    #         raise Exception("Fatal error in parsing headers")
+    if len(tu.diagnostics) > 0:
+        _pretty_print(tu.diagnostics)
+        is_fatal = False
+        for d in tu.diagnostics:
+            if d.severity >= cindex.Diagnostic.Error:
+                is_fatal = True
+        if is_fatal :
+            print("*** Found errors - can not continue")
+            raise Exception("Fatal error in parsing headers")
 
-    # _deep_iterate(tu.cursor)
+    _deep_iterate(tu.cursor)
 
 
 main()

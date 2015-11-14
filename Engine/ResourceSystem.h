@@ -1,8 +1,7 @@
 #ifndef __RESOURCESYSTEM_H__
 #define __RESOURCESYSTEM_H__
 
-#include <unordered_map>
-#include <map>
+#include "common/hashtable.h"
 
 class Texture;
 class StaticModel;
@@ -46,9 +45,9 @@ public:
 	Material* AddMaterial(const char* file);
 private:
 
-	std::map<std::string, Texture*> _textures;
+	hashtable _textures;
 
-	std::map<std::string, Material*> _materials;
+	hashtable _materials;
 
 	Shader* _shaders[MAX_SHADER_COUNT];
 };

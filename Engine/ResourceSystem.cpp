@@ -134,10 +134,10 @@ Texture* ResourceSystem::AddTexture(const char* file)
 {
 	Texture* texture = NULL;
 
-	string fullPath = file;
-	auto it = _textures.find(fullPath);
-    if( it != _textures.end() ) {
-		texture = it->second;
+	lfStr fullPath = file;
+	void* it = _textures.Get(fullPath);
+    if( it != NULL ) {
+		texture = (Texture*)it;
 		return texture;
     }
 
@@ -160,7 +160,7 @@ Texture* ResourceSystem::AddTexture(const char* file)
 				texture = new Texture();
 				texture->Init(&image);
 
-				_textures.insert(std::make_pair(fullPath, texture));
+				_textures.Put(fullPath, texture);
 				return texture;
 			}
 		}
@@ -209,10 +209,10 @@ Shader* ResourceSystem::AddShaderFromFile( const char* vfile, const char* ffile 
 Material* ResourceSystem::AddMaterial( const char* file )
 {
 	Material* mtr;
-	string fullPath = file;
-	auto it = _materials.find(fullPath);
-	if( it != _materials.end() ) {
-		mtr = it->second;
+	lfStr fullPath = file;
+	auto it = _materials.Get(fullPath);
+	if( it != NULL ) {
+		mtr = (Material*) mtr;
 		return mtr;
 	}
 
@@ -227,7 +227,7 @@ Material* ResourceSystem::AddMaterial( const char* file )
 	}
 
 	mtr->LoadMemory(buffer);
-	_materials.insert(std::make_pair(fullPath, mtr));
+	_materials.Put(fullPath, mtr);
 	return mtr;
 }
 

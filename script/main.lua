@@ -34,8 +34,12 @@ local function main()
 	-- end
 
 	print("RenderSystem")
-	print(RenderSystem)
-	local sprite = RenderSystem.CreateSprite()
+	print(RS)
+	local sprite = RS.CreateSprite()
+	local meta = getmetatable(sprite)
+	for k,v in pairs(meta) do
+		print(k,v)
+	end
 	print("sprite", sprite )
 end
 

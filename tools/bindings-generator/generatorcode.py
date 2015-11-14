@@ -626,9 +626,7 @@ class NativeClass(object):
         return self.namespaced_class_name.replace("::", "_")
 
     def parse(self):
-        '''
-        parse the current cursor, getting all the necesary information
-        '''
+        print "parse class", self.class_name
         self._deep_iterate(self.cursor)
 
     def methods_clean(self):
