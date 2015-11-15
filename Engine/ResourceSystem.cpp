@@ -4,7 +4,6 @@
 #include "Texture.h"
 #include <algorithm>
 #include <iostream>
-#include <string>
 #include "MeshLoaderB3D.h"
 #include "Shader.h"
 #include "glutils.h"
@@ -14,7 +13,6 @@
 #include "File.h"
 
 #include "../ShaderSource.h"
-using std::string;
 
 static LoaderPlugin loaderPlugin[] = {
     { "jpg", loadImageJPG},

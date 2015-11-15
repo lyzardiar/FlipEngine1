@@ -3,8 +3,25 @@
 """
 import os
 import sys
-from generatorcode import *
+from nativeclass import *
 from clang import cindex
+
+ignoredclass = {
+    "lfStr":1,
+    "hashtable":2,
+    "DrawVert":3,
+    "vec2":4,
+    "vec3":5,
+    "vec4":6,
+    "mat4":7,
+    "quat":8,
+    "Joint":9,
+    "aabb3d":10,
+    "idMath":11,
+    "color4":12,
+    "Edge":13
+}
+classlist = []
 
 def _pretty_print(diagnostics):
     print("====\nErrors in parsing headers:")
@@ -19,93 +36,16 @@ def _deep_iterate(cursor, depth = 0):
     if cursor.kind == cindex.CursorKind.CLASS_DECL:
         if cursor == cursor.type.get_declaration() and len(cursor.get_children_array()) > 0:
             print "class", cursor.displayname
-            # is_targeted_class = True
-            # if self.cpp_ns:
-            #     is_targeted_class = False
-            #     namespaced_name = get_namespaced_name(cursor)
-            #     for ns in self.cpp_ns:
-            #         if namespaced_name.startswith(ns):
-            #             is_targeted_class = True
-            #             break
-
-            nclass = NativeClass(cursor)
-            # nclass.generate_code()
+            if not ignoredclass.has_key(cursor.displayname):
+                nclass = NativeClass(cursor)
+                classlist.append(nclass)
 
     for node in cursor.get_children():
         # print("%s %s - %s" % (">" * depth, node.displayname, node.kind))
         _deep_iterate(node, depth + 1)
 
-def generate_code(filePath, tempPath, outFile):
-    implfilepath = os.path.join(outFile + ".cpp")
-    headfilepath = os.path.join(outFile + ".hpp")
-
-    base = os.path.basename(headfilepath)
-    search = {
-        "macro_judgement": base,
-        "prefix": base,
-        "out_file":base,
-        "headers":[],
-        "sorted_classes":[]
-    }
-    impl_file = open(implfilepath, "w+")
-    head_file = open(headfilepath, "w+")
-
-    layout_h = Template(file=os.path.join(tempPath, "templates", "layout_head.h"),
-                        searchList=[search])
-
-    layout_c = Template(file=os.path.join(tempPath, "templates", "layout_head.c"),
-                        searchList=[search])
-
-    head_file.write(str(layout_h))
-    impl_file.write(str(layout_c))
-
-    # _parse_headers()
-
-    layout_h = Template(file=os.path.join(tempPath, "templates", "layout_foot.h"),
-                        searchList=[search])
-
-    layout_c = Template(file=os.path.join(tempPath, "templates", "layout_foot.c"),
-                        searchList=[search])
-    head_file.write(str(layout_h))
-    impl_file.write(str(layout_c))
-
-    impl_file.close()
-    head_file.close()
-
-def main():
-    source = "ResourceSystem.h"
-
-    clang_dir = os.path.join(os.path.dirname(__file__), "libclang")
-    print "clang_dir:", clang_dir
-
-    project_dir = os.path.join(os.path.dirname(__file__), "../..")
-    src_dir = os.path.join(project_dir, "engine")
-
-    ndk_root = "C:/program1/android-ndk-r9d"
-    clangllvmdir = os.path.join(ndk_root, "toolchains/llvm-3.3/prebuilt/windows")
-    # project_inc = "-I%s/Engine/include" % project_dir
-
-    clang_inc = "-I%s/lib/clang/3.3/include" % clangllvmdir
-    android_inc = ["-I%s/platforms/android-14/arch-arm/usr/include" % ndk_root, 
-    "-I%s/sources/cxx-stl/gnu-libstdc++/4.7/libs/armeabi-v7a/include" % ndk_root,
-    "-I%s/sources/cxx-stl/gnu-libstdc++/4.7/include" % ndk_root]
-    extra_flags = ["-D__WCHAR_MAX__=0x7fffffff", "-U__MINGW32__"]
-
-    tempPath = os.path.join(os.path.dirname(__file__), "targets/lua")
-    outfile = os.path.join(os.path.dirname(__file__), "out/vec2")
-
-    args = ["-x", "c++", "-nostdinc", clang_inc]
-    args.extend(android_inc)
-    args.extend(extra_flags)
-    print args
-
-    cindex.Config.set_library_path(clang_dir)
-    index = cindex.Index.create()
-
-    file_dir = os.path.join(src_dir, source)
-    # print(file_dir)
-    # generate_code(src_dir, tempPath, outfile)
-    tu = index.parse(file_dir, args)
+def _parse_header(index, args, header):
+    tu = index.parse(header, args)
 
     if len(tu.diagnostics) > 0:
         _pretty_print(tu.diagnostics)
@@ -115,9 +55,69 @@ def main():
                 is_fatal = True
         if is_fatal :
             print("*** Found errors - can not continue")
-            raise Exception("Fatal error in parsing headers")
+            # raise Exception("Fatal error in parsing headers")
 
     _deep_iterate(tu.cursor)
 
+def _write_code(impl_file, template, search):
+    templatePath = os.path.join(os.path.dirname(__file__), "targets/lua")
+    code = Template(file=os.path.join(templatePath, "templates", template),
+        searchList=[search])
+    impl_file.write(str(code))
+
+def main():
+    allheader = ["ResourceSystem.h", "Texture.h", "Sprite.h", "renderer/RenderSystem.h"]
+
+    clangdir = os.path.join(os.path.dirname(__file__), "libclang")
+
+    projectdir = os.path.join(os.path.dirname(__file__), "../..")
+    srcdir = os.path.join(projectdir, "engine")
+
+    ndk_root = "C:/program1/android-ndk-r9d"
+    clangllvmdir = os.path.join(ndk_root, "toolchains/llvm-3.3/prebuilt/windows")
+    # project_inc = "-I%s/Engine/include" % project_dir
+
+    clanginc = "-I%s/lib/clang/3.3/include" % clangllvmdir
+    androidinc = ["-I%s/platforms/android-14/arch-arm/usr/include" % ndk_root, 
+    "-I%s/sources/cxx-stl/gnu-libstdc++/4.7/libs/armeabi-v7a/include" % ndk_root,
+    "-I%s/sources/cxx-stl/gnu-libstdc++/4.7/include" % ndk_root]
+    extra_flags = ["-D__WCHAR_MAX__=0x7fffffff", "-U__MINGW32__"]
+
+
+    outFile = os.path.join(os.path.dirname(__file__), "out/autolua")
+
+    args = ["-x", "c++", "-nostdinc", clanginc]
+    args.extend(androidinc)
+    args.extend(extra_flags)
+    print args
+
+    cindex.Config.set_library_path(clangdir)
+    index = cindex.Index.create()
+
+    for header in allheader:
+        headerfile = os.path.join(srcdir, header)
+        _parse_header(index, args, headerfile)
+      
+    headfilepath = os.path.join(outFile + ".h")
+    base = os.path.basename(headfilepath)
+    search = {
+        "macro_judgement": base,
+        "prefix": base,
+        "out_file":base,
+        "headers": allheader,
+        "sorted_classes":[]
+    }
+
+    head_file = open(headfilepath, "w+")
+    _write_code(head_file, "layout_head.h", search)
+    head_file.close()
+
+    implfilepath = os.path.join(outFile + ".cpp")
+    impl_file = open(implfilepath, "w+")
+    _write_code(impl_file, "layout_head.c", search)
+    for nclass in classlist:
+        nclass.generate_code(impl_file)
+    _write_code(impl_file, "layout_foot.c", search)
+    impl_file.close()
 
 main()

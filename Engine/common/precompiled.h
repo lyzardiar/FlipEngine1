@@ -1,31 +1,3 @@
-/*
-===========================================================================
-
-Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
-
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
-
-Doom 3 Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-Doom 3 Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with Doom 3 Source Code.  If not, see <http://www.gnu.org/licenses/>.
-
-In addition, the Doom 3 Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the Doom 3 Source Code.  If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
-===========================================================================
-*/
-
 #ifndef __PRECOMPILED_H__
 #define __PRECOMPILED_H__
 
@@ -44,39 +16,8 @@ If you have questions concerning this license or the applicable additional terms
 
 //#define WINVER				0x501
 
-//#if 0
-//// Dedicated server hits unresolved when trying to link this way now. Likely because of the 2010/Win7 transition? - TTimo
-//
-//#ifdef	ID_DEDICATED
-//// dedicated sets windows version here
-//#define	_WIN32_WINNT WINVER
-//#define	WIN32_LEAN_AND_MEAN
-//#else
-//// non-dedicated includes MFC and sets windows version here
-//#include "../tools/comafx/StdAfx.h"			// this will go away when MFC goes away
-//#endif
-//
-//#else
-//
-//#include "../tools/comafx/StdAfx.h"
-//#include <afxwin.h>         // MFC core and standard components
-//#include <afxext.h>         // MFC extensions
-//#include <afxdisp.h>        // MFC OLE automation classes
-//#ifndef _AFX_NO_AFXCMN_SUPPORT
-//#include <afxcmn.h>			// MFC support for Windows Common Controls
-//#endif // _AFX_NO_AFXCMN_SUPPORT
-
-//#endif
-
-//#include <winsock2.h>
-//#include <mmsystem.h>
-//#include <mmreg.h>
-
 #define DIRECTINPUT_VERSION  0x0800			// was 0x0700 with the old mssdk
 #define DIRECTSOUND_VERSION  0x0800
-
-//#include <dsound.h>
-//#include <dinput.h>
 
 #endif /* !GAME_DLL */
 #endif /* !_D3SDK */
@@ -87,7 +28,6 @@ If you have questions concerning this license or the applicable additional terms
 #pragma warning(disable : 4996)				// unsafe string operations
 
 #include <malloc.h>							// no malloc.h on mac or unix
-#include <windows.h>						// for qgl.h
 #undef FindText								// stupid namespace poluting Microsoft monkeys
 
 #endif /* _WIN32 */
