@@ -60,7 +60,7 @@ void ShadowSampler::Init()
 	sprite = new Sprite;
 	sprite->SetTexture("../media/engineflare1.jpg");
 	sprite->SetPosition(400.f, 400.f, 0.f);
-	renderSys->AddSprite(sprite);
+	_renderSys->AddSprite(sprite);
 
 	Sys_ListAllFile("../media", "*", files);
 	for (unsigned int i=0; i<files.size(); i++)

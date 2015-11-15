@@ -16,12 +16,8 @@
 #include "../File.h"
 #include "../Camera.h"
 
-RenderSystem* renderSys;
 static const int view_width = 800;
 static const int view_height = 600;
-
-
-
 
 RenderSystemLocal::RenderSystemLocal(glimpParms_t *glimpParms)
 {
@@ -53,13 +49,13 @@ void RenderSystemLocal::Init()
 	glActiveTexture(GL_TEXTURE0);
 	//glActiveTexture(GL_TEXTURE1);
 
-	resourceSys = new ResourceSystem;
+	_resourceSys = new ResourceSystem;
 
 	// _renderbuffer init
 	_camera = new Camera;
 	_camera->Setup2DCamera(view_width, view_height);
 
-	resourceSys->LoadAllShader();
+	_resourceSys->LoadAllShader();
 	
 	// fps  init
 	_defaultSprite = new Sprite;
@@ -120,8 +116,8 @@ bool RenderSystemLocal::AddStaticModel( StaticModel* model )
 	{
 		drawSurf_t* drawSur = surfaces[i];
 		drawSur->shaderParms = R_AllocMaterail();
-		drawSur->shaderParms->tex = resourceSys->AddTexture(".png");
-		drawSur->mtr = resourceSys->AddMaterial("../media/position.mtr");
+		drawSur->shaderParms->tex = _resourceSys->AddTexture(".png");
+		drawSur->mtr = _resourceSys->AddMaterial("../media/position.mtr");
 		
 		if (drawSur->view == NULL)
 			drawSur->view = _camera->GetView();
@@ -157,7 +153,7 @@ bool RenderSystemLocal::AddDrawSur( drawSurf_t* drawSur )
 void RenderSystemLocal::RenderBounds()
 {	
 	glEnableVertexAttribArray(0);
-	Shader* shader = resourceSys->FindShader(eShader_Position);
+	Shader* shader = _resourceSys->FindShader(eShader_Position);
 	glUseProgram(shader->GetProgarm());
 
 	for (unsigned int i = 0; i < _surfaces.size(); i++)
@@ -209,11 +205,11 @@ void RenderSystemLocal::RenderCommon()
 bool RenderSystemLocal::AddUISurf( drawSurf_t* drawSurf )
 {
 	drawSurf->viewProj = _camera->GetViewProj();
-	drawSurf->shaderParms->shader = resourceSys->FindShader(eShader_PositionTex);
+	drawSurf->shaderParms->shader = _resourceSys->FindShader(eShader_PositionTex);
 	if (drawSurf->shaderParms->tex == NULL)
-		drawSurf->shaderParms->tex = resourceSys->AddTexture(".png");
+		drawSurf->shaderParms->tex = _resourceSys->AddTexture(".png");
 
-	drawSurf->mtr = resourceSys->AddMaterial("../media/mtr/positiontex.mtr");
+	drawSurf->mtr = _resourceSys->AddMaterial("../media/mtr/positiontex.mtr");
 	return AddDrawSur(drawSurf);
 }
 

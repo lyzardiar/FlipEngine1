@@ -10,7 +10,8 @@ char* win_name = "null";
 bool show_fps = false;
 int win_width = 800;
 int win_height = 600;
-
+ResourceSystem* resourceSys;
+RenderSystem* renderSys;
 
 void Com_Init() 
 {

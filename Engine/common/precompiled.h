@@ -49,6 +49,7 @@
 #include <errno.h>
 #include <math.h>
 
+typedef unsigned char byte;
 
 //-----------------------------------------------------
 

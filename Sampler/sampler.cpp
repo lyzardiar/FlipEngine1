@@ -256,7 +256,7 @@ void ShadowSampler::AddStaticModel(StaticModel* model)
 		surfaces[i]->view = _camera->GetView();
 		surfaces[i]->viewProj = _camera->GetViewProj();
 	}
-	renderSys->AddStaticModel(model);
+	_renderSys->AddStaticModel(model);
 }
 
 void ShadowSampler::CreateLight()
@@ -268,6 +268,6 @@ void ShadowSampler::CreateLight()
 	_spLight = new Sprite;
 	_spLight->SetLabel("light");
 	_spLight->SetPosition(-100.f, 100.f, -100.f);
-	renderSys->AddSprite(_spLight);
+	_renderSys->AddSprite(_spLight);
 }
 
