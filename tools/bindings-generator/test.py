@@ -19,9 +19,22 @@ ignoredclass = {
     "aabb3d":10,
     "idMath":11,
     "color4":12,
-    "Edge":13
+    "Edge":13,
+    "RenderSystemLocal":14
 }
-classlist = []
+generateclass = {}
+
+allheader = [
+"ResourceSystem.h",
+"Texture.h",
+"Sprite.h",
+"renderer/RenderSystem.h"
+]
+
+outfile = "../../Engine/autolua"
+
+
+templatepath = os.path.join(os.path.dirname(__file__), "targets/lua")
 
 def _pretty_print(diagnostics):
     print("====\nErrors in parsing headers:")
@@ -38,7 +51,7 @@ def _deep_iterate(cursor, depth = 0):
             print "class", cursor.displayname
             if not ignoredclass.has_key(cursor.displayname):
                 nclass = NativeClass(cursor)
-                classlist.append(nclass)
+                generateclass[cursor.displayname] = nclass
 
     for node in cursor.get_children():
         # print("%s %s - %s" % (">" * depth, node.displayname, node.kind))
@@ -60,14 +73,11 @@ def _parse_header(index, args, header):
     _deep_iterate(tu.cursor)
 
 def _write_code(impl_file, template, search):
-    templatePath = os.path.join(os.path.dirname(__file__), "targets/lua")
-    code = Template(file=os.path.join(templatePath, "templates", template),
+    code = Template(file=os.path.join(templatepath, "templates", template),
         searchList=[search])
     impl_file.write(str(code))
 
 def main():
-    allheader = ["ResourceSystem.h", "Texture.h", "Sprite.h", "renderer/RenderSystem.h"]
-
     clangdir = os.path.join(os.path.dirname(__file__), "libclang")
 
     projectdir = os.path.join(os.path.dirname(__file__), "../..")
@@ -84,7 +94,7 @@ def main():
     extra_flags = ["-D__WCHAR_MAX__=0x7fffffff", "-U__MINGW32__"]
 
 
-    outFile = os.path.join(os.path.dirname(__file__), "out/autolua")
+    # outFile = os.path.join(os.path.dirname(__file__), "out/autolua")
 
     args = ["-x", "c++", "-nostdinc", clanginc]
     args.extend(androidinc)
@@ -98,24 +108,25 @@ def main():
         headerfile = os.path.join(srcdir, header)
         _parse_header(index, args, headerfile)
       
-    headfilepath = os.path.join(outFile + ".h")
+    headfilepath = os.path.join(outfile + ".h")
     base = os.path.basename(headfilepath)
     search = {
         "macro_judgement": base,
         "prefix": base,
         "out_file":base,
         "headers": allheader,
-        "sorted_classes":[]
+        "sorted_classes":[],
+        "classlist":generateclass
     }
 
     head_file = open(headfilepath, "w+")
     _write_code(head_file, "layout_head.h", search)
     head_file.close()
 
-    implfilepath = os.path.join(outFile + ".cpp")
+    implfilepath = os.path.join(outfile + ".cpp")
     impl_file = open(implfilepath, "w+")
     _write_code(impl_file, "layout_head.c", search)
-    for nclass in classlist:
+    for (k, nclass) in generateclass.items():
         nclass.generate_code(impl_file)
     _write_code(impl_file, "layout_foot.c", search)
     impl_file.close()

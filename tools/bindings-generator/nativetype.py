@@ -233,27 +233,6 @@ class NativeType(object):
         return None
 
     def from_native(self):
-        # assert(convert_opts.has_key('generator'))
-        # generator = convert_opts['generator']
-        # keys = []
-
-        # if self.canonical_type != None:
-        #     keys.append(self.canonical_type.name)
-        # keys.append(self.name)
-
-        # from_native_dict = generator.config['conversions']['from_native']
-
-        # if self.is_object:
-        #     if not NativeType.dict_has_key_re(from_native_dict, keys):
-        #         keys.append("object")
-        # elif self.is_enum:
-        #     keys.append("int")
-
-        # if NativeType.dict_has_key_re(from_native_dict, keys):
-        #     tpl = NativeType.dict_get_value_re(from_native_dict, keys)
-        #     tpl = Template(tpl, searchList=[convert_opts])
-        #     return str(tpl).rstrip()
-
         dic = {
             "int": "lua_pushnumber(L, ret)",
             "char*": "lua_pushstring(L, ret)",
@@ -277,6 +256,9 @@ class NativeType(object):
         func = ""
         if dic.has_key(self.name):
             func = dic[self.name] % (num+2)
+        else:
+            func = "(%s)lua_touserdata(L, %d, 0);" % (self.name, num+2)
+
         return  self.whole_name + " arg" + str(num) + " = " + func
 
     def to_string(self, generator):

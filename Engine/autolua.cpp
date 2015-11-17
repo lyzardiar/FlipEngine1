@@ -161,37 +161,6 @@ int lua_register_ResourceSystem(lua_State* L)
     }
     return 1;
 }
-static int TextureGetName(lua_State* L)
-{
-    Texture* cobj = (Texture*)lua_touserdata(L,1,0);;
-    if (!cobj) 
-    {
-        luaL_error(L,"invalid 'cobj' in function 'GetName'", nullptr);
-        return 0;
-    }
-
-    int argc = lua_gettop(L)-1;
-    if (argc == 0) 
-    {
-        int ret = cobj->GetName();
-        lua_pushnumber(L, ret)
-    }
-
-    return 0;
-}
-
-
-int lua_register_Texture(lua_State* L)
-{
-    if (luaL_newmetatable(L, Texture)) {
-        lua_pushvalue(L, -1);
-        lua_setfield(L, -2, "__index");
-       Lua_PushFunction(L, "Init", TextureInit);
-       Lua_PushFunction(L, "GetName", TextureGetName);
-
-    }
-    return 1;
-}
 static int MeshGetPositions(lua_State* L)
 {
     Mesh* cobj = (Mesh*)lua_touserdata(L,1,0);;
@@ -743,159 +712,33 @@ int lua_register_Sprite(lua_State* L)
     }
     return 1;
 }
-static int ResourceSystemAddText(lua_State* L)
+static int TextureGetName(lua_State* L)
 {
-    ResourceSystem* cobj = (ResourceSystem*)lua_touserdata(L,1,0);;
+    Texture* cobj = (Texture*)lua_touserdata(L,1,0);;
     if (!cobj) 
     {
-        luaL_error(L,"invalid 'cobj' in function 'AddText'", nullptr);
-        return 0;
-    }
-
-    int argc = lua_gettop(L)-1;
-    if (argc == 1) 
-    {
-        const char* arg0 = lua_tostring(L, 2)
-        Texture* ret = cobj->AddText(arg0);
-        Lua_PushCObject(L, "Texture", ret)
-    }
-
-    return 0;
-}
-
-static int ResourceSystemAddMesh(lua_State* L)
-{
-    ResourceSystem* cobj = (ResourceSystem*)lua_touserdata(L,1,0);;
-    if (!cobj) 
-    {
-        luaL_error(L,"invalid 'cobj' in function 'AddMesh'", nullptr);
-        return 0;
-    }
-
-    int argc = lua_gettop(L)-1;
-    if (argc == 1) 
-    {
-        const char* arg0 = lua_tostring(L, 2)
-        StaticModel* ret = cobj->AddMesh(arg0);
-        Lua_PushCObject(L, "StaticModel", ret)
-    }
-
-    return 0;
-}
-
-static int ResourceSystemFindShader(lua_State* L)
-{
-    ResourceSystem* cobj = (ResourceSystem*)lua_touserdata(L,1,0);;
-    if (!cobj) 
-    {
-        luaL_error(L,"invalid 'cobj' in function 'FindShader'", nullptr);
-        return 0;
-    }
-
-    int argc = lua_gettop(L)-1;
-    if (argc == 1) 
-    {
-        int arg0 = lua_tonumber(L, 2)
-        Shader* ret = cobj->FindShader(arg0);
-        Lua_PushCObject(L, "Shader", ret)
-    }
-
-    return 0;
-}
-
-static int ResourceSystemLoadAllShader(lua_State* L)
-{
-    ResourceSystem* cobj = (ResourceSystem*)lua_touserdata(L,1,0);;
-    if (!cobj) 
-    {
-        luaL_error(L,"invalid 'cobj' in function 'LoadAllShader'", nullptr);
+        luaL_error(L,"invalid 'cobj' in function 'GetName'", nullptr);
         return 0;
     }
 
     int argc = lua_gettop(L)-1;
     if (argc == 0) 
     {
-        bool ret = cobj->LoadAllShader();
-        lua_pushboolean(L, ret)
-    }
-
-    return 0;
-}
-
-static int ResourceSystemAddTexture(lua_State* L)
-{
-    ResourceSystem* cobj = (ResourceSystem*)lua_touserdata(L,1,0);;
-    if (!cobj) 
-    {
-        luaL_error(L,"invalid 'cobj' in function 'AddTexture'", nullptr);
-        return 0;
-    }
-
-    int argc = lua_gettop(L)-1;
-    if (argc == 1) 
-    {
-        const char* arg0 = lua_tostring(L, 2)
-        Texture* ret = cobj->AddTexture(arg0);
-        Lua_PushCObject(L, "Texture", ret)
-    }
-
-    return 0;
-}
-
-static int ResourceSystemAddShaderFromFile(lua_State* L)
-{
-    ResourceSystem* cobj = (ResourceSystem*)lua_touserdata(L,1,0);;
-    if (!cobj) 
-    {
-        luaL_error(L,"invalid 'cobj' in function 'AddShaderFromFile'", nullptr);
-        return 0;
-    }
-
-    int argc = lua_gettop(L)-1;
-    if (argc == 2) 
-    {
-        const char* arg0 = lua_tostring(L, 2)
-        const char* arg1 = lua_tostring(L, 3)
-        Shader* ret = cobj->AddShaderFromFile(arg0, arg1);
-        Lua_PushCObject(L, "Shader", ret)
-    }
-
-    return 0;
-}
-
-static int ResourceSystemAddMaterial(lua_State* L)
-{
-    ResourceSystem* cobj = (ResourceSystem*)lua_touserdata(L,1,0);;
-    if (!cobj) 
-    {
-        luaL_error(L,"invalid 'cobj' in function 'AddMaterial'", nullptr);
-        return 0;
-    }
-
-    int argc = lua_gettop(L)-1;
-    if (argc == 1) 
-    {
-        const char* arg0 = lua_tostring(L, 2)
-        Material* ret = cobj->AddMaterial(arg0);
-        Lua_PushCObject(L, "Material", ret)
+        int ret = cobj->GetName();
+        lua_pushnumber(L, ret)
     }
 
     return 0;
 }
 
 
-int lua_register_ResourceSystem(lua_State* L)
+int lua_register_Texture(lua_State* L)
 {
-    if (luaL_newmetatable(L, ResourceSystem)) {
+    if (luaL_newmetatable(L, Texture)) {
         lua_pushvalue(L, -1);
         lua_setfield(L, -2, "__index");
-       Lua_PushFunction(L, "AddText", ResourceSystemAddText);
-       Lua_PushFunction(L, "AddMesh", ResourceSystemAddMesh);
-       Lua_PushFunction(L, "FindShader", ResourceSystemFindShader);
-       Lua_PushFunction(L, "LoadAllShader", ResourceSystemLoadAllShader);
-       Lua_PushFunction(L, "AddTexture", ResourceSystemAddTexture);
-       Lua_PushFunction(L, "AddShaderFromFile", ResourceSystemAddShaderFromFile);
-       Lua_PushFunction(L, "AddMaterial", ResourceSystemAddMaterial);
+       Lua_PushFunction(L, "Init", TextureInit);
+       Lua_PushFunction(L, "GetName", TextureGetName);
 
     }
     return 1;
@@ -1075,200 +918,11 @@ int lua_register_RenderSystem(lua_State* L)
     }
     return 1;
 }
-static int RenderSystemLocalRenderShadowMap(lua_State* L)
+int register_all_auto(lua_State* L)
 {
-    RenderSystemLocal* cobj = (RenderSystemLocal*)lua_touserdata(L,1,0);;
-    if (!cobj) 
-    {
-        luaL_error(L,"invalid 'cobj' in function 'RenderShadowMap'", nullptr);
-        return 0;
-    }
-
-    int argc = lua_gettop(L)-1;
-    if (argc == 1) 
-    {
-        drawSurf_t* arg0 = (drawSurf_t*)lua_touserdata(L, 2, 0);
-        void ret = cobj->RenderShadowMap(arg0);
-        Lua_PushCObject(L, "void", ret)
-    }
-
-    return 0;
+	lua_register_ResourceSystem(L);
+	lua_register_Mesh(L);
+	lua_register_Sprite(L);
+	lua_register_Texture(L);
+	lua_register_RenderSystem(L);
 }
-
-static int RenderSystemLocalGetNumSurf(lua_State* L)
-{
-    RenderSystemLocal* cobj = (RenderSystemLocal*)lua_touserdata(L,1,0);;
-    if (!cobj) 
-    {
-        luaL_error(L,"invalid 'cobj' in function 'GetNumSurf'", nullptr);
-        return 0;
-    }
-
-    int argc = lua_gettop(L)-1;
-    if (argc == 0) 
-    {
-        int ret = cobj->GetNumSurf();
-        lua_pushnumber(L, ret)
-    }
-
-    return 0;
-}
-
-static int RenderSystemLocalAddStaticModel(lua_State* L)
-{
-    RenderSystemLocal* cobj = (RenderSystemLocal*)lua_touserdata(L,1,0);;
-    if (!cobj) 
-    {
-        luaL_error(L,"invalid 'cobj' in function 'AddStaticModel'", nullptr);
-        return 0;
-    }
-
-    int argc = lua_gettop(L)-1;
-    if (argc == 1) 
-    {
-        StaticModel* arg0 = (StaticModel*)lua_touserdata(L, 2, 0);
-        bool ret = cobj->AddStaticModel(arg0);
-        lua_pushboolean(L, ret)
-    }
-
-    return 0;
-}
-
-static int RenderSystemLocalAddDrawSur(lua_State* L)
-{
-    RenderSystemLocal* cobj = (RenderSystemLocal*)lua_touserdata(L,1,0);;
-    if (!cobj) 
-    {
-        luaL_error(L,"invalid 'cobj' in function 'AddDrawSur'", nullptr);
-        return 0;
-    }
-
-    int argc = lua_gettop(L)-1;
-    if (argc == 1) 
-    {
-        drawSurf_t* arg0 = (drawSurf_t*)lua_touserdata(L, 2, 0);
-        bool ret = cobj->AddDrawSur(arg0);
-        lua_pushboolean(L, ret)
-    }
-
-    return 0;
-}
-
-static int RenderSystemLocalAddSprite(lua_State* L)
-{
-    RenderSystemLocal* cobj = (RenderSystemLocal*)lua_touserdata(L,1,0);;
-    if (!cobj) 
-    {
-        luaL_error(L,"invalid 'cobj' in function 'AddSprite'", nullptr);
-        return 0;
-    }
-
-    int argc = lua_gettop(L)-1;
-    if (argc == 1) 
-    {
-        Sprite* arg0 = (Sprite*)lua_touserdata(L, 2, 0);
-        bool ret = cobj->AddSprite(arg0);
-        lua_pushboolean(L, ret)
-    }
-
-    return 0;
-}
-
-static int RenderSystemLocalAddUISurf(lua_State* L)
-{
-    RenderSystemLocal* cobj = (RenderSystemLocal*)lua_touserdata(L,1,0);;
-    if (!cobj) 
-    {
-        luaL_error(L,"invalid 'cobj' in function 'AddUISurf'", nullptr);
-        return 0;
-    }
-
-    int argc = lua_gettop(L)-1;
-    if (argc == 1) 
-    {
-        drawSurf_t* arg0 = (drawSurf_t*)lua_touserdata(L, 2, 0);
-        bool ret = cobj->AddUISurf(arg0);
-        lua_pushboolean(L, ret)
-    }
-
-    return 0;
-}
-
-static int RenderSystemLocalInit(lua_State* L)
-{
-    RenderSystemLocal* cobj = (RenderSystemLocal*)lua_touserdata(L,1,0);;
-    if (!cobj) 
-    {
-        luaL_error(L,"invalid 'cobj' in function 'Init'", nullptr);
-        return 0;
-    }
-
-    int argc = lua_gettop(L)-1;
-    if (argc == 0) 
-    {
-        void ret = cobj->Init();
-        Lua_PushCObject(L, "void", ret)
-    }
-
-    return 0;
-}
-
-static int RenderSystemLocalDrawString(lua_State* L)
-{
-    RenderSystemLocal* cobj = (RenderSystemLocal*)lua_touserdata(L,1,0);;
-    if (!cobj) 
-    {
-        luaL_error(L,"invalid 'cobj' in function 'DrawString'", nullptr);
-        return 0;
-    }
-
-    int argc = lua_gettop(L)-1;
-    if (argc == 1) 
-    {
-        const char* arg0 = lua_tostring(L, 2)
-        void ret = cobj->DrawString(arg0);
-        Lua_PushCObject(L, "void", ret)
-    }
-
-    return 0;
-}
-
-static int RenderSystemLocalFrameUpdate(lua_State* L)
-{
-    RenderSystemLocal* cobj = (RenderSystemLocal*)lua_touserdata(L,1,0);;
-    if (!cobj) 
-    {
-        luaL_error(L,"invalid 'cobj' in function 'FrameUpdate'", nullptr);
-        return 0;
-    }
-
-    int argc = lua_gettop(L)-1;
-    if (argc == 0) 
-    {
-        void ret = cobj->FrameUpdate();
-        Lua_PushCObject(L, "void", ret)
-    }
-
-    return 0;
-}
-
-
-int lua_register_RenderSystemLocal(lua_State* L)
-{
-    if (luaL_newmetatable(L, RenderSystemLocal)) {
-        lua_pushvalue(L, -1);
-        lua_setfield(L, -2, "__index");
-       Lua_PushFunction(L, "RenderShadowMap", RenderSystemLocalRenderShadowMap);
-       Lua_PushFunction(L, "GetNumSurf", RenderSystemLocalGetNumSurf);
-       Lua_PushFunction(L, "AddStaticModel", RenderSystemLocalAddStaticModel);
-       Lua_PushFunction(L, "AddDrawSur", RenderSystemLocalAddDrawSur);
-       Lua_PushFunction(L, "AddSprite", RenderSystemLocalAddSprite);
-       Lua_PushFunction(L, "AddUISurf", RenderSystemLocalAddUISurf);
-       Lua_PushFunction(L, "Init", RenderSystemLocalInit);
-       Lua_PushFunction(L, "DrawString", RenderSystemLocalDrawString);
-       Lua_PushFunction(L, "FrameUpdate", RenderSystemLocalFrameUpdate);
-
-    }
-    return 1;
-}
-
