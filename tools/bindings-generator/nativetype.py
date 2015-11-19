@@ -234,30 +234,35 @@ class NativeType(object):
 
     def from_native(self):
         dic = {
-            "int": "lua_pushnumber(L, ret)",
-            "char*": "lua_pushstring(L, ret)",
-            "bool": "lua_pushboolean(L, ret)"
+            "int": "lua_pushnumber(L, ret);",
+            "float": "lua_pushnumber(L, ret);",
+            "char*": "lua_pushstring(L, ret);",
+            "bool": "lua_pushboolean(L, ret);"
 
         }
 
         func = ""
         if dic.has_key(self.name):
             func = dic[self.name]
+        elif self.name.find("void") >= 0:
+            print "ignor ", self.name
         else:
-            func = "Lua_PushCObject(L, \"%s\", %s)" % (self.namespaced_name.rstrip("*"), "ret")
+            print "Lua_PushCObject ", self.name
+            func = "Lua_PushCObject(L, \"%s\", %s);" % (self.namespaced_name.rstrip("*"), "ret")
         return func
 
     def to_native(self, num):
         dic = {
-            "int": "lua_tonumber(L, %d)",
-            "char*": "lua_tostring(L, %d)"
+            "int": "lua_tonumber(L, %d);",
+            "float": "lua_tonumber(L, %d);",
+            "char*": "lua_tostring(L, %d);"
         }
         
         func = ""
         if dic.has_key(self.name):
             func = dic[self.name] % (num+2)
         else:
-            func = "(%s)lua_touserdata(L, %d, 0);" % (self.name, num+2)
+            func = "(%s)lua_touserdata(L, %d);" % (self.name, num+2)
 
         return  self.whole_name + " arg" + str(num) + " = " + func
 

@@ -2,6 +2,7 @@
 #include "sys/sys_public.h"
 #include "common/Str.h"
 #include "lua_engine_auto.h"
+#include "autolua.h"
 
 extern "C"
 {
@@ -76,6 +77,7 @@ bool ScriptSystem::Init()
 	luaL_register(_state, "_G", global_functions);
 
 	RegisterAllEngine(_state);
+	register_all_auto(_state);
 	return true;
 }
 

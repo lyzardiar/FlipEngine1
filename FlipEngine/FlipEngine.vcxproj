@@ -64,6 +64,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Engine\autolua.cpp" />
     <ClCompile Include="..\Engine\Camera.cpp" />
     <ClCompile Include="..\Engine\common\aabb3d.cpp" />
     <ClCompile Include="..\Engine\common\hashtable.cpp" />
@@ -219,6 +220,7 @@
     <ClCompile Include="..\Media\KnightModel.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Engine\autolua.h" />
     <ClInclude Include="..\Engine\Camera.h" />
     <ClInclude Include="..\Engine\color4.h" />
     <ClInclude Include="..\Engine\common\aabb3d.h" />

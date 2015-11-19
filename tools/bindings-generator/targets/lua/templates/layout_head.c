@@ -1,5 +1,6 @@
+\#include "autolua.h"
 #for header in $headers
-\#include "${os.path.basename(header)}"
+\#include "${header}"
 #end for
 
 

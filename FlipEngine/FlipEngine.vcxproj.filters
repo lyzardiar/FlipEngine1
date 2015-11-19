@@ -491,6 +491,7 @@
     <ClCompile Include="..\Engine\common\hashtable.cpp">
       <Filter>common</Filter>
     </ClCompile>
+    <ClCompile Include="..\Engine\autolua.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Engine\color4.h">
@@ -781,5 +782,6 @@
     <ClInclude Include="..\Engine\common\hashtable.h">
       <Filter>common</Filter>
     </ClInclude>
+    <ClInclude Include="..\Engine\autolua.h" />
   </ItemGroup>
 </Project>

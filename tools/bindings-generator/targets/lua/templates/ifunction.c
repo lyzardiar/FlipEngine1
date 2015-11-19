@@ -1,7 +1,7 @@
 ## ===== instance function implementation template
 static int ${namespaced_class_name}${signature_name}(lua_State* L)
 {
-    ${namespaced_class_name}* cobj = (${namespaced_class_name}*)lua_touserdata(L,1,0);;
+    ${namespaced_class_name}* cobj = (${namespaced_class_name}*)lua_touserdata(L,1);
     if (!cobj) 
     {
         luaL_error(L,"invalid 'cobj' in function '${signature_name}'", nullptr);
@@ -25,8 +25,12 @@ static int ${namespaced_class_name}${signature_name}(lua_State* L)
             #set count = count + 1
         #end while
         #set arg_list = ", ".join(arg_array)
-        ${ret_type.whole_name} ret = cobj->${func_name}($arg_list);
-        ${ret_type.from_native()}
+        #if $ret_type.name != "void"
+            ${ret_type.whole_name} ret = cobj->${func_name}($arg_list);
+            ${ret_type.from_native()}
+        #else
+            cobj->${func_name}($arg_list);
+        #end if
     }
         #set $arg_idx = $arg_idx + 1
     #end while
