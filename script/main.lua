@@ -28,8 +28,18 @@ local function checkSprite()
 end
 
 local function main()
-	checkRS()
-	checkSprite()
+	-- checkRS()
+	-- checkSprite()
+
+	local sp = RS.newSprite()
+	print("==================================")
+
+	local meta = getmetatable(renderSys)
+	for k,v in pairs(meta) do
+		print(k,v)
+	end
+	sp:setTexture("../Media/engineflare1.jpg")
+	renderSys:addSprite(sp)
 end
 
 xpcall(main,

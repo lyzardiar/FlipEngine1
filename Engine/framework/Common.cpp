@@ -21,6 +21,8 @@ void Com_Init()
 	pram.displayHz = 1/60;
 	pram.stereo = 1/60;
 
+	resourceSys = new ResourceSystem;
+
 	Sys_Printf("Initializing RenderSystem\n");
 	renderSys = new RenderSystemLocal(&pram);
 	renderSys->Init();

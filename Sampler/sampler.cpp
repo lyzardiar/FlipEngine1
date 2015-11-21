@@ -61,10 +61,13 @@ void ShadowSampler::Init()
 {
 	_scriptSys = new ScriptSystem;
 	_scriptSys->Init();
-
+	
 	Lua_PushCObject(_scriptSys->GetLuaState(), "RenderSystem", _renderSys);
 	lua_setfield(_scriptSys->GetLuaState(), LUA_GLOBALSINDEX, "renderSys");
+
 	//SetupCamera();
+
+
 
 	_scriptSys->RunScript("../script/main.lua");
 	//StaticModel* model = resourceSys->AddMesh("../media/ninja.b3d");

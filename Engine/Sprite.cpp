@@ -8,6 +8,16 @@
 Sprite::Sprite() : _width(0),
 				_height(0)
 {
+	Init();
+}
+
+Sprite::~Sprite()
+{
+
+}
+
+void Sprite::Init()
+{
 	_drawSurf = R_AllocDrawSurf();
 
 	float w = 1;
@@ -23,11 +33,6 @@ Sprite::Sprite() : _width(0),
 	_drawSurf->shaderParms = R_AllocMaterail();
 
 	SetupVBO();
-}
-
-Sprite::~Sprite()
-{
-
 }
 
 void Sprite::SetTexture( const char* imgPath )

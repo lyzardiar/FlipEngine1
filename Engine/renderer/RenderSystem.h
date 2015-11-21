@@ -73,7 +73,6 @@ private:
 
 	int _winWidth;
 	int _winHeight;
-	ResourceSystem* _resourceSys;
 };
 
 #endif

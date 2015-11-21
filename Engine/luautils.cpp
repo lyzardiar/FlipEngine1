@@ -41,7 +41,7 @@ void Lua_PushVec2( lua_State* L, float x, float y )
 
 int register_all_auto(lua_State* L)
 {
-	lua_register_RenderSystem(L);
 	lua_register_Sprite(L);
+	lua_register_RenderSystem(L);
 	return 1;
 }

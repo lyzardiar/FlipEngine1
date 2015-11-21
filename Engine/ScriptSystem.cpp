@@ -50,8 +50,16 @@ int lua_print(lua_State * luastate)
 
 static int newSprite(lua_State* L)
 {
-	Sprite* sprite = new Sprite;
-	Lua_PushCObject(L, "Sprite", sprite);
+	Sprite* sprite = (Sprite *)lua_newuserdata(L, sizeof(*sprite));
+	sprite->Init();
+	luaL_getmetatable(L, "Sprite");                    
+	if (lua_isnil(L, -1)) {
+		lua_pop(L, 1);
+		return 0;
+	}
+
+	lua_setmetatable(L, -2);  
+	//Lua_PushCObject(L, "Sprite", sprite);
 	return 1;
 }
 
@@ -89,6 +97,8 @@ bool ScriptSystem::Init()
 
 	if(lua_istable(_state, -1))
 		Lua_PushFunction(_state, "newSprite", newSprite);
+
+	lua_pop(_state, 1);
 
 	return true;
 }

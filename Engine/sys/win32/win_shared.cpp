@@ -958,7 +958,6 @@ void Sys_Printf( const char *fmt, ... ) {
 		OutputDebugString( msg );
 	}
 	if ( win32.win_outputEditString ) {
-		Conbuf_AppendText( "info:" );
 		Conbuf_AppendText( msg );
 	}
 }

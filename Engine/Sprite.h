@@ -13,6 +13,8 @@ public:
 	Sprite();
 	~Sprite();
 
+	void Init();
+
 	void SetTexture(const char* imgPath);
 
 	void SetLabel(const char* label);
