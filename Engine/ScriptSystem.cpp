@@ -1,15 +1,10 @@
 #include "ScriptSystem.h"
 #include "sys/sys_public.h"
 #include "common/Str.h"
-#include "lua_engine_auto.h"
-#include "autolua.h"
 
-extern "C"
-{
-#include "lua.h"
-#include "lualib.h"
-#include "lauxlib.h"
-};
+#include "luautils.h"
+
+#include "Sprite.h"
 
 int lua_print(lua_State * luastate)
 {
@@ -53,6 +48,13 @@ int lua_print(lua_State * luastate)
 	return 0;
 }
 
+static int newSprite(lua_State* L)
+{
+	Sprite* sprite = new Sprite;
+	Lua_PushCObject(L, "Sprite", sprite);
+	return 1;
+}
+
 
 
 ScriptSystem::ScriptSystem()
@@ -76,15 +78,30 @@ bool ScriptSystem::Init()
 	};
 	luaL_register(_state, "_G", global_functions);
 
-	RegisterAllEngine(_state);
 	register_all_auto(_state);
+
+	lua_createtable(_state, 0, 0);
+	lua_setfield(_state, LUA_GLOBALSINDEX, "RS");
+	lua_pop(_state, 1);
+
+	lua_pushstring(_state, "RS");
+	lua_getfield(_state, LUA_GLOBALSINDEX, "RS");
+
+	if(lua_istable(_state, -1))
+		Lua_PushFunction(_state, "newSprite", newSprite);
+
 	return true;
 }
 
 bool ScriptSystem::RunScript( const char* filePath )
 {
-	if(luaL_dofile(_state, filePath) != 0)
-		Sys_Printf("run scrpit ok");
+	int err = luaL_dofile(_state, filePath);
+	if(err != 0)
+	{
+		const char* s = lua_tostring(_state, -1);
+		Sys_Error("script system call %s error code %d\n %s", filePath, err, s);
+	}
+
 	return true;
 }
 

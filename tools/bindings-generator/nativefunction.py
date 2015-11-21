@@ -44,7 +44,9 @@ def iterate_param_node(param_node, depth=1):
 
 class NativeFunction(object):
     def __init__(self, cursor):
+        self.export = False
         self.cursor = cursor
+        self.displayname = cursor.displayname
         self.func_name = cursor.spelling
         self.signature_name = self.func_name
         self.arguments = []
@@ -130,43 +132,17 @@ class NativeFunction(object):
 
 class NativeOverloadedFunction(object):
     def __init__(self, func_array):
+        self.export = False
         self.implementations = func_array
         self.func_name = func_array[0].func_name
         self.signature_name = self.func_name
         self.min_args = 100
         self.is_constructor = False
+        self.ret_type = func_array[0].ret_type
+        self.displayname = func_array[0].displayname
+
         for m in func_array:
             self.min_args = min(self.min_args, m.min_args)
-
-        self.comment = self.get_comment(func_array[0].cursor.getRawComment())
-
-    def get_comment(self, comment):
-        replaceStr = comment
-
-        if comment is None:
-            return ""
-
-        regular_replace_list = [
-            ("(\s)*//!",""),
-            ("(\s)*//",""),
-            ("(\s)*/\*\*",""),
-            ("(\s)*/\*",""),
-            ("\*/",""),
-            ("\r\n", "\n"),
-            ("\n(\s)*\*", "\n"),
-            ("\n(\s)*@","\n"),
-            ("\n(\s)*","\n"), 
-            ("\n(\s)*\n", "\n"),
-            ("^(\s)*\n",""), 
-            ("\n(\s)*$", ""),
-            ("\n","<br>\n"),
-            ("\n", "\n-- ")
-        ]
-
-        for item in regular_replace_list:
-            replaceStr = re.sub(item[0], item[1], replaceStr)
-
-        return replaceStr
 
     def append(self, func):
         self.min_args = min(self.min_args, func.min_args)
@@ -174,41 +150,3 @@ class NativeOverloadedFunction(object):
 
     def generate_code(self, impl_file):
         print "overloaded function ", self.func_name
-    # def generate_code(self, impl_file):
-        # gen = current_class.generator
-        # config = gen.config
-        # static = self.implementations[0].static
-        # tpl = Template(file=os.path.join(gen.target, "templates", "function.h"),
-        #                 searchList=[current_class, self])
-        # if not is_override:
-        #     gen.head_file.write(str(tpl))
-        # if static:
-        #     if config['definitions'].has_key('sfunction'):
-        #         tpl = Template(config['definitions']['sfunction'],
-        #                         searchList=[current_class, self])
-        #         self.signature_name = str(tpl)
-        #     tpl = Template(file=os.path.join(gen.target, "templates", "sfunction_overloaded.c"),
-        #                     searchList=[current_class, self])
-        # else:
-        #     if not self.is_constructor:
-        #         if config['definitions'].has_key('ifunction'):
-        #             tpl = Template(config['definitions']['ifunction'],
-        #                             searchList=[current_class, self])
-        #             self.signature_name = str(tpl)
-        #     else:
-        #         if config['definitions'].has_key('constructor'):
-        #             tpl = Template(config['definitions']['constructor'],
-        #                             searchList=[current_class, self])
-        #             self.signature_name = str(tpl)
-        #     tpl = Template(file=os.path.join(gen.target, "templates", "ifunction_overloaded.c"),
-        #                     searchList=[current_class, self])
-        # if not is_override:
-        #     print str(tpl)
-        #     gen.impl_file.write(str(tpl))
-
-        # if current_class != None:
-        #     apidoc_function_overload_script = Template(file=os.path.join(gen.target,
-        #                                             "templates",
-        #                                             "apidoc_function_overload.script"),
-        #                           searchList=[current_class, self])
-        #     current_class.doc_func_file.write(str(apidoc_function_overload_script))

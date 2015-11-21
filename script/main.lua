@@ -1,46 +1,35 @@
--- print("=====================================")
--- print("helloworld")
+local function checkRS()
+	print("=========================================")
+	print("RS, ", RS)
+	for k, v in pairs(RS) do
+		print(k,v)
+	end
+	
+	print("renderSys", renderSys)
+	-- assert(RS, "RS is null")
+	local meta = getmetatable(renderSys)
+	for k,v in pairs(meta) do
+		print(k,v)
+	end
+	print("=========================================")
+end 
 
--- local meta = getmetatable(renderSys)
-
--- for k,v in pairs(meta) do
--- 	print(k,v)
--- end
-
--- renderSys:DrawString("===")
--- -- print(render)
-
-
--- -- print(sprite)
--- print(renderSys)
-
--- for k,v in pairs(meta) do
--- 	for kk,vv in pairs(v) do
--- 		print(kk,vv)
--- 	end
--- end
--- print(_VERSION)
-
--- for k,v in pairs(_G) do
--- 	print(k,v)
--- end
-local function main()
-	-- local a = newbuffer()
-	-- print(a)
-	-- a.print()
-	-- local meta = getmetatable(a)
-	-- for k,v in pairs(meta) do
-	-- 	print(k,v)
-	-- end
-
-	print("RenderSystem")
-	print(RS)
-	local sprite = RS.CreateSprite()
+local function checkSprite()
+	local sprite = RS.newSprite()
 	local meta = getmetatable(sprite)
 	for k,v in pairs(meta) do
 		print(k,v)
 	end
-	print("sprite", sprite )
+
+	local pos = sprite:getPosition()
+	for k,v in pairs(pos) do
+		print(k,v)
+	end
+end
+
+local function main()
+	checkRS()
+	checkSprite()
 end
 
 xpcall(main,

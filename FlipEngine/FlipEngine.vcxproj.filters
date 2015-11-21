@@ -44,6 +44,9 @@
     <Filter Include="lua">
       <UniqueIdentifier>{a8d0bcd7-9093-4de8-b540-1ec814b16f62}</UniqueIdentifier>
     </Filter>
+    <Filter Include="autolua">
+      <UniqueIdentifier>{0dbb5001-0274-4627-9c62-e5a62af1f62f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Engine\common\Joint.cpp">
@@ -355,12 +358,9 @@
     <ClCompile Include="..\Media\KnightModel.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\Engine\Light.cpp" />
-    <ClCompile Include="..\Engine\Interaction.cpp" />
     <ClCompile Include="..\Engine\common\Plane.cpp">
       <Filter>common</Filter>
     </ClCompile>
-    <ClCompile Include="..\Engine\tr_trisurf.cpp" />
     <ClCompile Include="..\Engine\common\aabb3d.cpp">
       <Filter>common</Filter>
     </ClCompile>
@@ -385,7 +385,6 @@
     <ClCompile Include="..\Engine\Lexer.cpp">
       <Filter>complier</Filter>
     </ClCompile>
-    <ClCompile Include="..\Engine\Material.cpp" />
     <ClCompile Include="..\Engine\renderer\r_draw.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -485,13 +484,33 @@
     <ClCompile Include="..\Engine\File.cpp">
       <Filter>common</Filter>
     </ClCompile>
-    <ClCompile Include="..\Engine\ScriptSystem.cpp" />
-    <ClCompile Include="..\Engine\lua_engine_auto.cpp" />
-    <ClCompile Include="..\Engine\luautils.cpp" />
     <ClCompile Include="..\Engine\common\hashtable.cpp">
       <Filter>common</Filter>
     </ClCompile>
-    <ClCompile Include="..\Engine\autolua.cpp" />
+    <ClCompile Include="..\Engine\autolua\lRenderSystem.cpp">
+      <Filter>autolua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\autolua\lSprite.cpp">
+      <Filter>autolua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\Interaction.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\Light.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\luautils.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\Material.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\ScriptSystem.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\tr_trisurf.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Engine\color4.h">
@@ -668,11 +687,9 @@
     <ClInclude Include="..\Media\KnightModel.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\Engine\Light.h" />
     <ClInclude Include="..\Engine\common\vec4.h">
       <Filter>common</Filter>
     </ClInclude>
-    <ClInclude Include="..\Engine\Interaction.h" />
     <ClInclude Include="..\Engine\common\Plane.h">
       <Filter>common</Filter>
     </ClInclude>
@@ -703,7 +720,6 @@
     <ClInclude Include="..\Engine\Lexer.h">
       <Filter>complier</Filter>
     </ClInclude>
-    <ClInclude Include="..\Engine\Material.h" />
     <ClInclude Include="..\Engine\lua\lua\lapi.h">
       <Filter>lua</Filter>
     </ClInclude>
@@ -776,12 +792,23 @@
     <ClInclude Include="..\Engine\File.h">
       <Filter>common</Filter>
     </ClInclude>
-    <ClInclude Include="..\Engine\ScriptSystem.h" />
-    <ClInclude Include="..\Engine\lua_engine_auto.h" />
-    <ClInclude Include="..\Engine\luautils.h" />
     <ClInclude Include="..\Engine\common\hashtable.h">
       <Filter>common</Filter>
     </ClInclude>
-    <ClInclude Include="..\Engine\autolua.h" />
+    <ClInclude Include="..\Engine\Interaction.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\Light.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\luautils.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\Material.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\ScriptSystem.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

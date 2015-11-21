@@ -64,7 +64,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Engine\autolua.cpp" />
+    <ClCompile Include="..\Engine\autolua\lRenderSystem.cpp" />
+    <ClCompile Include="..\Engine\autolua\lSprite.cpp" />
     <ClCompile Include="..\Engine\Camera.cpp" />
     <ClCompile Include="..\Engine\common\aabb3d.cpp" />
     <ClCompile Include="..\Engine\common\hashtable.cpp" />
@@ -182,7 +183,6 @@
     <ClCompile Include="..\Engine\lua\lua\lvm.c" />
     <ClCompile Include="..\Engine\lua\lua\lzio.c" />
     <ClCompile Include="..\Engine\lua\lua\print.c" />
-    <ClCompile Include="..\Engine\lua_engine_auto.cpp" />
     <ClCompile Include="..\Engine\Material.cpp" />
     <ClCompile Include="..\Engine\Mesh.cpp" />
     <ClCompile Include="..\Engine\MeshLoader3DS.cpp" />
@@ -220,7 +220,6 @@
     <ClCompile Include="..\Media\KnightModel.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Engine\autolua.h" />
     <ClInclude Include="..\Engine\Camera.h" />
     <ClInclude Include="..\Engine\color4.h" />
     <ClInclude Include="..\Engine\common\aabb3d.h" />
@@ -289,7 +288,6 @@
     <ClInclude Include="..\Engine\lua\lua\lundump.h" />
     <ClInclude Include="..\Engine\lua\lua\lvm.h" />
     <ClInclude Include="..\Engine\lua\lua\lzio.h" />
-    <ClInclude Include="..\Engine\lua_engine_auto.h" />
     <ClInclude Include="..\Engine\Material.h" />
     <ClInclude Include="..\Engine\Mesh.h" />
     <ClInclude Include="..\Engine\MeshLoader3DS.h" />

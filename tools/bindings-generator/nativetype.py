@@ -120,7 +120,6 @@ class NativeType(object):
                 nt.namespaced_name = get_namespaced_name(decl)
                 nt.namespace_name  = get_namespace_name(decl)
                 nt.whole_name = nt.namespaced_name
-                print nt.name, nt.namespaced_name, nt.namespace_name
             else:
                 if decl.kind == cindex.CursorKind.NO_DECL_FOUND:
                     nt.name = native_name_from_type(ntype)
@@ -237,8 +236,9 @@ class NativeType(object):
             "int": "lua_pushnumber(L, ret);",
             "float": "lua_pushnumber(L, ret);",
             "char*": "lua_pushstring(L, ret);",
-            "bool": "lua_pushboolean(L, ret);"
-
+            "bool": "lua_pushboolean(L, ret);",
+            "vec3": "Lua_PushVec3(L, ret.x, ret.y, ret.z);",
+            "vec2": "Lua_PushVec2(L, ret.x, ret.y);",
         }
 
         func = ""
