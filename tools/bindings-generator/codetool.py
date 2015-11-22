@@ -18,6 +18,7 @@ class DirTreeCtrl(wx.TreeCtrl):
 	def setSearchDir(self, directory):
 		self.root = self.AddRoot(defaultDirectoy)
 		self.__searchDir(self.root, defaultDirectoy)
+		# self.ExpandAll()
 
 	def __searchDir(self, item, directory):
 		if not os.path.isdir(directory):
@@ -51,6 +52,8 @@ class MyFrame(wx.Frame):
 		self.headerbrower = DirTreeCtrl(panel1)
 		self.headerbrower.setSearchDir(defaultDirectoy)
 
+		text1 = wx.StaticText(panel2, -1, "classes", style=wx.ALIGN_CENTRE)
+		text2 = wx.StaticText(panel2, -1, "methods", style=wx.ALIGN_CENTRE)
 		self.classbrower = wx.ListBox(panel2)
 		self.methodbrower = wx.CheckListBox(panel2)
 		self.genButton = wx.Button(panel2, -1, 'Generator Code')
@@ -63,7 +66,9 @@ class MyFrame(wx.Frame):
 		vbox1.Add(self.headerbrower, 1, wx.EXPAND)
 
 		vbox2 = wx.BoxSizer(wx.VERTICAL)
+		vbox2.Add(text1, 0, wx.EXPAND)
 		vbox2.Add(self.classbrower, 2, wx.EXPAND)
+		vbox2.Add(text2, 0, wx.EXPAND)
 		vbox2.Add(self.methodbrower, 6, wx.EXPAND)
 		vbox2.Add(self.genButton, 1, wx.EXPAND)
 
