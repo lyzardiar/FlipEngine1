@@ -5,10 +5,8 @@
 #include "../common/array.h"
 #include "../r_public.h"
 
-#include "../ResourceSystem.h"
-
 class Pipeline;
-class StaticModel;
+class Mesh;
 class Sprite;
 class Material;
 class Camera;
@@ -25,7 +23,7 @@ public:
 
 	virtual void DrawString(const char* text) = 0;
 
-	virtual bool AddStaticModel(StaticModel* model) = 0;
+	virtual bool AddStaticModel(Mesh* model) = 0;
 
 	virtual bool AddDrawSur(drawSurf_t* drawSur) = 0;
 
@@ -48,7 +46,7 @@ public:
 
 	void RenderShadowMap(drawSurf_t* drawSur);
 
-	virtual bool AddStaticModel(StaticModel* model);
+	virtual bool AddStaticModel(Mesh* model);
 
 	virtual bool AddDrawSur(drawSurf_t* drawSur);
 

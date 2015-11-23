@@ -1,7 +1,7 @@
 #include "MeshLoader3DS.h"
 #include "sys/sys_public.h"
 #include "File.h"
-#include "Model.h"
+#include "Mesh.h"
 #include "common/Str.h"
 #include "DrawVert.h"
 
@@ -52,7 +52,7 @@
 #define INDEX_DATA_3DS 0x4120
 #define TEXMAP_DATA_3DS 0x4140
 
-bool LoadMesh3DS(const char* filename, StaticModel* model)
+bool LoadMesh3DS(const char* filename, Mesh* model)
 {
 	lfFile* file = new lfFile;
 	if ( !file->Open(filename) )

@@ -1,9 +1,9 @@
 #include "Sprite.h"
-#include "renderer/RenderSystem.h"
 #include "Texture.h"
 #include "DrawVert.h"
 #include "glutils.h"
 #include "sys/sys_public.h"
+#include "ResourceSystem.h"
 
 Sprite::Sprite() : _width(0),
 				_height(0)

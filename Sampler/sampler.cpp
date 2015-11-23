@@ -11,13 +11,13 @@
 #include "sys/sys_public.h"
 #include "Camera.h"
 #include "Sprite.h"
-#include "Model.h"
+#include "Mesh.h"
 #include "MeshLoader3DS.h"
 #include "Shader.h"
 
 
 #include "Model_lwo.h"
-#include "Model.h"
+#include "Mesh.h"
 #include "ScriptSystem.h"
 
 #include "luautils.h"
@@ -29,13 +29,13 @@
 Game* game = new ShadowSampler();
 Texture* _texture;
 
-StaticModel* loadLwoModel(const char* filename)
+Mesh* loadLwoModel(const char* filename)
 {
 	unsigned int failId;
 	int failedPos;
 	lwObject* object = lwGetObject(filename, &failId, &failedPos);
 
-	StaticModel* model = new StaticModel;
+	Mesh* model = new Mesh;
 	model->ConvertLWOToModelSurfaces(object);
 	delete object;
 	return model;
@@ -56,7 +56,7 @@ ShadowSampler::~ShadowSampler()
 {
 }
 
-StaticModel* testModel;
+Mesh* testModel;
 void ShadowSampler::Init()
 {
 	_scriptSys = new ScriptSystem;
@@ -251,7 +251,7 @@ void ShadowSampler::SetupCamera()
 	//_camera->SetPosition(-126.f, 126.f, 100.f);
 }
 
-void ShadowSampler::AddStaticModel(StaticModel* model)
+void ShadowSampler::AddStaticModel(Mesh* model)
 {
 	array<drawSurf_t*> surfaces = model->getSurfaces();
 	for (unsigned int i = 0; i < surfaces.size(); i++)

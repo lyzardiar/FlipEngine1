@@ -8,7 +8,7 @@
 #include "Shader.h"
 #include "glutils.h"
 #include "../sys/sys_public.h"
-#include "Model.h"
+#include "Mesh.h"
 #include "Material.h"
 #include "File.h"
 
@@ -145,21 +145,21 @@ Texture* ResourceSystem::AddTexture(const char* file)
     
 	for (int i = 0; i < TexPluginCount; ++i)
 	{
-		if (basename.find(loaderPlugin[i].name) != std::string::npos)
-		{
-			if( !loaderPlugin[i].pFunc(fullPath.c_str(), image) )
-			{
-				Sys_Printf( "load image %s failed\n", fullPath.c_str() );
-				return defaultTexture;
-			}
-			else
-			{
-				texture = new Texture();
-				texture->Init(&image);
+		if (basename.find(loaderPlugin[i].name) == std::string::npos)
+			continue;
 
-				_textures.Put(fullPath, texture);
-				return texture;
-			}
+		if( !loaderPlugin[i].pFunc(fullPath.c_str(), image) )
+		{
+			Sys_Printf( "load image %s failed\n", fullPath.c_str() );
+			return defaultTexture;
+		}
+		else
+		{
+			texture = new Texture();
+			texture->Init(&image);
+
+			_textures.Put(fullPath, texture);
+			return texture;
 		}
 	}
 
@@ -167,7 +167,7 @@ Texture* ResourceSystem::AddTexture(const char* file)
 	return defaultTexture;
 };
 
-StaticModel* ResourceSystem::AddMesh(const char* file)
+Mesh* ResourceSystem::AddMesh(const char* file)
 {
 	MeshLoaderB3D meshLoader;
 	meshLoader.Load(file);

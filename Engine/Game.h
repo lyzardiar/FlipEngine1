@@ -4,7 +4,7 @@
 
 class Camera;
 class Sprite;
-class StaticModel;
+class Mesh;
 
 class RenderSystem;
 class ScriptSystem;

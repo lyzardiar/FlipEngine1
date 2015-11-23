@@ -28,8 +28,7 @@ void Camera::Setup3DCamera(int width, int height) {
 	_matViewProj = _matProj * _matView;	
 }
 
-void Camera::Setup2DCamera(float width, float height)
-{
+void Camera::Setup2DCamera(float width, float height) {
 	_matProj.BuildProjectionOrthoRH(width, height, 0.1f, 800.f);
 	_matView.m[12] = -width/2;
 	_matView.m[13] = -height/2;
@@ -38,13 +37,11 @@ void Camera::Setup2DCamera(float width, float height)
 	//float zfar = -300.f / tanf(3.1415936f/6.f);
 }
 
-vec3 Camera::GetPosition()
-{
+vec3 Camera::GetPosition() {
 	return _pos;
 }
 
-void Camera::Yaw(float angle)
-{
+void Camera::Yaw(float angle) {
 	vec3 dir = _at - _pos;
 	quat q;
 	q.fromAxisAngle(vec3(0.f, 1.0f, 0.f), angle * QUAT_PI / 360.f);
@@ -60,33 +57,28 @@ void Camera::Yaw(float angle)
 	_matViewProj = _matProj * _matView;
 }
 
-void Camera::Rise( float displacement )
-{
+void Camera::Rise( float displacement ) {
 	_pos.y += displacement;
 	_matView.buildLookAt(_pos, _at, vec3(0.f, 1.f, 0.f));
 	_matViewProj = _matProj * _matView;	
 }
 
-void Camera::SetPosition( float x, float y, float z )
-{
+void Camera::SetPosition( float x, float y, float z ) {
 	_pos.set(x, y, z);
 	_matView.buildLookAt(_pos, _at, vec3(0.f, 1.f, 0.f));
 	_matViewProj = _matProj * _matView;	
 }
 
 
-mat4* Camera::GetProj()
-{
+mat4* Camera::GetProj() {
 	return &_matProj;
 }
 
-mat4* Camera::GetView()
-{
+mat4* Camera::GetView() {
 	return &_matView;
 }
 
-void Camera::RotateByAxis( vec3 axis, float angle )
-{
+void Camera::RotateByAxis( vec3 axis, float angle ) {
 	quat q;
 	q.fromAxisAngle(axis, angle * QUAT_PI / 360.f);
 	q.toMatrix().transformVec3(_pos.x, _pos.y, _pos.z);

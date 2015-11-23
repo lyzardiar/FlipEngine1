@@ -277,9 +277,6 @@
     <ClCompile Include="..\Engine\ImageLoaderPNG.cpp">
       <Filter>resource</Filter>
     </ClCompile>
-    <ClCompile Include="..\Engine\Mesh.cpp">
-      <Filter>resource</Filter>
-    </ClCompile>
     <ClCompile Include="..\Engine\MeshLoader3DS.cpp">
       <Filter>resource</Filter>
     </ClCompile>
@@ -340,19 +337,7 @@
     <ClCompile Include="..\Engine\Camera.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\Engine\Model.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Engine\renderer\draw_common.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Engine\Shader.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="..\Engine\ShadowVolume.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Engine\Sprite.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="..\Media\KnightModel.cpp">
@@ -370,9 +355,6 @@
     <ClCompile Include="..\Engine\Model_lwo.cpp">
       <Filter>resource</Filter>
     </ClCompile>
-    <ClCompile Include="..\Engine\common\Heap.cpp">
-      <Filter>common</Filter>
-    </ClCompile>
     <ClCompile Include="..\Engine\common\Math.cpp">
       <Filter>common</Filter>
     </ClCompile>
@@ -384,9 +366,6 @@
     </ClCompile>
     <ClCompile Include="..\Engine\Lexer.cpp">
       <Filter>complier</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Engine\renderer\r_draw.cpp">
-      <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="..\Engine\lua\lua\lapi.c">
       <Filter>lua</Filter>
@@ -511,6 +490,30 @@
     <ClCompile Include="..\Engine\tr_trisurf.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="..\Engine\common\Heap.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\MapFile.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\Mesh.cpp">
+      <Filter>resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\Sprite.cpp">
+      <Filter>renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\renderer\draw_common.cpp">
+      <Filter>renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\renderer\draw_common1.cpp">
+      <Filter>renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\Shader.cpp">
+      <Filter>renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\Model.cpp">
+      <Filter>renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Engine\color4.h">
@@ -603,9 +606,6 @@
     <ClInclude Include="..\Engine\Image.h">
       <Filter>resource</Filter>
     </ClInclude>
-    <ClInclude Include="..\Engine\Mesh.h">
-      <Filter>resource</Filter>
-    </ClInclude>
     <ClInclude Include="..\Engine\MeshLoaderB3D.h">
       <Filter>resource</Filter>
     </ClInclude>
@@ -660,28 +660,13 @@
     <ClInclude Include="..\Engine\Game.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\Engine\HashTable.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="..\Engine\MeshLoader3DS.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Engine\Model.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Engine\renderer\draw_common.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Engine\Shader.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\Engine\ShaderSource.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\Engine\ShadowVolume.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Engine\Sprite.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\Media\KnightModel.h">
@@ -701,9 +686,6 @@
     </ClInclude>
     <ClInclude Include="..\Engine\Model_lwo.h">
       <Filter>resource</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Engine\common\Heap.h">
-      <Filter>common</Filter>
     </ClInclude>
     <ClInclude Include="..\Engine\common\Math.h">
       <Filter>common</Filter>
@@ -809,6 +791,27 @@
     </ClInclude>
     <ClInclude Include="..\Engine\ScriptSystem.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\common\Heap.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\MapFile.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\Mesh.h">
+      <Filter>resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\Sprite.h">
+      <Filter>renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\renderer\draw_common.h">
+      <Filter>renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\Shader.h">
+      <Filter>renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\Model.h">
+      <Filter>renderer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

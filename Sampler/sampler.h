@@ -18,7 +18,7 @@ public:
 
 	void SetupCamera();
 
-	void AddStaticModel(StaticModel* model);
+	void AddStaticModel(Mesh* model);
 
 	void CreateLight();
 

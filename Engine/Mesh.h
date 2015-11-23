@@ -1,32 +1,8 @@
-#pragma once
+#ifndef __MESH_H__
+#define __MESH_H__
+#include "r_public.h"
 #include "common/array.h"
-#include "common/vec3.h"
-#include "color4.h"
-#include "common/Joint.h"
-#include "common/vec2.h"
-#include "glutils.h"
-
-class Texture;
-class DrawVert;
-
-
-
-class Edge {
-public:
-	Edge(void) {}
-	Edge(unsigned short v0, unsigned short v1,
-		unsigned short plane0, unsigned short plane1)
-	{
-		v[0] = v0;
-		v[1] = v1;
-		this->plane[0] = plane0;
-		this->plane[1] = plane1;
-	}
-
-	unsigned short v[2];
-	unsigned short plane[2];
-};
-
+#include "common/str.h"
 
 class Mesh
 {
@@ -34,45 +10,22 @@ public:
 	Mesh();
 	~Mesh();
 
-	const void* GetPositions() const;
-	const void* GetTexCoords() const;
-	const void* GetIndices() const;
-	const void* GetNormals() const;
-	const void* GetColors() const;
-	Texture* GetTexture();
-	void SetTexture(Texture* tex);
+	drawSurf_t* AllocStaticSurface();
 
-	int GetPositionCount() const;
-    int GetNormalCount() const;
-    int GetTexCoordCount() const;
-    int GetTangentCount() const;
-    int GetColorCount() const;
+	array<drawSurf_t*> getSurfaces();
 
-    int GetIndexCount() const;
+	void GenerateNormals();
 
-	bool HasNormals();
-	bool HasTexCoords();
+	void CalcBounds();
 
-	void CalculateEdge();
+	bool ConvertLWOToModelSurfaces( const struct st_lwObject *lwo );
 
-	void SetPosition(float x, float y, float z);
-	vec3& getPosition();
+private:
 
-	void setupVBO();
+	array<srfTriangles_t*> _geolist;
 
-	array<DrawVert*>         _vertex;
-
-	array<unsigned short>		_indices;
-
-	array<Edge>				_edgeList;
-
-	Texture*					_texture;
-
-	vec3                     _position;
-
-	unsigned int				_indexCount;
-	unsigned int             _vertexCount;
-
-	GLuint                  _vertexBuffer;
-	GLuint                  _indexBuffer;
+	lfStr name;
 };
+#endif
+
+

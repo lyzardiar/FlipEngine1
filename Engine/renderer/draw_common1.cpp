@@ -30,6 +30,19 @@ static void R_BindArrayBuffer(int i) {
 	}
 }
 
+static void R_DrawCommon( srfTriangles_t* tri, unsigned short *attri, unsigned short numAttri ) {
+	glBindBuffer(GL_ARRAY_BUFFER, tri->vbo[0]);
+	for (int i=0; i<numAttri; i++){
+		R_BindArrayBuffer(attri[i]);
+	}
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, tri->vbo[1]);
+	glDrawElements(GL_TRIANGLES, tri->numIndexes, GL_UNSIGNED_SHORT, 0);
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+}
+
 void R_RenderCommon(drawSurf_t* drawSurf){
 	Material* mtr = drawSurf->mtr;
 	srfTriangles_t* tri = drawSurf->geo;
@@ -64,18 +77,5 @@ void R_RenderCommon(drawSurf_t* drawSurf){
 
 	for (int i = 0; i < numAttri; i++)
 		glEnableVertexAttribArray(attri[i]);
-}
-
-void R_DrawCommon( srfTriangles_t* tri, unsigned short *attri, unsigned short numAttri ) {
-	glBindBuffer(GL_ARRAY_BUFFER, tri->vbo[0]);
-	for (int i=0; i<numAttri; i++){
-		R_BindArrayBuffer(attri[i]);
-	}
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, tri->vbo[1]);
-	glDrawElements(GL_TRIANGLES, tri->numIndexes, GL_UNSIGNED_SHORT, 0);
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 

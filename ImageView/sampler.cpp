@@ -11,13 +11,13 @@
 #include "sys/sys_public.h"
 #include "Camera.h"
 #include "Sprite.h"
-#include "Model.h"
+#include "Mesh.h"
 #include "MeshLoader3DS.h"
 #include "Shader.h"
 
 
 #include "Model_lwo.h"
-#include "Model.h"
+#include "Mesh.h"
 
 #pragma comment(lib, "FlipEngine.lib")
 #pragma comment(lib, "opengl32.lib")

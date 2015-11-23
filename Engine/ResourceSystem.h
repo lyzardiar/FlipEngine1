@@ -4,7 +4,7 @@
 #include "common/hashtable.h"
 
 class Texture;
-class StaticModel;
+class Mesh;
 class Shader;
 class Material;
 class Image;
@@ -36,7 +36,7 @@ public:
 
 	Texture* AddText(const char* text);
 
-	StaticModel* AddMesh(const char* file);
+	Mesh* AddMesh(const char* file);
 
 	Shader* FindShader(int shaderId);
 

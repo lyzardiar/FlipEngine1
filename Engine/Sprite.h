@@ -1,10 +1,9 @@
 #ifndef __SPRITE_H__
 #define __SPRITE_H__
-#include "Mesh.h"
-#include "common/vec2.h"
 #include "r_public.h"
 
 class Texture;
+class ResourceSystem;
 
 
 class Sprite
@@ -34,6 +33,7 @@ private:
 	void UpdateVertex();
 
 private:
+
 public:
 	drawSurf_t* _drawSurf;
 	int  _width;

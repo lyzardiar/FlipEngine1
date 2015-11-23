@@ -64,11 +64,11 @@ void R_RenderPhongPass( drawSurf_t* drawSurf, DrawFunc drawFunc ) {
 	glUniformMatrix4fv( shader->GetUniform(eUniform_ModelView), 1, GL_FALSE, &modelView.m[0] );
 	glUniformMatrix4fv( shader->GetUniform(eUniform_InvModelView), 1, GL_FALSE, &invModelView.m[0] );
 
-		GL_CheckError("R_RenderPhongPass error");
+	GL_CheckError("R_RenderPhongPass error");
 	glUniform1i( shader->GetUniform(eUniform_Samper0), 0 );
 	glBindTexture( GL_TEXTURE_2D, material->tex->GetName() );
 
-		GL_CheckError("R_RenderPhongPass error1");
+	GL_CheckError("R_RenderPhongPass error1");
 	glUniform3f(shader->GetUniform(eUniform_EyePos), 0.f, 0.f, 100.f);
 	glUniform3f(shader->GetUniform(eUniform_LightPos), -100.f, 100.f, -100.f);
 

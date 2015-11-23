@@ -28,7 +28,7 @@ static int RenderSystemAddStaticModel(lua_State* L){
 
     int argc = lua_gettop(L)-1;
     if (argc == 1) {
-        StaticModel* arg0 = (StaticModel*)lua_touserdata(L, 2);
+        Mesh* arg0 = (Mesh*)lua_touserdata(L, 2);
         bool ret = cobj->AddStaticModel(arg0);
         lua_pushboolean(L, ret);
         return 1;

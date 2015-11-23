@@ -2,7 +2,7 @@
 #include "common/Joint.h"
 #include "File.h"
 #include "sys/sys_public.h"
-#include "Model.h"
+#include "Mesh.h"
 #include "DrawVert.h"
 
 MeshLoaderB3D::MeshLoaderB3D() :_meshCount(0), _rootJoint(nullptr), _totalFrame(0), _readJoint(NULL) 
@@ -19,7 +19,7 @@ bool MeshLoaderB3D::Load(const char* file)
 	if( !_file->Open(file) )
 		return false;
 
-	_model = new StaticModel;
+	_model = new Mesh;
 
 	lfStr head = ReadChunk();
 	int nB3DVersion = _file->ReadInt();

@@ -13,7 +13,7 @@ http://www.blitzbasic.com/sdkspecs/sdkspecs/b3dfile_specs.txt
 
 #include "r_public.h"
 
-class StaticModel;
+class Mesh;
 class lfFile;
 class Joint;
 
@@ -80,7 +80,7 @@ public:
 	array<unsigned int> _stack;
 
 	array<unsigned short> _indices;
-	StaticModel*    _model;
+	Mesh*    _model;
 
 	int             _meshCount;
 	Joint*			_rootJoint;

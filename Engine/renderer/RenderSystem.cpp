@@ -12,7 +12,7 @@
 #include "../Sprite.h"
 #include "../common/Timer.h"
 #include "draw_common.h"
-#include "../Model.h"
+#include "../Mesh.h"
 #include "../File.h"
 #include "../Camera.h"
 
@@ -108,7 +108,7 @@ void RenderSystemLocal::DrawString( const char* text )
 	_defaultSprite->SetLabel(text);
 }
 
-bool RenderSystemLocal::AddStaticModel( StaticModel* model )
+bool RenderSystemLocal::AddStaticModel( Mesh* model )
 {
 	array<drawSurf_t*> surfaces = model->getSurfaces();
 	for (unsigned int i = 0; i < surfaces.size(); i++)

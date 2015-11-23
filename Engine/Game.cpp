@@ -12,7 +12,7 @@
 #include "sys/sys_public.h"
 #include "Camera.h"
 #include "Sprite.h"
-#include "Model.h"
+#include "Mesh.h"
 #include "MeshLoader3DS.h"
 
 

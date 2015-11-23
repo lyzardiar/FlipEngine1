@@ -1,31 +1,23 @@
 #ifndef __MODEL_H__
 #define __MODEL_H__
 #include "r_public.h"
-#include "common/array.h"
-#include "common/str.h"
 
-class StaticModel
+class Model
 {
 public:
-	StaticModel();
-	~StaticModel();
+	Model();
+	~Model();
 
-	drawSurf_t* AllocStaticSurface();
+	void SetFile(const char* filename);
 
-	array<drawSurf_t*> getSurfaces();
+	void SetPosition(float x, float y, float z);
 
-	void GenerateNormals();
-
-	void CalcBounds();
-
-	bool ConvertLWOToModelSurfaces( const struct st_lwObject *lwo );
-
+	vec3 GetPosition();
 private:
-
-	array<drawSurf_t*> _surfaces;
-
-	lfStr name;
+	drawSurf_t* _drawSurf;
+	vec3 _position;
 };
+
 #endif
 
 

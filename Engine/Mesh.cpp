@@ -1,80 +1,393 @@
+#include "sys/sys_public.h"
 #include "Mesh.h"
-#include "DrawVert.h"
+#include "Model_lwo.h"
+#include "common/Heap.h"
 
-Mesh::Mesh():_texture(NULL)
+Mesh::Mesh() 
 {
 
 }
-
 
 Mesh::~Mesh()
 {
 
 }
 
-const void* Mesh::GetIndices() const
+drawSurf_t* Mesh::AllocStaticSurface()
 {
-	return _indices.const_pointer();
+	drawSurf_t* surface = R_AllocDrawSurf();
+	_surfaces.push_back(surface);
+	return surface;
 }
 
-void Mesh::CalculateEdge()
+array<drawSurf_t*> Mesh::getSurfaces()
 {
-	//for (unsigned int i = 0; i < _indices.size()/3; ++i)
-	//{
-	//	for (unsigned int e = 0; e < 3; e++)
-	//	{
-	//		const vec3& v0 = _positions[_indices[i * 3 + e]];
-	//		const vec3& v1 = _positions[_indices[i * 3 + (e + 1)%3]];
-	//	
-	//		for (int ii = 0; ii < _edgeList.size(); ++ii)
-	//		{
-	//			Edge& edge = _edgeList[ii];
-	//		//	if (edge)
-	//		//	{
-	//		//	}
-	//		}
+	return _surfaces;
+}
+
+void Mesh::GenerateNormals()
+{
+	for (unsigned int i=0; i<_surfaces.size(); ++i)
+	{
+		R_DeriveNormals(_surfaces[i]->geo);
+	}
+}
+
+void Mesh::CalcBounds()
+{
+	for (int i=0; i<_surfaces.size(); ++i)
+	{
+		R_BoundTriSurf(_surfaces[i]->geo);
+		_surfaces[i]->bShowBound = true;
+	}
+}
+
+#include "Model_lwo.h"
+typedef struct matchVert_s {
+	struct matchVert_s	*next;
+	int		v, tv;
+	byte	color[4];
+	vec3	normal;
+} matchVert_t;
+
+bool Mesh::ConvertLWOToModelSurfaces( const struct st_lwObject *lwo ) {
+	srfTriangles_t *tri;
+	int	numTVertexes;
+	int	i, j, k;
+	int	v, tv;
+	idVec3* vList;
+	int *			vRemap;
+	idVec2 *		tvList;
+	int *			tvRemap;
+	matchVert_t *	mvTable;	// all of the match verts
+	matchVert_t **	mvHash;		// points inside mvTable for each xyz index
+	matchVert_t *	lastmv;
+	matchVert_t *	mv;
+	idVec3			normal;
+	int *			mergeTo;
+	byte			color[4];
+	drawSurf_t* surf;
+	drawSurf_t* modelSurf;
+
+	if ( !lwo ) {
+		return false;
+	}
+	if ( lwo->surf == NULL ) {
+		return false;
+	}
+
+	//timeStamp = lwo->timeStamp;
+
+	// count the number of surfaces
+	lwSurface *		lwoSurf;
+	i = 0;
+	for ( lwoSurf = lwo->surf; lwoSurf; lwoSurf = lwoSurf->next ) {
+		i++;
+	}
+
+	// the modeling programs can save out multiple surfaces with a common
+	// material, but we would like to merge them together where possible
+	mergeTo = (int *)_alloca( i * sizeof( mergeTo[0] ) ); 
+	memset( &surf, 0, sizeof( surf ) );
+
+	for ( lwoSurf = lwo->surf, i = 0; lwoSurf; lwoSurf = lwoSurf->next, i++ ) 
+	{
+		//im1 = declmanager->findmaterial( lwosurf->name );
+		Sys_Printf("lwo surface name %s\n", lwoSurf->name);
+		drawSurf_t* surf = R_AllocDrawSurf();
+		mergeTo[i] = i;
+		_surfaces.push_back(surf);
+		//if ( im1->isdiscrete() ) {
+		//	// flares, autosprites, etc
+		//	j = this->numsurfaces();
+		//} else {
+		//	for ( j = 0 ; j < this->numsurfaces() ; j++ ) {
+		//		modelsurf = &this->surfaces[j];
+		//		im2 = modelsurf->shader;
+		//		if ( im1 == im2 ) {
+		//			// merge this
+		//			mergeto[i] = j;
+		//			break;
+		//		}
+		//	}
+		//}
+		//if ( j == this->numsurfaces() ) {
+		//	// didn't merge
+		//	mergeto[i] = j;
+		//	surf.shader = im1;
+		//	surf.id = this->numsurfaces();
+		//	this->addsurface( surf );
+		//}
+	}
+
+	//idVectorSubset<idVec3, 3> vertexSubset;
+	//idVectorSubset<idVec2, 2> texCoordSubset;
+
+	// we only ever use the first layer
+	lwLayer *layer = lwo->layer;
+
+	// vertex positions
+	if ( layer->point.count <= 0 ) {
+		Sys_Warning( "ConvertLWOToModelSurfaces: model \'%s\' has bad or missing vertex data" );
+		return false;
+	}
+
+	vList = (idVec3 *)R_StaticAlloc( layer->point.count * sizeof( vList[0] ) );
+	for ( j = 0; j < layer->point.count; j++ ) {
+		vList[j].x = layer->point.pt[j].pos[0];
+		vList[j].y = layer->point.pt[j].pos[2];
+		vList[j].z = layer->point.pt[j].pos[1];
+	}
+
+	// vertex texture coords
+	numTVertexes = 0;
+
+	if ( layer->nvmaps ) {
+		for( lwVMap *vm = layer->vmap; vm; vm = vm->next ) {
+			if ( vm->type == LWID_('T','X','U','V') ) {
+				numTVertexes += vm->nverts;
+			}
+		}
+	}
+
+	if ( numTVertexes ) {
+		tvList = (idVec2 *)Mem_Alloc( numTVertexes * sizeof( tvList[0] ) );
+		int offset = 0;
+		for( lwVMap *vm = layer->vmap; vm; vm = vm->next ) {
+			if ( vm->type == LWID_('T','X','U','V') ) {
+	  			vm->offset = offset;
+		  		for ( k = 0; k < vm->nverts; k++ ) {
+		  		   	tvList[k + offset].x = vm->val[k][0];
+					tvList[k + offset].y = 1.0f - vm->val[k][1];	// invert the t
+		  		}
+			  	offset += vm->nverts;
+			}
+		}
+	} else {
+		Sys_Warning( "ConvertLWOToModelSurfaces: model  has bad or missing uv data" );
+	  	numTVertexes = 1;
+		tvList = (idVec2 *)Mem_ClearedAlloc( numTVertexes * sizeof( tvList[0] ) );
+	}
+
+	// It seems like the tools our artists are using often generate
+	// verts and texcoords slightly separated that should be merged
+	// note that we really should combine the surfaces with common materials
+	// before doing this operation, because we can miss a slop combination
+	// if they are in different surfaces
+
+	vRemap = (int *)R_StaticAlloc( layer->point.count * sizeof( vRemap[0] ) );
+
+	//if ( fastLoad ) {
+	//	// renderbump doesn't care about vertex count
+	for ( j = 0; j < layer->point.count; j++ ) {
+		vRemap[j] = j;
+	}
+	//} else {
+	//	float vertexEpsilon = r_slopVertex.GetFloat();
+	//	float expand = 2 * 32 * vertexEpsilon;
+	//	idVec3 mins, maxs;
+
+	//	SIMDProcessor->MinMax( mins, maxs, vList, layer->point.count );
+	//	mins -= idVec3( expand, expand, expand );
+	//	maxs += idVec3( expand, expand, expand );
+	//	vertexSubset.Init( mins, maxs, 32, 1024 );
+	//	for ( j = 0; j < layer->point.count; j++ ) {
+	//		vRemap[j] = vertexSubset.FindVector( vList, j, vertexEpsilon );
 	//	}
 	//}
-}
 
-Texture* Mesh::GetTexture()
-{
-	return _texture;
-}
+	tvRemap = (int *)R_StaticAlloc( numTVertexes * sizeof( tvRemap[0] ) );
 
-void Mesh::SetTexture(Texture* tex)
-{
-	_texture = tex;
-}
+	//if ( fastLoad ) {
+	//	// renderbump doesn't care about vertex count
+	for ( j = 0; j < numTVertexes; j++ ) {
+		tvRemap[j] = j;
+	}
+	//} else {
+	//	float texCoordEpsilon = r_slopTexCoord.GetFloat();
+	//	float expand = 2 * 32 * texCoordEpsilon;
+	//	idVec2 mins, maxs;
 
-vec3& Mesh::getPosition()
-{
-	return _position;
-}
+	//	SIMDProcessor->MinMax( mins, maxs, tvList, numTVertexes );
+	//	mins -= idVec2( expand, expand );
+	//	maxs += idVec2( expand, expand );
+	//	texCoordSubset.Init( mins, maxs, 32, 1024 );
+	//	for ( j = 0; j < numTVertexes; j++ ) {
+	//		tvRemap[j] = texCoordSubset.FindVector( tvList, j, texCoordEpsilon );
+	//	}
+	//}
 
-void Mesh::SetPosition( float x, float y, float z )
-{
-	_position.x = x;
-	_position.y = y;
-	_position.z = z;
-}
+	// build the surfaces
+	for ( lwoSurf = lwo->surf, i = 0; lwoSurf; lwoSurf = lwoSurf->next, i++ ) {
+		//im1 = declManager->FindMaterial( lwoSurf->name );
 
-void Mesh::setupVBO()
-{
-	_indexCount = _indices.size();
-	// This functions copies the vertex and index buffers into their respective VBO's
-	glGenBuffers(1, &_vertexBuffer);
-	glGenBuffers(1, &_indexBuffer);
+		bool normalsParsed = true;
 
-	// Stick the data for the vertices into its VBO
-	glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
-//	glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * _vertexCount, _positions.const_pointer(), GL_STATIC_DRAW);
+		// completely ignore any explict normals on surfaces with a renderbump command
+		// which will guarantee the best contours and least vertexes.
+		//const char *rb = im1->GetRenderBump();
+		//if ( rb && rb[0] ) {
+		//	normalsParsed = false;
+		//}
 
-	// Stick the data for the indices into its VBO
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(_indices[0]) * _indexCount, _indices.const_pointer(), GL_STATIC_DRAW);
+		// we need to find out how many unique vertex / texcoord combinations there are
 
-	// Clear the VBO state
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		// the maximum possible number of combined vertexes is the number of indexes
+		mvTable = (matchVert_t *)R_ClearedStaticAlloc( layer->polygon.count * 3 * sizeof( mvTable[0] ) );
+
+		// we will have a hash chain based on the xyz values
+		mvHash = (matchVert_t **)R_ClearedStaticAlloc( layer->point.count * sizeof( mvHash[0] ) );
+
+		// allocate triangle surface
+		tri = R_AllocStaticTriSurf();
+		tri->numVerts = 0;
+		tri->numIndexes = 0;
+		R_AllocStaticTriSurfIndexes( tri, layer->polygon.count * 3 );
+		tri->generateNormals = !normalsParsed;
+
+		// find all the unique combinations
+		float	normalEpsilon;
+		//if ( fastLoad ) {
+			normalEpsilon = 1.0f;	// don't merge unless completely exact
+		//} else {
+			//normalEpsilon = 1.0f - r_slopNormal.GetFloat();
+		//}
+		for ( j = 0; j < layer->polygon.count; j++ ) {
+			lwPolygon *poly = &layer->polygon.pol[j];
+
+			if ( poly->surf != lwoSurf ) {
+				continue;
+			}
+
+			if ( poly->nverts != 3 ) {
+				Sys_Warning( "ConvertLWOToModelSurfaces: model %s has too many verts for a poly! Make sure you triplet it down", name.c_str() );
+				continue;
+			}
+
+			for ( k = 0; k < 3; k++ ) {
+
+				v = vRemap[poly->v[k].index];
+
+				normal.x = poly->v[k].norm[0];
+				normal.y = poly->v[k].norm[2];
+				normal.z = poly->v[k].norm[1];
+
+				// LWO models aren't all that pretty when it comes down to the floating point values they store
+				normal.FixDegenerateNormal();
+
+				tv = 0;
+
+				color[0] = lwoSurf->color.rgb[0] * 255;
+				color[1] = lwoSurf->color.rgb[1] * 255;
+				color[2] = lwoSurf->color.rgb[2] * 255;
+				color[3] = 255;
+
+				// first set attributes from the vertex
+				lwPoint	*pt = &layer->point.pt[poly->v[k].index];
+				int nvm;
+				for ( nvm = 0; nvm < pt->nvmaps; nvm++ ) {
+					lwVMapPt *vm = &pt->vm[nvm];
+
+					if ( vm->vmap->type == LWID_('T','X','U','V') ) {
+						tv = tvRemap[vm->index + vm->vmap->offset];
+					}
+					if ( vm->vmap->type == LWID_('R','G','B','A') ) {
+						for ( int chan = 0; chan < 4; chan++ ) {
+							color[chan] = 255 * vm->vmap->val[vm->index][chan];
+						}
+					}
+				}
+
+				// then override with polygon attributes
+				for ( nvm = 0; nvm < poly->v[k].nvmaps; nvm++ ) {
+					lwVMapPt *vm = &poly->v[k].vm[nvm];
+
+					if ( vm->vmap->type == LWID_('T','X','U','V') ) {
+						tv = tvRemap[vm->index + vm->vmap->offset];
+					}
+					if ( vm->vmap->type == LWID_('R','G','B','A') ) {
+						for ( int chan = 0; chan < 4; chan++ ) {
+							color[chan] = 255 * vm->vmap->val[vm->index][chan];
+						}
+					}
+				}
+
+				// find a matching vert
+				for ( lastmv = NULL, mv = mvHash[v]; mv != NULL; lastmv = mv, mv = mv->next ) {
+					if ( mv->tv != tv ) {
+						continue;
+					}
+					if ( *(unsigned *)mv->color != *(unsigned *)color ) {
+						continue;
+					}
+					if ( !normalsParsed ) {
+						// if we are going to create the normals, just
+						// matching texcoords is enough
+						break;
+					}
+					if ( mv->normal.dot( normal ) > normalEpsilon ) {
+						break;		// we already have this one
+					}
+				}
+				if ( !mv ) {
+					// allocate a new match vert and link to hash chain
+					mv = &mvTable[ tri->numVerts ];
+					mv->v = v;
+					mv->tv = tv;
+					mv->normal = normal;
+					*(unsigned *)mv->color = *(unsigned *)color;
+					mv->next = NULL;
+					if ( lastmv ) {
+						lastmv->next = mv;
+					} else {
+						mvHash[v] = mv;
+					}
+					tri->numVerts++;
+				}
+
+				tri->indexes[tri->numIndexes] = mv - mvTable;
+				tri->numIndexes++;
+			}
+		}
+
+		// allocate space for the indexes and copy them
+		if ( tri->numIndexes > layer->polygon.count * 3 ) {
+			Sys_Error( "ConvertLWOToModelSurfaces: index miscount in LWO file %s", name.c_str() );
+		}
+		if ( tri->numVerts > layer->polygon.count * 3 ) {
+			Sys_Error( "ConvertLWOToModelSurfaces: vertex miscount in LWO file %s", name.c_str() );
+		}
+
+		// now allocate and generate the combined vertexes
+		R_AllocStaticTriSurfVerts( tri, tri->numVerts );
+		for ( j = 0; j < tri->numVerts; j++ ) {
+			mv = &mvTable[j];
+			tri->verts[ j ].Clear();
+			tri->verts[ j ].xyz = vList[ mv->v ];
+			tri->verts[ j ].st = tvList[ mv->tv ];
+			tri->verts[ j ].normal = mv->normal;
+			*(unsigned *)tri->verts[j].color = *(unsigned *)mv->color;
+		}
+
+		R_StaticFree( mvTable );
+		R_StaticFree( mvHash );
+
+		// see if we need to merge with a previous surface of the same material
+		modelSurf = _surfaces[mergeTo[ i ]];
+		srfTriangles_t	*mergeTri = modelSurf->geo;
+		if ( !mergeTri ) {
+			modelSurf->geo = tri;
+		} else {
+			modelSurf->geo = R_MergeTriangles( mergeTri, tri );
+			R_FreeStaticTriSurf( tri );
+			R_FreeStaticTriSurf( mergeTri );
+		}
+	}
+
+	R_StaticFree( tvRemap );
+	R_StaticFree( vRemap );
+	R_StaticFree( tvList );
+	R_StaticFree( vList );
+
+	return true;
 }
