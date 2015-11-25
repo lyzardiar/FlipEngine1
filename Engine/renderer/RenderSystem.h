@@ -23,8 +23,6 @@ public:
 
 	virtual void DrawString(const char* text) = 0;
 
-	virtual bool AddStaticModel(Mesh* model) = 0;
-
 	virtual bool AddDrawSur(drawSurf_t* drawSur) = 0;
 
 	virtual bool AddSprite(Sprite* sprite) = 0;
@@ -45,8 +43,6 @@ public:
 	void DrawString(const char* text);
 
 	void RenderShadowMap(drawSurf_t* drawSur);
-
-	virtual bool AddStaticModel(Mesh* model);
 
 	virtual bool AddDrawSur(drawSurf_t* drawSur);
 

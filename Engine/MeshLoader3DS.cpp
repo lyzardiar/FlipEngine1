@@ -52,16 +52,15 @@
 #define INDEX_DATA_3DS 0x4120
 #define TEXMAP_DATA_3DS 0x4140
 
-bool LoadMesh3DS(const char* filename, Mesh* model)
+Mesh* LoadMesh3DS(const char* filename)
 {
 	lfFile* file = new lfFile;
 	if ( !file->Open(filename) )
-		return false;
+		return NULL;
 
+	Mesh* mesh = new Mesh;
 	// create drawsurf
-	drawSurf_t* surf = model->AllocStaticSurface();
-	surf->geo = R_AllocStaticTriSurf();
-	srfTriangles_s* geo = surf->geo;
+	srfTriangles_s* geo = mesh->AllocGeo();
 
 	while (file->Tell() < file->Length())
 	{
@@ -146,5 +145,5 @@ bool LoadMesh3DS(const char* filename, Mesh* model)
 			}
 		}
 	}
-	return true;
+	return mesh;
 }

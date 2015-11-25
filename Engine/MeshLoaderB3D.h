@@ -80,7 +80,7 @@ public:
 	array<unsigned int> _stack;
 
 	array<unsigned short> _indices;
-	Mesh*    _model;
+	Mesh*    _mesh;
 
 	int             _meshCount;
 	Joint*			_rootJoint;

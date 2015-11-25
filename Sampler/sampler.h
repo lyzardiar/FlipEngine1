@@ -18,8 +18,6 @@ public:
 
 	void SetupCamera();
 
-	void AddStaticModel(Mesh* model);
-
 	void CreateLight();
 
 	void CastShadowMap();

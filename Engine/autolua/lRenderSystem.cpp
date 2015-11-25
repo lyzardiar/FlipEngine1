@@ -19,24 +19,6 @@ static int RenderSystemAddDrawSur(lua_State* L){
     return 0;
 }
 
-static int RenderSystemAddStaticModel(lua_State* L){
-    RenderSystem* cobj = (RenderSystem*)lua_touserdata(L,1);
-    if (!cobj) {
-        luaL_error(L,"invalid 'cobj' in function 'AddStaticModel'", nullptr);
-        return 0;
-    }
-
-    int argc = lua_gettop(L)-1;
-    if (argc == 1) {
-        Mesh* arg0 = (Mesh*)lua_touserdata(L, 2);
-        bool ret = cobj->AddStaticModel(arg0);
-        lua_pushboolean(L, ret);
-        return 1;
-    }
-
-    return 0;
-}
-
 static int RenderSystemAddSprite(lua_State* L){
     RenderSystem* cobj = (RenderSystem*)lua_touserdata(L,1);
     if (!cobj) {
@@ -79,7 +61,6 @@ int lua_register_RenderSystem(lua_State* L)
         lua_setfield(L, -2, "__index");
 
         Lua_PushFunction(L, "addDrawSur", RenderSystemAddDrawSur);
-        Lua_PushFunction(L, "addStaticModel", RenderSystemAddStaticModel);
         Lua_PushFunction(L, "addSprite", RenderSystemAddSprite);
         Lua_PushFunction(L, "drawString", RenderSystemDrawString);
     }

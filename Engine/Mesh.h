@@ -10,9 +10,9 @@ public:
 	Mesh();
 	~Mesh();
 
-	drawSurf_t* AllocStaticSurface();
+	srfTriangles_t* AllocGeo();
 
-	array<drawSurf_t*> getSurfaces();
+	array<srfTriangles_t*>* GetGeometries();
 
 	void GenerateNormals();
 
@@ -22,7 +22,7 @@ public:
 
 private:
 
-	array<srfTriangles_t*> _geolist;
+	array<srfTriangles_t*> _geometries;
 
 	lfStr name;
 };

@@ -70,7 +70,7 @@ void ShadowSampler::Init()
 
 
 	_scriptSys->RunScript("../script/main.lua");
-	//StaticModel* model = resourceSys->AddMesh("../media/ninja.b3d");
+	 resourceSys->AddMesh("../media/ninja.b3d");
 	//model->GenerateNormals();
 	//model->CalcBounds();
 	//AddStaticModel(model);
@@ -233,12 +233,12 @@ bool ShadowSampler::HitTest(int mouseX, int mouseY)
 
 	Sys_Printf("hit test");
 
-	drawSurf_t* drawSurf = testModel->getSurfaces()[0];
-	float scale;
-	if( drawSurf->geo->aabb.RayIntersection(_camera->GetPosition(), ray_dir, scale) )
-		drawSurf->bHit = true;
-	else
-		drawSurf->bHit = false;
+	//drawSurf_t* drawSurf = testModel->getSurfaces()[0];
+	//float scale;
+	//if( drawSurf->geo->aabb.RayIntersection(_camera->GetPosition(), ray_dir, scale) )
+	//	drawSurf->bHit = true;
+	//else
+	//	drawSurf->bHit = false;
 
 	return true;
 }
@@ -249,17 +249,6 @@ void ShadowSampler::SetupCamera()
 	_camera->Setup3DCamera(1366, 768);
 	_camera->SetPosition(-1.26f, 1.26f, 1.8f);
 	//_camera->SetPosition(-126.f, 126.f, 100.f);
-}
-
-void ShadowSampler::AddStaticModel(Mesh* model)
-{
-	array<drawSurf_t*> surfaces = model->getSurfaces();
-	for (unsigned int i = 0; i < surfaces.size(); i++)
-	{
-		surfaces[i]->view = _camera->GetView();
-		surfaces[i]->viewProj = _camera->GetViewProj();
-	}
-	_renderSys->AddStaticModel(model);
 }
 
 void ShadowSampler::CreateLight()

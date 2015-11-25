@@ -177,7 +177,7 @@ Mesh* ResourceSystem::AddMesh(const char* file)
 	{
 		Texture* tex = AddTexture( meshLoader._textures[i].TextureName.c_str() );
 	}
-	return meshLoader._model;
+	return meshLoader._mesh;
 }
 
 Texture* ResourceSystem::AddText( const char* text )

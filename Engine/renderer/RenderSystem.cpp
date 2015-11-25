@@ -108,24 +108,6 @@ void RenderSystemLocal::DrawString( const char* text )
 	_defaultSprite->SetLabel(text);
 }
 
-bool RenderSystemLocal::AddStaticModel( Mesh* model )
-{
-	array<drawSurf_t*> surfaces = model->getSurfaces();
-	for (unsigned int i = 0; i < surfaces.size(); i++)
-	{
-		drawSurf_t* drawSur = surfaces[i];
-		drawSur->shaderParms = R_AllocMaterail();
-		drawSur->shaderParms->tex = resourceSys->AddTexture(".png");
-		drawSur->mtr = resourceSys->AddMaterial("../media/position.mtr");
-		
-		if (drawSur->view == NULL)
-			drawSur->view = _camera->GetView();
-
-		R_GenerateGeometryVbo(drawSur->geo);
-		AddDrawSur(drawSur);
-	}
-	return true;
-}
 
 bool RenderSystemLocal::AddDrawSur( drawSurf_t* drawSur )
 {
