@@ -20,8 +20,6 @@ srfTriangles_t* Mesh::AllocGeo()
 	return geo;
 }
 
-
-
 void Mesh::GenerateNormals()
 {
 	for (unsigned int i=0; i<_geometries.size(); ++i)
@@ -388,7 +386,12 @@ bool Mesh::ConvertLWOToModelSurfaces( const struct st_lwObject *lwo ) {
 	return true;
 }
 
-array<srfTriangles_t*>* Mesh::GetGeometries()
+srfTriangles_t* Mesh::GetGeometries( int idx )
 {
-	return &_geometries;
+	return _geometries[idx];
+}
+
+int Mesh::GetGeometriesCount()
+{
+	return 0;
 }

@@ -62,12 +62,16 @@ void ShadowSampler::Init()
 	_scriptSys = new ScriptSystem;
 	_scriptSys->Init();
 	
-	Lua_PushCObject(_scriptSys->GetLuaState(), "RenderSystem", _renderSys);
-	lua_setfield(_scriptSys->GetLuaState(), LUA_GLOBALSINDEX, "renderSys");
+	lua_State* L = _scriptSys->GetLuaState();
 
-	//SetupCamera();
+	// rendersys
+	RenderSystem** renderSys = (RenderSystem **)lua_newuserdata(L, sizeof(RenderSystem*));
+	*renderSys = _renderSys;
+	Lua_SetMetatable(L, "RenderSystem");
+	lua_setfield(L, LUA_GLOBALSINDEX, "renderSys");
 
-
+	Sys_Printf("%p\n", _renderSys);
+	//RenderSystem* r = (RenderSystem*)lua_touserdata(L, 1);
 
 	_scriptSys->RunScript("../script/main.lua");
 	 resourceSys->AddMesh("../media/ninja.b3d");

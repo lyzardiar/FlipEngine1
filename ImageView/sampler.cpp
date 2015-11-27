@@ -29,7 +29,7 @@ drawSurf_t* _drawSurf;
 
 array<lfStr> files;
 
-int current = 0;
+unsigned int current = 0;
 
 Sprite* sprite;
 

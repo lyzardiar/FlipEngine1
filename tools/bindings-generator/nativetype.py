@@ -262,7 +262,7 @@ class NativeType(object):
         if dic.has_key(self.name):
             func = dic[self.name] % (num+2)
         else:
-            func = "(%s)lua_touserdata(L, %d);" % (self.name, num+2)
+            func = "*reinterpret_cast<%s*>(lua_touserdata(L, %d));" % (self.name, num+2)
 
         return  self.whole_name + " arg" + str(num) + " = " + func
 

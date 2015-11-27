@@ -6,7 +6,7 @@
 #include "../r_public.h"
 
 class Pipeline;
-class Mesh;
+class Model;
 class Sprite;
 class Material;
 class Camera;
@@ -26,6 +26,8 @@ public:
 	virtual bool AddDrawSur(drawSurf_t* drawSur) = 0;
 
 	virtual bool AddSprite(Sprite* sprite) = 0;
+
+	virtual bool AddModel(Model* model) = 0;
 
 	virtual bool AddUISurf(drawSurf_t* drawSurf) = 0;
 
@@ -47,6 +49,8 @@ public:
 	virtual bool AddDrawSur(drawSurf_t* drawSur);
 
 	virtual bool AddSprite(Sprite* sprite);
+
+	virtual bool AddModel(Model* model);
 
 	virtual bool AddUISurf(drawSurf_t* drawSurf);
 

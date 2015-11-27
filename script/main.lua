@@ -1,21 +1,15 @@
-local function checkRS()
+local function check_render()
 	print("=========================================")
-	print("RS, ", RS)
-	for k, v in pairs(RS) do
-		print(k,v)
-	end
-	
-	print("renderSys", renderSys)
-	-- assert(RS, "RS is null")
-	local meta = getmetatable(renderSys)
-	for k,v in pairs(meta) do
+	print(renderSys)
+	print(render)
+	for k,v in pairs(render) do
 		print(k,v)
 	end
 	print("=========================================")
 end 
 
-local function checkSprite()
-	local sprite = RS.newSprite()
+local function check_sprite()
+	local sprite = render.newsprite()
 	local meta = getmetatable(sprite)
 	for k,v in pairs(meta) do
 		print(k,v)
@@ -28,18 +22,12 @@ local function checkSprite()
 end
 
 local function main()
-	-- checkRS()
-	-- checkSprite()
+	check_render()
+	check_sprite()
 
-	local sp = RS.newSprite()
-	print("==================================")
-
-	local meta = getmetatable(renderSys)
-	for k,v in pairs(meta) do
-		print(k,v)
-	end
+	local sp = render.newsprite()
 	sp:setTexture("../Media/engineflare1.jpg")
-	renderSys:addSprite(sp)
+	render.addsprite(sp)
 end
 
 xpcall(main,

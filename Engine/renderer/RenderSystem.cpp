@@ -10,6 +10,7 @@
 #include "../sys/sys_public.h"
 
 #include "../Sprite.h"
+#include "../Model.h"
 #include "../common/Timer.h"
 #include "draw_common.h"
 #include "../Mesh.h"
@@ -198,5 +199,12 @@ bool RenderSystemLocal::AddSprite( Sprite* sprite )
 {
 	drawSurf_t* drawSurf = sprite->_drawSurf;
 	AddUISurf(drawSurf);
+	return true;
+}
+
+bool RenderSystemLocal::AddModel( Model* model )
+{
+	drawSurf_t* drawSurf = model->_drawSurf;
+	AddDrawSur(drawSurf);
 	return true;
 }

@@ -13,7 +13,6 @@ public:
 
 	bool RunScript(const char* filePath);
 
-
 	bool Call(const char* funcname);
 
 	lua_State* GetLuaState();

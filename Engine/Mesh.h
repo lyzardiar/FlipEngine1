@@ -12,7 +12,9 @@ public:
 
 	srfTriangles_t* AllocGeo();
 
-	array<srfTriangles_t*>* GetGeometries();
+	srfTriangles_t* GetGeometries(int idx);
+
+	int GetGeometriesCount();
 
 	void GenerateNormals();
 

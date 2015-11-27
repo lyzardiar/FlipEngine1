@@ -48,20 +48,7 @@ int lua_print(lua_State * luastate)
 	return 0;
 }
 
-static int newSprite(lua_State* L)
-{
-	Sprite* sprite = (Sprite *)lua_newuserdata(L, sizeof(*sprite));
-	sprite->Init();
-	luaL_getmetatable(L, "Sprite");                    
-	if (lua_isnil(L, -1)) {
-		lua_pop(L, 1);
-		return 0;
-	}
 
-	lua_setmetatable(L, -2);  
-	//Lua_PushCObject(L, "Sprite", sprite);
-	return 1;
-}
 
 
 
@@ -78,7 +65,6 @@ bool ScriptSystem::Init()
 	_state = lua_open();
 	luaL_openlibs(_state);
 
-
 	// Register our version of the global "print" function
 	const luaL_reg global_functions [] = {
 		{"print", lua_print},
@@ -86,31 +72,18 @@ bool ScriptSystem::Init()
 	};
 	luaL_register(_state, "_G", global_functions);
 
-	register_all_auto(_state);
-
-	lua_createtable(_state, 0, 0);
-	lua_setfield(_state, LUA_GLOBALSINDEX, "RS");
-	lua_pop(_state, 1);
-
-	lua_pushstring(_state, "RS");
-	lua_getfield(_state, LUA_GLOBALSINDEX, "RS");
-
-	if(lua_istable(_state, -1))
-		Lua_PushFunction(_state, "newSprite", newSprite);
-
-	lua_pop(_state, 1);
+	luaopen_sprite(_state);
+	luaopen_rendersystem(_state);
+	luaopen_render(_state);
 
 	return true;
 }
 
-bool ScriptSystem::RunScript( const char* filePath )
+bool ScriptSystem::RunScript( const char* filename )
 {
-	int err = luaL_dofile(_state, filePath);
+	int err = luaL_dofile(_state, filename);
 	if(err != 0)
-	{
-		const char* s = lua_tostring(_state, -1);
-		Sys_Error("script system call %s error code %d\n %s", filePath, err, s);
-	}
+		Sys_Error("script system call %s error code %d\n %s", filename, err, lua_tostring(_state, -1));
 
 	return true;
 }

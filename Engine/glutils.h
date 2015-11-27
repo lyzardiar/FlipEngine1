@@ -36,9 +36,6 @@ void GL_CheckError(const char* op);
 
 void RB_SetGL2D( void );
 
-/**
-/* @interface
- */
 bool GL_CreateDevice(glimpParms_t *parm);
 
 void GL_SwapBuffers( void );

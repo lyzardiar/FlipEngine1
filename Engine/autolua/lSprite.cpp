@@ -1,8 +1,8 @@
 #include "../luautils.h"
 #include "../Sprite.h"
 
-static int SpriteSetLabel(lua_State* L){
-    Sprite* cobj = (Sprite*)lua_touserdata(L,1);
+static int sprite_setlabel(lua_State* L){
+    Sprite* cobj = *reinterpret_cast<Sprite**>(lua_touserdata(L, 1));
     if (!cobj) {
         luaL_error(L,"invalid 'cobj' in function 'SetLabel'", nullptr);
         return 0;
@@ -17,8 +17,8 @@ static int SpriteSetLabel(lua_State* L){
     return 0;
 }
 
-static int SpriteSetTexture(lua_State* L){
-    Sprite* cobj = (Sprite*)lua_touserdata(L,1);
+static int sprite_settexture(lua_State* L){
+    Sprite* cobj = *reinterpret_cast<Sprite**>(lua_touserdata(L, 1));
     if (!cobj) {
         luaL_error(L,"invalid 'cobj' in function 'SetTexture'", nullptr);
         return 0;
@@ -33,8 +33,25 @@ static int SpriteSetTexture(lua_State* L){
     return 0;
 }
 
-static int SpriteSetPosition(lua_State* L){
-    Sprite* cobj = (Sprite*)lua_touserdata(L,1);
+static int sprite_getposition(lua_State* L){
+    Sprite* cobj = *reinterpret_cast<Sprite**>(lua_touserdata(L, 1));
+    if (!cobj) {
+        luaL_error(L,"invalid 'cobj' in function 'GetPosition'", nullptr);
+        return 0;
+    }
+
+    int argc = lua_gettop(L)-1;
+    if (argc == 0) {
+        vec3 ret = cobj->GetPosition();
+        Lua_PushVec3(L, ret.x, ret.y, ret.z);
+        return 1;
+    }
+
+    return 0;
+}
+
+static int sprite_setposition(lua_State* L){
+    Sprite* cobj = *reinterpret_cast<Sprite**>(lua_touserdata(L, 1));
     if (!cobj) {
         luaL_error(L,"invalid 'cobj' in function 'SetPosition'", nullptr);
         return 0;
@@ -51,34 +68,17 @@ static int SpriteSetPosition(lua_State* L){
     return 0;
 }
 
-static int SpriteGetPosition(lua_State* L){
-    Sprite* cobj = (Sprite*)lua_touserdata(L,1);
-    if (!cobj) {
-        luaL_error(L,"invalid 'cobj' in function 'GetPosition'", nullptr);
-        return 0;
-    }
 
-    int argc = lua_gettop(L)-1;
-    if (argc == 0) {
-        vec3 ret = cobj->GetPosition();
-        Lua_PushVec3(L, ret.x, ret.y, ret.z);
-        return 1;
-    }
-
-    return 0;
-}
-
-
-int lua_register_Sprite(lua_State* L)
+int luaopen_sprite(lua_State* L)
 {
     if (luaL_newmetatable(L, "Sprite")) {
         lua_pushvalue(L, -1);
         lua_setfield(L, -2, "__index");
 
-        Lua_PushFunction(L, "setLabel", SpriteSetLabel);
-        Lua_PushFunction(L, "setTexture", SpriteSetTexture);
-        Lua_PushFunction(L, "setPosition", SpriteSetPosition);
-        Lua_PushFunction(L, "getPosition", SpriteGetPosition);
+        Lua_PushFunction(L, "setLabel", sprite_setlabel);
+        Lua_PushFunction(L, "setTexture", sprite_settexture);
+        Lua_PushFunction(L, "getPosition", sprite_getposition);
+        Lua_PushFunction(L, "setPosition", sprite_setposition);
     }
     return 1;
 }

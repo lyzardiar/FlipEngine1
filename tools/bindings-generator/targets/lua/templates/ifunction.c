@@ -1,6 +1,6 @@
 ## ===== instance function implementation template
-static int ${namespaced_class_name}${signature_name}(lua_State* L){
-    ${namespaced_class_name}* cobj = (${namespaced_class_name}*)lua_touserdata(L,1);
+static int ${namespaced_class_name.lower()}_${signature_name.lower()}(lua_State* L){
+    ${namespaced_class_name}* cobj = *reinterpret_cast<${namespaced_class_name}**>(lua_touserdata(L, 1));
     if (!cobj) {
         luaL_error(L,"invalid 'cobj' in function '${signature_name}'", nullptr);
         return 0;

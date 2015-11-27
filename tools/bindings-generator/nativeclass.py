@@ -80,6 +80,7 @@ class NativeClass(object):
 
     def generate_code(self, impl_file):
         for m in self.methods_clean():
+            print "generate_code", m['name']
             m['impl'].generate_code(impl_file)
         # for m in self.static_methods_clean():
         #     m['impl'].generate_code(impl_file)

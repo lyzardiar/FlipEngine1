@@ -3,7 +3,7 @@ import wx
 import os
 from codegenerator import *
 
-defaultDirectoy = "C:/program1/FlipEngine1/Engine"
+defaultDirectoy = "../../Engine"
 codegen = codegenerator()
 
 def _write_code(impl_file, template, search):
@@ -22,7 +22,7 @@ class DirTreeCtrl(wx.TreeCtrl):
 
 	def __searchDir(self, item, directory):
 		if not os.path.isdir(directory):
-			print("is not dir")
+			print("is not dir", directory)
 			return
 
 		files = os.listdir(directory)
@@ -87,6 +87,7 @@ class MyFrame(wx.Frame):
   		# print self.tmpClasses
   		self.selectclass = self.tmpClasses[index]
   		self.methodbrower.Clear()
+  		self.tmpMethods = []
 		for (name, impl) in self.selectclass.methods.items():
 			self.methodbrower.Append(impl.ret_type.name +" " +impl.displayname)
 			self.tmpMethods.append(impl)
@@ -94,6 +95,7 @@ class MyFrame(wx.Frame):
 	def OnCheckBoxList(self, event):
 		index = event.GetInt()
 		check = self.methodbrower.IsChecked(index)
+		print "method ", self.tmpMethods[index].displayname
 		self.tmpMethods[index].export = check
 
 	def OnSelChanged(self, event):

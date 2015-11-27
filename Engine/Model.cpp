@@ -2,6 +2,20 @@
 #include "Mesh.h"
 #include "ResourceSystem.h"
 
+Model::Model()
+{
+
+}
+
+Model::~Model()
+{
+
+}
+
+void Model::Init()
+{
+
+}
 
 void Model::SetPosition(float x, float y, float z)
 {
@@ -16,9 +30,10 @@ vec3 Model::GetPosition()
 
 void Model::SetFile( const char* filename )
 {
-	Mesh* mesh = resourceSys->AddMesh("../media/ninja.b3d");
+	Mesh* mesh = resourceSys->AddMesh(filename);
 	mesh->GenerateNormals();
 	mesh->CalcBounds();
 	//AddStaticModel(model);
+	_drawSurf->geo = mesh->GetGeometries(0);
 }
 

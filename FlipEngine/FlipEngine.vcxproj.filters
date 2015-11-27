@@ -47,6 +47,9 @@
     <Filter Include="autolua">
       <UniqueIdentifier>{0dbb5001-0274-4627-9c62-e5a62af1f62f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="script">
+      <UniqueIdentifier>{0b7d2966-91af-4cb7-8dda-ba0efcd3f36e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Engine\common\Joint.cpp">
@@ -466,25 +469,10 @@
     <ClCompile Include="..\Engine\common\hashtable.cpp">
       <Filter>common</Filter>
     </ClCompile>
-    <ClCompile Include="..\Engine\autolua\lRenderSystem.cpp">
-      <Filter>autolua</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Engine\autolua\lSprite.cpp">
-      <Filter>autolua</Filter>
-    </ClCompile>
     <ClCompile Include="..\Engine\Interaction.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\Engine\Light.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Engine\luautils.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="..\Engine\Material.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Engine\ScriptSystem.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="..\Engine\tr_trisurf.cpp">
@@ -513,6 +501,21 @@
     </ClCompile>
     <ClCompile Include="..\Engine\Model.cpp">
       <Filter>renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\ScriptSystem.cpp">
+      <Filter>script</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\luautils.cpp">
+      <Filter>script</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\lrender.cpp">
+      <Filter>script</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\autolua\lRenderSystem.cpp">
+      <Filter>autolua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\autolua\lSprite.cpp">
+      <Filter>autolua</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -783,13 +786,7 @@
     <ClInclude Include="..\Engine\Light.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\Engine\luautils.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="..\Engine\Material.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Engine\ScriptSystem.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\Engine\common\Heap.h">
@@ -812,6 +809,12 @@
     </ClInclude>
     <ClInclude Include="..\Engine\Model.h">
       <Filter>renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\ScriptSystem.h">
+      <Filter>script</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\luautils.h">
+      <Filter>script</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -4,9 +4,12 @@
 
 class Model
 {
+	friend class RenderSystemLocal;
 public:
 	Model();
 	~Model();
+
+	void Init();
 
 	void SetFile(const char* filename);
 

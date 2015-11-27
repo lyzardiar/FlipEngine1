@@ -46,7 +46,7 @@ bool MeshLoaderB3D::Load(const char* file)
 
 	// The MESH chunk describes a mesh. 
 	// A mesh only has one VRTS chunk, but potentially many TRIS chunks.
-	srfTriangles_t* tri = (*_mesh->GetGeometries())[0];
+	srfTriangles_t* tri = _mesh->GetGeometries(0);
 	tri->numIndexes = _indices.size();
 	_indices.set_free_when_destroyed(false);
 	tri->indexes = _indices.pointer();

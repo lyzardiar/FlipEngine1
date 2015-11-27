@@ -150,7 +150,7 @@
     <ClCompile Include="..\Engine\libpng\pngwrite.c" />
     <ClCompile Include="..\Engine\libpng\pngwtran.c" />
     <ClCompile Include="..\Engine\libpng\pngwutil.c" />
-    <ClCompile Include="..\Engine\Light.cpp" />
+    <ClCompile Include="..\Engine\lrender.cpp" />
     <ClCompile Include="..\Engine\luautils.cpp" />
     <ClCompile Include="..\Engine\lua\lua\lapi.c" />
     <ClCompile Include="..\Engine\lua\lua\lauxlib.c" />
