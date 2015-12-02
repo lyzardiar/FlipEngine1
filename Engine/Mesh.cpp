@@ -395,3 +395,18 @@ int Mesh::GetGeometriesCount()
 {
 	return 0;
 }
+
+void Mesh::SetJoint(Joint* root)
+{
+	_root = root;
+}
+
+Joint* Mesh::GetRootJoint()
+{
+	return _root;
+}
+
+void Mesh::SetNumFrames(int num)
+{
+	_numFrames = num;
+}

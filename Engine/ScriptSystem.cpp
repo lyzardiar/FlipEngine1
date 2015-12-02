@@ -62,28 +62,30 @@ ScriptSystem::~ScriptSystem()
 
 bool ScriptSystem::Init()
 {
-	_state = lua_open();
-	luaL_openlibs(_state);
+	L = lua_open();
+	luaL_openlibs(L);
 
 	// Register our version of the global "print" function
 	const luaL_reg global_functions [] = {
 		{"print", lua_print},
 		{nullptr, nullptr}
 	};
-	luaL_register(_state, "_G", global_functions);
+	luaL_register(L, "_G", global_functions);
 
-	luaopen_sprite(_state);
-	luaopen_rendersystem(_state);
-	luaopen_render(_state);
+	luaopen_sprite(L);
+	luaopen_render(L);
+	luaopen_model(L);
+	luaopen_camera(L);
+	luaopen_animodel(L);
 
 	return true;
 }
 
 bool ScriptSystem::RunScript( const char* filename )
 {
-	int err = luaL_dofile(_state, filename);
+	int err = luaL_dofile(L, filename);
 	if(err != 0)
-		Sys_Error("script system call %s error code %d\n %s", filename, err, lua_tostring(_state, -1));
+		Sys_Error("script system call %s error code %d\n %s", filename, err, lua_tostring(L, -1));
 
 	return true;
 }
@@ -91,8 +93,8 @@ bool ScriptSystem::RunScript( const char* filename )
 
 bool ScriptSystem::Call( const char* funcname )
 {
-	lua_getglobal(_state, funcname);
-	int err = lua_pcall(_state, 0, 0, 0);
+	lua_getglobal(L, funcname);
+	int err = lua_pcall(L, 0, 0, 0);
 	if (err != 0)
 	{
 		Sys_Error("script system call %s error code %d", funcname, err);
@@ -102,5 +104,14 @@ bool ScriptSystem::Call( const char* funcname )
 
 lua_State* ScriptSystem::GetLuaState()
 {
-	return _state;
+	return L;
+}
+
+void ScriptSystem::CallFuncI( const char* funcname, double i )
+{
+	lua_getglobal(L, funcname);  /* function to be called */
+	lua_pushnumber(L, i);   /* push 1st argument */
+    
+	if (lua_pcall(L, 1, 0, 0) != 0)
+		luaL_error(L, "error running function `f': %s", lua_tostring(L, -1));
 }

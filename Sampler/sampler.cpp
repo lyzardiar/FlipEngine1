@@ -17,10 +17,11 @@
 
 
 #include "Model_lwo.h"
-#include "Mesh.h"
+#include "Model.h"
 #include "ScriptSystem.h"
 
 #include "luautils.h"
+
 
 #pragma comment(lib, "FlipEngine.lib")
 #pragma comment(lib, "opengl32.lib")
@@ -67,15 +68,22 @@ void ShadowSampler::Init()
 	// rendersys
 	RenderSystem** renderSys = (RenderSystem **)lua_newuserdata(L, sizeof(RenderSystem*));
 	*renderSys = _renderSys;
-	Lua_SetMetatable(L, "RenderSystem");
 	lua_setfield(L, LUA_GLOBALSINDEX, "renderSys");
 
 	Sys_Printf("%p\n", _renderSys);
 	//RenderSystem* r = (RenderSystem*)lua_touserdata(L, 1);
 
 	_scriptSys->RunScript("../script/main.lua");
-	 resourceSys->AddMesh("../media/ninja.b3d");
+	
+	
+	//Model* model = new Model();
+	//model->Init();
+	//model->SetFile("../Media/ninja.b3d");
+	//model->SetPosition(300, 300, 0);
+	//_renderSys->AddModel(model);
+
 	//model->GenerateNormals();
+
 	//model->CalcBounds();
 	//AddStaticModel(model);
 	//model->getSurfaces()[0]->bShaowmap = true;
@@ -154,7 +162,7 @@ void ShadowSampler::Frame()
 		ev = Sys_GetEvent();
 	}
 
-	//_scriptSys->Call("frameUpdate");
+	_scriptSys->Call("frameUpdate");
 
 	//glCullFace(GL_BACK);
 	//glUseProgram(0);
@@ -176,30 +184,8 @@ void ShadowSampler::ProcessEvent(sysEvent_s* event)
 	{
 	case SE_KEY:
 		{
-			switch (event->evValue)
-			{
-			case 'w':
-			case 'W':
-				_camera->Walk(1.f);
-				break;
-			case 's':
-			case 'S':
-				_camera->Walk(-1.f);
-				break;
-			case 'A':
-			case 'a':
-				_camera->Yaw(5.f);
-				break;
-			case 'D':
-			case 'd':
-				_camera->Yaw(-0.5f);
-				break;
-			case 'Q': case'q':
-				_camera->RotateByAxis(vec3(0.f, 1.f, 0.f), 5.f);
-				break;;
-			default:
-				break;
-			}
+			_scriptSys->CallFuncI("onKey", event->evValue);
+ 
 		}
 		break;
 	case SE_MOUSE:

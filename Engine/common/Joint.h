@@ -29,6 +29,9 @@ struct RotationKey
 class Joint
 {
 public:
+	Joint();
+	~Joint();
+
 	lfStr name;
 	vec3 position;
 	vec3 scale;

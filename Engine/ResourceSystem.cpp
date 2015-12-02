@@ -118,7 +118,6 @@ static sysTextContent_t textContent;
 //ResourceManager* ResourceManager::sm_pSharedInstance = nullptr;
 ResourceSystem::ResourceSystem()
 {
-	defaultTexture = AddTexture("../Media/nskinbl.jpg");
 }
 
 ResourceSystem::~ResourceSystem()
@@ -172,11 +171,6 @@ Mesh* ResourceSystem::AddMesh(const char* file)
 	MeshLoaderB3D meshLoader;
 	meshLoader.Load(file);
 
-	int size = meshLoader._textures.size();
-	for (int i = 0; i<size; ++i)
-	{
-		Texture* tex = AddTexture( meshLoader._textures[i].TextureName.c_str() );
-	}
 	return meshLoader._mesh;
 }
 
@@ -209,7 +203,7 @@ Material* ResourceSystem::AddMaterial( const char* file )
 	lfStr fullPath = file;
 	auto it = _materials.Get(fullPath);
 	if( it != NULL ) {
-		mtr = (Material*) mtr;
+		mtr = (Material*) it;
 		return mtr;
 	}
 
@@ -228,13 +222,15 @@ Material* ResourceSystem::AddMaterial( const char* file )
 	return mtr;
 }
 
-bool ResourceSystem::LoadAllShader()
+bool ResourceSystem::LoadGLResource()
 {
 	memset(_shaders, 0, 32);
 	for (int i =0; i<ShaderPluginCount; i++)
 	{
 		_shaders[shaderplugin[i].name] = shaderplugin[i].func();
 	}
+
+	defaultTexture = AddTexture("../Media/nskinbl.jpg");
 	return true;
 }
 

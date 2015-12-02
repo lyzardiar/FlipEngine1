@@ -64,7 +64,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Engine\autolua\lRenderSystem.cpp" />
+    <ClCompile Include="..\Engine\autolua\lAniModel.cpp" />
+    <ClCompile Include="..\Engine\autolua\lCamera.cpp" />
+    <ClCompile Include="..\Engine\autolua\lModel.cpp" />
     <ClCompile Include="..\Engine\autolua\lSprite.cpp" />
     <ClCompile Include="..\Engine\Camera.cpp" />
     <ClCompile Include="..\Engine\common\aabb3d.cpp" />

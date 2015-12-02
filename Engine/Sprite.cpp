@@ -68,7 +68,6 @@ void Sprite::UpdateVertex()
 	SetupVBO();
 }
 
-
 void Sprite::SetupVBO()
 {
 	R_GenerateGeometryVbo(_drawSurf->geo);
@@ -78,6 +77,11 @@ void Sprite::SetPosition(float x, float y, float z)
 {
 	_position.set(x, y, z);
 	_drawSurf->matModel.buildTranslate(x, y, z);
+}
+
+void Sprite::SetViewProj( mat4* viewProj )
+{
+	_drawSurf->viewProj = viewProj;
 }
 
 vec3 Sprite::GetPosition()

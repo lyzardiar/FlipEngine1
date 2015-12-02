@@ -239,6 +239,7 @@ class NativeType(object):
             "bool": "lua_pushboolean(L, ret);",
             "vec3": "Lua_PushVec3(L, ret.x, ret.y, ret.z);",
             "vec2": "Lua_PushVec2(L, ret.x, ret.y);",
+            "mat4": "lua_pushlightuserdata(L, ret);"
         }
 
         func = ""
@@ -255,7 +256,8 @@ class NativeType(object):
         dic = {
             "int": "lua_tonumber(L, %d);",
             "float": "lua_tonumber(L, %d);",
-            "char*": "lua_tostring(L, %d);"
+            "char*": "lua_tostring(L, %d);",
+            "mat4*": "(mat4*)lua_touserdata(L, %d);"
         }
         
         func = ""

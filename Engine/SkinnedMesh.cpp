@@ -1,5 +1,5 @@
 #include "SkinnedMesh.h"
-#include "common/Joint.h"
+#include "Joint.h"
 #include "Mesh.h"
 
 SkinnedMesh::SkinnedMesh(Mesh* mesh, Joint* root, float totalFrame)
@@ -27,7 +27,7 @@ void SkinnedMesh::traverse(Joint* joint)
 		traverse(joint->children[i]);
 	}
 
-	//_skinnedMeshPositions = new vec3[mesh->_positions];
+	_skinnedMeshPositions = new vec3[_mesh->_positions.size()];
 }
 
 void SkinnedMesh::init()
@@ -72,7 +72,7 @@ void SkinnedMesh::updateVertex(Joint* joint, float frame)
 	{
 		vec3 position;
 		quat rotation;
-		joint->GetFrame(frame, position, rotation);
+		joint->getFrame(frame, position, rotation);
 
 		mat4 mat;
 		if (joint->parent)

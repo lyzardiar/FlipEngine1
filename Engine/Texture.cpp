@@ -1,7 +1,6 @@
 #include "Texture.h"
 #include "Image.h"
 
-
 bool Texture::Init(Image* i)
 {
 	if (i== nullptr)
@@ -34,6 +33,8 @@ bool Texture::Init(Image* i)
 			h = h ? h : 1;
 		}
 	}
+
+	GL_CheckError("texture:init");
 	return true;
 }
 
@@ -58,5 +59,3 @@ GLuint Texture::GetName()
 {
 	return _name;
 }
-
-

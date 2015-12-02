@@ -5,6 +5,7 @@
 #include "common/mat4.h"
 #include "DrawVert.h"
 #include "common/aabb3d.h"
+#include "common/Joint.h"
 
 class DrawVert;
 class Shader;
@@ -13,6 +14,8 @@ class Material;
 // our only drawing geometry type
 typedef struct srfTriangles_s 
 {
+	vec3* basePoses;
+
 	int	numVerts;				
 	DrawVert* verts;				
 
@@ -100,4 +103,9 @@ void *R_ClearedStaticAlloc( int bytes );
 void *R_StaticAlloc( int bytes );
 
 drawSurf_t* R_GenerateQuadSurf();
+
+void R_InitBasePoses(srfTriangles_t* geo, Joint* joint);
+
+void R_UpdateGeoPoses(srfTriangles_t* geo, Joint* joint, float frame);
+
 #endif

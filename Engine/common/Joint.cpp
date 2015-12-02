@@ -1,5 +1,15 @@
 #include "Joint.h"
 
+Joint::Joint() : parent(NULL)
+{
+
+}
+
+Joint::~Joint()
+{
+
+}
+
 void Joint::GetPositionKeyFramesAtFrame(float frame, PositionKey* preKey, PositionKey* nextKey)
 {
 	unsigned int i = 0;
@@ -68,3 +78,4 @@ void Joint::GetFrame(float frame, vec3& position, quat& rotation)
 		}
 	}
 }
+

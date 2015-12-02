@@ -64,7 +64,7 @@ public:
 	bool SetName(const char* name);
 private:
 	GLuint _program;
-	GLuint _uniforms[eUniform_Count];
+	GLint _uniforms[eUniform_Count];
 	lfStr _name;
 };
 

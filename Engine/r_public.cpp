@@ -1,5 +1,7 @@
 #include "r_public.h"
 #include "DrawVert.h"
+#include "sys/sys_public.h"
+#include "File.h"
 
 static const int SHADOWMAP_DEPTH_SIZE = 1024;
 
@@ -146,4 +148,111 @@ drawSurf_t* R_GenerateQuadSurf()
 	R_GenerateQuad(surf->geo);
 	return surf;
 }
+
+
+static void R_InitPoses(srfTriangles_t* geo, Joint* joint)
+{
+	mat4 positionMatrix;
+	positionMatrix.buildTranslate(joint->position);
+	mat4 rotationMatrix;
+	rotationMatrix = joint->rotation.toMatrix();
+	mat4 localAniMatrix = positionMatrix*rotationMatrix;
+
+	if (joint->parent)
+		joint->globalAnimatedMatrix = joint->parent->globalAnimatedMatrix*localAniMatrix;
+	else
+		joint->globalAnimatedMatrix = localAniMatrix;
+
+	joint->globalInvMatrix = joint->globalAnimatedMatrix.inverse();
+	
+	for (unsigned int i = 0; i < joint->vertexIndices.size(); ++i) {
+		int vertex = joint->vertexIndices[i];
+		vec3 p = geo->verts[vertex].xyz / joint->vertexWeights[i];
+		joint->globalInvMatrix.transformVec3(p.x, p.y, p.z);
+		geo->basePoses[vertex] = p;
+		//geo->basePoses[vertex] = geo->verts[vertex].xyz;
+	}
+
+	for (unsigned int i = 0; i < joint->children.size(); ++i)
+		R_InitPoses(geo, joint->children[i]);
+}
+
+void R_InitBasePoses(srfTriangles_t* geo, Joint* joint)
+{
+
+	if (geo->basePoses != NULL)
+		delete[] geo->basePoses;
+
+	geo->basePoses = new vec3[geo->numVerts];
+
+	R_InitPoses(geo, joint);
+}
+
+void R_UpdateGeoPoses(srfTriangles_t* geo, Joint* joint, float frame)
+{
+	if (geo == NULL || joint == NULL)
+		return;
+
+	//vec3 position;
+	//quat rotation;
+	//joint->GetFrame(frame, position, rotation);
+
+	//mat4 positionMatrix;
+	//positionMatrix.buildTranslate(position);
+	//mat4 rotationMatrix;
+	//rotationMatrix = rotation.toMatrix();
+	//mat4 localAniMatrix = positionMatrix * rotationMatrix;
+
+	//mat4 transfrom;
+	//if (joint->parent)
+	//{
+	//	joint->position = position;
+	//	joint->globalAnimatedMatrix = joint->parent->globalAnimatedMatrix * localAniMatrix;
+	//}
+	//else
+	//	joint->globalAnimatedMatrix = localAniMatrix;
+
+	//transfrom = joint->globalAnimatedMatrix * joint->globalInvMatrix;
+
+	//for (unsigned int i = 0; i < joint->vertexIndices.size(); ++i)
+	//{
+	//	int index = joint->vertexIndices[i];
+	//	vec3 p = geo->basePoses[index];
+	//	transfrom.transformVec3(p.x, p.y, p.z);
+	//	geo->verts[index].xyz = p * joint->vertexWeights[i];
+	//}
+
+		vec3 position;
+		quat rotation;
+		joint->GetFrame(frame, position, rotation);
+		
+		//lfFile file;
+		//file.Open("d:/2.txt", "a");
+		//file.WriteString("%s %f %f %f\n", joint->name.c_str(), position.x, position.y, position.z);
+
+		mat4 positionMatrix;
+		positionMatrix.buildTranslate(position);
+		mat4 rotationMatrix;
+		rotationMatrix = rotation.toMatrix();
+		mat4 localAniMatrix = positionMatrix * rotationMatrix;
+
+		if (joint->parent)
+			joint->globalAnimatedMatrix = joint->parent->globalAnimatedMatrix * localAniMatrix;
+		else
+			joint->globalAnimatedMatrix = localAniMatrix;
+
+		mat4 mat = joint->globalAnimatedMatrix;
+
+		//file.WriteString("%f %f %f\n", mat.m[12], mat.m[13], mat.m[14]);
+		for (unsigned int i = 0; i < joint->vertexIndices.size(); ++i)
+		{
+			int vertex = joint->vertexIndices[i];
+			vec3 p = geo->basePoses[vertex];
+			mat.transformVec3(p.x, p.y, p.z);
+			geo->verts[vertex].xyz = p * joint->vertexWeights[i];//* joint->vertexWeights[i];
+			//file.WriteString("%f %f %f\n", geo->verts[vertex].xyz.x, geo->verts[vertex].xyz.y, geo->verts[vertex].xyz.z);
+		}
+}
+
+
 

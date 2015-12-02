@@ -12,6 +12,7 @@ void Lua_SetMetatable( lua_State* L, const char* metaname )
 	luaL_getmetatable(L, metaname);                    
 	if (lua_isnil(L, -1)) {
 		lua_pop(L, 1);
+		luaL_error(L, "get metatable %s failed!", metaname);
 		return;
 	}
 

@@ -88,9 +88,9 @@ int lfBuffer::Seek( long offset, fsOrigin_t origin )
 	return 0;
 }
 
-bool lfFile::Open( const char* filepath )
+bool lfFile::Open( const char* filepath, const char* mode )
 {
-	fp = fopen(filepath, "rb");
+	fp = fopen(filepath, mode);
 	if (fp == nullptr)
 	{
 		Sys_Printf("open file failed", filepath);
@@ -160,4 +160,14 @@ char* F_ReadFileData( const char* filename )
 
 	buf[len] = '\0';
 	return buf;
+}
+
+void lfFile::WriteString(const char* fmt, ...)
+{
+	char szBuf[255];
+	va_list ap;
+	va_start(ap, fmt);
+	vsnprintf(szBuf, 255, fmt, ap);
+	va_end(ap);
+	fwrite(szBuf, strlen(szBuf), 1, fp);
 }

@@ -20,6 +20,7 @@
 static const int view_width = 800;
 static const int view_height = 600;
 
+
 RenderSystemLocal::RenderSystemLocal(glimpParms_t *glimpParms)
 {
 	GL_CreateDevice(glimpParms);
@@ -55,7 +56,7 @@ void RenderSystemLocal::Init()
 	_camera = new Camera;
 	_camera->Setup2DCamera(view_width, view_height);
 
-	resourceSys->LoadAllShader();
+	resourceSys->LoadGLResource();
 	
 	// fps  init
 	_defaultSprite = new Sprite;
@@ -128,7 +129,8 @@ bool RenderSystemLocal::AddDrawSur( drawSurf_t* drawSur )
 	}
 	
 	_surfaces.push_back(drawSur);
-	Sys_Printf("draw surfce size %d\n", _surfaces.size());
+	// system drawsurf count : 1
+	Sys_Printf("user draw surfce size %d\n", _surfaces.size() - 1);
 	return true;
 }
 
@@ -167,7 +169,7 @@ void RenderSystemLocal::RenderPasses()
 		{
 			R_RenderBumpPass(_surfaces[i], R_DrawPositonTangent);
 		}
-		else if(_surfaces[i]->geo->tangentsCalculated)
+		else if(_surfaces[i]->geo->tangentsCalculated && 0)
 		{
 			R_RenderPhongPass(_surfaces[i], R_DrawPositionTexNorm);
 		}
@@ -180,13 +182,19 @@ void RenderSystemLocal::RenderCommon()
 {
 	for (unsigned int i = 0; i < _surfaces.size(); i++)
 	{
+		if (_surfaces[i]->id == 99)
+			_surfaces[i]->id = 99;
+
 		R_RenderCommon(_surfaces[i]);
+		GL_CheckError("i=====");
 	}
 }
 
 bool RenderSystemLocal::AddUISurf( drawSurf_t* drawSurf )
 {
-	drawSurf->viewProj = _camera->GetViewProj();
+	if (drawSurf->viewProj == NULL)
+		drawSurf->viewProj = _camera->GetViewProj();
+
 	drawSurf->shaderParms->shader = resourceSys->FindShader(eShader_PositionTex);
 	if (drawSurf->shaderParms->tex == NULL)
 		drawSurf->shaderParms->tex = resourceSys->AddTexture(".png");
@@ -205,6 +213,17 @@ bool RenderSystemLocal::AddSprite( Sprite* sprite )
 bool RenderSystemLocal::AddModel( Model* model )
 {
 	drawSurf_t* drawSurf = model->_drawSurf;
+	drawSurf->shaderParms->shader = resourceSys->FindShader(eShader_PositionTex);
+	drawSurf->mtr = resourceSys->AddMaterial("../media/mtr/positiontex.mtr");
+	AddDrawSur(drawSurf);
+	return true;
+}
+
+bool RenderSystemLocal::AddAnimModel( AniModel* model )
+{
+	drawSurf_t* drawSurf = model->_drawSurf;
+	drawSurf->shaderParms->shader = resourceSys->FindShader(eShader_PositionTex);
+	drawSurf->mtr = resourceSys->AddMaterial("../media/mtr/positiontex.mtr");
 	AddDrawSur(drawSurf);
 	return true;
 }

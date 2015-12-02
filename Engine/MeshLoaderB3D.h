@@ -13,17 +13,15 @@ http://www.blitzbasic.com/sdkspecs/sdkspecs/b3dfile_specs.txt
 
 #include "r_public.h"
 
-class Mesh;
 class lfFile;
 class Joint;
+class Mesh;
 
 class MeshLoaderB3D
 {
 public:
 	MeshLoaderB3D();
 	~MeshLoaderB3D();
-
-	bool Load(const char* file);
 
 	struct SB3dChunkHeader
 	{
@@ -59,35 +57,31 @@ public:
 		//SB3dTexture *Textures[video::MATERIAL_MAX_TEXTURES];
 	};
 
-	void ReadTEXS();
-	bool ReadVRTS();
-	void ReadNODE();
-	void ReadBRUS();
-	void ReadBONE();
+	bool MeshLoaderB3D::Load(const char* file) ;
+
+	void ReadTexs();
+	bool ReadVrts();
+	Joint* ReadNode();
+	void ReadBrus();
+	void ReadBone(Joint* joint);
 	void ReadMesh();
-	void ReadTRIS();
-	void ReadANIM();
-	void ReadKEY();
+	void ReadTris();
+	void ReadAnim();
+	void ReadKey(Joint* joint);
 
 	lfStr ReadChunk();
 	bool CheckSize();
 	void ExitChunk();
 
 	void printTree(const char *psz, ...);
-	long _curNodePos;
-	int _layer;
-	array<SB3dTexture> _textures;
+
+	long _curpos;
 	array<unsigned int> _stack;
-
+	array<SB3dTexture> _textures;
 	array<unsigned short> _indices;
-	Mesh*    _mesh;
 
-	int             _meshCount;
-	Joint*			_rootJoint;
-	Joint*			_readJoint;
-	float			_totalFrame;
-
-	lfFile*         _file;
+	lfFile*  _file;
+	Mesh* _mesh;
 };
 
 #endif

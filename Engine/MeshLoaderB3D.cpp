@@ -5,39 +5,32 @@
 #include "Mesh.h"
 #include "DrawVert.h"
 
-MeshLoaderB3D::MeshLoaderB3D() :_meshCount(0), _rootJoint(nullptr), _totalFrame(0), _readJoint(NULL) 
-{
+MeshLoaderB3D::MeshLoaderB3D() {
 }
 
-MeshLoaderB3D::~MeshLoaderB3D() 
-{
+MeshLoaderB3D::~MeshLoaderB3D() {
 }
 
-bool MeshLoaderB3D::Load(const char* file) 
-{
+bool MeshLoaderB3D::Load(const char* file) {
 	_file = new lfFile;
 	if( !_file->Open(file) )
 		return false;
 
 	_mesh = new Mesh;
-
 	lfStr head = ReadChunk();
 	int nB3DVersion = _file->ReadInt();
 
-	Sys_Printf("load b3d file %s, version %s %d", file, head.c_str(), nB3DVersion);
+	Sys_Printf("load b3d file %s, version %s %d\n", file, head.c_str(), nB3DVersion);
 
-	while( CheckSize() )
-	{
+	while( CheckSize() ) {
 		lfStr t = ReadChunk();
-		if (t == "TEXS"){
-			ReadTEXS();
-		}
-		else if (t == "BRUS"){
-			ReadBRUS();
-		}
-		else if (t == "NODE"){
-			ReadNODE();
-		}
+		if (t == "TEXS")
+			ReadTexs();
+		else if (t == "BRUS")
+			ReadBrus();
+		else if (t == "NODE")
+			_mesh->SetJoint(ReadNode());
+
 		ExitChunk();
 	}
 
@@ -55,8 +48,7 @@ bool MeshLoaderB3D::Load(const char* file)
 }
 
 
-bool MeshLoaderB3D::ReadVRTS() 
-{
+bool MeshLoaderB3D::ReadVrts() {
 	const int max_tex_coords = 3;
 	int flags, tex_coord_sets, tex_coord_set_size;
 
@@ -75,13 +67,11 @@ bool MeshLoaderB3D::ReadVRTS()
 	int sizeOfVertex = 3;
 	bool hasNormal = false;
 	bool hasVertexColors = false;
-	if (flags & 1)
-	{
+	if (flags & 1) {
 		hasNormal = true;
 		sizeOfVertex += 3;
 	}
-	if (flags & 2)
-	{
+	if (flags & 2) {
 		sizeOfVertex += 4;
 		hasVertexColors=true;
 	}
@@ -97,26 +87,21 @@ bool MeshLoaderB3D::ReadVRTS()
 	R_AllocStaticTriSurfVerts(tri, numVertex);
 
 	int idx = 0;
-	while( CheckSize())
-	{
+	while( CheckSize()) {
 		float color[4]={1.0f, 1.0f, 1.0f, 1.0f};
-
 		tri->verts[idx].xyz = _file->ReadVec3();
 
-		if (flags & 1)
-		{
+		if (flags & 1) {
 			tri->verts[idx].normal = _file->ReadVec3();
 		}
-		if (flags & 2)
-		{
+		if (flags & 2) {
 			color[0] = _file->ReadFloat();
 			color[1] = _file->ReadFloat();
 			color[2] = _file->ReadFloat();
 			color[3] = _file->ReadFloat();
 		}
 		float u, v;
-		for (int i = 0; i < tex_coord_sets; ++i)
-		{
+		for (int i = 0; i < tex_coord_sets; ++i) {
 			//for (int j = 0; j < tex_coord_set_size; ++j)
 			{
 				u = _file->ReadFloat();
@@ -128,15 +113,13 @@ bool MeshLoaderB3D::ReadVRTS()
 		idx++;
 	}
 
-	_meshCount++;
 	return true;
 }
 
 lfStr MeshLoaderB3D::ReadChunk()
 {
 	lfStr s;
-	for (int i = 0; i < 4;++i)
-	{
+	for (int i = 0; i < 4;++i) {
 		s += char(_file->ReadChar());
 	}
 	
@@ -155,14 +138,13 @@ bool MeshLoaderB3D::CheckSize()
 
 void MeshLoaderB3D::ExitChunk()
 {
-	_curNodePos = _stack.getLast();
+	_curpos = _stack.getLast();
 	_stack.erase(_stack.size() - 1);
 }
 
-void MeshLoaderB3D::ReadTEXS()
+void MeshLoaderB3D::ReadTexs()
 {
-	while (CheckSize())
-	{
+	while (CheckSize()) {
 		printTree("read texs \n");
 		SB3dTexture tex;
 		tex.TextureName = _file->ReadString();
@@ -177,20 +159,9 @@ void MeshLoaderB3D::ReadTEXS()
 	}
 }
 
-void MeshLoaderB3D::ReadNODE()
+Joint* MeshLoaderB3D::ReadNode()
 {
-	if (_readJoint == NULL)
-	{
-		_rootJoint = new Joint;
-		_readJoint = _rootJoint;
-	}
-	else
-	{
-		Joint* newJoint = new Joint;
-		_readJoint->children.push_back(newJoint);
-		newJoint->parent = _readJoint;
-		_readJoint = newJoint;
-	}
+	Joint* joint = new Joint;
 
 	lfStr str = _file->ReadString();
 	printTree(str.c_str());
@@ -199,31 +170,34 @@ void MeshLoaderB3D::ReadNODE()
 	vec3 s = _file->ReadVec3();
 	quat r = _file->ReadQuat();
 
-	_readJoint->name = str;
-	_readJoint->position = t;
-	_readJoint->scale = s;
-	_readJoint->rotation = r;
+	joint->name = str;
+	joint->position = t;
+	joint->scale = s;
+	joint->rotation = r;
 
 	while( CheckSize() ){
 		lfStr t = ReadChunk();
 		if( t=="MESH" ){
 			ReadMesh();
 		}else if( t=="BONE" ){
-			ReadBONE();
+			ReadBone(joint);
 		}else if( t=="ANIM" ){
-			ReadANIM();
+			ReadAnim();
 		}else if( t=="KEYS" ){
-			ReadKEY();
+			ReadKey(joint);
 		}else if( t=="NODE" ){
-			ReadNODE();
+			Joint* child = ReadNode();
+			Sys_Printf("parent %s children %s\n", joint->name.c_str(), child->name.c_str());
+			joint->children.push_back(child);
+			child->parent = joint;
 		}
 		ExitChunk();
 	}
+	return joint;
 
-	_readJoint = _readJoint->parent;
 }
 
-void MeshLoaderB3D::ReadBRUS()
+void MeshLoaderB3D::ReadBrus()
 {
 	int n_texs = _file->ReadInt();
 	if( n_texs<0 || n_texs>8 ){
@@ -245,13 +219,14 @@ void MeshLoaderB3D::ReadBRUS()
 	}
 }
 
-void MeshLoaderB3D::ReadBONE() {
+void MeshLoaderB3D::ReadBone( Joint* joint )
+{
 	int i = 0;
 	while( CheckSize() ){
 		int vertex = _file->ReadInt();
 		float weight = _file->ReadFloat();
-		_readJoint->vertexIndices.push_back(vertex);
-		_readJoint->vertexWeights.push_back(weight);
+		joint->vertexIndices.push_back(vertex);
+		joint->vertexWeights.push_back(weight);
 		i++;
 	}
 	printTree("vertex count: %d", i);
@@ -264,9 +239,9 @@ void MeshLoaderB3D::ReadMesh() {
 	while( CheckSize() ){
 		lfStr t = ReadChunk();
 		if( t=="VRTS" ){
-			ReadVRTS();
+			ReadVrts();
 		}else if( t=="TRIS" ){
-			ReadTRIS();
+			ReadTris();
 		}
 		ExitChunk();
 	}
@@ -286,7 +261,7 @@ void MeshLoaderB3D::printTree(const char *psz, ...) {
 	//Sys_Printf("\n");
 }
 
-void MeshLoaderB3D::ReadTRIS(){
+void MeshLoaderB3D::ReadTris(){
 	int matid = _file->ReadInt();
 	if( matid==-1 ){
 		matid=0;
@@ -307,14 +282,14 @@ void MeshLoaderB3D::ReadTRIS(){
 
 
 
-void MeshLoaderB3D::ReadANIM(){
+void MeshLoaderB3D::ReadAnim(){
 	/*int flags=*/_file->ReadInt();
 	int frames = _file->ReadInt();
 	/*float fps = */_file->ReadFloat();
-	_totalFrame = (float)frames;
+	_mesh->SetNumFrames(frames);
 }
 
-void MeshLoaderB3D::ReadKEY()
+void MeshLoaderB3D::ReadKey(Joint* joint)
 {
 	int flags = _file->ReadInt();
 	while( CheckSize() ){
@@ -322,17 +297,18 @@ void MeshLoaderB3D::ReadKEY()
 		if (flags & 1){
 			vec3 v = _file->ReadVec3();
 			PositionKey k = { v, frame };
-			_readJoint->positionKeys.push_back(k);
+			joint->positionKeys.push_back(k);
 		}
 		if( flags & 2 ){
 			vec3 v = _file->ReadVec3();
 			ScaleKey k = { v, frame };
-			_readJoint->scaleKeys.push_back(k);
+			joint->scaleKeys.push_back(k);
 		}
 		if( flags & 4 ){
 			quat r = _file->ReadQuat();
+			r.w = -r.w; // fix bug
 			RotationKey k = { r, frame };
-			_readJoint->rotationKeys.push_back(k);
+			joint->rotationKeys.push_back(k);
 		}
 	}
 }

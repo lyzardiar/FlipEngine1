@@ -1,5 +1,5 @@
 #pragma once
-#include "common/vec3.h"
+#include "vec3.h"
 #include <vector>
 
 using std::vector;
@@ -25,7 +25,7 @@ public:
 
 protected:
 	Joint*			_rootJoint;
-	vector<Joint*>	_allJoint;
+	vector<Joint*>  _allJoint;
 	Mesh*			_mesh;
 
 	// animation positions

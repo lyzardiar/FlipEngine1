@@ -9,6 +9,7 @@ class Camera
 public:
 	Camera();
 	virtual ~Camera();
+	void Init() {}
 	void Setup3DCamera(int width, int height);
 	void Setup2DCamera(float width, float height);
 	

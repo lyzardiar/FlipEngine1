@@ -30,7 +30,7 @@ public:
 	ResourceSystem();
 	~ResourceSystem();
 
-	bool LoadAllShader();
+	bool LoadGLResource();
 
 	Texture* AddTexture(const char* file);
 

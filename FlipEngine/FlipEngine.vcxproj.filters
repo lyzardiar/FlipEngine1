@@ -511,10 +511,16 @@
     <ClCompile Include="..\Engine\lrender.cpp">
       <Filter>script</Filter>
     </ClCompile>
-    <ClCompile Include="..\Engine\autolua\lRenderSystem.cpp">
+    <ClCompile Include="..\Engine\autolua\lSprite.cpp">
       <Filter>autolua</Filter>
     </ClCompile>
-    <ClCompile Include="..\Engine\autolua\lSprite.cpp">
+    <ClCompile Include="..\Engine\autolua\lModel.cpp">
+      <Filter>autolua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\autolua\lCamera.cpp">
+      <Filter>autolua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Engine\autolua\lAniModel.cpp">
       <Filter>autolua</Filter>
     </ClCompile>
   </ItemGroup>

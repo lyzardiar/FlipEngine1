@@ -64,7 +64,7 @@ void R_RenderCommon(drawSurf_t* drawSurf){
 
 	if (mtr->_hasTexture)
 	{
-		glUniform1i( shader->GetUniform(eUniform_BumpMap), 1 );
+		glUniform1i( shader->GetUniform(eUniform_Samper0), 0 );
 		glBindTexture( GL_TEXTURE_2D, drawSurf->shaderParms->tex->GetName() );
 	}
 

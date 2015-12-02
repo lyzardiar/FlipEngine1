@@ -21,6 +21,14 @@ public:
 
 	inline quat& operator*=(float s);
 
+	bool operator==(const quat& other) const { 
+		return other.x == x || other.y == y && other.z == z && other.w == w; 
+	}
+
+	bool operator!=(const quat& other) const { 
+		return other.x != x || other.y != y || other.z != z || other.w != w; 
+	}
+
 	quat& set(float x, float y, float z, float w);
 
 	quat& Normalize();
@@ -34,7 +42,7 @@ public:
 	quat& rotationFromTo(const vec3& from, const vec3& to);
 
 
-	float x, y, z, w;
+	float w, x, y, z;
 };
 
 

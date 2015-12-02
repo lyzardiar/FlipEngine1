@@ -145,5 +145,7 @@ Mesh* LoadMesh3DS(const char* filename)
 			}
 		}
 	}
+
+	delete file;
 	return mesh;
 }

@@ -41,7 +41,7 @@ public:
 	lfFile()  {}
 	~lfFile();
 
-	bool Open(const char* filepath);
+	bool Open( const char* filepath, const char* mode = "rb");
 
 	int Tell();
 public:
@@ -50,6 +50,7 @@ public:
 	virtual int Seek( long offset, fsOrigin_t origin );
 	virtual int Skip( int len );
 
+	void WriteString(const char* fmt, ...);
 	//lfFile& operator>>(unsigned char& value)
 	//{
 	//	value = ReadUnsignedChar();

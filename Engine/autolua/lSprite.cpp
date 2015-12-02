@@ -68,6 +68,21 @@ static int sprite_setposition(lua_State* L){
     return 0;
 }
 
+static int sprite_setviewproj(lua_State* L){
+	Sprite* cobj = *reinterpret_cast<Sprite**>(lua_touserdata(L, 1));
+    if (!cobj) {
+        luaL_error(L,"invalid 'cobj' in function 'SetViewProj'", nullptr);
+        return 0;
+    }
+
+    int argc = lua_gettop(L)-1;
+    if (argc == 1) {
+        mat4* arg0 = (mat4*)lua_touserdata(L, 2);
+        cobj->SetViewProj(arg0);
+    }
+
+    return 0;
+}
 
 int luaopen_sprite(lua_State* L)
 {
@@ -79,6 +94,7 @@ int luaopen_sprite(lua_State* L)
         Lua_PushFunction(L, "setTexture", sprite_settexture);
         Lua_PushFunction(L, "getPosition", sprite_getposition);
         Lua_PushFunction(L, "setPosition", sprite_setposition);
+		Lua_PushFunction(L, "setViewProj", sprite_setviewproj);
     }
     return 1;
 }

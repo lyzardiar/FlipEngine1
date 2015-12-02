@@ -10,6 +10,7 @@ class Model;
 class Sprite;
 class Material;
 class Camera;
+class AniModel;
 
 
 class RenderSystem
@@ -30,6 +31,8 @@ public:
 	virtual bool AddModel(Model* model) = 0;
 
 	virtual bool AddUISurf(drawSurf_t* drawSurf) = 0;
+
+	virtual bool AddAnimModel(AniModel* model) = 0;
 
 	virtual int GetNumSurf() = 0;
 };
@@ -53,6 +56,8 @@ public:
 	virtual bool AddModel(Model* model);
 
 	virtual bool AddUISurf(drawSurf_t* drawSurf);
+
+	virtual bool AddAnimModel(AniModel* model);
 
 	virtual int GetNumSurf(){ return _surfaces.size(); }
 private:
