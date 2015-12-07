@@ -187,7 +187,7 @@ Joint* MeshLoaderB3D::ReadNode()
 			ReadKey(joint);
 		}else if( t=="NODE" ){
 			Joint* child = ReadNode();
-			Sys_Printf("parent %s children %s\n", joint->name.c_str(), child->name.c_str());
+			//Sys_Printf("parent %s children %s\n", joint->name.c_str(), child->name.c_str());
 			joint->children.push_back(child);
 			child->parent = joint;
 		}

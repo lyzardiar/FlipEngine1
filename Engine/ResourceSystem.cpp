@@ -12,6 +12,8 @@
 #include "Material.h"
 #include "File.h"
 
+#include "Model_lwo.h"
+
 #include "../ShaderSource.h"
 
 static LoaderPlugin loaderPlugin[] = {
@@ -168,10 +170,24 @@ Texture* ResourceSystem::AddTexture(const char* file)
 
 Mesh* ResourceSystem::AddMesh(const char* file)
 {
-	MeshLoaderB3D meshLoader;
-	meshLoader.Load(file);
+	lfStr str = file;
+	if (str.Find(".lwo") != -1) { 
+		unsigned int failId;
+		int failedPos;
+		lwObject* object = lwGetObject(file, &failId, &failedPos);
 
-	return meshLoader._mesh;
+		Mesh* mesh = new Mesh;
+		mesh->ConvertLWOToModelSurfaces(object);
+		delete object;
+		return mesh;
+	}
+	else {
+		MeshLoaderB3D meshLoader;
+		meshLoader.Load(file);
+		return meshLoader._mesh;
+	}
+
+	return NULL;
 }
 
 Texture* ResourceSystem::AddText( const char* text )

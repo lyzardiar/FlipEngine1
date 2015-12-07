@@ -18,6 +18,7 @@
 
 #include "Model_lwo.h"
 #include "Mesh.h"
+#include "Model.h"
 
 #pragma comment(lib, "FlipEngine.lib")
 #pragma comment(lib, "opengl32.lib")
@@ -32,6 +33,8 @@ array<lfStr> files;
 unsigned int current = 0;
 
 Sprite* sprite;
+Model* model;
+Camera* camera;
 
 ShadowSampler::ShadowSampler( void ):
 	_defaultSprite(NULL)
@@ -57,6 +60,22 @@ void ShadowSampler::Init()
 	//_drawSurf->material->shader = resourceSys->FindShader(eShader_PositionTex);
 	//renderSys->AddUISurf(_drawSurf);
 
+	//animodel = render.newanimodel()
+	//animodel:setFile("../Media/ninja.b3d")
+	//animodel:setPosition(0, 0, -10)
+	//animodel:setViewProj(camera:getViewProj())
+	//render.addanimodel(animodel)
+	camera = new Camera;
+	camera->Init();
+	camera->Setup3DCamera(800, 600);
+
+	model = new Model;
+	model->Init();
+	model->SetPosition(0.f, 0.f, -20.f);
+	model->SetFile("../Media/ninja.b3d");
+	model->SetViewProj(camera->GetViewProj());
+	_renderSys->AddModel(model);
+
 	sprite = new Sprite;
 	sprite->SetTexture("../media/engineflare1.jpg");
 	sprite->SetPosition(400.f, 400.f, 0.f);
@@ -71,6 +90,7 @@ void ShadowSampler::Init()
 			//_drawSurf->material->tex = resourceSys->AddTexture(files[i].c_str());
 			break;
 		}
+
 	}
 	//_drawSurf->material->tex = resourceSys->AddTexture("../media/engineflare1.jpg");
 
@@ -104,10 +124,11 @@ void ShadowSampler::ProcessEvent(sysEvent_s* event)
 			{
 			case 'w':
 			case 'W':
+				camera->Walk(0.1f);
 				break;
 			case 's':
 			case 'S':
-			
+				camera->Walk(-0.1f);
 				break;
 			case 'A':
 			case 'a':
@@ -142,12 +163,18 @@ void ShadowSampler::ShowNext()
 			current = 0;
 
 		if (files[current].Find(".tga") != -1)
-			break;
+		{
+			Sys_Printf("current texture %s\n", files[current].c_str());
+			return sprite->SetTexture(files[current++].c_str());
+		}
+		else if(files[current].Find(".lwo") != -1)
+		{
+			Sys_Printf("current texture %s\n", files[current].c_str());
+			return model->SetFile(files[current++].c_str());
+		}
 
 		current++;
 	}
 
-	Sys_Printf("current texture %s\n", files[current].c_str());
-	sprite->SetTexture(files[current++].c_str());
 }
 
