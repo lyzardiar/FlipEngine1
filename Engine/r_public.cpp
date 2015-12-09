@@ -91,6 +91,31 @@ void R_GenerateQuad( srfTriangles_t* geo )
 	geo->indexes[5] = 3;
 }
 
+void R_GenerateBox( srfTriangles_t* geo, float sx, float sy, float sz)
+{
+	geo->vbo[0] = 0;
+	geo->vbo[1] = 0;
+
+	geo->numVerts = 8;
+	R_AllocStaticTriSurfVerts(geo, 8);
+
+	geo->verts[0].xyz = vec3(0, 0, 0);
+	geo->verts[1].xyz = vec3(0, 0, sz);
+	geo->verts[2].xyz = vec3(0, sy, sz);
+	geo->verts[3].xyz = vec3(0, sy, 0);
+	geo->verts[4].xyz = vec3(sx, 0, 0);
+	geo->verts[5].xyz = vec3(sx, 0, sz);
+	geo->verts[6].xyz = vec3(sx, sy, sz);
+	geo->verts[7].xyz = vec3(sx, sy, 0);
+
+	unsigned short indices[] = {0, 1, 1, 2, 2, 3, 3, 0,  
+							 0, 4, 1, 5, 2, 6, 3, 7, 
+							 4, 5, 5, 6, 6, 7, 7, 4};
+	geo->numIndexes = 24;
+	geo->indexes = new glIndex_t[24];
+	memcpy(geo->indexes, indices, 24);
+}
+
 shadowMap_t* R_GenerateShadowMap()
 {
 	shadowMap_t* shadowMap = new shadowMap_t;
@@ -193,66 +218,59 @@ void R_UpdateGeoPoses(srfTriangles_t* geo, Joint* joint, float frame)
 	if (geo == NULL || joint == NULL)
 		return;
 
-	//vec3 position;
-	//quat rotation;
-	//joint->GetFrame(frame, position, rotation);
+	vec3 position;
+	quat rotation;
+	joint->GetFrame(frame, position, rotation);
 
-	//mat4 positionMatrix;
-	//positionMatrix.buildTranslate(position);
-	//mat4 rotationMatrix;
-	//rotationMatrix = rotation.toMatrix();
-	//mat4 localAniMatrix = positionMatrix * rotationMatrix;
+	//lfFile file;
+	//file.Open("d:/2.txt", "a");
+	//file.WriteString("%s %f %f %f\n", joint->name.c_str(), position.x, position.y, position.z);
 
-	//mat4 transfrom;
-	//if (joint->parent)
-	//{
-	//	joint->position = position;
-	//	joint->globalAnimatedMatrix = joint->parent->globalAnimatedMatrix * localAniMatrix;
-	//}
-	//else
-	//	joint->globalAnimatedMatrix = localAniMatrix;
+	mat4 positionMatrix;
+	positionMatrix.buildTranslate(position);
+	mat4 rotationMatrix;
+	rotationMatrix = rotation.toMatrix();
+	mat4 localAniMatrix = positionMatrix * rotationMatrix;
 
-	//transfrom = joint->globalAnimatedMatrix * joint->globalInvMatrix;
+	if (joint->parent)
+		joint->globalAnimatedMatrix = joint->parent->globalAnimatedMatrix * localAniMatrix;
+	else
+		joint->globalAnimatedMatrix = localAniMatrix;
 
-	//for (unsigned int i = 0; i < joint->vertexIndices.size(); ++i)
-	//{
-	//	int index = joint->vertexIndices[i];
-	//	vec3 p = geo->basePoses[index];
-	//	transfrom.transformVec3(p.x, p.y, p.z);
-	//	geo->verts[index].xyz = p * joint->vertexWeights[i];
-	//}
+	mat4 mat = joint->globalAnimatedMatrix;
 
-		vec3 position;
-		quat rotation;
-		joint->GetFrame(frame, position, rotation);
-		
-		//lfFile file;
-		//file.Open("d:/2.txt", "a");
-		//file.WriteString("%s %f %f %f\n", joint->name.c_str(), position.x, position.y, position.z);
-
-		mat4 positionMatrix;
-		positionMatrix.buildTranslate(position);
-		mat4 rotationMatrix;
-		rotationMatrix = rotation.toMatrix();
-		mat4 localAniMatrix = positionMatrix * rotationMatrix;
-
-		if (joint->parent)
-			joint->globalAnimatedMatrix = joint->parent->globalAnimatedMatrix * localAniMatrix;
-		else
-			joint->globalAnimatedMatrix = localAniMatrix;
-
-		mat4 mat = joint->globalAnimatedMatrix;
-
-		//file.WriteString("%f %f %f\n", mat.m[12], mat.m[13], mat.m[14]);
-		for (unsigned int i = 0; i < joint->vertexIndices.size(); ++i)
-		{
-			int vertex = joint->vertexIndices[i];
-			vec3 p = geo->basePoses[vertex];
-			mat.transformVec3(p.x, p.y, p.z);
-			geo->verts[vertex].xyz = p * joint->vertexWeights[i];//* joint->vertexWeights[i];
-			//file.WriteString("%f %f %f\n", geo->verts[vertex].xyz.x, geo->verts[vertex].xyz.y, geo->verts[vertex].xyz.z);
-		}
+	//file.WriteString("%f %f %f\n", mat.m[12], mat.m[13], mat.m[14]);
+	for (unsigned int i = 0; i < joint->vertexIndices.size(); ++i)
+	{
+		int vertex = joint->vertexIndices[i];
+		vec3 p = geo->basePoses[vertex];
+		mat.transformVec3(p.x, p.y, p.z);
+		geo->verts[vertex].xyz = p * joint->vertexWeights[i];
+		//file.WriteString("%f %f %f\n", geo->verts[vertex].xyz.x, geo->verts[vertex].xyz.y, geo->verts[vertex].xyz.z);
+	}
 }
 
+vec2 R_WorldToScreenPos( vec3 pos, mat4* viewProj, int screenwidth, int screenheight )
+{
+	vec4 out = (*viewProj) * vec4(pos, 1.0f);
 
+	out.x /= out.w;
+	out.y /= out.w;
+	out.z /= out.w;
+
+	// Map x, y and z to range 0-1
+	out.x = out.x * 0.5f + 0.5f;
+	out.y = out.y * 0.5f + 0.5f;
+	out.z = out.z * 0.5f + 0.5f;
+
+	// Map x,y to viewport
+	out.x = out.x * screenwidth;
+	out.y = (1-out.y) * screenheight;
+
+	vec2 screenPos;
+	screenPos.x = out.x;
+	screenPos.y = out.y;
+
+	return screenPos;
+}
 

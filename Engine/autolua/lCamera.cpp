@@ -75,10 +75,12 @@ static int camera_rotatebyaxis(lua_State* L){
     }
 
     int argc = lua_gettop(L)-1;
-    if (argc == 2) {
-        vec3 arg0 = *reinterpret_cast<vec3*>(lua_touserdata(L, 2));
+    if (argc == 4) {
+        float arg0 = lua_tonumber(L, 2);
         float arg1 = lua_tonumber(L, 3);
-        cobj->RotateByAxis(arg0, arg1);
+        float arg2 = lua_tonumber(L, 4);
+        float arg3 = lua_tonumber(L, 5);
+        cobj->RotateByAxis(vec3(arg0, arg1, arg2), arg1);
     }
 
     return 0;

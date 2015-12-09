@@ -34,11 +34,12 @@ void Model::SetFile( const char* filename )
 	Mesh* mesh = resourceSys->AddMesh(filename);
 	mesh->GenerateNormals();
 	mesh->CalcBounds();
-	//AddStaticModel(model);
 	_drawSurf->geo = mesh->GetGeometries(0);
 
 	_drawSurf->shaderParms->tex = resourceSys->AddTexture("0.png");
 	R_GenerateGeometryVbo(_drawSurf->geo);
+
+	_drawSurf->mtr = resourceSys->AddMaterial("../media/mtr/position.mtr");
 }
 
 void Model::SetViewProj( mat4* viewProj )
@@ -75,7 +76,6 @@ void AniModel::SetFile( const char* filename )
 
 	_drawSurf->shaderParms->tex = resourceSys->AddTexture("0.png");
 	R_GenerateGeometryVbo(_drawSurf->geo);
-
 
 	_root = mesh->GetRootJoint();
 

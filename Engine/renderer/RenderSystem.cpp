@@ -214,7 +214,8 @@ bool RenderSystemLocal::AddModel( Model* model )
 {
 	drawSurf_t* drawSurf = model->_drawSurf;
 	drawSurf->shaderParms->shader = resourceSys->FindShader(eShader_PositionTex);
-	drawSurf->mtr = resourceSys->AddMaterial("../media/mtr/positiontex.mtr");
+	if (!drawSurf->mtr)
+		drawSurf->mtr = resourceSys->AddMaterial("../media/mtr/positiontex.mtr");
 	AddDrawSur(drawSurf);
 	return true;
 }

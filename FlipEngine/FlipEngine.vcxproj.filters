@@ -523,6 +523,7 @@
     <ClCompile Include="..\Engine\autolua\lAniModel.cpp">
       <Filter>autolua</Filter>
     </ClCompile>
+    <ClCompile Include="..\Engine\Anim.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Engine\color4.h">
@@ -821,6 +822,10 @@
     </ClInclude>
     <ClInclude Include="..\Engine\luautils.h">
       <Filter>script</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine\Anim.h" />
+    <ClInclude Include="..\Engine\Shape.h">
+      <Filter>renderer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

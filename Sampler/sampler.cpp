@@ -15,6 +15,7 @@
 #include "MeshLoader3DS.h"
 #include "Shader.h"
 
+#include "Shape.h"
 
 #include "Model_lwo.h"
 #include "Model.h"
@@ -70,12 +71,19 @@ void ShadowSampler::Init()
 	*renderSys = _renderSys;
 	lua_setfield(L, LUA_GLOBALSINDEX, "renderSys");
 
-	Sys_Printf("%p\n", _renderSys);
+	//
+	Camera** camera = (Camera**)lua_newuserdata(L, sizeof(Camera*));
+	*camera = new Camera();
+	Lua_SetMetatable(L, "Camera");
+	lua_setfield(L, LUA_GLOBALSINDEX, "camera");
+
 	//RenderSystem* r = (RenderSystem*)lua_touserdata(L, 1);
 
-	_scriptSys->RunScript("../script/main.lua");
+	_scriptSys->RunScript("script/main.lua");
 	
-	
+	Box* box = new Box();
+	_renderSys->AddDrawSur(box->_drawSurf);
+
 	//Model* model = new Model();
 	//model->Init();
 	//model->SetFile("../Media/ninja.b3d");

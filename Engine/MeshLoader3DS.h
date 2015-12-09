@@ -3,7 +3,8 @@
 
 class Mesh;
 
-bool LoadMesh3DS(const char* filename, Mesh* model);
+Mesh* LoadMesh3DS(const char* filename);
+
 
 #endif
 

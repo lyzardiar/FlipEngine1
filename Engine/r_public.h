@@ -71,10 +71,15 @@ drawSurf_t* R_AllocDrawSurf();
 srfTriangles_t *R_AllocStaticTriSurf( void );
 
 void	R_AllocStaticTriSurfVerts( srfTriangles_t *tri, int numVerts );
+
 void	R_AllocStaticTriSurfIndexes( srfTriangles_t *tri, int numIndexes );
 
 material_t* R_AllocMaterail();
 
+
+/**
+ * fast methods
+ **/
 drawSurf_t* R_GenerateFloor(float w, float h);
 
 void R_GenerateGeometryVbo( srfTriangles_t *tri);
@@ -82,6 +87,11 @@ void R_GenerateGeometryVbo( srfTriangles_t *tri);
 void R_GenerateQuad(srfTriangles_t* geo);
 
 shadowMap_t* R_GenerateShadowMap();
+
+drawSurf_t* R_GenerateQuadSurf();
+
+void R_GenerateBox( srfTriangles_t* geo, float sx, float sy, float sz);
+
 
 mat4 R_BillboardModelView(mat4& model, mat4& view);
 
@@ -102,10 +112,15 @@ void *R_ClearedStaticAlloc( int bytes );
 
 void *R_StaticAlloc( int bytes );
 
-drawSurf_t* R_GenerateQuadSurf();
 
+
+// animation
 void R_InitBasePoses(srfTriangles_t* geo, Joint* joint);
 
 void R_UpdateGeoPoses(srfTriangles_t* geo, Joint* joint, float frame);
+
+
+//
+vec2 R_WorldToScreenPos(vec3 pos, mat4* viewProj, int screenwidth, int screenheight);
 
 #endif

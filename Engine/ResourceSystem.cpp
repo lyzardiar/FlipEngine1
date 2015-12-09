@@ -13,6 +13,7 @@
 #include "File.h"
 
 #include "Model_lwo.h"
+#include "MeshLoader3DS.h"
 
 #include "../ShaderSource.h"
 
@@ -180,6 +181,10 @@ Mesh* ResourceSystem::AddMesh(const char* file)
 		mesh->ConvertLWOToModelSurfaces(object);
 		delete object;
 		return mesh;
+	}
+	else if (str.Find(".3ds") != -1)
+	{
+		return LoadMesh3DS(file);
 	}
 	else {
 		MeshLoaderB3D meshLoader;

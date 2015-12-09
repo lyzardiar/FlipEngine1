@@ -97,27 +97,7 @@ void Sprite::LookAtView( mat4* view )
 
 vec2 Sprite::ToScreenCoord( mat4& viewProj )
 {
-	mat4 model;
-	model.buildTranslate(_position);
-	vec4 out = viewProj * model * vec4(_position, 1.0f);
-
-	out.x /= out.w;
-	out.y /= out.w;
-	out.z /= out.w;
-
-	// Map x, y and z to range 0-1
-	out.x = out.x * 0.5f + 0.5f;
-	out.y = out.y * 0.5f + 0.5f;
-	out.z = out.z * 0.5f + 0.5f;
-
-	// Map x,y to viewport
-	out.x = out.x * 800.f;
-	out.y = (1-out.y) * 600.f;
-
-	vec2 screenPos;
-	screenPos.x = out.x;
-	screenPos.y = out.y;
-
+	vec2 screenPos = R_WorldToScreenPos(_position, &viewProj, 800, 600);
 	_drawSurf->matModel.buildTranslate(screenPos.x, screenPos.y, 0.f);
 	return screenPos;
 }
