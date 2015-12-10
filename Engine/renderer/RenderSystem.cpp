@@ -128,6 +128,30 @@ void RenderSystemLocal::RenderBounds()
 	glEnableVertexAttribArray(0);
 	Shader* shader = _resourceSys->FindShader(eShader_Position);
 	glUseProgram(shader->GetProgarm());
+	
+
+	mat4 t = *_mainViewProj;
+	glUniformMatrix4fv( shader->GetUniform(eUniform_MVP), 1, GL_FALSE, &t.m[0] );
+
+	float vertices[] = {0.f, 0.f, 0.f, 
+			10.f, 0.f, 0.f,
+			0.f, 10.f, 0.f,
+			0.f, 0.f, 10.f,
+	};
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, vertices);
+
+	glUniform3f(shader->GetUniform(eUniform_Color), 1.0, 0.0, 0.0);
+	unsigned short indices1[] = {0, 1};
+	glDrawElements(GL_LINES, 2, GL_UNSIGNED_SHORT, indices1);
+
+	glUniform3f(shader->GetUniform(eUniform_Color), 0.0, 1.0, 0.0);
+	unsigned short indices2[] = {0, 2};
+	glDrawElements(GL_LINES, 2, GL_UNSIGNED_SHORT, indices2);
+
+	glUniform3f(shader->GetUniform(eUniform_Color), 0.0, 0.0, 1.0);
+	unsigned short indices3[] = {0, 3};
+	glDrawElements(GL_LINES, 2, GL_UNSIGNED_SHORT, indices3);
 
 	for (unsigned int i = 0; i < _surfaces.size(); i++)
 	{
@@ -143,6 +167,7 @@ void RenderSystemLocal::RenderBounds()
 		glUniformMatrix4fv( shader->GetUniform(eUniform_MVP), 1, GL_FALSE, &t.m[0] );
 		RB_DrawBounds(&_surfaces[i]->geo->aabb);
 	}
+
 }
 
 void RenderSystemLocal::RenderPasses()

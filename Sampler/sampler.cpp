@@ -65,6 +65,8 @@ void ShadowSampler::Init()
 	Lua_SetMetatable(L, "Camera");
 	lua_setfield(L, LUA_GLOBALSINDEX, "camera");
 
+	_renderSys->SetMainViewProj(_camera->GetViewProj());
+
 	//RenderSystem* r = (RenderSystem*)lua_touserdata(L, 1);
 
 	//_scriptSys->RunScript("script/main.lua");
@@ -107,12 +109,29 @@ void ShadowSampler::ProcessEvent(sysEvent_s* event)
 	{
 	case SE_KEY:
 		{
-			if (event->evValue2 == 1)
+			if (event->evValue2 != 1)
+				break;
+
+			switch (event->evValue)
 			{
-				quat q;
-				q.fromAxisAngle(vec3(0, 1, 0), angle);
-				angle += QUAT_PI / 4;
-				box->SetRotation(q.x, q.y, q.z, q.w);
+			case 'w':
+			case 'W':
+				_camera->Walk(0.5f);
+				break;
+			case 's':
+			case 'S':
+				_camera->Walk(-0.5f);
+				break;
+			case 'A':
+			case 'a':
+				_camera->RotateByAxis(vec3(0, 1, 0), 90);
+				break;
+			case 'D':
+			case 'd':
+				_camera->RotateByAxis(vec3(0, 1, 0), -90);
+				break;
+			default:
+				break;
 			}
 
 			//_scriptSys->CallFuncI("onKey", event->evValue);

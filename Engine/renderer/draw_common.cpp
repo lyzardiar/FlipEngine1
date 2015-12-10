@@ -193,16 +193,17 @@ void R_DrawPositonTangent( srfTriangles_t* tri ) {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-void draw3DCoordinate()
+void R_Draw3DCoordinate()
 {
 	float vertices[] = {0.f, 0.f, 0.f, 
-						0.f, 1.f, 0.f,
-						0.f, 0.f, 1.f,
-						1.f, 0.f, 0.f
+						0.f, 10.f, 0.f,
+						0.f, 0.f, 10.f,
+						10.f, 0.f, 0.f
 	};
 
 	unsigned short indices[] = {0, 1, 0, 2, 0, 3};
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, vertices);
 	glDrawElements(GL_LINES, 6, GL_UNSIGNED_SHORT, indices);
+	GL_CheckError("====");
 }
 

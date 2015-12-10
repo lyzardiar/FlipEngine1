@@ -44,6 +44,8 @@ public:
 	virtual Box* CreateBox() = 0;
 
 	virtual int GetNumSurf() = 0;
+
+	virtual void SetMainViewProj(mat4* mat) = 0;
 };
 
 class RenderSystemLocal : public RenderSystem
@@ -77,6 +79,8 @@ public:
 	virtual AniModel* CreateAniModel();
 
 	virtual Box* CreateBox();
+
+	virtual void SetMainViewProj(mat4* mat) {_mainViewProj = mat;}
 private:
 	
 	void RenderCommon();
@@ -85,6 +89,7 @@ private:
 
 	void RenderBounds();
 
+	mat4* _mainViewProj;
 private:
 	Camera* _camera;
 	array<drawSurf_t*> _surfaces;
@@ -93,7 +98,7 @@ private:
 
 	int _winWidth;
 	int _winHeight;
-
+	
 	ResourceSystem* _resourceSys;
 };
 

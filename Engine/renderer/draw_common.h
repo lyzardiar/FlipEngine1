@@ -26,6 +26,8 @@ void R_DrawPositonTangent( srfTriangles_t* tri);
 void R_RenderCommon(drawSurf_t* drawSurf);
 
 //void R_DrawCommon( srfTriangles_t* tri, unsigned short *attri, unsigned short numAttri );
+
+void R_Draw3DCoordinate();
 #endif
 
 
