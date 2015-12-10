@@ -18,6 +18,8 @@ public:
 
 	void SetLabel(const char* label);
 
+	void SetLabelFmt(const char* fmt, ...);
+
 	void SetupVBO();
 
 	void SetPosition(float x, float y, float z);

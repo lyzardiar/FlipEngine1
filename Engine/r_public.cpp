@@ -108,7 +108,7 @@ void R_GenerateBox( srfTriangles_t* geo, float sx, float sy, float sz)
 	geo->vbo[1] = 0;
 
 	geo->numVerts = 8;
-	R_AllocStaticTriSurfVerts(geo, 8);
+	R_AllocStaticTriSurfVerts(geo, geo->numVerts );
 
 	geo->verts[0].xyz = vec3(0, sy, sz);
 	geo->verts[1].xyz = vec3(0, 0, sz);
@@ -123,17 +123,19 @@ void R_GenerateBox( srfTriangles_t* geo, float sx, float sy, float sz)
 								5, 4, 7, 7, 4, 6,
 
 								2, 3, 6, 6, 3, 7,
-								//5, 1, 4, 4, 1, 0,
+								5, 1, 4, 4, 1, 0,
 
-								//4, 0, 6, 6, 0, 2,
-								//1, 5, 3, 3, 5, 7
+								4, 0, 6, 6, 0, 2,
+								1, 5, 3, 3, 5, 7
 						};
 
-	//unsigned short indices[] = {   0, 1, 2, 2, 1, 3};
 	geo->numIndexes = sizeof(indices) / sizeof(unsigned short);
 
 	geo->indexes = new glIndex_t[geo->numIndexes];
-	memcpy(geo->indexes, indices, geo->numIndexes);
+	for (int i=0; i<geo->numIndexes; i++)
+	{
+		geo->indexes[i] = indices[i];
+	}
 }
 
 shadowMap_t* R_GenerateShadowMap()

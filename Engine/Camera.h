@@ -18,8 +18,9 @@ public:
 	mat4* GetViewProj();
 	vec3 GetPosition();
 	
-	void Walk(float displacement);
+	void Forward(float displacement);
 	void Yaw(float angle);
+	void Right(float displacement);
 	void Rise(float displacement);
 	void SetPosition(float x, float y, float z);
 	void RotateByAxis(vec3 axis, float angle);

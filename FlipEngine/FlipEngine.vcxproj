@@ -87,6 +87,7 @@
     <ClCompile Include="..\Engine\common\vec2.cpp" />
     <ClCompile Include="..\Engine\File.cpp" />
     <ClCompile Include="..\Engine\framework\Common.cpp" />
+    <ClCompile Include="..\Engine\Game.cpp" />
     <ClCompile Include="..\Engine\glutils.cpp" />
     <ClCompile Include="..\Engine\Image.cpp" />
     <ClCompile Include="..\Engine\ImageLoaderBMP.cpp" />

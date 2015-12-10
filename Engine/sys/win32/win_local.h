@@ -86,10 +86,10 @@ typedef struct {
 	unsigned short	oldHardwareGamma[3][256];
 	// desktop gamma is saved here for restoration at exit
 
-	static int win_xpos;
-	static int win_ypos;
-	static bool win_outputDebugString;
-	static bool win_outputEditString;
+	int win_xpos;
+	int win_ypos;
+	bool win_outputDebugString;
+	bool win_outputEditString;
 	//static idCVar	sys_arch;
 	//static idCVar	sys_cpustring;
 	//static idCVar	in_mouse;
@@ -123,8 +123,7 @@ typedef struct {
 	HBITMAP          hBitmap;
 } Win32Vars_t;
 
-
-extern Win32Vars_t	win32;
+extern Win32Vars_t win32;
 
 void Sys_ShowConsole( int visLevel, bool quitOnClose );
 

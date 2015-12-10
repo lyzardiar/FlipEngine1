@@ -20,8 +20,8 @@ typedef unsigned short glIndex_t;
 typedef struct {
 	int			width;
 	int			height;
-	bool			fullScreen;
-	bool			stereo;
+	bool		fullScreen;
+	bool		stereo;
 	int			displayHz;
 	int			multiSamples;
 } glimpParms_t;

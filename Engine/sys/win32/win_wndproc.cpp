@@ -1,7 +1,6 @@
-#include "../../framework/KeyInput.h"
-#include "../framework/Common.h"
+#include "framework/KeyInput.h"
 #include "win_local.h"
-#include "../sys_public.h"
+#include "sys/sys_public.h"
 
 LONG WINAPI MainWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
 
@@ -283,7 +282,7 @@ LONG WINAPI MainWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam ) {
 			break;
 
 		case WM_CLOSE:
-			Com_Quit();
+			Sys_Quit();
 			//cmdSystem->BufferCommandText( CMD_EXEC_APPEND, "quit" );
 			break;
 

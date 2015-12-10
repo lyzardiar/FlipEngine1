@@ -34,7 +34,6 @@ Box* box;
 float angle = 0;
 
 ShadowSampler::ShadowSampler( void ):_camera(NULL)
-	,_defaultSprite(NULL)
 {
 }
 
@@ -44,6 +43,8 @@ ShadowSampler::~ShadowSampler()
 
 void ShadowSampler::Init()
 {
+	Game::Init();
+
 	_scriptSys = new ScriptSystem;
 	_scriptSys->Init();
 	
@@ -52,7 +53,8 @@ void ShadowSampler::Init()
 	//SetupCamera();
 	_camera = new Camera;
 	_camera->Setup3DCamera(800, 600);
-	_camera->Walk(-10);
+	_camera->Rise(1);
+	_camera->Forward(-10);
 
 	// rendersys
 	RenderSystem** renderSys = (RenderSystem **)lua_newuserdata(L, sizeof(RenderSystem*));
@@ -67,8 +69,6 @@ void ShadowSampler::Init()
 
 	_renderSys->SetMainViewProj(_camera->GetViewProj());
 
-	//RenderSystem* r = (RenderSystem*)lua_touserdata(L, 1);
-
 	//_scriptSys->RunScript("script/main.lua");
 	
 	box = _renderSys->CreateBox();
@@ -76,6 +76,16 @@ void ShadowSampler::Init()
 
 	box->SetViewProj(_camera->GetViewProj());
 	_renderSys->AddDrawSur(box->_drawSurf);
+
+	_plane = _renderSys->CreatePlane();
+	_plane->SetViewProj(_camera->GetViewProj());
+	_renderSys->AddDrawSur(_plane->_drawSurf);
+	
+	_lbCamera = _renderSys->CreateSprite();
+	_lbCamera->SetLabel("aaaaaaaa");
+	_lbCamera->SetPosition(0, 200, 0);
+	_renderSys->AddSprite(_lbCamera);
+
 }
 
 void ShadowSampler::Frame()
@@ -87,6 +97,7 @@ void ShadowSampler::Frame()
 		ev = Sys_GetEvent();
 	}
 
+	_renderSys->FrameUpdate();
 	//_scriptSys->Call("frameUpdate");
 
 	//glCullFace(GL_BACK);
@@ -116,24 +127,31 @@ void ShadowSampler::ProcessEvent(sysEvent_s* event)
 			{
 			case 'w':
 			case 'W':
-				_camera->Walk(0.5f);
+				_camera->Forward(0.5f);
 				break;
 			case 's':
 			case 'S':
-				_camera->Walk(-0.5f);
+				_camera->Forward(-0.5f);
+				break;
+			case 'q':
+				_camera->Right(0.5f);
+				break;
+			case 'e':
+				_camera->Right(-0.5f);
 				break;
 			case 'A':
 			case 'a':
-				_camera->RotateByAxis(vec3(0, 1, 0), 90);
+				_camera->Yaw(10);
 				break;
 			case 'D':
 			case 'd':
-				_camera->RotateByAxis(vec3(0, 1, 0), -90);
+				_camera->Yaw(-10);
 				break;
 			default:
 				break;
 			}
 
+			_lbCamera->SetLabelFmt("%02f, %02f", _camera->GetPosition().x, _camera->GetPosition().z);
 			//_scriptSys->CallFuncI("onKey", event->evValue);
 		}
 		break;

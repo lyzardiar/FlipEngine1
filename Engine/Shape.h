@@ -45,7 +45,7 @@ public:
 class Plane : public Render
 {
 public:
-	Plane(int width, int height)
+	Plane(int width = 1, int height = 1)
 	{
 		R_GeneratePlane(_drawSurf->geo, width, height);
 	}

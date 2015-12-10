@@ -19,10 +19,10 @@
 
 #pragma comment( lib, "Winmm.lib")
 
-#include "../../common/str.h"
-#include "../framework/Common.h"
-#include "../sys_public.h"
-#include "../../common/array.h"
+#include "common/str.h"
+#include "framework/Common.h"
+#include "sys/sys_public.h"
+#include "common/array.h"
 
 #define	MAX_QUED_EVENTS		256
 #define	MASK_QUED_EVENTS	( MAX_QUED_EVENTS - 1)
@@ -1007,11 +1007,11 @@ void Sys_DebugPrintf( const char *fmt, ... ) {
 }
 
 
-void Sys_ShowWindow( bool show ) {
-	::ShowWindow( win32.hWnd, show ? SW_SHOW : SW_HIDE );
-}
+//void Sys_ShowWindow( bool show ) {
+//	::ShowWindow( win32.hWnd, show ? SW_SHOW : SW_HIDE );
+//}
 
-void Sys_PumpEvents( void ) {
+void Sys_PumpEvents() {
     MSG msg;
 
 	// pump the message loop

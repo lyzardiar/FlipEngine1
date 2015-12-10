@@ -9,7 +9,7 @@ Camera::Camera() {
 Camera::~Camera() {
 }
 
-void Camera::Walk(float displacement) {
+void Camera::Forward(float displacement) {
 	vec3 dir = _at - _pos;
 	dir.normalize();
 	_pos += dir * displacement;
@@ -42,7 +42,9 @@ vec3 Camera::GetPosition() {
 }
 
 void Camera::Rise( float displacement ) {
+	vec3 dir = _at - _pos;
 	_pos.y += displacement;
+	_at = _pos + dir;
 	_matView.buildLookAt(_pos, _at, vec3(0.f, 1.f, 0.f));
 	_matViewProj = _matProj * _matView;	
 }
@@ -80,6 +82,19 @@ void Camera::Yaw(float angle) {
 
 	//_at.rotatexzBy(angle, vec3(_pos.x, _pos.y, _pos.z));
 	//Sys_Printf("%f %f %f \n", dir.x, dir.y, dir.z);
+
+	_matView.buildLookAt(_pos, _at, vec3(0.f, 1.f, 0.f));
+	_matViewProj = _matProj * _matView;
+}
+
+void Camera::Right( float displacement )
+{
+	vec3 dir = _at - _pos;
+	vec3 right = vec3(dir.x, dir.y, dir.z);
+	right.normalize();
+	right.rotatexzBy(-90, vec3(0, 0, 0));
+	_pos += right * displacement;
+	_at = _pos + dir;
 
 	_matView.buildLookAt(_pos, _at, vec3(0.f, 1.f, 0.f));
 	_matViewProj = _matProj * _matView;

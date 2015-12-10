@@ -3,6 +3,7 @@
 
 #include "Game.h"
 #include "common/vec3.h"
+#include "Shape.h"
 
 class ShadowSampler : public Game
 {
@@ -27,13 +28,13 @@ public:
 private:
 	Camera* _camera;
 
-	Sprite* _defaultSprite;
+	Sprite* _lbCamera;
 
 	Sprite* _spLight;
 
 	Camera* _light;
 
-
+	Plane* _plane;
 
 };
 

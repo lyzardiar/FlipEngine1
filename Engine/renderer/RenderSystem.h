@@ -12,6 +12,7 @@ class Material;
 class Camera;
 class AniModel;
 class Box;
+class Plane;
 class ResourceSystem;
 
 class RenderSystem
@@ -42,6 +43,8 @@ public:
 	virtual AniModel* CreateAniModel() = 0;
 
 	virtual Box* CreateBox() = 0;
+
+	virtual Plane* CreatePlane() = 0;
 
 	virtual int GetNumSurf() = 0;
 
@@ -79,6 +82,8 @@ public:
 	virtual AniModel* CreateAniModel();
 
 	virtual Box* CreateBox();
+	
+	virtual Plane* CreatePlane();
 
 	virtual void SetMainViewProj(mat4* mat) {_mainViewProj = mat;}
 private:

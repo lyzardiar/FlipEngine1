@@ -52,6 +52,18 @@ void Sprite::SetLabel( const char* label )
 	UpdateVertex();
 }
 
+void Sprite::SetLabelFmt( const char* fmt, ... )
+{
+	char msg[1024];
+	va_list argptr;
+	va_start(argptr, fmt);
+	lfStr::vsnPrintf( msg, 1023, fmt, argptr );
+	va_end(argptr);
+	msg[sizeof(msg)-1] = '\0';
+
+	SetLabel(msg);
+}
+
 void Sprite::UpdateVertex()
 {
 	//1 3

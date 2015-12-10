@@ -96,7 +96,7 @@ static int camera_walk(lua_State* L){
     int argc = lua_gettop(L)-1;
     if (argc == 1) {
         float arg0 = lua_tonumber(L, 2);
-        cobj->Walk(arg0);
+        cobj->Forward(arg0);
     }
 
     return 0;

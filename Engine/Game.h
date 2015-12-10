@@ -13,13 +13,8 @@ class Game
 {
 public:
 	virtual		~Game() {};
-	virtual void  Init() = 0;
+	virtual void  Init();
 	virtual void  Frame() = 0;
-
-	void SetRenderSys(RenderSystem* renderSys)
-	{
-		_renderSys = renderSys;
-	}
 
 protected:
 	RenderSystem* _renderSys;

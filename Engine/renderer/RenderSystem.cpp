@@ -18,13 +18,8 @@
 #include "Camera.h"
 #include "Shape.h"
 
-static const int view_width = 800;
-static const int view_height = 600;
-
-
 RenderSystemLocal::RenderSystemLocal(glimpParms_t *glimpParms)
 {
-	GL_CreateDevice(glimpParms);
 	_winWidth = glimpParms->width;
 	_winHeight = glimpParms->height;
 }
@@ -55,14 +50,14 @@ void RenderSystemLocal::Init()
 
 	// _renderbuffer init
 	_camera = new Camera;
-	_camera->Setup2DCamera(view_width, view_height);
+	_camera->Setup2DCamera(_winWidth, _winHeight);
 
 	_resourceSys = new ResourceSystem;
 	_resourceSys->LoadGLResource();
 	
 	// fps  init
 	_defaultSprite = new Sprite;
-	_defaultSprite->SetLabel("...");
+	_defaultSprite->SetLabel("aaa");
 	AddSprite(_defaultSprite);
 	GL_CheckError("frameupdate");
 }
@@ -72,6 +67,7 @@ void RenderSystemLocal::FrameUpdate()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	
+	glViewport(0, 0, 800, 600);
 	RenderCommon();
 
 	//RenderPasses();
@@ -267,6 +263,14 @@ AniModel* RenderSystemLocal::CreateAniModel()
 Box* RenderSystemLocal::CreateBox()
 {
 	Box* box = new Box;
+	box->_resourceSys = _resourceSys;
+	box->_drawSurf->mtr = _resourceSys->AddMaterial("../media/mtr/position.mtr");
+	return box;
+}
+
+Plane* RenderSystemLocal::CreatePlane()
+{
+	Plane* box = new Plane;
 	box->_resourceSys = _resourceSys;
 	box->_drawSurf->mtr = _resourceSys->AddMaterial("../media/mtr/position.mtr");
 	return box;

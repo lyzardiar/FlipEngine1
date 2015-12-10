@@ -18,7 +18,7 @@
     <ClCompile Include="sampler.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\Engine\sys\win32\win_main.cpp">
+    <ClCompile Include="win_main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
