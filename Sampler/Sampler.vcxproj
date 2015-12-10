@@ -43,11 +43,11 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../Engine;../Engine/include;../Engine/zlib;../Engine/lua/lua;../Engine/lua/tolua</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Engine;../Engine/external;../Engine/external/zlib</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>../Debug;../Engine/lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../Debug;../Engine/external/lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

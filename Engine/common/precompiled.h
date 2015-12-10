@@ -39,6 +39,15 @@
 	#define NDEBUG
 #endif
 
+#ifdef _MSC_VER
+	#include <stdio.h>
+	#define Assert(x) { if(!(x)){printf("Assert "__FILE__ ":%u ("#x")\n", __LINE__);__debugbreak();	}}
+#else//_MSC_VER
+	#include <assert.h>
+	#define Assert assert
+#endif//_MSC_VER
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>

@@ -23,8 +23,6 @@ private:
 	lua_State* L;
 };
 
-
-
 #endif // !__SCRIPTSYSTEM_H__
 
 

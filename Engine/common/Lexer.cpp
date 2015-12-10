@@ -62,7 +62,6 @@ inline char Lexer::CurrentAndNext()
 bool Lexer::ReadNumber( Token& result )
 {
 	result._type = TK_NUMBER;
-	int i;
 	int dot;
 	char c, c2;
 

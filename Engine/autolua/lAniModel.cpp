@@ -1,5 +1,5 @@
-#include "../luautils.h"
-#include "../Model.h"
+#include "luautils.h"
+#include "Model.h"
 
 static int animodel_setfile(lua_State* L){
     AniModel* cobj = *reinterpret_cast<AniModel**>(lua_touserdata(L, 1));

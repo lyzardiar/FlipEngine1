@@ -5,6 +5,7 @@
 #include "r_public.h"
 
 class Joint;
+class ResourceSystem;
 
 class Model {
 	friend class RenderSystemLocal;
@@ -24,6 +25,8 @@ public:
 protected:
 	drawSurf_t* _drawSurf;
 	vec3 _position;
+
+	ResourceSystem* _resourceSys;
 };
 
 struct AniAction
@@ -68,6 +71,8 @@ public:
 	bool _isLoop;
 
 	hashtable _animations;
+	
+	ResourceSystem* _resourceSys;
 };
 
 #endif

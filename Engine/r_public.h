@@ -92,6 +92,7 @@ drawSurf_t* R_GenerateQuadSurf();
 
 void R_GenerateBox( srfTriangles_t* geo, float sx, float sy, float sz);
 
+void R_GeneratePlane(srfTriangles_t* geo, float w, float h);
 
 mat4 R_BillboardModelView(mat4& model, mat4& view);
 

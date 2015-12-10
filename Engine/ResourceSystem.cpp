@@ -72,8 +72,8 @@ static Shader* LoadPhongShader()
 
 static Shader* LoadBumpShader()
 {
-	Shader* shader = resourceSys->AddShaderFromFile("../media/shader/bump.vert",
-		"../media/shader/bump.frag");
+	Shader* shader = new Shader;
+	shader->LoadFromFile("../media/shader/bump.vert", "../media/shader/bump.frag");
 	shader->SetName("bump");
 	shader->BindAttribLocation(eAttrib_Position);
 	shader->BindAttribLocation(eAttrib_TexCoord);

@@ -1,16 +1,15 @@
 #include "Common.h"
-#include "../sys/sys_public.h"
-#include "../renderer/RenderSystem.h"
-#include "../common/str.h"
-#include "../Game.h"
-#include "../ResourceSystem.h"
-#include "../ScriptSystem.h"
+#include "sys/sys_public.h"
+#include "renderer/RenderSystem.h"
+#include "common/str.h"
+#include "Game.h"
+#include "ResourceSystem.h"
+#include "ScriptSystem.h"
 
 char* win_name = "null";
 bool show_fps = false;
 int win_width = 800;
 int win_height = 600;
-ResourceSystem* resourceSys;
 RenderSystem* renderSys;
 
 void Com_Init() 
@@ -21,7 +20,6 @@ void Com_Init()
 	pram.displayHz = 1/60;
 	pram.stereo = 1/60;
 
-	resourceSys = new ResourceSystem;
 
 	Sys_Printf("Initializing RenderSystem\n");
 	renderSys = new RenderSystemLocal(&pram);

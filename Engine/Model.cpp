@@ -5,6 +5,7 @@
 
 Model::Model()
 {
+	Init();
 }
 
 Model::~Model()
@@ -31,15 +32,15 @@ vec3 Model::GetPosition()
 
 void Model::SetFile( const char* filename )
 {
-	Mesh* mesh = resourceSys->AddMesh(filename);
+	Mesh* mesh = _resourceSys->AddMesh(filename);
 	mesh->GenerateNormals();
 	mesh->CalcBounds();
 	_drawSurf->geo = mesh->GetGeometries(0);
 
-	_drawSurf->shaderParms->tex = resourceSys->AddTexture("0.png");
+	_drawSurf->shaderParms->tex = _resourceSys->AddTexture("0.png");
 	R_GenerateGeometryVbo(_drawSurf->geo);
 
-	_drawSurf->mtr = resourceSys->AddMaterial("../media/mtr/position.mtr");
+	_drawSurf->mtr = _resourceSys->AddMaterial("../media/mtr/position.mtr");
 }
 
 void Model::SetViewProj( mat4* viewProj )
@@ -52,7 +53,7 @@ void Model::SetViewProj( mat4* viewProj )
 #include "common/Joint.h"
 AniModel::AniModel():_root(NULL), _startFrame(0), _currentFrame(0), _isLoop(false)
 {
-
+	Init();
 }
 
 AniModel::~AniModel()
@@ -68,13 +69,13 @@ void AniModel::Init()
 
 void AniModel::SetFile( const char* filename )
 {
-	Mesh* mesh = resourceSys->AddMesh(filename);
+	Mesh* mesh = _resourceSys->AddMesh(filename);
 	mesh->GenerateNormals();
 	mesh->CalcBounds();
 	//AddStaticModel(model);
 	_drawSurf->geo = mesh->GetGeometries(0);
 
-	_drawSurf->shaderParms->tex = resourceSys->AddTexture("0.png");
+	_drawSurf->shaderParms->tex = _resourceSys->AddTexture("0.png");
 	R_GenerateGeometryVbo(_drawSurf->geo);
 
 	_root = mesh->GetRootJoint();

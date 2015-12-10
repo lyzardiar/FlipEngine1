@@ -1,21 +1,22 @@
 #include "RenderSystem.h"
-#include "../glutils.h"
-#include "../Material.h"
-#include "../r_public.h"
-#include "../framework/Common.h"
-#include "../ResourceSystem.h"
+#include "glutils.h"
+#include "Material.h"
+#include "r_public.h"
+#include "framework/Common.h"
+#include "ResourceSystem.h"
 #include <stdarg.h>
 
-#include "../Shader.h"
-#include "../sys/sys_public.h"
+#include "Shader.h"
+#include "sys/sys_public.h"
 
-#include "../Sprite.h"
-#include "../Model.h"
-#include "../common/Timer.h"
+#include "Sprite.h"
+#include "Model.h"
+#include "common/Timer.h"
 #include "draw_common.h"
-#include "../Mesh.h"
-#include "../File.h"
-#include "../Camera.h"
+#include "Mesh.h"
+#include "File.h"
+#include "Camera.h"
+#include "Shape.h"
 
 static const int view_width = 800;
 static const int view_height = 600;
@@ -56,26 +57,14 @@ void RenderSystemLocal::Init()
 	_camera = new Camera;
 	_camera->Setup2DCamera(view_width, view_height);
 
-	resourceSys->LoadGLResource();
+	_resourceSys = new ResourceSystem;
+	_resourceSys->LoadGLResource();
 	
 	// fps  init
 	_defaultSprite = new Sprite;
 	_defaultSprite->SetLabel("...");
 	AddSprite(_defaultSprite);
 	GL_CheckError("frameupdate");
-}
-
-void draw3DCoordinate()
-{
-	float vertices[] = {0.f, 0.f, 0.f, 
-						0.f, 1.f, 0.f,
-						0.f, 0.f, 1.f,
-						1.f, 0.f, 0.f
-	};
-
-	unsigned short indices[] = {0, 1, 0, 2, 0, 3};
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, vertices);
-	glDrawElements(GL_LINES, 6, GL_UNSIGNED_SHORT, indices);
 }
 
 
@@ -137,7 +126,7 @@ bool RenderSystemLocal::AddDrawSur( drawSurf_t* drawSur )
 void RenderSystemLocal::RenderBounds()
 {	
 	glEnableVertexAttribArray(0);
-	Shader* shader = resourceSys->FindShader(eShader_Position);
+	Shader* shader = _resourceSys->FindShader(eShader_Position);
 	glUseProgram(shader->GetProgarm());
 
 	for (unsigned int i = 0; i < _surfaces.size(); i++)
@@ -195,11 +184,11 @@ bool RenderSystemLocal::AddUISurf( drawSurf_t* drawSurf )
 	if (drawSurf->viewProj == NULL)
 		drawSurf->viewProj = _camera->GetViewProj();
 
-	drawSurf->shaderParms->shader = resourceSys->FindShader(eShader_PositionTex);
+	drawSurf->shaderParms->shader = _resourceSys->FindShader(eShader_PositionTex);
 	if (drawSurf->shaderParms->tex == NULL)
-		drawSurf->shaderParms->tex = resourceSys->AddTexture(".png");
+		drawSurf->shaderParms->tex = _resourceSys->AddTexture(".png");
 
-	drawSurf->mtr = resourceSys->AddMaterial("../media/mtr/positiontex.mtr");
+	drawSurf->mtr = _resourceSys->AddMaterial("../media/mtr/positiontex.mtr");
 	return AddDrawSur(drawSurf);
 }
 
@@ -213,9 +202,9 @@ bool RenderSystemLocal::AddSprite( Sprite* sprite )
 bool RenderSystemLocal::AddModel( Model* model )
 {
 	drawSurf_t* drawSurf = model->_drawSurf;
-	drawSurf->shaderParms->shader = resourceSys->FindShader(eShader_PositionTex);
+	drawSurf->shaderParms->shader = _resourceSys->FindShader(eShader_PositionTex);
 	if (!drawSurf->mtr)
-		drawSurf->mtr = resourceSys->AddMaterial("../media/mtr/positiontex.mtr");
+		drawSurf->mtr = _resourceSys->AddMaterial("../media/mtr/positiontex.mtr");
 	AddDrawSur(drawSurf);
 	return true;
 }
@@ -223,8 +212,37 @@ bool RenderSystemLocal::AddModel( Model* model )
 bool RenderSystemLocal::AddAnimModel( AniModel* model )
 {
 	drawSurf_t* drawSurf = model->_drawSurf;
-	drawSurf->shaderParms->shader = resourceSys->FindShader(eShader_PositionTex);
-	drawSurf->mtr = resourceSys->AddMaterial("../media/mtr/positiontex.mtr");
+	drawSurf->shaderParms->shader = _resourceSys->FindShader(eShader_PositionTex);
+	drawSurf->mtr = _resourceSys->AddMaterial("../media/mtr/positiontex.mtr");
 	AddDrawSur(drawSurf);
 	return true;
+}
+
+Sprite* RenderSystemLocal::CreateSprite()
+{
+	Sprite* sprite = new Sprite;
+	sprite->_resourceSys = _resourceSys;
+	return sprite;
+}
+
+Model* RenderSystemLocal::CreateModel()
+{
+	Model* model = new Model;
+	model->_resourceSys = _resourceSys;
+	return model;
+}
+
+AniModel* RenderSystemLocal::CreateAniModel()
+{
+	AniModel* model = new AniModel;
+	model->_resourceSys = _resourceSys;
+	return model;
+}
+
+Box* RenderSystemLocal::CreateBox()
+{
+	Box* box = new Box;
+	box->_resourceSys = _resourceSys;
+	box->_drawSurf->mtr = _resourceSys->AddMaterial("../media/mtr/position.mtr");
+	return box;
 }

@@ -37,7 +37,7 @@ void Sprite::Init()
 
 void Sprite::SetTexture( const char* imgPath )
 {
-	_drawSurf->shaderParms->tex = resourceSys->AddTexture(imgPath);
+	_drawSurf->shaderParms->tex = _resourceSys->AddTexture(imgPath);
 	UpdateVertex();
 }
 
@@ -48,7 +48,7 @@ void Sprite::SetLabel( const char* label )
 		GLuint tex = _drawSurf->shaderParms->tex->GetName();
 		glDeleteTextures(1, &tex );
 	}
-	_drawSurf->shaderParms->tex = resourceSys->AddText(label);
+	_drawSurf->shaderParms->tex = _resourceSys->AddText(label);
 	UpdateVertex();
 }
 

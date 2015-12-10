@@ -47,9 +47,8 @@ void R_RenderCommon(drawSurf_t* drawSurf){
 	Material* mtr = drawSurf->mtr;
 	srfTriangles_t* tri = drawSurf->geo;
 	if (mtr == NULL)
-	{
 		return;
-	}
+
 	unsigned short* attri = mtr->_attriArr;
 	unsigned short numAttri = mtr->_numAttri;
 	Shader* shader = &mtr->_shader;

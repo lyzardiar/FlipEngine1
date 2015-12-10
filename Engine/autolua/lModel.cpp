@@ -1,5 +1,5 @@
-#include "../luautils.h"
-#include "../Model.h"
+#include "luautils.h"
+#include "Model.h"
 
 static int model_setviewproj(lua_State* L){
     Model* cobj = *reinterpret_cast<Model**>(lua_touserdata(L, 1));

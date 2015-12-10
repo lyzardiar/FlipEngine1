@@ -1,7 +1,7 @@
-#include "../../glutils.h"
-#include "../sys_public.h"
 #include "win_local.h"
-#include "../framework/Common.h"
+#include "glutils.h"
+#include "sys/sys_public.h"
+#include "framework/Common.h"
 #include <windows.h>
 
 #include "gl/wglext.h"

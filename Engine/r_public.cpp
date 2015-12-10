@@ -68,6 +68,17 @@ drawSurf_t* R_GenerateFloor(float w, float h)
 	return surf;
 }
 
+void R_GeneratePlane(srfTriangles_t* geo, float w, float h)
+{
+	R_GenerateQuad(geo);
+	float halfw = w/2;
+	float halfh = h/2;
+	geo->verts[0].xyz = vec3(-halfw, 0.f, -halfh);
+	geo->verts[1].xyz = vec3(-halfw, 0.f, halfh);
+	geo->verts[2].xyz = vec3(halfw, 0.f, -halfh);
+	geo->verts[3].xyz = vec3(halfw, 0.f, halfh);
+}
+
 void R_GenerateQuad( srfTriangles_t* geo )
 {
 	geo->vbo[0] = 0;
@@ -99,21 +110,30 @@ void R_GenerateBox( srfTriangles_t* geo, float sx, float sy, float sz)
 	geo->numVerts = 8;
 	R_AllocStaticTriSurfVerts(geo, 8);
 
-	geo->verts[0].xyz = vec3(0, 0, 0);
+	geo->verts[0].xyz = vec3(0, sy, sz);
 	geo->verts[1].xyz = vec3(0, 0, sz);
-	geo->verts[2].xyz = vec3(0, sy, sz);
-	geo->verts[3].xyz = vec3(0, sy, 0);
-	geo->verts[4].xyz = vec3(sx, 0, 0);
-	geo->verts[5].xyz = vec3(sx, 0, sz);
-	geo->verts[6].xyz = vec3(sx, sy, sz);
-	geo->verts[7].xyz = vec3(sx, sy, 0);
+	geo->verts[2].xyz = vec3(sx, sy, sz);
+	geo->verts[3].xyz = vec3(sx, 0, sz);
+	geo->verts[4].xyz = vec3(0, sy, 0);
+	geo->verts[5].xyz = vec3(0, 0, 0);
+	geo->verts[6].xyz = vec3(sx, sy, 0);
+	geo->verts[7].xyz = vec3(sx, 0, 0);
 
-	unsigned short indices[] = {0, 1, 1, 2, 2, 3, 3, 0,  
-							 0, 4, 1, 5, 2, 6, 3, 7, 
-							 4, 5, 5, 6, 6, 7, 7, 4};
-	geo->numIndexes = 24;
-	geo->indexes = new glIndex_t[24];
-	memcpy(geo->indexes, indices, 24);
+	unsigned short indices[] = {   0, 1, 2, 2, 1, 3,
+								5, 4, 7, 7, 4, 6,
+
+								2, 3, 6, 6, 3, 7,
+								//5, 1, 4, 4, 1, 0,
+
+								//4, 0, 6, 6, 0, 2,
+								//1, 5, 3, 3, 5, 7
+						};
+
+	//unsigned short indices[] = {   0, 1, 2, 2, 1, 3};
+	geo->numIndexes = sizeof(indices) / sizeof(unsigned short);
+
+	geo->indexes = new glIndex_t[geo->numIndexes];
+	memcpy(geo->indexes, indices, geo->numIndexes);
 }
 
 shadowMap_t* R_GenerateShadowMap()

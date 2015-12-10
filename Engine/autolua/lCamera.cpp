@@ -1,5 +1,5 @@
-#include "../luautils.h"
-#include "../Camera.h"
+#include "luautils.h"
+#include "Camera.h"
 
 static int camera_getview(lua_State* L){
     Camera* cobj = *reinterpret_cast<Camera**>(lua_touserdata(L, 1));

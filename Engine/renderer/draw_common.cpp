@@ -1,9 +1,9 @@
 #include "draw_common.h"
-#include "../Shader.h"
-#include "../Texture.h"
-#include "../DrawVert.h"
-#include "../sys/sys_public.h"
-#include "../Material.h"
+#include "Shader.h"
+#include "Texture.h"
+#include "DrawVert.h"
+#include "sys/sys_public.h"
+#include "Material.h"
 
 #define offsetof(s,m)   (size_t)&reinterpret_cast<const volatile char&>((((s *)0)->m))
 
@@ -192,3 +192,17 @@ void R_DrawPositonTangent( srfTriangles_t* tri ) {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
+
+void draw3DCoordinate()
+{
+	float vertices[] = {0.f, 0.f, 0.f, 
+						0.f, 1.f, 0.f,
+						0.f, 0.f, 1.f,
+						1.f, 0.f, 0.f
+	};
+
+	unsigned short indices[] = {0, 1, 0, 2, 0, 3};
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, vertices);
+	glDrawElements(GL_LINES, 6, GL_UNSIGNED_SHORT, indices);
+}
+

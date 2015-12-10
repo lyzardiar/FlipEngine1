@@ -30,24 +30,8 @@
 
 Game* game = new ShadowSampler();
 Texture* _texture;
-
-Mesh* loadLwoModel(const char* filename)
-{
-	unsigned int failId;
-	int failedPos;
-	lwObject* object = lwGetObject(filename, &failId, &failedPos);
-
-	Mesh* model = new Mesh;
-	model->ConvertLWOToModelSurfaces(object);
-	delete object;
-	return model;
-}
-
-drawSurf_t* CreateTestBumpSurf()
-{
-	return NULL;
-}
-
+Box* box;
+float angle = 0;
 
 ShadowSampler::ShadowSampler( void ):_camera(NULL)
 	,_defaultSprite(NULL)
@@ -58,107 +42,38 @@ ShadowSampler::~ShadowSampler()
 {
 }
 
-Mesh* testModel;
 void ShadowSampler::Init()
 {
 	_scriptSys = new ScriptSystem;
 	_scriptSys->Init();
 	
 	lua_State* L = _scriptSys->GetLuaState();
+	
+	//SetupCamera();
+	_camera = new Camera;
+	_camera->Setup3DCamera(800, 600);
+	_camera->Walk(-10);
 
 	// rendersys
 	RenderSystem** renderSys = (RenderSystem **)lua_newuserdata(L, sizeof(RenderSystem*));
 	*renderSys = _renderSys;
 	lua_setfield(L, LUA_GLOBALSINDEX, "renderSys");
 
-	//
+	// camera
 	Camera** camera = (Camera**)lua_newuserdata(L, sizeof(Camera*));
-	*camera = new Camera();
+	*camera = _camera;
 	Lua_SetMetatable(L, "Camera");
 	lua_setfield(L, LUA_GLOBALSINDEX, "camera");
 
 	//RenderSystem* r = (RenderSystem*)lua_touserdata(L, 1);
 
-	_scriptSys->RunScript("script/main.lua");
+	//_scriptSys->RunScript("script/main.lua");
 	
-	Box* box = new Box();
+	box = _renderSys->CreateBox();
+	//box->SetPosition(0, 0, -10);
+
+	box->SetViewProj(_camera->GetViewProj());
 	_renderSys->AddDrawSur(box->_drawSurf);
-
-	//Model* model = new Model();
-	//model->Init();
-	//model->SetFile("../Media/ninja.b3d");
-	//model->SetPosition(300, 300, 0);
-	//_renderSys->AddModel(model);
-
-	//model->GenerateNormals();
-
-	//model->CalcBounds();
-	//AddStaticModel(model);
-	//model->getSurfaces()[0]->bShaowmap = true;
-	//testModel = model;
-
-	//AddStaticModel(loadLwoModel("../media/aircannister.lwo"));
-
-	//StaticModel* dsmodel = new StaticModel;
-	//LoadMesh3DS("../Media/Teapot.3ds", dsmodel);
-	//dsmodel->GenerateNormals();
-	//AddStaticModel(dsmodel);
-
-	//_defaultSprite = new Sprite;
-	//_defaultSprite->SetLabel("...");
-	//_defaultSprite->SetPosition(0.f, 540.f, 0.f);
-	//renderSys->AddSprite(_defaultSprite);
-
-	//Shader* shader = new Shader;
-	//shader->LoadFromFile("../media/shader/shadowmap.vert", "../media/shader/shadowmap.frag");
-	//shader->BindAttribLocation(eAttrib_Position);
-	//shader->GetUniformLocation(eUniform_MVP);
-
-	//CreateLight();
-
-	/*
-	srfTriangles_t* tri = R_AllocStaticTriSurf();;
-	tri->numVerts = KnightModel::numVertices;
-	tri->numIndexes = KnightModel::numIndices;
-	R_AllocStaticTriSurfVerts(tri, tri->numVerts);
-
-	for (int i = 0; i < KnightModel::numVertices; i++)
-	{
-	memcpy(&(tri->verts[i].xyz), KnightModel::vertices[i].position, sizeof(float) * 3);
-	memcpy(&(tri->verts[i].st), KnightModel::vertices[i].uv, sizeof(float) * 3);
-	memcpy(&(tri->verts[i].normal), KnightModel::vertices[i].normal, sizeof(float) * 3);
-	}
-	tri->indexes = new glIndex_t[KnightModel::numIndices];
-	memcpy(tri->indexes, KnightModel::indices, tri->numIndexes*sizeof(glIndex_t));
-	R_GenerateGeometryVbo(tri);
-
-	material_t* material = R_AllocMaterail();
-	material->shader = shader*/;
-
-	//drawSurf_t* drawSur = R_AllocDrawSurf();
-	//drawSur->geo = tri;
-	//drawSur->material = material;
-	//drawSur->view = _light->GetViewProj();
-	//drawSur->bShaowmap = true;
-	//renderSys->AddDrawSur(drawSur);
-
-	//drawSur = R_AllocDrawSurf();
-	//drawSur->geo = tri;
-	//drawSur->view = _camera->GetViewProj();
-	//drawSur->matModel.buildTranslate(0.f, 0.4f, 0.f);
-	//renderSys->AddDrawSur(drawSur);
-
-	//drawSurf_t* surf = R_GenerateFloor(4.f, 4.f);
-	//R_DeriveNormals(surf->geo);
-	//surf->material = R_AllocMaterail();
-	//surf->material->bumpMap = resourceSys->AddTexture("../media/FieldstoneBumpDOT3.tga");
-	//surf->material->tex = resourceSys->AddTexture("../media/Fieldstone.tga");
-	////surf->material->shader = renderSys->GetShader(eShader_PositionTex);
-	//surf->material->shader = renderSys->GetShader(eShader_Bump);
-	//surf->viewProj = _camera->GetViewProj();
-	//surf->view = _camera->GetView();
-	//renderSys->AddDrawSur(surf);
-
 }
 
 void ShadowSampler::Frame()
@@ -170,7 +85,7 @@ void ShadowSampler::Frame()
 		ev = Sys_GetEvent();
 	}
 
-	_scriptSys->Call("frameUpdate");
+	//_scriptSys->Call("frameUpdate");
 
 	//glCullFace(GL_BACK);
 	//glUseProgram(0);
@@ -192,8 +107,15 @@ void ShadowSampler::ProcessEvent(sysEvent_s* event)
 	{
 	case SE_KEY:
 		{
-			_scriptSys->CallFuncI("onKey", event->evValue);
- 
+			if (event->evValue2 == 1)
+			{
+				quat q;
+				q.fromAxisAngle(vec3(0, 1, 0), angle);
+				angle += QUAT_PI / 4;
+				box->SetRotation(q.x, q.y, q.z, q.w);
+			}
+
+			//_scriptSys->CallFuncI("onKey", event->evValue);
 		}
 		break;
 	case SE_MOUSE:

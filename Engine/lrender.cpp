@@ -1,25 +1,52 @@
-#include "../luautils.h"
-#include "../renderer\RenderSystem.h"
-#include "../Sprite.h"
-#include "../Model.h"
-#include "../Camera.h"
+#include "luautils.h"
+#include "renderer\RenderSystem.h"
+#include "Sprite.h"
+#include "Model.h"
+#include "Camera.h"
+
+#define Ass
 
 static RenderSystem* get_render(lua_State* L) {
 	lua_getglobal(L, "renderSys");
 	return *reinterpret_cast<RenderSystem**>(lua_touserdata(L, -1));
 }
 
-__NEW_FUNC(Sprite)
-__NEW_FUNC(Model)
 __NEW_FUNC(Camera)
 __NEW_FUNC(AniModel)
 
+static int render_createsprite(lua_State* L) {
+	RenderSystem* cobj = get_render(L);
+    Assert(cobj);
+
+	Sprite** obj = (Sprite **)lua_newuserdata(L, sizeof(Sprite*));
+	*obj = cobj->CreateSprite();
+	Lua_SetMetatable(L, "Sprite");
+	return 1;
+}
+
+static int render_createmodel(lua_State* L) {
+	RenderSystem* cobj = get_render(L);
+	Assert(cobj);
+    
+	Model** obj = (Model **)lua_newuserdata(L, sizeof(Model*));
+	*obj = cobj->CreateModel();
+	Lua_SetMetatable(L, "Model");
+	return 1;
+}
+
+static int render_createanimodel(lua_State* L) {
+	RenderSystem* cobj = get_render(L);
+	Assert(cobj);
+    
+	AniModel** obj = (AniModel **)lua_newuserdata(L, sizeof(AniModel*));
+	*obj = cobj->CreateAniModel();
+	Lua_SetMetatable(L, "AniModel");
+	return 1;
+}
+
 static int render_addsprite(lua_State* L){
 	RenderSystem* cobj = get_render(L);
-    if (!cobj) {
-        luaL_error(L,"invalid 'cobj' in function 'AddSprite'", nullptr);
-        return 0;
-    }
+	Assert(cobj);
 
     int argc = lua_gettop(L)-1;
     if (argc == 1) {
@@ -33,10 +60,7 @@ static int render_addsprite(lua_State* L){
 
 static int rendersystem_addmodel(lua_State* L){
 	RenderSystem* cobj = get_render(L);
-    if (!cobj) {
-        luaL_error(L,"invalid 'cobj' in function 'AddModel'", nullptr);
-        return 0;
-    }
+	Assert(cobj);
 
     int argc = lua_gettop(L)-1;
     if (argc == 1) {
@@ -50,10 +74,7 @@ static int rendersystem_addmodel(lua_State* L){
 
 static int rendersystem_addanimodel(lua_State* L){
 	RenderSystem* cobj = get_render(L);
-    if (!cobj) {
-        luaL_error(L,"invalid 'cobj' in function 'AddModel'", nullptr);
-        return 0;
-    }
+	Assert(cobj);
 
     int argc = lua_gettop(L)-1;
     if (argc == 1) {
@@ -66,10 +87,10 @@ static int rendersystem_addanimodel(lua_State* L){
 }
 
 static const luaL_Reg syslib[] = {
-  {"newsprite", render_newSprite},
-  {"newmodel", render_newModel},
+  {"newsprite", render_createsprite},
+  {"newmodel", render_createmodel},
   {"newcamera", render_newCamera},
-  {"newanimodel", render_newAniModel},
+  {"newanimodel", render_createanimodel},
   {"addsprite", render_addsprite},
   {"addmodel", rendersystem_addmodel},
   {"addanimodel", rendersystem_addanimodel},

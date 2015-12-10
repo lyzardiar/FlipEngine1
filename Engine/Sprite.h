@@ -41,6 +41,8 @@ public:
 	int  _width;
 	int  _height;
 	vec3 _position;
+
+	ResourceSystem* _resourceSys;
 };
 
 

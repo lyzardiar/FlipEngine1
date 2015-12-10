@@ -1,5 +1,5 @@
-#include "../luautils.h"
-#include "../Sprite.h"
+#include "luautils.h"
+#include "Sprite.h"
 
 static int sprite_setlabel(lua_State* L){
     Sprite* cobj = *reinterpret_cast<Sprite**>(lua_touserdata(L, 1));

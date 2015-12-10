@@ -1,9 +1,9 @@
 #ifndef __RENDERSYSTEM_H__
 #define	__RENDERSYSTEM_H__ 
-#include "../glutils.h"
-#include "../common/mat4.h"
-#include "../common/array.h"
-#include "../r_public.h"
+#include "glutils.h"
+#include "common/mat4.h"
+#include "common/array.h"
+#include "r_public.h"
 
 class Pipeline;
 class Model;
@@ -11,7 +11,8 @@ class Sprite;
 class Material;
 class Camera;
 class AniModel;
-
+class Box;
+class ResourceSystem;
 
 class RenderSystem
 {
@@ -33,6 +34,14 @@ public:
 	virtual bool AddUISurf(drawSurf_t* drawSurf) = 0;
 
 	virtual bool AddAnimModel(AniModel* model) = 0;
+
+	virtual Sprite* CreateSprite() = 0;
+
+	virtual Model* CreateModel() = 0;
+
+	virtual AniModel* CreateAniModel() = 0;
+
+	virtual Box* CreateBox() = 0;
 
 	virtual int GetNumSurf() = 0;
 };
@@ -60,6 +69,14 @@ public:
 	virtual bool AddAnimModel(AniModel* model);
 
 	virtual int GetNumSurf(){ return _surfaces.size(); }
+
+	virtual Sprite* CreateSprite();
+
+	virtual Model* CreateModel();
+
+	virtual AniModel* CreateAniModel();
+
+	virtual Box* CreateBox();
 private:
 	
 	void RenderCommon();
@@ -76,6 +93,8 @@ private:
 
 	int _winWidth;
 	int _winHeight;
+
+	ResourceSystem* _resourceSys;
 };
 
 #endif

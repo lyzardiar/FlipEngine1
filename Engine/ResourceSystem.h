@@ -52,5 +52,4 @@ private:
 	Shader* _shaders[MAX_SHADER_COUNT];
 };
 
-extern ResourceSystem* resourceSys;
 #endif // !__RESOURCESYSTEM_H__

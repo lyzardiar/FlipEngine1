@@ -1,6 +1,6 @@
 #ifndef __DRAW_COMMON_H__
 #define __DRAW_COMMON_H__
-#include "../r_public.h"
+#include "r_public.h"
 
 typedef void (*DrawFunc)(srfTriangles_t* geo);
 

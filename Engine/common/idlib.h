@@ -13,7 +13,6 @@ typedef vec2 idVec2;
 #define BIT( num )				( 1 << ( num ) )
 #endif
 
-
 #endif
 
 

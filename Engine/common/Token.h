@@ -1,7 +1,7 @@
 #ifndef __TOKEN_H__
 #define __TOKEN_H__
 
-#include "common/str.h"
+#include "str.h"
 /*
 ===============================================================================
 

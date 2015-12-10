@@ -1,7 +1,7 @@
 #ifndef __HASHTABLE_H__
 #define __HASHTABLE_H__
 
-#include "../common/Str.h"
+#include "Str.h"
 
 typedef struct hashnode
 {
