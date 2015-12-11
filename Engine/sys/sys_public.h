@@ -143,7 +143,7 @@ const char *	Sys_EXEPath( void );
 
 // use fs_debug to verbose Sys_ListFiles
 // returns -1 if directory was not found (the list is cleared)
-int				Sys_ListFiles( const char *directory, const char *extension, idList<class lfStr> &list );
+int			Sys_ListFiles( const char *directory, const char *extension, idList<class lfStr> &list );
 
 // know early if we are performing a fatal error shutdown so the error message doesn't get lost
 void			Sys_SetFatalError( const char *error );
@@ -182,7 +182,7 @@ public:
 
 	// if the InitForPort fails, the idPort.port field will remain 0
 	bool		InitForPort( int portNumber );
-	int			GetPort( void ) const { return bound_to.port; }
+	int		GetPort( void ) const { return bound_to.port; }
 	netadr_t	GetAdr( void ) const { return bound_to; }
 	void		Close();
 

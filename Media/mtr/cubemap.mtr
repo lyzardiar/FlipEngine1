@@ -1,0 +1,19 @@
+vert{
+	attribute vec3 vPosition;
+	uniform mat4 WVP;
+	varying vec2 v_texCoord;
+	void main() 
+	{
+		gl_Position = WVP* vec4(vPosition, 1.0);
+		v_texCoord = gl_Position;
+	}
+}
+
+frag{
+	precision mediump float;
+	uniform sampler2D texture1;
+	varying vec2 v_texCoord;
+	void main() {
+		gl_FragColor = textureCube(texture1, v_texCoord);
+	}
+}

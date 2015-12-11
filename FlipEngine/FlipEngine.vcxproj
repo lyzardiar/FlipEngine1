@@ -86,7 +86,6 @@
     <ClCompile Include="..\Engine\common\Token.cpp" />
     <ClCompile Include="..\Engine\common\vec2.cpp" />
     <ClCompile Include="..\Engine\File.cpp" />
-    <ClCompile Include="..\Engine\framework\Common.cpp" />
     <ClCompile Include="..\Engine\Game.cpp" />
     <ClCompile Include="..\Engine\glutils.cpp" />
     <ClCompile Include="..\Engine\Image.cpp" />
@@ -255,7 +254,6 @@
     <ClInclude Include="..\Engine\common\vec4.h" />
     <ClInclude Include="..\Engine\DrawVert.h" />
     <ClInclude Include="..\Engine\File.h" />
-    <ClInclude Include="..\Engine\framework\Common.h" />
     <ClInclude Include="..\Engine\framework\KeyInput.h" />
     <ClInclude Include="..\Engine\Game.h" />
     <ClInclude Include="..\Engine\glutils.h" />

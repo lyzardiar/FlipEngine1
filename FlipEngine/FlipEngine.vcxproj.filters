@@ -67,9 +67,6 @@
     <ClCompile Include="..\Engine\common\vec2.cpp">
       <Filter>common</Filter>
     </ClCompile>
-    <ClCompile Include="..\Engine\framework\Common.cpp">
-      <Filter>framework</Filter>
-    </ClCompile>
     <ClCompile Include="..\Engine\glutils.cpp">
       <Filter>renderer</Filter>
     </ClCompile>
@@ -565,9 +562,6 @@
     </ClInclude>
     <ClInclude Include="..\Engine\common\vec3.h">
       <Filter>common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Engine\framework\Common.h">
-      <Filter>framework</Filter>
     </ClInclude>
     <ClInclude Include="..\Engine\framework\KeyInput.h">
       <Filter>framework</Filter>

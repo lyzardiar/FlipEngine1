@@ -1,7 +1,6 @@
 #include "win_local.h"
 #include "glutils.h"
 #include "sys/sys_public.h"
-#include "framework/Common.h"
 #include <windows.h>
 
 #include "gl/wglext.h"
@@ -136,18 +135,16 @@ Responsible for creating the Win32 window.
 If cdsFullscreen is true, it won't have a border
 =======================
 */
-static bool GL_CreateWindow(glimpParms_t *parms) {
+static bool GL_CreateWindow(int w, int h) {
 	int				stylebits;
-	int				x, y, w, h;
+	int				x, y;
 	int				exstyle;
-	w = parms->width;
-	h = parms->height;
 
 	RECT	r;
-	r.bottom = parms->height;
+	r.bottom = w;
 	r.left = 0;
 	r.top = 0;
-	r.right = parms->width;
+	r.right = h;
 
 	exstyle = 0;
 	stylebits = WINDOW_STYLE|WS_SYSMENU;
@@ -273,11 +270,11 @@ void GL_SwapBuffers( void ) {
 	SwapBuffers(win32.hDC);	
 }
 
-bool GL_CreateDevice(glimpParms_t *parm){
+bool GL_CreateDevice(int width, int height){
 	Sys_Printf( "Initializing OpenGL subsystem\n" );
 
 	GL_CreateWindowClasses();
-	GL_CreateWindow(parm);
+	GL_CreateWindow(width, height);
 	GL_SetPixelFormat();
 	GL_InitGL();
 

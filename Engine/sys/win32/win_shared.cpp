@@ -20,7 +20,6 @@
 #pragma comment( lib, "Winmm.lib")
 
 #include "common/str.h"
-#include "framework/Common.h"
 #include "sys/sys_public.h"
 #include "common/array.h"
 
@@ -1017,7 +1016,7 @@ void Sys_PumpEvents() {
 	// pump the message loop
 	while( PeekMessage( &msg, NULL, 0, 0, PM_NOREMOVE ) ) {
 		if ( !GetMessage( &msg, NULL, 0, 0 ) ) {
-			Com_Quit();
+			Sys_Quit();
 		}
 
 		// save the msg time, because wndprocs don't have access to the timestamp

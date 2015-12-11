@@ -3,7 +3,7 @@
 #include "Image.h"
 #include <windows.h>
 
-bool loadImageBMP(const char *file, Image& i)
+bool loadImageBMP(const char *file, Image* i)
 {
 	FILE *fp; //our file pointer
     BITMAPFILEHEADER bitmapFileHeader; //our bitmap file header
@@ -63,11 +63,11 @@ bool loadImageBMP(const char *file, Image& i)
         bitmapImage[imageIdx + 2] = tempRGB;
     }
 
-	i._width = bitmapInfoHeader.biWidth;
-	i._height = bitmapInfoHeader.biHeight;
-	i._levelCount = 1;
-	i._format = GL_RGB;
-	i._data.push_back(bitmapImage);
+	i->_width = bitmapInfoHeader.biWidth;
+	i->_height = bitmapInfoHeader.biHeight;
+	i->_levelCount = 1;
+	i->_format = GL_RGB;
+	i->_data.push_back(bitmapImage);
     //close file and return bitmap iamge data
     fclose(fp);
     return true;

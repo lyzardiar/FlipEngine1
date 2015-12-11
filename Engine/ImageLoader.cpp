@@ -5,7 +5,7 @@
 LoadTGA
 =============
 */
-static void loadImageTGA( const char *file, Image& i ) {
+static void loadImageTGA( const char *file, Image* i ) {
 	int		columns, rows, numPixels, fileSize, numBytes;
 	byte	*pixbuf;
 	int		row, column;

@@ -150,7 +150,7 @@ Texture* ResourceSystem::AddTexture(const char* file)
 		if (basename.find(loaderPlugin[i].name) == std::string::npos)
 			continue;
 
-		if( !loaderPlugin[i].pFunc(fullPath.c_str(), image) )
+		if( !loaderPlugin[i].pFunc(fullPath.c_str(), &image) )
 		{
 			Sys_Printf( "load image %s failed\n", fullPath.c_str() );
 			return defaultTexture;
@@ -265,4 +265,34 @@ Shader* ResourceSystem::FindShader( int shaderId )
 
 	return _shaders[shaderId];
 }
+
+static Image* LoadImage(lfStr filename, Image* image) {
+	for (int i = 0; i < TexPluginCount; ++i)
+	{
+		if (filename.Find(loaderPlugin[i].name) != -1)
+		{
+			if( loaderPlugin[i].pFunc(filename.c_str(), image) )
+				return image;
+		}
+	}
+	return NULL;
+}
+
+Texture* ResourceSystem::AddCubeTexture(const char* px, const char* nx, const char* py, const char* ny, const char* pz, const char* nz)
+{
+	Texture* texture = NULL;
+
+	Image images[6];
+	LoadImage(px, &images[0]);
+	LoadImage(nx, &images[1]);
+	LoadImage(py, &images[2]);
+	LoadImage(ny, &images[3]);
+	LoadImage(pz, &images[4]);
+	LoadImage(nz, &images[5]);
+
+	texture = new Texture();
+//	texture->InitCubeTexture(&images);
+
+	return texture;
+};
 

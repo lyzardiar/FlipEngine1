@@ -18,7 +18,7 @@ struct ShaderPlugin
 	LoadShaderFunc func;
 };
 
-typedef bool(*loadImageFunc)(const char*, Image&);
+typedef bool(*loadImageFunc)(const char*, Image*);
 struct LoaderPlugin{
 	const char* name;
 	loadImageFunc pFunc;
@@ -43,6 +43,8 @@ public:
 	Shader* AddShaderFromFile(const char* vfile, const char* ffile);
 
 	Material* AddMaterial(const char* file);
+
+	Texture* AddCubeTexture(const char* px, const char* nx, const char* py, const char* ny, const char* pz, const char* nz);
 private:
 
 	hashtable _textures;

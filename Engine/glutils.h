@@ -36,7 +36,7 @@ void GL_CheckError(const char* op);
 
 void RB_SetGL2D( void );
 
-bool GL_CreateDevice(glimpParms_t *parm);
+bool GL_CreateDevice(int width, int height);
 
 void GL_SwapBuffers( void );
 

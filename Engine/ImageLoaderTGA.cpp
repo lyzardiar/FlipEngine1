@@ -17,7 +17,7 @@ typedef struct _TargaHeader {
 LoadTGA
 =============
 */
-bool loadImageTGA( const char *filename, Image& i ) 
+bool loadImageTGA( const char *filename, Image* i ) 
 {
 	lfFile* file = new lfFile;
 	if ( !file->Open(filename) )
@@ -65,28 +65,28 @@ bool loadImageTGA( const char *filename, Image& i )
 	switch (targa_header.pixel_size)
 	{
 	case 8:
-		i._format = GL_BGR;
-		i._internalFormat = GL_RGBA;
+		i->_format = GL_BGR;
+		i->_internalFormat = GL_RGBA;
 		break;
 	case 24:
-		i._format = GL_RGB;
-		i._internalFormat = GL_RGBA;
+		i->_format = GL_RGB;
+		i->_internalFormat = GL_RGBA;
 		break;
 	case 32:
-		i._format = GL_RGBA;
-		i._internalFormat = GL_RGBA;
+		i->_format = GL_RGBA;
+		i->_internalFormat = GL_RGBA;
 		break;
 	default:
 		break;
 	}
 
-	i._width = targa_header.width;
-	i._height = targa_header.height;
-	i._elementSize = targa_header.pixel_size;
-	i._data.push_back( data);
-	i._levelCount = 1;
-	i._faces = 0;
-	i._depth = 0;
+	i->_width = targa_header.width;
+	i->_height = targa_header.height;
+	i->_elementSize = targa_header.pixel_size;
+	i->_data.push_back( data);
+	i->_levelCount = 1;
+	i->_faces = 0;
+	i->_depth = 0;
 
 	delete file;
 	return true;

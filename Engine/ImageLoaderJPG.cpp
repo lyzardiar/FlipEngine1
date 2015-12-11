@@ -50,7 +50,7 @@ void output_message(j_common_ptr cinfo)
 {
 }
 
-bool loadImageJPG(const char *file, Image& i)
+bool loadImageJPG(const char *file, Image* i)
 {
 	FILE* fp = fopen(file, "rb");
 	if (fp == NULL)
@@ -125,9 +125,9 @@ bool loadImageJPG(const char *file, Image& i)
 	{
 		cinfo.out_color_space=JCS_RGB;
 		cinfo.out_color_components=3;
-		i._internalFormat = GL_RGB;
-		i._elementSize = 3;
-		i._format = GL_RGB;
+		i->_internalFormat = GL_RGB;
+		i->_elementSize = 3;
+		i->_format = GL_RGB;
 	}
 	cinfo.output_gamma=2.2;
 	cinfo.do_fancy_upsampling=FALSE;
@@ -162,8 +162,8 @@ bool loadImageJPG(const char *file, Image& i)
 	// This is an important step since it will release a good deal of memory.
 	jpeg_destroy_decompress(&cinfo);
 
-	i._width = width;
-	i._height = height;
+	i->_width = width;
+	i->_height = height;
 	unsigned char* imageData;
 	// convert image
 	if (useCMYK)
@@ -187,10 +187,10 @@ bool loadImageJPG(const char *file, Image& i)
 	else
 		imageData = output;
 
-	i._data.push_back(imageData);
-    i._levelCount = 1;
-    i._faces = 0;
-    i._depth = 0;
-	i.FlipSurface();
+	i->_data.push_back(imageData);
+    i->_levelCount = 1;
+    i->_faces = 0;
+    i->_depth = 0;
+	i->FlipSurface();
 	return true;
 }

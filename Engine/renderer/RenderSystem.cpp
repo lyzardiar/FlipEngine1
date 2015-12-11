@@ -2,7 +2,6 @@
 #include "glutils.h"
 #include "Material.h"
 #include "r_public.h"
-#include "framework/Common.h"
 #include "ResourceSystem.h"
 #include <stdarg.h>
 

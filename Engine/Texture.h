@@ -15,6 +15,8 @@ public:
 
 	bool Init(int w, int h, void* data);
 
+	bool InitCubeTexture(Image* images[6]);
+
 	GLuint GetName();
 
     int _pixelsWide;
@@ -36,5 +38,6 @@ private:
     bool _antialiasEnabled;
 
 };
+
 
 #endif

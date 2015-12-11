@@ -26,7 +26,7 @@ void pngFlushFn( png_structp png_ptr) {
     fflush(fp);
 }
 
-bool loadImagePNG( const char *file, Image& i) 
+bool loadImagePNG( const char *file, Image* i) 
 {
     FILE *fp = fopen( file, "rb");
 
@@ -72,9 +72,9 @@ bool loadImagePNG( const char *file, Image& i)
 
     png_read_info(png_ptr, info_ptr);  // automagically read everything to the image data
 
-    i._width = png_get_image_width(png_ptr, info_ptr);
-    i._height = png_get_image_height(png_ptr, info_ptr);
-    i._depth = 0; // using the convention of depth == 0 for 2D images
+    i->_width = png_get_image_width(png_ptr, info_ptr);
+    i->_height = png_get_image_height(png_ptr, info_ptr);
+    i->_depth = 0; // using the convention of depth == 0 for 2D images
     int colorType = png_get_color_type( png_ptr, info_ptr);
     int bitDepth = png_get_bit_depth( png_ptr, info_ptr);
 
@@ -102,12 +102,12 @@ bool loadImagePNG( const char *file, Image& i)
 
     int rowBytes = png_get_rowbytes(png_ptr, info_ptr);
 
-    GLubyte *data = new GLubyte[rowBytes * i._height];
+    GLubyte *data = new GLubyte[rowBytes * i->_height];
 
-    GLubyte **rowPointers = new GLubyte*[i._height]; 
+    GLubyte **rowPointers = new GLubyte*[i->_height]; 
 
     // set up the row pointers
-    for ( int ii = 0;  ii < i._height; ii++) {
+    for ( int ii = 0;  ii < i->_height; ii++) {
         rowPointers[ii] = data + ii*rowBytes;
     }
 
@@ -120,28 +120,28 @@ bool loadImagePNG( const char *file, Image& i)
     delete []rowPointers;
     bool use16 = bitDepth > 8;
 
-    i._type = (use16) ? GL_UNSIGNED_SHORT : GL_UNSIGNED_BYTE;
+    i->_type = (use16) ? GL_UNSIGNED_SHORT : GL_UNSIGNED_BYTE;
 
     switch ((int)png_get_channels(png_ptr, info_ptr)) {
         case 1:
-            i._format = GL_LUMINANCE;
-            i._internalFormat = (use16) ? GL_LUMINANCE16 : GL_LUMINANCE8;
-            i._elementSize = (use16) ? 2 : 1;
+            i->_format = GL_LUMINANCE;
+            i->_internalFormat = (use16) ? GL_LUMINANCE16 : GL_LUMINANCE8;
+            i->_elementSize = (use16) ? 2 : 1;
             break;
         case 2:
-            i._format = GL_LUMINANCE_ALPHA;
-            i._internalFormat = (use16) ? GL_LUMINANCE16_ALPHA16 : GL_LUMINANCE8_ALPHA8;
-            i._elementSize = (use16) ? 4 : 2;
+            i->_format = GL_LUMINANCE_ALPHA;
+            i->_internalFormat = (use16) ? GL_LUMINANCE16_ALPHA16 : GL_LUMINANCE8_ALPHA8;
+            i->_elementSize = (use16) ? 4 : 2;
             break;
         case 3:
-            i._format = GL_RGB;
-            i._internalFormat = (use16) ? GL_RGB16 : GL_RGB8;
-            i._elementSize = (use16) ? 6 : 3;
+            i->_format = GL_RGB;
+            i->_internalFormat = (use16) ? GL_RGB16 : GL_RGB8;
+            i->_elementSize = (use16) ? 6 : 3;
             break;
         case 4:
-            i._format = GL_RGBA;
-            i._internalFormat = (use16) ? GL_RGBA16 : GL_RGBA8;
-            i._elementSize = (use16) ? 8 : 4;
+            i->_format = GL_RGBA;
+            i->_internalFormat = (use16) ? GL_RGBA16 : GL_RGBA8;
+            i->_elementSize = (use16) ? 8 : 4;
             break;
     }
 
@@ -150,11 +150,11 @@ bool loadImagePNG( const char *file, Image& i)
     fclose(fp);
 
     //finalize parameters
-    i._data.push_back( data);
-    i._levelCount = 1;
-    i._faces = 0;
-    i._depth = 0;
-	i.FlipSurface();
+    i->_data.push_back( data);
+    i->_levelCount = 1;
+    i->_faces = 0;
+    i->_depth = 0;
+	i->FlipSurface();
     
     return true;
 

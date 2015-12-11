@@ -59,3 +59,32 @@ GLuint Texture::GetName()
 {
 	return _name;
 }
+
+bool Texture::InitCubeTexture( Image* images[6] )
+{
+	glGenTextures(1, &_name);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, _name);
+
+    for (int i = 0; i < 6; i++)
+    {
+        Image* img = images[i];
+
+		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
+                         0,						// level
+                         img->GetInternalFormat(),	// internal format
+                         img->GetWidth(),			// width
+                         img->GetHeight(),			// height
+                         0,						// border
+                         GL_RGBA,				// format
+                         GL_UNSIGNED_BYTE,			// type
+                         img->GetLevel(0));       // pixel data
+    }
+
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+	return true;
+}
