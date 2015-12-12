@@ -1,6 +1,7 @@
 #ifndef __JOINT_H__
 #define __JOINT_H__
 
+#include "precompiled.h"
 #include "vec3.h"
 #include "mat4.h"
 #include "quat.h"

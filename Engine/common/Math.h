@@ -1,15 +1,7 @@
 #ifndef __MATH_MATH_H__
 #define __MATH_MATH_H__
 
-#ifdef MACOS_X
-// for square root estimate instruction
-#include <ppc_intrinsics.h>
-// for FLT_MIN
-#include <float.h>
-#endif
-
-#include <math.h>
-#include <assert.h> 
+#include "precompiled.h"
 /*
 ===============================================================================
 
@@ -26,8 +18,10 @@
 #undef FLT_EPSILON
 #endif
 
+const float	PI				= 3.14159265358979323846f;
 
-#define DEG2RAD(a)				( (a) * idMath::M_DEG2RAD )
+
+#define DEG2RAD(a)				( (a) * PI / 180.0f )
 #define RAD2DEG(a)				( (a) * idMath::M_RAD2DEG )
 
 #define SEC2MS(t)				( idMath::FtoiFast( (t) * idMath::M_SEC2MS ) )

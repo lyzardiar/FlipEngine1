@@ -1,7 +1,7 @@
 #ifndef __MAT4_H__
 #define __MAT4_H__
-#include <memory.h>
-#include <math.h>
+
+#include "precompiled.h"
 #include "vec3.h"
 #include "vec4.h"
 

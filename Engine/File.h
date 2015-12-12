@@ -1,7 +1,6 @@
 #ifndef __FILE_H__
 #define __FILE_H__
 
-#include <stdio.h>
 #include "common/str.h"
 #include "common/vec3.h"
 #include "common/quat.h"

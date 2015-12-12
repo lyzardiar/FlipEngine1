@@ -78,20 +78,7 @@ GLuint GL_LinkProgram(GLuint vert, GLuint pixel)
 	return program;
 }
 
-GLuint GL_GenTextureRGBA(int w, int h, void* data)
-{
-	GLuint texId;
-	glGenTextures(1, &texId);
-	glBindTexture(GL_TEXTURE_2D, texId);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_BGRA, w, h, 0, GL_BGRA , GL_UNSIGNED_BYTE, data);
 
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	return texId;
-}
 
 GLuint GL_GenTextureRGB(int w, int h, void* data)
 {
@@ -135,6 +122,7 @@ GLuint GL_CreateProgramFromFile(const char* vert, const char* frag)
 	return GL_LinkProgram(v, f);
 }
 
+#ifdef _WIN32
 void RB_SetGL2D( void ) 
 {
 	// set 2D virtual screen size
@@ -147,6 +135,36 @@ void RB_SetGL2D( void )
     glLoadIdentity();
 }
 
+GLuint GL_GenTextureRGBA(int w, int h, void* data)
+{
+	GLuint texId;
+	glGenTextures(1, &texId);
+	glBindTexture(GL_TEXTURE_2D, texId);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_BGRA, w, h, 0, GL_BGRA , GL_UNSIGNED_BYTE, data);
+
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	return texId;
+}
+
+void Test_2DDraw()
+{
+	RB_SetGL2D();
+
+	glColor3f (1.0, 0.0, 0.0);
+	glPointSize(5);
+	glBegin(GL_POINTS);
+	for (int i = 0; i < 7; i++)
+		glVertex2f (i*100.f, 100.f);
+	glEnd();
+}
+
+
+
+#endif
 
 void GL_CheckError(const char* op)
 {
@@ -170,33 +188,24 @@ void GL_CheckError(const char* op)
 			case GL_INVALID_OPERATION:
 				strcpy( s, "GL_INVALID_OPERATION" );
 				break;
+#ifdef _WIN32
 			case GL_STACK_OVERFLOW:
 				strcpy( s, "GL_STACK_OVERFLOW" );
 				break;
 			case GL_STACK_UNDERFLOW:
 				strcpy( s, "GL_STACK_UNDERFLOW" );
 				break;
+#endif // _WIN32
+
 			case GL_OUT_OF_MEMORY:
 				strcpy( s, "GL_OUT_OF_MEMORY" );
 				break;
 			default:
-				sprintf_s( s, sizeof(s), "%i", err);
+				snprintf( s, sizeof(s), "%i", err);
 				break;
 		}
 
 		Sys_Printf( "GL_CheckErrors: [%s] %s\n", op, s );
 	}
-}
-
-void Test_2DDraw()
-{
-	RB_SetGL2D();
-
-	glColor3f (1.0, 0.0, 0.0);
-	glPointSize(5);
-	glBegin(GL_POINTS);
-	for (int i = 0; i < 7; i++)
-		glVertex2f (i*100.f, 100.f);
-	glEnd();
 }
 

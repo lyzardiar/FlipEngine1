@@ -1,10 +1,8 @@
 #ifndef __IMAGE_H__
 #define __IMAGE_H__
 
-#include <vector>
-#include <assert.h>
-
 #include "glutils.h"
+#include "common/array.h"
 
 class Image {
 public:
@@ -40,20 +38,20 @@ public:
     int GetImageSize(int level = 0) const;
 
     //return whether the data is a crompressed format
-    bool IsCompressed() const {
-        switch(_format) {
-            case GL_COMPRESSED_RGB_S3TC_DXT1_EXT:
-            case GL_COMPRESSED_RGBA_S3TC_DXT1_EXT:
-            case GL_COMPRESSED_RGBA_S3TC_DXT3_EXT:
-            case GL_COMPRESSED_RGBA_S3TC_DXT5_EXT:
-			case GL_COMPRESSED_LUMINANCE_LATC1_EXT:
-			case GL_COMPRESSED_SIGNED_LUMINANCE_LATC1_EXT:
-			case GL_COMPRESSED_LUMINANCE_ALPHA_LATC2_EXT:
-			case GL_COMPRESSED_SIGNED_LUMINANCE_ALPHA_LATC2_EXT:
-                return true;
-        }
-        return false;
-    }
+	bool IsCompressed() const {
+		//switch(_format) {
+		//case GL_COMPRESSED_RGB_S3TC_DXT1_EXT:
+		//case GL_COMPRESSED_RGBA_S3TC_DXT1_EXT:
+		//case GL_COMPRESSED_RGBA_S3TC_DXT3_EXT:
+		//case GL_COMPRESSED_RGBA_S3TC_DXT5_EXT:
+		//case GL_COMPRESSED_LUMINANCE_LATC1_EXT:
+		//case GL_COMPRESSED_SIGNED_LUMINANCE_LATC1_EXT:
+		//case GL_COMPRESSED_LUMINANCE_ALPHA_LATC2_EXT:
+		//case GL_COMPRESSED_SIGNED_LUMINANCE_ALPHA_LATC2_EXT:
+		//	return true;
+		//}
+		return false;
+	}
 
     //return whether the image represents a cubemap
     bool IsCubeMap() const { return _faces > 0; }
@@ -84,7 +82,7 @@ public:
     int _elementSize;
 
     //pointers to the levels
-    std::vector<GLubyte*> _data;
+    array<GLubyte*> _data;
 
     void FreeData();
 

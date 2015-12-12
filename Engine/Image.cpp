@@ -1,10 +1,5 @@
-#include <string.h>
-#include <algorithm>
-
+#include "common/precompiled.h"
 #include "Image.h"
-
-using std::vector;
-using std::max;
 
 Image::Image() : _width(0), _height(0), _depth(0), _levelCount(0), _faces(0), _format(GL_RGBA),
     _internalFormat(GL_RGBA8), _type(GL_UNSIGNED_BYTE), _elementSize(0) {
@@ -15,8 +10,8 @@ Image::~Image() {
 }
 
 void Image::FreeData() {
-    for (vector<GLubyte*>::iterator it = _data.begin(); it != _data.end(); it++) {
-        delete []*it;
+    for (int i=0; i<_data.size(); i++) {
+        delete _data[i];
     }
     _data.clear();
 }

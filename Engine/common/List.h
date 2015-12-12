@@ -1,6 +1,8 @@
 #ifndef __LINKLIST_H__
 #define __LINKLIST_H__
 
+#include "precompiled.h"
+
 template< class type >
 class LinkList
 {
@@ -42,7 +44,7 @@ LinkList<type>::LinkList() {
 	head = this;
 	next = this;
 	prev = this;
-	owner = NULL;
+	owner = 0;
 }
 
 template< class type >

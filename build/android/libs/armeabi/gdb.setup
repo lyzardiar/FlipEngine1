@@ -1,0 +1,2 @@
+set solib-search-path ./obj/local/armeabi
+directory F:/AndroidTool/android-ndk-r9d/platforms/android-15/arch-arm/usr/include F:/AndroidTool/android-ndk-r9d/sources/cxx-stl/stlport/stlport F:/AndroidTool/android-ndk-r9d/sources/cxx-stl//gabi++/include E:\MySourceCode\FlipEngine1\build\android\../../Engine/common jni

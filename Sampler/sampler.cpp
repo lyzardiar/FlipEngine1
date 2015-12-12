@@ -53,8 +53,9 @@ void ShadowSampler::Init()
 	//SetupCamera();
 	_camera = new Camera;
 	_camera->Setup3DCamera(800, 600);
-	_camera->Rise(1);
-	_camera->Forward(-10);
+	//_camera->Rise(1);
+	//_camera->Forward(-10);
+	_camera->SetPosition(0, 0, 0.5);
 
 	// rendersys
 	RenderSystem** renderSys = (RenderSystem **)lua_newuserdata(L, sizeof(RenderSystem*));

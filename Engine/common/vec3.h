@@ -1,6 +1,7 @@
 #ifndef __VEC3_H__
 #define __VEC3_H__
 
+#include "precompiled.h"
 #include "Math.h"
 
 //! 3d vector template class with lots of operators and methods.
